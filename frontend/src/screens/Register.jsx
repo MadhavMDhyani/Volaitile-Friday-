@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Register = () => {
-  const [name, setName] = useState('');
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !password) return;
-    console.log('Register attempt', { name, email, password });
-    navigate('/login');
+    if (!email || !password) return;
+    console.log('Login attempt', { email, password });
+    navigate('/');
   };
 
   return (
@@ -21,45 +20,33 @@ const Register = () => {
           <div className="hidden bg-gradient-to-br from-cyan-500/20 via-slate-900 to-violet-500/20 p-10 lg:flex lg:flex-col lg:justify-between">
             <div>
               <p className="mb-4 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-sm font-medium text-cyan-300">
-                Welcome aboard
+                Secure access
               </p>
-              <h1 className="text-4xl font-semibold leading-tight">Create your account and jump into the experience.</h1>
+              <h1 className="text-4xl font-semibold leading-tight">
+                Welcome back. Sign in to continue your journey.
+              </h1>
               <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">
-                Sign up in seconds and start enjoying a smoother, faster experience.
+                Access your account quickly with a polished, secure, and modern login experience.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-slate-950/50 p-4 text-sm text-slate-300">
-              <p className="font-medium text-white">Why join?</p>
+              <p className="font-medium text-white">Why users love it</p>
               <ul className="mt-2 space-y-2 text-slate-400">
-                <li>• Secure sign-in experience</li>
-                <li>• Modern and responsive UI</li>
-                <li>• Smooth navigation across the app</li>
+                <li>• Fast authentication flow</li>
+                <li>• Responsive dark theme</li>
+                <li>• Simple account creation</li>
               </ul>
             </div>
           </div>
 
           <div className="p-8 sm:p-10">
             <div className="mb-8">
-              <p className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-400">Sign up</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">Create your account</h2>
-              <p className="mt-2 text-sm text-slate-400">Enter your details to get started.</p>
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-400">Login</p>
+              <h2 className="mt-2 text-3xl font-semibold text-white">Sign in to your account</h2>
+              <p className="mt-2 text-sm text-slate-400">Enter your credentials to get started.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-300" htmlFor="name">
-                  Full name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Alex Morgan"
-                  className="w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
-                />
-              </div>
-
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-300" htmlFor="email">
                   Email address
@@ -92,14 +79,14 @@ const Register = () => {
                 type="submit"
                 className="w-full rounded-xl bg-cyan-500 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400"
               >
-                Create account
+                Sign in
               </button>
             </form>
 
             <div className="mt-6 text-center text-sm text-slate-400">
-              Already have an account?{' '}
+             Already have an account?{' '}
               <Link to="/login" className="font-semibold text-cyan-400 hover:text-cyan-300">
-                Sign in
+                Login
               </Link>
             </div>
           </div>
@@ -109,4 +96,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

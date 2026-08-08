@@ -13,7 +13,10 @@ export const createUserController = async (req, res) => {
 
     try {
         const user = await userService.createUser(req.body);
-        const token = user.generateJWT();
+        const token = await user.generateJWT();
+
+        delete user._doc.password;
+        
         res.status(201).json({ user, token });
     } catch (error) {
         res.status(400).send(error.message);
@@ -47,7 +50,9 @@ if (!isMatch) {
     });
 
 }
-   const token = user.generateJWT();
+   const token = await user.generateJWT();
+
+   delete user._doc.password;
 
    res.status(200).json({ user, token });
 

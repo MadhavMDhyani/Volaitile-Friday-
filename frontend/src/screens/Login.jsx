@@ -12,7 +12,7 @@ const Login = () => {
 
     e.preventDefault();
 
-    axios.post('/register', { 
+    axios.post('/users/login', { 
       email, password
      })
       .then((response) => {

@@ -8,12 +8,22 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-   function submitHandler(e) {
+  function submitHandler(e) {
     e.preventDefault();
+
     if (!email || !password) return;
+
     console.log('Register attempt', { email, password });
-    navigate('/');
-  };
+
+    axios.post('/users/register', { email, password })
+      .then((response) => {
+        console.log(response.data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error(error?.response?.data || error);
+      });
+  }
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.18),_transparent_35%),linear-gradient(135deg,_#020617_0%,_#111827_45%,_#0f172a_100%)] px-4 py-10 text-slate-100">
@@ -48,7 +58,7 @@ const Register = () => {
               <p className="mt-2 text-sm text-slate-400">Enter your credentials to get started.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={submitHandler} className="space-y-5">
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-300" htmlFor="email">
                   Email address
@@ -98,4 +108,4 @@ const Register = () => {
   );
 };
 
-export default Login;
+export default Register;

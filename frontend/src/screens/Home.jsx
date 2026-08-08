@@ -7,7 +7,7 @@ const Home = () => {
 
 
   return (
-    <div>{user}</div>
+    <div>{JSON.stringify(user)}</div>
   )
 }
 

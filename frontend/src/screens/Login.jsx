@@ -8,6 +8,21 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  function submitHandler(e) {
+
+    e.preventDefault();
+
+    axios.post('/register', { 
+      email, password
+     })
+      .then((response) => {
+        console.log(response.data);
+        navigate('/');
+      }).catch((error) => {
+        console.error(error.response.data);
+      });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) return;
@@ -48,16 +63,21 @@ const Login = () => {
               <p className="mt-2 text-sm text-slate-400">Enter your credentials to get started.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form 
+            onSubmit={submitHandler} 
+            >
+            
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-300" htmlFor="email">
                   Email address
                 </label>
                 <input
+
+                   
+                  onChange={(e) => setEmail(e.target.value)}   
                   id="email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   className="w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
                 />
@@ -68,10 +88,11 @@ const Login = () => {
                   Password
                 </label>
                 <input
+
+                onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   className="w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
                 />

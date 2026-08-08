@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from '../config/axios';
 
-const Login = () => {
+const Register = () => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+   function submitHandler(e) {
     e.preventDefault();
     if (!email || !password) return;
-    console.log('Login attempt', { email, password });
+    console.log('Register attempt', { email, password });
     navigate('/');
   };
 

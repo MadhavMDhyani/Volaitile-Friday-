@@ -7,8 +7,19 @@ const Home = () => {
 
 
   return (
-    <div>{JSON.stringify(user)}</div>
+
+     <main
+     className='p-4'>
+
+      <div className="project">
+        <div className="project"></div>
+      </div>
+
+     </main>
+
+
   )
 }
 
-export default Home
+  
+

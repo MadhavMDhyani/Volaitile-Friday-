@@ -1,20 +1,14 @@
-import React from 'react'
-import { Route, BrowserRouter, Routes } from 'react-router-dom'
-import Login from '../screens/Login'
-import Register from '../screens/Register'
+import React, {useContext} from 'react'
+import {Usercontext} from '../context/user.context'
 
-const AppRoutes = () => {
+const Home = () => {
+
+  const {user} = useContext(UserContext)
+
+
   return (
-    <BrowserRouter>
-
-    <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-    </Routes>
-
-</BrowserRouter>
+    <div>{user}</div>
   )
 }
 
-export default AppRoutes
+export default Home

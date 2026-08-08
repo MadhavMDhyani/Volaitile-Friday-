@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axiosInstance, { setAuthToken } from '../config/axios';
 
-const UserContext = createContext(null);
+export const UserContext = createContext(null);3
 
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
@@ -40,17 +40,12 @@ export const UserProvider = ({ children }) => {
 	};
 
 	return (
-		<UserContext.Provider value={{ user, token, login, logout, setUser }}>
+		<UserContext.Provider value={{ user,setUser }}>
 			{children}
 		</UserContext.Provider>
 	);
 };
 
-export const useUser = () => {
-	const ctx = useContext(UserContext);
-	if (!ctx) throw new Error('useUser must be used within a UserProvider');
-	return ctx;
-};
 
 export default UserContext;
 

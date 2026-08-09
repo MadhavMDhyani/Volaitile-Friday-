@@ -1,32 +1,49 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../context/user.context'
 import axios from "../config/axios"
 
 const Home = () => {
-
   const { user } = useContext(UserContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [projectName, setProjectName] = useState(null)
+  const [projectName, setProjectName] = useState('')
+  const [project, setproject] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  function createProject(event) {
-    event.preventDefault()
-    console.log({projectName})
-    axios.post('/projects/create', {
-     name:projectName,
-    })
-    
-    .then((res) => {
+  const fetchProjects = async () => {
+    try {
+      setLoading(true)
+      const res = await axios.get('/projects/all')
+      setproject(res.data.projects || [])
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProjects()
+  }, [])
+
+  const createProject = async (e) => {
+    e.preventDefault()
+
+    if (!projectName.trim()) {
+      return
+    }
+
+    try {
+      const res = await axios.post('/projects/create', {
+        name: projectName.trim(),
+      })
+
       console.log(res)
+      setProjectName('')
       setIsModalOpen(false)
-    })
-    
-    .catch((error) => {
-      console.log(error)
-
-    })
-    
-    setProjectName('')
-    setIsModalOpen(false)
+      fetchProjects()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -37,8 +54,27 @@ const Home = () => {
           onClick={() => setIsModalOpen(true)}
           className='px-4 py-3 bg-slate-800 text-white rounded-md border border-slate-300 hover:bg-slate-700 transition'
         >
-          Create Project
+          New Project
+          <i className='ri-link ml-2'> </i>
         </button>
+
+        {loading ? (
+          <p className='mt-4 text-sm text-slate-600'>Loading projects...</p>
+        ) : (
+          project.map((projectItem) => (
+      <div key={projectItem._id} 
+            className='project flex flex-col gap-2 cursor-pointer p-4 border border-slate-300 rounded-mo'>
+           <h2
+            className='font-semibold'
+            >{project.name}</h2>
+
+
+            </div className ="flex gap-2">
+            <i className="ri-user-line"></i>
+            {project.users.length}
+
+            </div>
+        
       </div>
 
       {isModalOpen && (
@@ -73,10 +109,9 @@ const Home = () => {
                 <button
                   type='button'
                   onClick={() => setIsModalOpen(false)}
-                  className='project p-4 border border-slate-300 px-4 py-2 text-slate-700 hover:bg-slate-100'
+                  className='border border-slate-300 px-4 py-2 text-slate-700 hover:bg-slate-100 rounded-md'
                 >
-                  New Project
-                  <i className="ri-link ml-2"> </i>
+                  Cancel
                 </button>
                 <button
                   type='submit'

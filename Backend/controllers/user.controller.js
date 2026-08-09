@@ -73,21 +73,28 @@ export const profileController = async (req, res) => {
 }
 
 export const logoutController = async (req, res) => {
+}
+
+
+ export const getAllUsersController = async (req, res) => {
+
     try{
 
-     const token = req.cookies?.token || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+     const loggedUser = await userModel.findOne( {
+        email: req.user.email
+     })
 
-     if(token) {
-         await redisService.set(token, 'logout', 'EX', 60 * 60 * 24);
-     }
+     const allUsers = await userService.getAllUsers({ userId: loggedInUser._id });
 
-     res.status(200).json({
-         message: 'Logged out successfully' 
+
+     return res.status(200).json({
+         users: allUsers
         });
 
     } catch (err) {
+
         console.log(err);
-        res.status(400).send(err.message);
+        res.status(400).json({error: err.message})
     }
 
 }

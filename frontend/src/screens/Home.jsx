@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { Usercontext } from '../context/user.context'
+import { UserContext } from '../context/user.context'
 
 const Home = () => {
-  const { user } = useContext(Usercontext)
+  const { user } = useContext(UserContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [projectName, setProjectName] = useState('')
 
@@ -77,6 +77,4 @@ const Home = () => {
   )
 }
 
-
-  
-
+export default Home;

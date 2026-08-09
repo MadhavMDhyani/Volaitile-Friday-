@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axiosInstance, { setAuthToken } from '../config/axios';
 
-export const UserContext = createContext(null);3
+export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);

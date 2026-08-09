@@ -3,74 +3,63 @@ import projectModel from '../models/project.model.js';
 
 const isValidObjectId = (value) => mongoose.Types.ObjectId.isValid(value);
 
-export const createProject = async ({ name, userId }) => {
-    if (!name) {
-        throw new Error('Name is required');
-    }
-    if (!userId) {
-        throw new Error('User is required');
-    }
-    if (!isValidObjectId(userId)) {
-        throw new Error('User ID must be a valid mongoose ObjectId');
-    }
-
-    let project;
-    try {
-        project = await projectModel.create({
-            name,
-            users: [userId],
-        });
-    } catch (err) {
-        if (err?.code === 11000 || err?.codeName === 'DuplicateKey') {
-            throw new Error('Project name already exists');
-        }
-        throw err;
-    }
-
-    return project;
-};
-
 export const getAllProjectByUserId = async ({ userId }) => {
     if (!userId) {
-        throw new Error('User is required');
+        throw new Error('userId is required');
     }
 
     if (!isValidObjectId(userId)) {
-        throw new Error('User ID must be a valid mongoose ObjectId');
+        throw new Error('Invalid userId');
     }
 
-    const allUserProjects = await projectModel.find({
-        users: userId,
-    });
-
-    return allUserProjects;
+    const projects = await projectModel.find({ users: userId });
+    return projects;
 };
 
-export const addUsersToProject = async ({ projectId, users }) => {
+export const addUsersToProject = async ({ projectId, users, userId }) => {
     if (!projectId) {
         throw new Error('projectId is required');
     }
 
     if (!isValidObjectId(projectId)) {
-        throw new Error('projectId must be a valid mongoose ObjectId');
+        throw new Error('Invalid projectId');
     }
 
-    if (!users || !Array.isArray(users)) {
+    if (!users || !Array.isArray(users) || users.length === 0) {
         throw new Error('users are required');
     }
 
-    for (const user of users) {
-        if (!isValidObjectId(user)) {
-            throw new Error('Each user ID must be a valid mongoose ObjectId');
-        }
+    if (users.some((u) => !isValidObjectId(u))) {
+        throw new Error('Invalid userId(s) in users array');
     }
 
-    const updatedProject = await projectModel.findByIdAndUpdate(
-        projectId,
+    if (!userId) {
+        throw new Error('userId is required');
+    }
+
+    if (!isValidObjectId(userId)) {
+        throw new Error('Invalid userId');
+    }
+
+    const project = await projectModel.findOne({ _id: projectId, users: userId });
+
+    if (!project) {
+        throw new Error('User does not belong to this project');
+    }
+
+    const updatedProject = await projectModel.findOneAndUpdate(
+        { _id: projectId },
         { $addToSet: { users: { $each: users } } },
-        { new: true },
+        { new: true }
     );
 
     return updatedProject;
 };
+
+
+
+    
+
+
+
 

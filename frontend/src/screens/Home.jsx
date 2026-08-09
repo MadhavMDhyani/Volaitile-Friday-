@@ -1,14 +1,30 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../context/user.context'
+import axios from "../config/axios"
 
 const Home = () => {
+
   const { user } = useContext(UserContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [projectName, setProjectName] = useState('')
+  const [projectName, setProjectName] = useState(null)
 
   function createProject(event) {
     event.preventDefault()
-    console.log('create project', projectName)
+    console.log({projectName})
+    axios.post('/projects/create', {
+     name:projectName,
+    })
+    
+    .then((res) => {
+      console.log(res)
+      setIsModalOpen(false)
+    })
+    
+    .catch((error) => {
+      console.log(error)
+
+    })
+    
     setProjectName('')
     setIsModalOpen(false)
   }

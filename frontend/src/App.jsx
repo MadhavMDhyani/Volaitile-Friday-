@@ -1,6 +1,5 @@
-import React from 'react';
 import AppRoutes from './routes/AppRoutes';
-import { UserProvider} from './context/user.context';
+import { UserProvider } from './context/user.context';
 
 const App = () => {
   return (
@@ -8,7 +7,6 @@ const App = () => {
       <AppRoutes />
     </UserProvider>
   );
-}
-
+};
 
 export default App;

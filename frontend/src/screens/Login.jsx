@@ -1,40 +1,29 @@
-import React, { useState,useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../config/axios';
 import { UserContext } from '../context/user.context';
 
 const Login = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { setUser} = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   function submitHandler(e) {
-
-    e.preventDefault();
-
-    axios.post('/users/login', { 
-      email, password
-     })
-      .then((response) => {
-        console.log(response.data);
-        
-        localStorage.setItem('token', response.data.token);
-        setUser(response.data.user);
-
-        navigate('/');
-      }).catch((error) => {
-        console.error(error.response.data);
-      });
-  }
-
-  const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) return;
-    console.log('Login attempt', { email, password });
-    navigate('/');
-  };
+
+    axios
+      .post('/users/login', { email, password })
+      .then((response) => {
+        localStorage.setItem('token', response.data.token);
+        setUser(response.data.user);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error(error?.response?.data || error);
+      });
+  }
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.18),_transparent_35%),linear-gradient(135deg,_#020617_0%,_#111827_45%,_#0f172a_100%)] px-4 py-10 text-slate-100">
@@ -69,21 +58,16 @@ const Login = () => {
               <p className="mt-2 text-sm text-slate-400">Enter your credentials to get started.</p>
             </div>
 
-            <form 
-            onSubmit={submitHandler} 
-            >
-            
+            <form onSubmit={submitHandler} className="space-y-5">
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-300" htmlFor="email">
                   Email address
                 </label>
                 <input
-
-                   
-                  onChange={(e) => setEmail(e.target.value)}   
                   id="email"
                   type="email"
                   value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   className="w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
                 />
@@ -94,11 +78,10 @@ const Login = () => {
                   Password
                 </label>
                 <input
-
-                onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   type="password"
                   value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   className="w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
                 />

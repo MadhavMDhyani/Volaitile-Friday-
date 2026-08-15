@@ -2,20 +2,17 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../screens/Home';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
-import Project from '../screens/project';
+import Project from '../screens/Project';
 
-export const AppRoutes = () => {
+const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<div><Home /></div>} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/project" element={<Project />} />
-        
       </Routes>
-
-
     </BrowserRouter>
   );
 };

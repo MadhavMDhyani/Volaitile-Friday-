@@ -1,32 +1,17 @@
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 
-const project = ( ) => {
+const Project = () => {
+  const location = useLocation();
 
-    const locatiion = useLocation()
+  console.log(location.state);
 
-    console.log(location.state)
+  return (
+    <main className="h-screen w-screen flex">
+      <section className="left h-full min-w-60 bg-red-300">
+        <header className="flex justify-end p-4 w-full" />
+      </section>
+    </main>
+  );
+};
 
-    return(
-   
-        <main
-        className='h-screen w-screen flex'
-        >
-
-
-            <section className="left h-full min-w-60 bg-red-300">
-                  
-
-                  <header
-                  className='flex justify-end p-4 w-full'>
-
-                  </header>
-
-
-            </section>
-
-        </main>
-  )
-}
-
-export default project
+export default Project;

@@ -1,27 +1,21 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
 
 const Register = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
- const { setUser } = useContext(UserContext);
-
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   function submitHandler(e) {
     e.preventDefault();
-
     if (!email || !password) return;
 
-    console.log('Register attempt', { email, password });
-
-    axios.post('/users/register', { email, password })
+    axios
+      .post('/users/register', { email, password })
       .then((response) => {
-        console.log(response.data);
         localStorage.setItem('token', response.data.token);
         setUser(response.data.user);
         navigate('/');
@@ -38,13 +32,13 @@ const Register = () => {
           <div className="hidden bg-gradient-to-br from-cyan-500/20 via-slate-900 to-violet-500/20 p-10 lg:flex lg:flex-col lg:justify-between">
             <div>
               <p className="mb-4 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-sm font-medium text-cyan-300">
-                Secure access
+                Get started
               </p>
               <h1 className="text-4xl font-semibold leading-tight">
-                Welcome back. Sign in to continue your journey.
+                Join us today. Create your account in seconds.
               </h1>
               <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">
-                Access your account quickly with a polished, secure, and modern login experience.
+                Sign up for a polished, secure, and modern experience — it only takes a moment.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-slate-950/50 p-4 text-sm text-slate-300">
@@ -59,9 +53,9 @@ const Register = () => {
 
           <div className="p-8 sm:p-10">
             <div className="mb-8">
-              <p className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-400">Login</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">Sign in to your account</h2>
-              <p className="mt-2 text-sm text-slate-400">Enter your credentials to get started.</p>
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-400">Register</p>
+              <h2 className="mt-2 text-3xl font-semibold text-white">Create your account</h2>
+              <p className="mt-2 text-sm text-slate-400">Enter your details to get started.</p>
             </div>
 
             <form onSubmit={submitHandler} className="space-y-5">
@@ -97,12 +91,12 @@ const Register = () => {
                 type="submit"
                 className="w-full rounded-xl bg-cyan-500 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400"
               >
-                Sign in
+                Create account
               </button>
             </form>
 
             <div className="mt-6 text-center text-sm text-slate-400">
-             Already have an account?{' '}
+              Already have an account?{' '}
               <Link to="/login" className="font-semibold text-cyan-400 hover:text-cyan-300">
                 Login
               </Link>

@@ -6,9 +6,11 @@ export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const [loading, setLoading] = useState(!!localStorage.getItem('token'));
 
   useEffect(() => {
     if (token) {
+      setLoading(true);
       setAuthToken(token);
       axiosInstance
         .get('/users/me')
@@ -18,10 +20,12 @@ export const UserProvider = ({ children }) => {
           setToken(null);
           setAuthToken(null);
           localStorage.removeItem('token');
-        });
+        })
+        .finally(() => setLoading(false));
     } else {
       setAuthToken(null);
       setUser(null);
+      setLoading(false);
     }
   }, [token]);
 
@@ -41,7 +45,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, token, login, logout }}>
+    <UserContext.Provider value={{ user, setUser, token, login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );

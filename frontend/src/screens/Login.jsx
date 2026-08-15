@@ -7,7 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { login } = useContext(UserContext);
 
   function submitHandler(e) {
     e.preventDefault();
@@ -16,8 +16,7 @@ const Login = () => {
     axios
       .post('/users/login', { email, password })
       .then((response) => {
-        localStorage.setItem('token', response.data.token);
-        setUser(response.data.user);
+        login(response.data.token, response.data.user);
         navigate('/');
       })
       .catch((error) => {

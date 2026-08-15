@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../context/user.context'
 import axios from "../config/axios"
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const { user } = useContext(UserContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [projectName, setProjectName] = useState('')
   const [project, setproject] = useState([])
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const fetchProjects = async () => {
     try {
@@ -61,22 +62,33 @@ const Home = () => {
         {loading ? (
           <p className='mt-4 text-sm text-slate-600'>Loading projects...</p>
         ) : (
-          project.map((projectItem) => (
-      <div key={projectItem._id} 
-            className='project flex flex-col gap-2 cursor-pointer p-4 border border-slate-300 rounded-mo'>
+          project.map((project) => (
+      <div key={project._id} 
+      onClick={ ()=>{ navigate(`/project`, {
+        state: { project }
+
+      })
+
+    }}
+    
+      className='project flex flex-col gap-2 cursor-pointer p-4 border border-slate-300 rounded-mo'>
            <h2
             className='font-semibold'
             >{project.name}</h2>
 
 
-            </div className ="flex gap-2">
-            <i className="ri-user-line"></i>
+            <div className ="flex gap-2">
+            <p> <small> <i className="ri-user-line"></i> Collaborators</small>:</p>
             {project.users.length}
 
             </div>
         
       </div>
 
+
+          ))
+
+        
       {isModalOpen && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4'>
           <div className='w-full max-w-md rounded-xl bg-white p-6 shadow-xl'>

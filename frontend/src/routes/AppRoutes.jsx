@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../context/user.context';
-import Home from '../screens/Home';
+import Home from '../screens/home';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
-import Project from '../screens/Project';
+import Project from '../screens/project';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useContext(UserContext);

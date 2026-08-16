@@ -11,7 +11,7 @@ const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
     <main className="h-screen w-screen flex">
       <section className="left relative flex flex-col h-full min-w-72  bg-slate-300">
 
-        <header className="flex justify-end p-2 px-4 w-full bg-slate-100" >
+        <header className="flex justify-end px-4 w-full bg-slate-100" >
        <button 
        onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
        className='p-2 '
@@ -52,10 +52,35 @@ const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
     </div>
 
      <div
-       className={`sidePanel w-36 h-60 bg-red-600 absolute left-[-100] ${
-         isSidePanelOpen ? '-translate-x-0' : ''
-       }`}
-     ></div>
+       className={`sidePanel w-full h-full flex flex-col gap-2 bg-slate-50 absolute transition-all left-[-100] ${
+         isSidePanelOpen ? '-translate-x-0' : '-translate-x-full'} top-0`}>
+      
+       <header 
+       className='flex justify-end px-4 p-2 bg-slate-200'>
+
+       </header>
+         
+         <div className="users flex flex-col gap-2">
+
+             <div className="user  cursor-pointer hover:bg-slate-200 p-2 flex gap-2 items-center">
+
+              <div
+                className='aspect-square rounded-full w-fit h-fit flex items-center justify-center p-5 text-white bg-slate-600'
+                >
+                  <i class="ri-user-fill absolute"></i>
+              </div>
+
+              <h1
+              className='font-semibold text-lg'>
+              username</h1>
+              
+              
+
+              </div>  
+
+         </div>
+
+     </div>
 
 
   </section>

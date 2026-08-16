@@ -26,10 +26,15 @@ const Project = () => {
   
       </header>
      <div className="conversation-area flex-grow flex flex-col">
-      <div className="message-box flex-grow flex flex-col">
-      
-                
-       <div className="incoming">
+      <div className="message-box p-1 flex-grow flex flex-col gap-1">         
+       <div className="message max-w-56 flex flex-col p-2 bg-slate-50 w-fit rounded-md ">
+        <small
+        className='opacity-65 text-xs'
+        >exapmle@gmail.com</small>
+        <p className='text-sm' >Lorem ipsum dolor sit amet.</p>
+        </div> 
+
+        <div className="ml-auto max-w-56 message flex flex-col p-2 bg-slate-50 w-fit rounded-md ">
         <small
         className='opacity-65 text-xs'
         >exapmle@gmail.com</small>

@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from 'react';
 import axiosInstance, { setAuthToken } from '../config/axios';
 
-const UserContext = createContext(null);
+export const UserContext = createContext(null);
 
-const UserProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem('token'));
   const [loading, setLoading] = useState(!!localStorage.getItem('token'));

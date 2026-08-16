@@ -19,4 +19,13 @@ const user = await userModel.create({
 
 return user;
 
-}
+};
+
+export const getAllUsers = async ({ userId }) => {
+    if (!userId) {
+        throw new Error('userId is required');
+    }
+
+    const users = await userModel.find({ _id: { $ne: userId } }).select('-password');
+    return users;
+};

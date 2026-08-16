@@ -1,5 +1,5 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import React, {useState} from 'react'
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 const Project = () => {
 const location = useLocation();
@@ -9,7 +9,7 @@ const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
 
   return (
     <main className="h-screen w-screen flex">
-      <section className="left relative flex flex-col h-full min-w-72  bg-slate-300">
+      <section className="left relative flex flex-col h-full min-w-96 bg-slate-300">
 
         <header className="flex justify-end px-4 w-full bg-slate-100" >
        <button 
@@ -39,13 +39,13 @@ const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
 
         <div className="inputField w-full flex">
           <input
-            className='p-2 px-4 border-none outline-none'
-            type="text"
+            className='p-2 px-4 border-none outline-none flex-grow'
+            type="text" placeholder='Enter message' />
             placeholder='Enter message'
-          />
+          
           <button
-            className='flex-grow px-3'>
-            <i className="ri-send-ins-line"></i>
+            className='px-5 bg-slate-950 text-white'>
+            <i className="ri-send-plane-fill"></i>
           </button>
         </div>
       </div>

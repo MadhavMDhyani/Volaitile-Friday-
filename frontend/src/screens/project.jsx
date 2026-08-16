@@ -7,18 +7,15 @@ const Project = () => {
 
   return (
     <main className="h-screen w-screen flex">
-      <section className="left h-full min-w-60 bg-red-300">
+      <section className="left flex flex-col h-full min-w-72  bg-slate-300">
 
 
 
 
-        <header className="flex justify-end p-2 px-4 w-full bg-slate-200" >
+        <header className="flex justify-end p-2 px-4 w-full bg-slate-100" >
        <button
-       className='p-2'
+       className='p-2 '
        >
-
-       
-
        <i className="ri-group-line">
        </i>
 
@@ -26,22 +23,35 @@ const Project = () => {
 
 
 
-     </header>
+  
+      </header>
+     <div className="conversation-area flex-grow flex flex-col">
+      <div className="message-box flex-grow flex flex-col">
+      
+                
+       <div className="incoming">
+        <small
+        className='opacity-65 text-xs'
+        >exapmle@gmail.com</small>
+        <p className='text-sm' >Lorem ipsum dolor sit amet.</p>
+        </div> 
 
-     <div className="conversation-area">
-
-        <div className="message-box">
-           <input type="text" placeholder='Enter message' />
-        <button ><i class="ri-send-ins-line"></i>
-        
-        </button> 
-
+        <div className="inputField w-full flex">
+          <input
+            className='p-2 px-4 border-none outline-none'
+            type="text"
+            placeholder='Enter message'
+          />
+          <button
+            className='flex-grow px-3'>
+            <i className="ri-send-ins-line"></i>
+          </button>
         </div>
+      </div>
+    </div>
 
-     </div>
-
-      </section>
-    </main>
+  </section>
+</main>
   );
 };
 

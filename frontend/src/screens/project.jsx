@@ -26,6 +26,20 @@ const Project = () => {
     });
   };
 
+  function addCollaborators() {
+    axios.post("/projects/add-user", {
+      projectId: Array.from(selectedUserId)
+    }).then(res => {
+      
+      console.log(res.data)
+      setIsUserModalOpen(false)
+
+  }).catch(err => {
+    console.log(err)
+  })
+
+  }
+
 
   useEffect(() => {
     const fetchUsers = async () => {

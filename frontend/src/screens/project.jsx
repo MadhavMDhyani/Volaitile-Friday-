@@ -8,7 +8,7 @@ const Project = () => {
 
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(new Set());
   const [availableUsers, setAvailableUsers] = useState([]);
   const [projectUsers, setProjectUsers] = useState(project?.users || []);
 
@@ -20,8 +20,17 @@ const Project = () => {
   ];
 
   const handleUserClick = (id) => {
-    setSelectedUserId(id);
-    setIsUserModalOpen(false);
+    setSelectedUserId((prev) => {
+      const next = new Set(prev);
+
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+
+      return next;
+    });
   };
 
   useEffect(() => {
@@ -47,17 +56,17 @@ const Project = () => {
     }
   }, [project]);
 
-  const selectedUser = availableUsers.find((user) => String(user._id) === String(selectedUserId)) || null;
+  const selectedUser = availableUsers.find((user) => selectedUserId.has(user._id)) || null;
 
   const handleSelectUser = async (userId) => {
     if (!project?._id) {
-      setSelectedUserId(userId);
+      setSelectedUserId(new Set([userId]));
       setIsUserModalOpen(false);
       return;
     }
 
     try {
-      setSelectedUserId(userId);
+      setSelectedUserId(new Set([userId]));
       await axios.put('/projects/add-user', {
         projectId: project._id,
         users: [userId],
@@ -151,8 +160,8 @@ const Project = () => {
                 return (
                   <div
                     key={userId}
-                    onClick={() => setSelectedUserId(userId)}
-                    className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition ${selectedUserId === userId
+                    onClick={() => setSelectedUserId(new Set([userId]))}
+                    className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition ${selectedUserId.has(userId)
                       ? 'border-sky-500 bg-sky-50'
                       : 'border-slate-200 bg-white hover:bg-slate-100'
                       }`}
@@ -210,7 +219,7 @@ const Project = () => {
                     type="button"
                     key={user._id}
                     onClick={() => handleSelectUser(user._id)}
-                    className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${selectedUserId === user._id
+                    className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${selectedUserId.has(user._id)
                       ? 'border-sky-500 bg-sky-50 shadow-sm'
                       : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
                       }`}
@@ -222,7 +231,7 @@ const Project = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
                         <h3 className="truncate text-base font-semibold text-slate-800">{user.email}</h3>
-                        {selectedUserId === user._id && (
+                        {selectedUserId.has(user._id) && (
                           <span className="rounded-full bg-sky-500 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-white">
                             Selected
                           </span>

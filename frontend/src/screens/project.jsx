@@ -27,6 +27,7 @@ const Project = () => {
   };
 
   function addCollaborators() {
+    projectId: location.state._id,
     axios.post("/projects/add-user", {
       projectId: Array.from(selectedUserId)
     }).then(res => {

@@ -12,6 +12,18 @@ const Project = () => {
   const [availableUsers, setAvailableUsers] = useState([]);
   const [projectUsers, setProjectUsers] = useState(project?.users || []);
 
+  const users = [
+    { Id: 1, name: 'User One' },
+    { Id: 2, name: 'User Two' },
+    { Id: 3, name: 'User Three' },
+    { Id: 4, name: 'User Four' },
+  ];
+
+  const handleUserClick = (id) => {
+    setSelectedUserId(id);
+    setIsUserModalOpen(false);
+  };
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -77,7 +89,7 @@ const Project = () => {
 
           <button
             type="button"
-            onClick={() => setIsSidePanelOpen((prev) => !prev)}
+            onClick={() => setIsSidePanelOpen((!isSidePanelOpen)}
             className="rounded-lg border border-slate-300 bg-white p-2 text-slate-700 transition hover:bg-slate-200"
             aria-label="Toggle collaborators"
           >
@@ -115,9 +127,8 @@ const Project = () => {
         </div>
 
         <aside
-          className={`absolute inset-y-0 left-0 z-20 flex w-full max-w-sm flex-col border-r border-slate-200 bg-slate-50 shadow-xl transition-transform duration-300 md:w-[320px] ${
-            isSidePanelOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+          className={`absolute inset-y-0 left-0 z-20 flex w-full max-w-sm flex-col border-r border-slate-200 bg-slate-50 shadow-xl transition-transform duration-300 md:w-[320px] ${isSidePanelOpen ? 'translate-x-0' : '-translate-x-full'
+            }`}
         >
           <header className="flex items-center justify-between border-b border-slate-200 bg-slate-200 px-4 py-3">
             <h2 className="text-lg font-semibold">Collaborators</h2>
@@ -141,11 +152,10 @@ const Project = () => {
                   <div
                     key={userId}
                     onClick={() => setSelectedUserId(userId)}
-                    className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition ${
-                      selectedUserId === userId
-                        ? 'border-sky-500 bg-sky-50'
-                        : 'border-slate-200 bg-white hover:bg-slate-100'
-                    }`}
+                    className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition ${selectedUserId === userId
+                      ? 'border-sky-500 bg-sky-50'
+                      : 'border-slate-200 bg-white hover:bg-slate-100'
+                      }`}
                   >
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-700 text-sm font-semibold text-white">
                       {userName.charAt(0).toUpperCase()}
@@ -167,7 +177,7 @@ const Project = () => {
 
       {isUserModalOpen && (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl bg-white p-4 shadow-2xl sm:p-6">
+          <div className="relative w-full max-w-lg rounded-2xl bg-white p-4 pb-20 shadow-2xl sm:p-6 sm:pb-20">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold text-slate-800">Select collaborator</h2>
@@ -200,11 +210,10 @@ const Project = () => {
                     type="button"
                     key={user._id}
                     onClick={() => handleSelectUser(user._id)}
-                    className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${
-                      selectedUserId === user._id
-                        ? 'border-sky-500 bg-sky-50 shadow-sm'
-                        : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
-                    }`}
+                    className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${selectedUserId === user._id
+                      ? 'border-sky-500 bg-sky-50 shadow-sm'
+                      : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+                      }`}
                   >
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 text-sm font-bold text-white">
                       {user.email.charAt(0).toUpperCase()}
@@ -227,6 +236,14 @@ const Project = () => {
                 <p className="text-sm text-slate-500">No users available to add.</p>
               )}
             </div>
+
+            <button
+              type="button"
+              onClick={() => setIsUserModalOpen(false)}
+              className="absolute bottom-4 left-4 right-4 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 sm:left-6 sm:right-6"
+            >
+              Add collaborators
+            </button>
           </div>
         </div>
       )}

@@ -12,26 +12,7 @@ const Project = () => {
   const [availableUsers, setAvailableUsers] = useState([]);
   const [projectUsers, setProjectUsers] = useState(project?.users || []);
 
-  const users = [
-    { Id: 1, name: 'User One' },
-    { Id: 2, name: 'User Two' },
-    { Id: 3, name: 'User Three' },
-    { Id: 4, name: 'User Four' },
-  ];
 
-  const handleUserClick = (id) => {
-    setSelectedUserId((prev) => {
-      const next = new Set(prev);
-
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-
-      return next;
-    });
-  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -98,7 +79,7 @@ const Project = () => {
 
           <button
             type="button"
-            onClick={() => setIsSidePanelOpen((!isSidePanelOpen)}
+            onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
             className="rounded-lg border border-slate-300 bg-white p-2 text-slate-700 transition hover:bg-slate-200"
             aria-label="Toggle collaborators"
           >

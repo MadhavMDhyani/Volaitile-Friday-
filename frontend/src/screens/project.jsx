@@ -13,6 +13,19 @@ const Project = () => {
   const [projectUsers, setProjectUsers] = useState(project?.users || []);
 
 
+  const handleUserClick = (id) => {
+    setSelectedUserId((prevSelectedUserId) => {
+      const newSelectedUserId = new Set(prevSelectedUserId);
+      if (newSelectedUserId.has(id)) {
+        newSelectedUserId.delete(id);
+      } else {
+        newSelectedUserId.add(id);
+      }
+      console.log(Array.from(newSelectedUserId));
+      return newSelectedUserId;
+    });
+  };
+
 
   useEffect(() => {
     const fetchUsers = async () => {

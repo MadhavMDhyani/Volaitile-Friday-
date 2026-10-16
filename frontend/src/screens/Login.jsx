@@ -3,8 +3,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from '../config/axios';
 import { UserContext } from '../context/user.context';
 import getErrorMessage from '../utils/getErrorMessage';
+import Button from '../components/Button';
+import Logo from '../components/Logo';
 
-const Login = () => {
+export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -34,57 +36,79 @@ const Login = () => {
       navigate(from, { replace: true });
     } catch (error) {
       console.error('Login error:', error);
-      setErrorMessage(getErrorMessage(error, 'Failed to sign in. Please check your credentials.'));
+      setErrorMessage(getErrorMessage(error, 'Invalid email or password.'));
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-8 sm:px-6 sm:py-12 text-stone-100 flex items-center justify-center">
+    <div className="min-h-screen bg-[#0a0a0a] px-4 py-8 sm:px-6 sm:py-12 text-[#fafafa] flex items-center justify-center font-sans">
       <div className="w-full max-w-4xl">
-        <div className="grid w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-900 lg:grid-cols-[1.1fr_0.9fr]">
-          {/* Brand Info Panel (Desktop) */}
-          <div className="hidden bg-slate-900 p-8 sm:p-10 lg:flex lg:flex-col lg:justify-between border-r border-slate-800">
+        <div className="grid w-full overflow-hidden rounded-lg border border-[#262626] bg-[#111111] lg:grid-cols-[1.1fr_0.9fr]">
+          {/* Brand Info Panel (Desktop) - 60ms stagger entrance */}
+          <div className="hidden bg-[#111111] p-8 sm:p-10 lg:flex lg:flex-col lg:justify-between border-r border-[#262626]">
             <div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-md bg-cyan-500 font-mono text-sm font-bold text-slate-950">
-                  VF
-                </div>
-                <div>
-                  <h2 className="text-lg font-bold tracking-tight text-white">Volaitile Friday</h2>
-                  <p className="text-xs text-slate-400 font-mono">Workspace</p>
-                </div>
+              <div className="animate-fade-up" style={{ animationDelay: '0ms' }}>
+                <Logo size="md" to={null} />
               </div>
 
               <div className="mt-8">
-                <h1 className="text-2xl font-bold leading-snug text-white">
+                <h1
+                  className="text-2xl font-bold leading-snug tracking-tight text-[#fafafa] animate-fade-up"
+                  style={{ animationDelay: '60ms' }}
+                >
                   Developer workspace for shared projects.
                 </h1>
-                <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                  Sign in to access your projects, review changes, and collaborate with your team.
+                <p
+                  className="mt-3 text-sm leading-relaxed text-[#a3a3a3] animate-fade-up"
+                  style={{ animationDelay: '120ms' }}
+                >
+                  Sign in to access your projects, edit files in the cloud IDE, and collaborate with your team.
                 </p>
               </div>
+
+              <ul
+                className="mt-8 space-y-2.5 text-xs text-[#a3a3a3] animate-fade-up"
+                style={{ animationDelay: '180ms' }}
+              >
+                <li className="flex items-center gap-2">
+                  <i className="ri-check-line text-[#fafafa] text-sm" />
+                  <span>Cloud file explorer with synchronized editor</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <i className="ri-check-line text-[#fafafa] text-sm" />
+                  <span>Friday AI assistant with Gemini intelligence</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <i className="ri-check-line text-[#fafafa] text-sm" />
+                  <span>Team room messaging and role permissions</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="mt-8 rounded-lg border border-slate-800 bg-slate-950 p-4 text-xs text-slate-300">
-              Organize projects, manage team access, and coordinate code in one workspace.
+            <div
+              className="mt-8 rounded-md border border-[#262626] bg-[#0a0a0a] p-3 text-xs text-[#737373] font-mono animate-fade-up"
+              style={{ animationDelay: '240ms' }}
+            >
+              Secured with JWT authentication and strict access policies.
             </div>
           </div>
 
-          {/* Form Panel */}
-          <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+          {/* Form Panel - Fades in */}
+          <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10 animate-fade-in">
             {/* Mobile Brand Header */}
-            <div className="mb-6 flex items-center gap-2.5 lg:hidden">
-              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-cyan-500 font-mono text-xs font-bold text-slate-950">
-                VF
-              </div>
-              <span className="text-base font-bold text-white">Volaitile Friday</span>
+            <div className="mb-6 flex items-center justify-between lg:hidden">
+              <Logo size="sm" to={null} />
             </div>
 
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-white sm:text-2xl">Sign in to your workspace</h2>
-              <p className="mt-1 text-xs sm:text-sm text-slate-400">Pick up where you left off.</p>
+              <h2 className="text-xl font-bold tracking-tight text-[#fafafa] sm:text-2xl">
+                Sign in to workspace
+              </h2>
+              <p className="mt-1 text-xs text-[#a3a3a3]">
+                Enter your credentials to continue.
+              </p>
             </div>
 
             {/* Error Banner */}
@@ -92,26 +116,27 @@ const Login = () => {
               <div
                 role="alert"
                 aria-live="polite"
-                className="mb-5 flex items-start gap-3 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs sm:text-sm text-red-200 animate-fade-in"
+                className="mb-5 flex items-start gap-2.5 rounded-md border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-400 animate-fade-in"
               >
+                <i className="ri-error-warning-line text-base leading-none mt-0.5" />
                 <div className="flex-1">
-                  <p className="font-medium text-red-300">Authentication failed</p>
-                  <p className="mt-0.5 text-red-200/90">{errorMessage}</p>
+                  <p className="font-semibold text-red-400">Sign in error</p>
+                  <p className="mt-0.5 text-red-300">{errorMessage}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setErrorMessage('')}
-                  className="text-red-400 hover:text-red-200 p-0.5 transition"
+                  className="text-red-400 hover:text-red-300 p-0.5 focus-ring rounded"
                   aria-label="Dismiss error"
                 >
-                  <i className="ri-close-line text-base" />
+                  <i className="ri-close-line text-sm" />
                 </button>
               </div>
             )}
 
             <form onSubmit={submitHandler} className="space-y-4" noValidate>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-slate-300" htmlFor="email">
+                <label className="mb-1.5 block text-xs font-medium text-[#a3a3a3]" htmlFor="email">
                   Email address
                 </label>
                 <input
@@ -122,14 +147,14 @@ const Login = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@company.com"
-                  className="w-full rounded-md border border-slate-700 bg-slate-800 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                  placeholder="name@company.com"
+                  className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3.5 py-2 text-sm text-[#fafafa] placeholder-[#737373] transition-colors duration-150 focus-ring"
                 />
               </div>
 
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="block text-xs font-medium text-slate-300" htmlFor="password">
+                  <label className="block text-xs font-medium text-[#a3a3a3]" htmlFor="password">
                     Password
                   </label>
                 </div>
@@ -142,13 +167,13 @@ const Login = () => {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    className="w-full rounded-md border border-slate-700 bg-slate-800 pl-3.5 pr-10 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                    placeholder="Enter password"
+                    className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-3.5 pr-10 py-2 text-sm text-[#fafafa] placeholder-[#737373] transition-colors duration-150 focus-ring"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-200 transition focus:outline-none"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#737373] hover:text-[#fafafa] transition-colors focus:outline-none"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     <i className={showPassword ? 'ri-eye-off-line text-base' : 'ri-eye-line text-base'} />
@@ -156,25 +181,22 @@ const Login = () => {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting || !email.trim() || !password}
-                className="mt-2 flex w-full items-center justify-center gap-2 rounded-md bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50 focus-ring"
-              >
-                {isSubmitting ? (
-                  <>
-                    <i className="ri-loader-4-line animate-spin text-base" />
-                    <span>Signing in...</span>
-                  </>
-                ) : (
-                  <span>Sign in</span>
-                )}
-              </button>
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  className="w-full"
+                  loading={isSubmitting}
+                >
+                  Sign in
+                </Button>
+              </div>
             </form>
 
-            <div className="mt-6 border-t border-slate-800 pt-4 text-center text-xs text-slate-400">
+            <div className="mt-6 border-t border-[#262626] pt-4 text-center text-xs text-[#a3a3a3]">
               Don&apos;t have an account?{' '}
-              <Link to="/register" className="font-semibold text-cyan-400 hover:text-cyan-300 transition underline-offset-4 hover:underline">
+              <Link to="/register" className="font-medium text-white underline hover:text-[#e5e5e5] focus-ring rounded">
                 Create one now
               </Link>
             </div>

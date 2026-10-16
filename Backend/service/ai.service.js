@@ -1,12 +1,12 @@
 /**
  * Friday AI Assistant Service
  * Provides contextual AI responses, code generation, and code review.
- * Connects to Google Gemini API when GEMINI_API_KEY is configured,
+ * Connects to Google Gemini API when GEMINI_API_KEY and GEMINI_MODEL are configured,
  * and includes a rich built-in contextual fallback engine for offline/local development.
  */
 
-const callGeminiApi = async (apiKey, prompt, systemInstruction = '') => {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+const callGeminiApi = async ({ apiKey, model, prompt, systemInstruction = '' }) => {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
     const payload = {
         contents: [
             {
@@ -20,23 +20,34 @@ const callGeminiApi = async (apiKey, prompt, systemInstruction = '') => {
         },
     };
 
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    if (!response.ok) {
-        throw new Error(`Gemini API returned status ${response.status}`);
-    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': apiKey,
+            },
+            body: JSON.stringify(payload),
+            signal: controller.signal,
+        });
 
-    const data = await response.json();
-    const candidate = data.candidates?.[0];
-    const text = candidate?.content?.parts?.[0]?.text;
-    if (!text) {
-        throw new Error('No content returned from Gemini API');
+        if (!response.ok) {
+            throw new Error(`Gemini API returned status ${response.status}`);
+        }
+
+        const data = await response.json();
+        const candidate = data.candidates?.[0];
+        const text = candidate?.content?.parts?.[0]?.text;
+        if (!text) {
+            throw new Error('No content returned from Gemini API');
+        }
+        return text;
+    } finally {
+        clearTimeout(timeoutId);
     }
-    return text;
 };
 
 const getBuiltInResponse = (message, projectName = 'your project') => {
@@ -151,35 +162,40 @@ Let me know what you'd like to build or troubleshoot!`;
 
 export const generateAiChat = async ({ message, projectName, context }) => {
     const apiKey = process.env.GEMINI_API_KEY;
+    const model = process.env.GEMINI_MODEL;
 
-    if (apiKey) {
+    if (apiKey && model) {
         try {
             const systemInstruction = `You are Friday, an elite AI full-stack developer assistant built into the "Volaitile Friday" platform.
 You assist developers with Node.js, Express, React, MongoDB, Redis, Docker, system architecture, and security.
 Provide concise, markdown-formatted answers with clear code snippets when appropriate.
 The current project is "${projectName || 'Volaitile Friday'}".`;
             const prompt = context ? `Project Context: ${JSON.stringify(context)}\n\nUser Question: ${message}` : message;
-            return await callGeminiApi(apiKey, prompt, systemInstruction);
+            const reply = await callGeminiApi({ apiKey, model, prompt, systemInstruction });
+            return { reply, source: 'gemini' };
         } catch (apiError) {
             console.warn('[AI Service] Gemini API call failed, falling back to local assistant:', apiError.message);
         }
     }
 
-    return getBuiltInResponse(message, projectName);
+    return { reply: getBuiltInResponse(message, projectName), source: 'offline' };
 };
 
 export const generateCodeSnippet = async ({ prompt, language = 'javascript', framework = 'express' }) => {
     const apiKey = process.env.GEMINI_API_KEY;
-    if (apiKey) {
+    const model = process.env.GEMINI_MODEL;
+
+    if (apiKey && model) {
         try {
             const systemPrompt = `You are an expert ${language} developer. Output only clean, working, modern code with brief inline comments. Target framework: ${framework}.`;
-            return await callGeminiApi(apiKey, prompt, systemPrompt);
+            const code = await callGeminiApi({ apiKey, model, prompt, systemInstruction: systemPrompt });
+            return { code, source: 'gemini' };
         } catch (err) {
             console.warn('[AI Service] Gemini API failed for code generation, falling back:', err.message);
         }
     }
 
-    return `// Auto-generated ${language} template (${framework})
+    const fallbackCode = `// Auto-generated ${language} template (${framework})
 // Prompt: ${prompt}
 
 export const handler = async (req, res) => {
@@ -191,14 +207,18 @@ export const handler = async (req, res) => {
     }
 };
 `;
+    return { code: fallbackCode, source: 'offline' };
 };
 
 export const reviewCodeSnippet = async ({ code, language = 'javascript' }) => {
     const apiKey = process.env.GEMINI_API_KEY;
-    if (apiKey) {
+    const model = process.env.GEMINI_MODEL;
+
+    if (apiKey && model) {
         try {
             const systemPrompt = `You are a senior security and performance code reviewer. Analyze the given ${language} code for bugs, security vulnerabilities (OWASP), memory leaks, and performance bottlenecks.`;
-            return await callGeminiApi(apiKey, code, systemPrompt);
+            const review = await callGeminiApi({ apiKey, model, prompt: code, systemInstruction: systemPrompt });
+            return { review, source: 'gemini' };
         } catch (err) {
             console.warn('[AI Service] Gemini API review fallback:', err.message);
         }
@@ -209,12 +229,14 @@ export const reviewCodeSnippet = async ({ code, language = 'javascript' }) => {
     if (code.includes('password') && !code.includes('hash')) issues.push('Warning: Plaintext password handling detected.');
     if (code.includes('var ')) issues.push('Style: Use const or let instead of legacy var.');
 
-    return `### Code Review Report (${language})
+    const fallbackReview = `### Code Review Report (${language})
 
-${issues.length === 0 ? ' No critical vulnerabilities found in preliminary static analysis.' : ' **Identified Opportunities:**\n' + issues.map(i => `- ${i}`).join('\n')}
+${issues.length === 0 ? ' No critical vulnerabilities found in preliminary static analysis.' : ' **Identified Opportunities:**\n' + issues.map((i) => `- ${i}`).join('\n')}
 
 **Recommendations:**
 - Ensure all asynchronous database or network calls are wrapped in \`try/catch\` blocks.
 - Sanitize and validate all incoming inputs using \`express-validator\` or zod.
 - Keep dependencies updated and monitor CVEs.`;
+
+    return { review: fallbackReview, source: 'offline' };
 };

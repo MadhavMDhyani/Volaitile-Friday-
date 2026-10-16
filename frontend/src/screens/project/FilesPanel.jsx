@@ -33,40 +33,6 @@ export const FilesPanel = ({ projectId }) => {
   const autosaveTimersRef = useRef({});
   const toast = useToast();
 
-  // Load project files on mount or manual refresh
-  const fetchFiles = useCallback(async () => {
-    if (!projectId) return;
-    try {
-      setLoading(true);
-      const res = await axios.get(`/projects/${projectId}/files`);
-      const list = res.data?.files || [];
-      setFiles(list);
-
-      // Initialize drafts
-      setDrafts((prev) => {
-        const next = { ...prev };
-        list.forEach((f) => {
-          if (next[f._id] === undefined) {
-            next[f._id] = f.content || '';
-          }
-        });
-        return next;
-      });
-
-      // Default active file
-      setActiveFileId((currentId) => {
-        if (currentId && list.some((f) => f._id === currentId)) {
-          return currentId;
-        }
-        return list[0]?._id || null;
-      });
-    } catch (err) {
-      console.error('Fetch files error:', err);
-      toast.error(getErrorMessage(err, 'Failed to load project files'));
-    } finally {
-      setLoading(false);
-    }
-  }, [projectId, toast]);
 
   useEffect(() => {
     if (!projectId) return;

@@ -5,12 +5,15 @@
 :root {
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
-  --bg-primary: #141210;
-  --bg-surface: #1c1a16;
-  --bg-surface-elevated: #28241f;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(196, 100, 58, 0.4);
-  --brand-cyan: #c4643a;
+
+  --bg-page: #0a0a0a;
+  --bg-surface: #111111;
+  --bg-raised: #171717;
+  --border-subtle: #262626;
+  --border-strong: #404040;
+  --text-primary: #fafafa;
+  --text-muted: #a3a3a3;
+  --text-faint: #737373;
 }
 
 * {
@@ -24,14 +27,20 @@ body {
   height: 100%;
   width: 100%;
   font-family: var(--font-sans);
-  background-color: var(--bg-primary);
-  color: #f5f5f4;
+  background-color: #0a0a0a;
+  color: #fafafa;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar */
+/* Global Selection: White background with black text */
+::selection {
+  background-color: #fafafa;
+  color: #0a0a0a;
+}
+
+/* Custom Scrollbar - Neutral 1px / 6px */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -42,62 +51,43 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(168, 162, 158, 0.25);
+  background: #404040;
   border-radius: 9999px;
-  transition: background 0.2s ease;
+  transition: background 0.15s ease-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(196, 100, 58, 0.5);
+  background: #525252;
 }
 
-/* Accessible focus outline */
+/* Accessible focus ring: 2px white ring with black offset */
 .focus-ring {
-  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950;
+  outline: none;
+}
+.focus-ring:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #0a0a0a, 0 0 0 4px rgba(250, 250, 250, 0.7);
 }
 
-/* Keyframe Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Skeleton shimmer gradient animation */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #171717 0%,
+    #262626 50%,
+    #171717 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
 }
 
-@keyframes modalEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes skeletonPulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.2s ease-out forwards;
-}
-
-.animate-modal-enter {
-  animation: modalEnter 0.2s ease-out forwards;
-}
-
-.animate-skeleton {
-  animation: skeletonPulse 1.6s ease-in-out infinite;
+/* Subtle modal and toast shadow (neutral only, no glow) */
+.modal-shadow {
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.75), 0 0 0 1px #262626;
 }
 
 /* Reduced motion preference */

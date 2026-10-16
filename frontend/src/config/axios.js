@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const isProduction = import.meta.env.PROD;
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+if (isProduction && !apiBaseUrl) {
+  throw new Error('App is not configured');
+}
+
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
+  baseURL: apiBaseUrl || 'http://localhost:3000',
 });
 
 let onUnauthorizedCallback = null;

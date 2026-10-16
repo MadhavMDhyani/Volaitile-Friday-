@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
 
     password:{
         type:String,
+        required:true,
         select:false,
     }
 
@@ -26,20 +27,21 @@ userSchema.statics.hashPassword = async function (password) {
 }
 
 userSchema.methods.isValidPassword = async function (password) {
-
-console. log(password, this.password);
-
     return await bcrypt.compare(password, this.password);
 }
 
 userSchema.methods.generateJWT = function () {
     return jwt.sign(
-        { email: this.email},
-         process.env.JWT_SECRET, 
-         { expiresIn: '24h' });
+        { _id: this._id, email: this.email },
+        process.env.JWT_SECRET, 
+        { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+    );
 }
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.models.User || mongoose.models.user || mongoose.model('user', userSchema);
+if (!mongoose.models.User) {
+    mongoose.model('User', userSchema);
+}
 
 export default User;
 

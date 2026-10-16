@@ -2,6 +2,7 @@ import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
+import getErrorMessage from '../utils/getErrorMessage';
 
 const Home = () => {
   const { user, logout } = useContext(UserContext);
@@ -20,7 +21,8 @@ const Home = () => {
   useEffect(() => {
     let active = true;
 
-    axios.get('/projects/all')
+    axios
+      .get('/projects/all')
       .then((res) => {
         if (!active) return;
         setProjects(res.data.projects || []);
@@ -29,11 +31,7 @@ const Home = () => {
       .catch((err) => {
         if (!active) return;
         console.error('Fetch projects error:', err);
-        setFetchError(
-          err.response?.data?.error ||
-          err.response?.data?.message ||
-          'Unable to load projects. Please verify your connection.'
-        );
+        setFetchError(getErrorMessage(err, 'Unable to load projects. Please verify your connection.'));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -74,9 +72,7 @@ const Home = () => {
       refetchProjects();
     } catch (error) {
       console.error('Create project error:', error);
-      const data = error?.response?.data;
-      const msg = data?.error || (data?.errors && data.errors[0]?.msg) || 'Failed to create project.';
-      setCreateError(msg);
+      setCreateError(getErrorMessage(error, 'Failed to create project.'));
     } finally {
       setIsCreating(false);
     }
@@ -99,34 +95,34 @@ const Home = () => {
   }, [projects]);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.08),_transparent_50%),linear-gradient(180deg,_#030712_0%,_#090d16_50%,_#070a12_100%)] text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-slate-950 text-stone-100 flex flex-col font-sans">
       {/* Top Navigation */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-slate-800 bg-slate-900">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           {/* Brand */}
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-500 shadow-lg shadow-cyan-500/25">
-              <i className="ri-flashlight-fill text-xl text-slate-950" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-cyan-500 font-mono text-sm font-bold text-slate-950">
+              VF
             </div>
             <div>
-              <span className="text-base sm:text-lg font-bold tracking-tight text-white block">Volaitile Friday</span>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 block -mt-1">Workspace Studio</span>
+              <span className="text-base font-bold tracking-tight text-white block">Volaitile Friday</span>
+              <span className="text-[11px] font-mono text-slate-400 block">Workspace</span>
             </div>
           </div>
 
           {/* User Profile & Actions */}
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2.5 rounded-full border border-white/10 bg-slate-900/90 px-3 py-1.5 text-xs text-slate-300">
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500 text-[11px] font-bold text-slate-950">
+            <div className="hidden sm:flex items-center gap-2 rounded-md border border-slate-800 bg-slate-950 px-3 py-1.5 text-xs text-slate-300">
+              <div className="flex h-5 w-5 items-center justify-center rounded bg-cyan-500 font-mono text-[10px] font-bold text-slate-950">
                 {(user?.email || 'U').charAt(0).toUpperCase()}
               </div>
-              <span className="max-w-[140px] truncate font-medium text-slate-200">{user?.email || 'Logged in'}</span>
+              <span className="max-w-[160px] truncate font-medium text-slate-200">{user?.email || 'Logged in'}</span>
             </div>
 
             <button
               type="button"
               onClick={logout}
-              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/90 px-3 py-2 text-xs font-medium text-slate-300 transition hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-300 focus-ring"
+              className="flex items-center gap-1.5 rounded-md border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300 focus-ring"
               title="Sign out of account"
               aria-label="Sign out"
             >
@@ -139,14 +135,14 @@ const Home = () => {
 
       {/* Main Workspace Dashboard */}
       <main className="mx-auto flex-1 w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        {/* Hero Section */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-6">
+        {/* Header Section */}
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
               Projects & Workspaces
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-slate-400">
-              Manage your collaborative engineering rooms, invite team members, and start real-time sessions.
+              Manage your engineering projects, team access, and shared rooms.
             </p>
           </div>
 
@@ -156,26 +152,22 @@ const Home = () => {
               setCreateError('');
               setIsModalOpen(true);
             }}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-400 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:from-cyan-400 hover:to-cyan-300 active:scale-[0.98] focus-ring"
+            className="inline-flex items-center justify-center gap-1.5 rounded-md bg-cyan-500 px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-950 transition hover:bg-cyan-400 focus-ring"
           >
-            <i className="ri-add-line text-lg font-bold" />
+            <i className="ri-add-line text-base font-bold" />
             <span>New Project</span>
           </button>
         </div>
 
-        {/* Quick Stats & Search Bar */}
+        {/* Search Bar & Summary */}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          {/* Search Box */}
           <div className="relative w-full sm:max-w-xs md:max-w-sm">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-              <i className="ri-search-line text-base" />
-            </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search projects by name..."
-              className="w-full rounded-xl border border-slate-800 bg-slate-900/90 pl-10 pr-9 py-2 text-xs sm:text-sm text-white placeholder-slate-500 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
+              placeholder="Search projects..."
+              className="w-full rounded-md border border-slate-800 bg-slate-900 px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 outline-none transition focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
             />
             {searchQuery && (
               <button
@@ -184,21 +176,19 @@ const Home = () => {
                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-200"
                 aria-label="Clear search"
               >
-                <i className="ri-close-circle-fill text-sm" />
+                <i className="ri-close-line text-sm" />
               </button>
             )}
           </div>
 
-          {/* Metrics summary */}
           <div className="flex items-center gap-4 text-xs text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <i className="ri-folder-6-line text-cyan-400" />
-              <strong className="text-white font-mono">{projects.length}</strong> {projects.length === 1 ? 'Project' : 'Projects'}
+            <span>
+              <strong className="text-white font-mono">{projects.length}</strong>{' '}
+              {projects.length === 1 ? 'Project' : 'Projects'}
             </span>
-            <span className="h-3 w-px bg-slate-700" />
-            <span className="flex items-center gap-1.5">
-              <i className="ri-team-line text-indigo-400" />
-              <strong className="text-white font-mono">{totalCollaborators}</strong> Active Members
+            <span className="h-3 w-px bg-slate-800" />
+            <span>
+              <strong className="text-white font-mono">{totalCollaborators}</strong> Members
             </span>
           </div>
         </div>
@@ -207,16 +197,16 @@ const Home = () => {
         {fetchError && (
           <div
             role="alert"
-            className="mb-6 flex items-center justify-between rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-xs sm:text-sm text-red-200 animate-fade-in"
+            className="mb-6 flex items-center justify-between rounded-lg border border-red-500/30 bg-red-500/10 p-3.5 text-xs sm:text-sm text-red-200 animate-fade-in"
           >
-            <div className="flex items-center gap-3">
-              <i className="ri-error-warning-fill text-xl text-red-400 flex-shrink-0" />
+            <div className="flex items-center gap-2.5">
+              <i className="ri-error-warning-line text-lg text-red-400 flex-shrink-0" />
               <p>{fetchError}</p>
             </div>
             <button
               type="button"
               onClick={refetchProjects}
-              className="ml-4 rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-semibold text-red-200 transition hover:bg-red-500/30"
+              className="ml-4 rounded bg-red-500/20 px-2.5 py-1 text-xs font-semibold text-red-200 transition hover:bg-red-500/30"
             >
               Retry
             </button>
@@ -226,20 +216,17 @@ const Home = () => {
         {/* Projects Grid or Skeletons */}
         {loading ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+            {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="rounded-2xl border border-white/5 bg-slate-900/60 p-5 shadow-lg animate-skeleton"
+                className="rounded-lg border border-slate-800 bg-slate-900 p-4 animate-skeleton"
               >
                 <div className="flex items-center justify-between">
-                  <div className="h-10 w-10 rounded-xl bg-slate-800" />
-                  <div className="h-4 w-12 rounded-md bg-slate-800" />
+                  <div className="h-4 w-24 rounded bg-slate-800" />
+                  <div className="h-4 w-12 rounded bg-slate-800" />
                 </div>
-                <div className="mt-4 h-5 w-3/4 rounded-md bg-slate-800" />
-                <div className="mt-3 flex items-center gap-2">
-                  <div className="h-3 w-4 rounded-full bg-slate-800" />
-                  <div className="h-3 w-24 rounded-md bg-slate-800" />
-                </div>
+                <div className="mt-4 h-5 w-3/4 rounded bg-slate-800" />
+                <div className="mt-3 h-3 w-20 rounded bg-slate-800" />
               </div>
             ))}
           </div>
@@ -250,45 +237,38 @@ const Home = () => {
               return (
                 <div
                   key={proj._id}
-                  onClick={() => navigate('/project', { state: { project: proj } })}
+                  onClick={() => navigate(`/project/${proj._id}`)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
-                      navigate('/project', { state: { project: proj } });
+                      navigate(`/project/${proj._id}`);
                     }
                   }}
                   tabIndex={0}
                   role="button"
                   aria-label={`Open project ${proj.name}`}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-lg shadow-black/40 backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:border-cyan-500/40 hover:shadow-xl hover:shadow-cyan-950/30 cursor-pointer focus-ring"
+                  className="flex flex-col justify-between rounded-lg border border-slate-800 bg-slate-900 p-4 transition-colors hover:border-slate-700 cursor-pointer focus-ring"
                 >
                   <div>
-                    {/* Card Top Row */}
                     <div className="flex items-center justify-between">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-tr from-cyan-950 to-slate-800 border border-cyan-500/20 text-cyan-400 group-hover:border-cyan-400/40 group-hover:from-cyan-900/60 transition-colors">
-                        <i className="ri-terminal-box-line text-xl" />
-                      </div>
-                      <span className="rounded-full bg-slate-800/80 px-2.5 py-1 text-[11px] font-mono text-slate-400 border border-white/5">
+                      <span className="font-mono text-xs text-slate-400">Project</span>
+                      <span className="rounded bg-slate-800 px-2 py-0.5 font-mono text-[11px] text-slate-400 border border-slate-700">
                         {collaboratorCount} {collaboratorCount === 1 ? 'member' : 'members'}
                       </span>
                     </div>
 
-                    {/* Project Name */}
-                    <h2 className="mt-4 text-base font-bold text-white group-hover:text-cyan-300 transition-colors truncate" title={proj.name}>
+                    <h2 className="mt-3 text-base font-semibold text-white truncate" title={proj.name}>
                       {proj.name}
                     </h2>
 
-                    {/* Metadata */}
-                    <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
-                      <i className="ri-team-line text-cyan-400/80" />
-                      <span>{collaboratorCount} Collaborators linked</span>
-                    </div>
+                    <p className="mt-1 font-mono text-[11px] text-slate-400 truncate">
+                      ID: {proj._id}
+                    </p>
                   </div>
 
-                  {/* Card Bottom CTA */}
-                  <div className="mt-5 flex items-center justify-between border-t border-white/5 pt-3 text-xs font-semibold text-slate-400 group-hover:text-cyan-300 transition-colors">
+                  <div className="mt-4 flex items-center justify-between border-t border-slate-800 pt-3 text-xs font-medium text-cyan-400">
                     <span>Open Workspace</span>
-                    <i className="ri-arrow-right-line text-base transition-transform group-hover:translate-x-1" />
+                    <i className="ri-arrow-right-line text-sm" />
                   </div>
                 </div>
               );
@@ -296,24 +276,21 @@ const Home = () => {
           </div>
         ) : (
           /* Empty State */
-          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-white/10 bg-slate-900/40 p-10 sm:p-16 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-800/80 text-cyan-400 border border-white/10 shadow-lg">
-              <i className="ri-folder-add-line text-3xl" />
-            </div>
-            <h3 className="mt-4 text-lg font-bold text-white">
+          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-800 bg-slate-900/60 p-8 sm:p-12 text-center">
+            <h3 className="text-base font-semibold text-white">
               {searchQuery ? 'No matching projects found' : 'No projects created yet'}
             </h3>
             <p className="mt-1 max-w-sm text-xs sm:text-sm text-slate-400">
               {searchQuery
-                ? `No projects matched your search for "${searchQuery}". Clear your search or create a new project.`
-                : 'Create your first collaborative developer room to begin coding and communicating with your team.'}
+                ? `No projects matched "${searchQuery}". Clear your search or create a new project.`
+                : 'Create your first project to begin collaborating with your team.'}
             </p>
-            <div className="mt-5 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-3">
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="rounded-xl border border-white/10 bg-slate-800 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-slate-700 focus-ring"
+                  className="rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-slate-700 focus-ring"
                 >
                   Clear filter
                 </button>
@@ -324,10 +301,10 @@ const Home = () => {
                   setCreateError('');
                   setIsModalOpen(true);
                 }}
-                className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-xs font-semibold text-slate-950 transition hover:bg-cyan-400 focus-ring"
+                className="inline-flex items-center gap-1.5 rounded-md bg-cyan-500 px-3.5 py-1.5 text-xs font-semibold text-slate-950 transition hover:bg-cyan-400 focus-ring"
               >
-                <i className="ri-add-line text-base" />
-                <span>Create New Project</span>
+                <i className="ri-add-line text-sm font-bold" />
+                <span>Create Project</span>
               </button>
             </div>
           </div>
@@ -340,80 +317,70 @@ const Home = () => {
           role="dialog"
           aria-modal="true"
           aria-labelledby="new-project-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 animate-fade-in"
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="w-full max-w-md rounded-3xl border border-white/15 bg-slate-900 p-6 shadow-2xl shadow-cyan-950/50 animate-modal-enter"
+            className="w-full max-w-md rounded-xl border border-slate-800 bg-slate-900 p-5 sm:p-6 shadow-lg animate-modal-enter"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                  <i className="ri-folder-add-line text-lg" />
-                </div>
-                <div>
-                  <h2 id="new-project-title" className="text-lg font-bold text-white">Create New Project</h2>
-                  <p className="text-xs text-slate-400">Initialize a collaborative workspace</p>
-                </div>
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <h2 id="new-project-title" className="text-base font-bold text-white">Create New Project</h2>
+                <p className="text-xs text-slate-400">Initialize a project workspace</p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition focus-ring"
+                className="rounded-md p-1 text-slate-400 hover:bg-slate-800 hover:text-white transition focus-ring"
                 aria-label="Close modal"
               >
-                <i className="ri-close-line text-xl" />
+                <i className="ri-close-line text-lg" />
               </button>
             </div>
 
             {createError && (
               <div
                 role="alert"
-                className="mt-4 flex items-start gap-2.5 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-200"
+                className="mt-4 flex items-start gap-2.5 rounded-md border border-red-500/30 bg-red-500/10 p-2.5 text-xs text-red-200"
               >
-                <i className="ri-error-warning-fill text-base text-red-400 mt-0.5" />
+                <i className="ri-error-warning-line text-base text-red-400 flex-shrink-0 mt-0.5" />
                 <p className="flex-1">{createError}</p>
               </div>
             )}
 
-            <form onSubmit={createProject} className="mt-5 space-y-4">
+            <form onSubmit={createProject} className="mt-4 space-y-4">
               <div>
                 <label htmlFor="projectName" className="block text-xs font-medium text-slate-300">
                   Project Name
                 </label>
-                <div className="relative mt-1.5">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                    <i className="ri-terminal-line text-base" />
-                  </div>
-                  <input
-                    id="projectName"
-                    type="text"
-                    autoFocus
-                    required
-                    value={projectName}
-                    onChange={(e) => setProjectName(e.target.value)}
-                    className="w-full rounded-xl border border-slate-700 bg-slate-800/90 pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
-                    placeholder="e.g. cloud-orchestrator"
-                  />
-                </div>
+                <input
+                  id="projectName"
+                  type="text"
+                  autoFocus
+                  required
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                  className="mt-1.5 w-full rounded-md border border-slate-700 bg-slate-800 px-3.5 py-2 text-sm text-white placeholder-slate-500 outline-none transition focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                  placeholder="e.g. backend-services"
+                />
                 <p className="mt-1 text-[11px] text-slate-400">
                   Must be unique. Collaborators can be added after creation.
                 </p>
               </div>
 
-              <div className="mt-6 flex items-center justify-end gap-3 border-t border-white/10 pt-4">
+              <div className="mt-5 flex items-center justify-end gap-2.5 border-t border-slate-800 pt-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="rounded-xl border border-slate-700 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-slate-800 focus-ring"
+                  className="rounded-md border border-slate-700 px-3.5 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-slate-800 focus-ring"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isCreating || !projectName.trim()}
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-400 px-4 py-2 text-xs font-semibold text-slate-950 shadow-md shadow-cyan-500/25 transition hover:from-cyan-400 hover:to-cyan-300 disabled:cursor-not-allowed disabled:opacity-50 focus-ring"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-cyan-500 px-3.5 py-1.5 text-xs font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50 focus-ring"
                 >
                   {isCreating ? (
                     <>
@@ -421,10 +388,7 @@ const Home = () => {
                       <span>Creating...</span>
                     </>
                   ) : (
-                    <>
-                      <i className="ri-check-line text-sm font-bold" />
-                      <span>Create Project</span>
-                    </>
+                    <span>Create Project</span>
                   )}
                 </button>
               </div>

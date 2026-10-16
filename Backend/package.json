@@ -18,9 +18,12 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
     "express-validator": "^7.3.2",
+    "ioredis": "^5.4.2",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.9.0"
+    "mongoose": "^9.9.0",
+    "morgan": "^1.11.0"
   },
   "allowScripts": {
     "bcrypt@6.0.0": true

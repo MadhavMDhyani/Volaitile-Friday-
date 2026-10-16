@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import projectModel from '../models/project.model.js';
+import userModel from '../models/user.models.js';
 
 const isValidObjectId = (value) => mongoose.Types.ObjectId.isValid(value);
 
@@ -47,6 +48,12 @@ export const addUsersToProject = async ({ projectId, users, userId }) => {
         throw new Error('User does not belong to this project');
     }
 
+    // Verify every user in users array exists in the database
+    const existingCount = await userModel.countDocuments({ _id: { $in: users } });
+    if (existingCount !== users.length) {
+        throw new Error('One or more specified users do not exist');
+    }
+
     const updatedProject = await projectModel.findOneAndUpdate(
         { _id: projectId },
         { $addToSet: { users: { $each: users } } },
@@ -56,30 +63,18 @@ export const addUsersToProject = async ({ projectId, users, userId }) => {
     return updatedProject;
 };
 
-export const getProjectId = async ({ projectId}) => {
-    if  (!projectId) {
-        throw new Error("projectId is required")
-
+export const getProjectId = async ({ projectId }) => {
+    if (!projectId) {
+        throw new Error('projectId is required');
     }
 
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
-        throw new Error("Invalid projectId")
-    
+        throw new Error('Invalid projectId');
     }
 
     const project = await projectModel.findOne({
-    _id: projectId
-    
-}).populate('users')
+        _id: projectId,
+    }).populate('users');
 
-return project;
-}
-
-
-
-
-    
-
-
-
-
+    return project;
+};

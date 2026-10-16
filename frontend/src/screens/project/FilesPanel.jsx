@@ -4,7 +4,7 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import FileEditor from './FileEditor';
-import { useToast } from '../../context/ToastContext';
+import { useToast } from '../../context/useToast';
 import getErrorMessage from '../../utils/getErrorMessage';
 
 export const FilesPanel = ({ projectId }) => {
@@ -33,7 +33,7 @@ export const FilesPanel = ({ projectId }) => {
   const autosaveTimersRef = useRef({});
   const toast = useToast();
 
-  // Load project files on mount
+  // Load project files on mount or manual refresh
   const fetchFiles = useCallback(async () => {
     if (!projectId) return;
     try {
@@ -69,8 +69,48 @@ export const FilesPanel = ({ projectId }) => {
   }, [projectId, toast]);
 
   useEffect(() => {
-    fetchFiles();
-  }, [fetchFiles]);
+    if (!projectId) return;
+
+    let ignore = false;
+    axios
+      .get(`/projects/${projectId}/files`)
+      .then((res) => {
+        if (ignore) return;
+        const list = res.data?.files || [];
+        setFiles(list);
+
+        setDrafts((prev) => {
+          const next = { ...prev };
+          list.forEach((f) => {
+            if (next[f._id] === undefined) {
+              next[f._id] = f.content || '';
+            }
+          });
+          return next;
+        });
+
+        setActiveFileId((currentId) => {
+          if (currentId && list.some((f) => f._id === currentId)) {
+            return currentId;
+          }
+          return list[0]?._id || null;
+        });
+      })
+      .catch((err) => {
+        if (ignore) return;
+        console.error('Fetch files error:', err);
+        toast.error(getErrorMessage(err, 'Failed to load project files'));
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [projectId, toast]);
 
   const activeFile = useMemo(() => {
     return files.find((f) => f._id === activeFileId) || null;

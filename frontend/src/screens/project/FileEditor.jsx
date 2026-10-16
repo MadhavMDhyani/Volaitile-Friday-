@@ -1,6 +1,6 @@
 import { useEffect, useRef, useMemo, useState } from 'react';
 import Button from '../../components/Button';
-import { useToast } from '../../context/ToastContext';
+import { useToast } from '../../context/useToast';
 
 export const FileEditor = ({
   activeFile,

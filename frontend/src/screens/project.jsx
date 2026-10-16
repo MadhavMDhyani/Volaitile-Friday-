@@ -49,8 +49,39 @@ export const Project = () => {
   }, [projectId]);
 
   useEffect(() => {
-    fetchProject();
-  }, [fetchProject]);
+    if (!projectId) return;
+
+    let ignore = false;
+    axios
+      .get(`/projects/get-project/${projectId}`)
+      .then((res) => {
+        if (ignore) return;
+        const loaded = res.data?.project;
+        if (!loaded) {
+          setFetchStatus('notfound');
+          return;
+        }
+        setProject(loaded);
+        setFetchStatus('success');
+      })
+      .catch((err) => {
+        if (ignore) return;
+        console.error('Fetch project error:', err);
+        const status = err.response?.status;
+        if (status === 403) {
+          setFetchStatus('forbidden');
+        } else if (status === 404 || status === 400) {
+          setFetchStatus('notfound');
+        } else {
+          setFetchStatus('error');
+          setFetchErrorMsg(getErrorMessage(err, 'Failed to load project'));
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [projectId]);
 
   const handleUpdateMembers = (updatedUsers) => {
     setProject((prev) => (prev ? { ...prev, users: updatedUsers } : prev));

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import axios from '../config/axios';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../context/useToast';
 import getErrorMessage from '../utils/getErrorMessage';
 
 export const ChangePasswordModal = ({ isOpen, onClose }) => {

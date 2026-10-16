@@ -9,7 +9,7 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import Logo from '../components/Logo';
 import AccountMenu from '../components/AccountMenu';
 import { ProjectCardSkeleton } from '../components/Skeleton';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../context/useToast';
 
 export const Home = () => {
   const { user } = useContext(UserContext);
@@ -31,6 +31,7 @@ export const Home = () => {
 
   const fetchProjects = useCallback(async () => {
     try {
+      setLoading(true);
       setFetchError('');
       const res = await axios.get('/projects/all');
       setProjects(res.data.projects || []);
@@ -43,8 +44,30 @@ export const Home = () => {
   }, []);
 
   useEffect(() => {
-    fetchProjects();
-  }, [fetchProjects]);
+    let ignore = false;
+    axios
+      .get('/projects/all')
+      .then((res) => {
+        if (!ignore) {
+          setProjects(res.data.projects || []);
+          setFetchError('');
+        }
+      })
+      .catch((err) => {
+        if (!ignore) {
+          console.error('Fetch projects error:', err);
+          setFetchError(getErrorMessage(err, 'Unable to load projects.'));
+        }
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   const handleCreateProject = async (e) => {
     e.preventDefault();

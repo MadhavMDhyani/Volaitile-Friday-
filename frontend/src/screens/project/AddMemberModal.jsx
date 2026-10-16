@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
 import axios from '../../config/axios';
-import { useToast } from '../../context/ToastContext';
+import { useToast } from '../../context/useToast';
 import getErrorMessage from '../../utils/getErrorMessage';
 
 export const AddMemberModal = ({
@@ -26,21 +26,18 @@ export const AddMemberModal = ({
     existingMembers.map((m) => (m?._id ? m._id.toString() : m.toString()))
   );
 
+  const handleClose = () => {
+    setSearchQuery('');
+    setSearchResults([]);
+    setSelectedUserIds(new Set());
+    setSearchError('');
+    onClose();
+  };
+
   // Debounced search on query change
   useEffect(() => {
-    if (!isOpen) {
-      setSearchQuery('');
-      setSearchResults([]);
-      setSelectedUserIds(new Set());
-      setSearchError('');
-      return;
-    }
-
     const trimmed = searchQuery.trim();
-    if (trimmed.length < 3) {
-      setSearchResults([]);
-      setSearchError('');
-      setIsSearching(false);
+    if (!isOpen || trimmed.length < 3) {
       return;
     }
 
@@ -99,7 +96,7 @@ export const AddMemberModal = ({
       if (typeof onMembersAdded === 'function') {
         onMembersAdded(updatedProject?.users || []);
       }
-      onClose();
+      handleClose();
     } catch (err) {
       console.error('Add user error:', err);
       const msg = getErrorMessage(err, 'Failed to add members to project');
@@ -110,7 +107,7 @@ export const AddMemberModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add Collaborators" maxWidth="max-w-md">
+    <Modal isOpen={isOpen} onClose={handleClose} title="Add Collaborators" maxWidth="max-w-md">
       <div className="space-y-4">
         {/* Search Input */}
         <div>
@@ -123,7 +120,13 @@ export const AddMemberModal = ({
               id="member-search"
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (e.target.value.trim().length < 3) {
+                  setSearchResults([]);
+                  setSearchError('');
+                }
+              }}
               placeholder="Type at least 3 characters..."
               className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-8 pr-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
               autoFocus
@@ -211,7 +214,7 @@ export const AddMemberModal = ({
           </span>
 
           <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm" onClick={onClose} disabled={isSubmitting}>
+            <Button variant="secondary" size="sm" onClick={handleClose} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button

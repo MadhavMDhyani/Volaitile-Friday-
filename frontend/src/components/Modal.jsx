@@ -13,27 +13,40 @@ export const Modal = ({
 }) => {
   const [isRendered, setIsRendered] = useState(isOpen);
   const [isClosing, setIsClosing] = useState(false);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
   const modalRef = useRef(null);
   const previousFocusRef = useRef(null);
 
-  // Handle open / close animation lifecycle
-  useEffect(() => {
+  // Synchronize open / close lifecycle during render
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
     if (isOpen) {
-      previousFocusRef.current = document.activeElement;
       setIsRendered(true);
       setIsClosing(false);
     } else if (isRendered) {
       setIsClosing(true);
-      const timer = setTimeout(() => {
-        setIsRendered(false);
-        setIsClosing(false);
-        if (previousFocusRef.current && typeof previousFocusRef.current.focus === 'function') {
-          previousFocusRef.current.focus();
-        }
-      }, 150);
-      return () => clearTimeout(timer);
     }
-  }, [isOpen, isRendered]);
+  }
+
+  // Preserve previous active element on open
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement;
+    }
+  }, [isOpen]);
+
+  // Handle closing animation unmount delay
+  useEffect(() => {
+    if (!isClosing) return;
+    const timer = setTimeout(() => {
+      setIsRendered(false);
+      setIsClosing(false);
+      if (previousFocusRef.current && typeof previousFocusRef.current.focus === 'function') {
+        previousFocusRef.current.focus();
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [isClosing]);
 
   // Close on Escape key and trap focus inside modal
   useEffect(() => {

@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import AddMemberModal from './AddMemberModal';
 import axios from '../../config/axios';
-import { useToast } from '../../context/ToastContext';
+import { useToast } from '../../context/useToast';
 import getErrorMessage from '../../utils/getErrorMessage';
 
 export const MembersDrawer = ({
@@ -17,6 +17,7 @@ export const MembersDrawer = ({
 }) => {
   const [isRendered, setIsRendered] = useState(isOpen);
   const [isClosing, setIsClosing] = useState(false);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Remove member state
@@ -27,19 +28,24 @@ export const MembersDrawer = ({
   const navigate = useNavigate();
   const toast = useToast();
 
-  useEffect(() => {
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
     if (isOpen) {
       setIsRendered(true);
       setIsClosing(false);
     } else if (isRendered) {
       setIsClosing(true);
-      const timer = setTimeout(() => {
-        setIsRendered(false);
-        setIsClosing(false);
-      }, 250);
-      return () => clearTimeout(timer);
     }
-  }, [isOpen, isRendered]);
+  }
+
+  useEffect(() => {
+    if (!isClosing) return;
+    const timer = setTimeout(() => {
+      setIsRendered(false);
+      setIsClosing(false);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [isClosing]);
 
   // Handle Escape key
   useEffect(() => {

@@ -4,17 +4,20 @@ export const ToastItem = ({ toast, onDismiss }) => {
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(100);
   const duration = toast.duration || 4000;
-  const startTimeRef = useRef(Date.now());
+  const startTimeRef = useRef(null);
   const remainingTimeRef = useRef(duration);
 
   useEffect(() => {
     if (isPaused) return;
 
-    startTimeRef.current = Date.now();
+    if (startTimeRef.current === null) {
+      startTimeRef.current = Date.now();
+    }
+
     const interval = 25; // 40fps progress tick
 
     const timer = setInterval(() => {
-      const elapsed = Date.now() - startTimeRef.current;
+      const elapsed = Date.now() - (startTimeRef.current || Date.now());
       const newRemaining = Math.max(0, remainingTimeRef.current - elapsed);
       setProgress((newRemaining / duration) * 100);
 
@@ -26,8 +29,10 @@ export const ToastItem = ({ toast, onDismiss }) => {
 
     return () => {
       clearInterval(timer);
-      const elapsed = Date.now() - startTimeRef.current;
-      remainingTimeRef.current = Math.max(0, remainingTimeRef.current - elapsed);
+      if (startTimeRef.current !== null) {
+        const elapsed = Date.now() - startTimeRef.current;
+        remainingTimeRef.current = Math.max(0, remainingTimeRef.current - elapsed);
+      }
     };
   }, [isPaused, duration, onDismiss, toast.id]);
 
@@ -68,7 +73,7 @@ export const ToastItem = ({ toast, onDismiss }) => {
         <button
           type="button"
           onClick={() => onDismiss(toast.id)}
-          className="text-[#737373] hover:text-[#fafafa] transition-colors p-0.5 rounded focus-ring"
+          className="text-[#737373] hover:text-[#fafafa] p-0.5 rounded focus-ring"
           aria-label="Dismiss notification"
         >
           <i className="ri-close-line text-sm" />

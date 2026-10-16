@@ -1,0 +1,233 @@
+import { useState, useEffect, useRef } from 'react';
+import Modal from '../../components/Modal';
+import Button from '../../components/Button';
+import axios from '../../config/axios';
+import { useToast } from '../../context/ToastContext';
+import getErrorMessage from '../../utils/getErrorMessage';
+
+export const AddMemberModal = ({
+  isOpen,
+  onClose,
+  projectId,
+  existingMembers = [],
+  onMembersAdded,
+}) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedUserIds, setSelectedUserIds] = useState(new Set());
+  const [isSearching, setIsSearching] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [searchError, setSearchError] = useState('');
+
+  const debounceTimerRef = useRef(null);
+  const toast = useToast();
+
+  const existingMemberIds = new Set(
+    existingMembers.map((m) => (m?._id ? m._id.toString() : m.toString()))
+  );
+
+  // Debounced search on query change
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchQuery('');
+      setSearchResults([]);
+      setSelectedUserIds(new Set());
+      setSearchError('');
+      return;
+    }
+
+    const trimmed = searchQuery.trim();
+    if (trimmed.length < 3) {
+      setSearchResults([]);
+      setSearchError('');
+      setIsSearching(false);
+      return;
+    }
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(async () => {
+      try {
+        setIsSearching(true);
+        setSearchError('');
+        const res = await axios.get(`/users/search?q=${encodeURIComponent(trimmed)}`);
+        const found = res.data?.users || [];
+        setSearchResults(found);
+      } catch (err) {
+        console.error('Search users error:', err);
+        setSearchError(getErrorMessage(err, 'Failed to search users'));
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [searchQuery, isOpen]);
+
+  const toggleSelectUser = (userId) => {
+    setSelectedUserIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(userId)) {
+        next.delete(userId);
+      } else {
+        next.add(userId);
+      }
+      return next;
+    });
+  };
+
+  const handleAddMembers = async () => {
+    const userIdsArray = Array.from(selectedUserIds);
+    if (userIdsArray.length === 0 || isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+      const res = await axios.put('/projects/add-user', {
+        projectId,
+        users: userIdsArray,
+      });
+
+      const updatedProject = res.data?.project;
+      toast.success(`Added ${userIdsArray.length} member(s) to project`);
+
+      if (typeof onMembersAdded === 'function') {
+        onMembersAdded(updatedProject?.users || []);
+      }
+      onClose();
+    } catch (err) {
+      console.error('Add user error:', err);
+      const msg = getErrorMessage(err, 'Failed to add members to project');
+      toast.error(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Add Collaborators" maxWidth="max-w-md">
+      <div className="space-y-4">
+        {/* Search Input */}
+        <div>
+          <label className="block text-xs font-medium text-[#a3a3a3] mb-1.5" htmlFor="member-search">
+            Search Users by Email
+          </label>
+          <div className="relative">
+            <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#737373]" />
+            <input
+              id="member-search"
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Type at least 3 characters..."
+              className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-8 pr-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+              autoFocus
+            />
+            {isSearching && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <svg className="animate-spin h-3.5 w-3.5 text-[#a3a3a3]" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+              </div>
+            )}
+          </div>
+          {searchQuery.trim().length > 0 && searchQuery.trim().length < 3 && (
+            <p className="mt-1.5 text-[11px] text-[#737373]">
+              Type at least 3 characters to search.
+            </p>
+          )}
+        </div>
+
+        {/* Error message */}
+        {searchError && (
+          <div className="rounded-md border border-red-500/30 bg-red-500/10 p-2 text-xs text-red-400">
+            {searchError}
+          </div>
+        )}
+
+        {/* Search Results List */}
+        <div className="max-h-52 overflow-y-auto rounded-md border border-[#262626] bg-[#0a0a0a] p-1 space-y-1">
+          {searchQuery.trim().length >= 3 && !isSearching && searchResults.length === 0 ? (
+            <div className="p-4 text-center text-xs text-[#737373]">
+              No users found matching &quot;{searchQuery}&quot;
+            </div>
+          ) : searchResults.length > 0 ? (
+            searchResults.map((u) => {
+              const alreadyMember = existingMemberIds.has(u._id.toString());
+              const isSelected = selectedUserIds.has(u._id.toString());
+
+              return (
+                <div
+                  key={u._id}
+                  onClick={() => !alreadyMember && toggleSelectUser(u._id.toString())}
+                  className={`flex items-center justify-between rounded p-2 text-xs transition-colors duration-150 ${
+                    alreadyMember
+                      ? 'opacity-50 cursor-not-allowed bg-transparent'
+                      : isSelected
+                      ? 'bg-[#171717] text-[#fafafa] cursor-pointer'
+                      : 'hover:bg-[#171717]/50 text-[#a3a3a3] cursor-pointer'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 truncate pr-2">
+                    <div className="flex h-5 w-5 items-center justify-center rounded bg-[#262626] text-[10px] font-mono text-[#fafafa]">
+                      {u.email.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="truncate font-medium">{u.email}</span>
+                  </div>
+
+                  <div>
+                    {alreadyMember ? (
+                      <span className="text-[10px] text-[#737373] uppercase font-mono">Member</span>
+                    ) : (
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => toggleSelectUser(u._id.toString())}
+                        className="rounded border-[#404040] bg-[#111111] text-white focus-ring cursor-pointer"
+                        aria-label={`Select ${u.email}`}
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="p-4 text-center text-xs text-[#737373]">
+              Search for teammates by email to add them.
+            </div>
+          )}
+        </div>
+
+        {/* Modal Actions */}
+        <div className="mt-6 flex items-center justify-between border-t border-[#262626] pt-3">
+          <span className="text-xs text-[#737373]">
+            {selectedUserIds.size} user{selectedUserIds.size !== 1 ? 's' : ''} selected
+          </span>
+
+          <div className="flex items-center gap-2">
+            <Button variant="secondary" size="sm" onClick={onClose} disabled={isSubmitting}>
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleAddMembers}
+              disabled={selectedUserIds.size === 0 || isSubmitting}
+              loading={isSubmitting}
+            >
+              Add Selected
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export default AddMemberModal;

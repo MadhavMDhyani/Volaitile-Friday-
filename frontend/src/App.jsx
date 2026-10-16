@@ -1,11 +1,19 @@
-import AppRoutes from './routes/AppRoutes';
+import ErrorBoundary from './components/ErrorBoundary';
+import OfflineBanner from './components/OfflineBanner';
 import { UserProvider } from './context/user.context';
+import { ToastProvider } from './context/ToastContext';
+import AppRoutes from './routes/AppRoutes';
 
-const App = () => {
+export const App = () => {
   return (
-    <UserProvider>
-      <AppRoutes />
-    </UserProvider>
+    <ErrorBoundary>
+      <UserProvider>
+        <ToastProvider>
+          <OfflineBanner />
+          <AppRoutes />
+        </ToastProvider>
+      </UserProvider>
+    </ErrorBoundary>
   );
 };
 

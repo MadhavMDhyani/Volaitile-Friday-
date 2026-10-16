@@ -10,27 +10,42 @@ class HybridCacheService extends EventEmitter {
         this.memoryStore = new Map();
         this.isRedisConnected = false;
         this.hasLoggedOutage = false;
+        this.hasWarnedProductionFallback = false;
 
-        const redisHost = process.env.REDIS_HOST || '127.0.0.1';
-        const redisPort = process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT, 10) : 6379;
-        const redisPassword = process.env.REDIS_PASSWORD || undefined;
+        const redisUrl = process.env.REDIS_URL;
 
-        this.client = new Redis({
-            host: redisHost,
-            port: redisPort,
-            password: redisPassword,
-            lazyConnect: true,
-            enableOfflineQueue: false,
-            maxRetriesPerRequest: 1,
-            connectTimeout: 2000,
-            retryStrategy: (times) => {
-                if (times > 2) {
-                    // Periodically test Redis connectivity in the background every 30s
-                    return 30000;
-                }
-                return Math.min(times * 1000, 3000);
-            },
-        });
+        if (redisUrl) {
+            const isTls = redisUrl.startsWith('rediss://');
+            this.client = new Redis(redisUrl, {
+                lazyConnect: true,
+                enableOfflineQueue: false,
+                maxRetriesPerRequest: 1,
+                connectTimeout: 2000,
+                ...(isTls ? { tls: {} } : {}),
+                retryStrategy: (times) => {
+                    if (times > 2) return 30000;
+                    return Math.min(times * 1000, 3000);
+                },
+            });
+        } else {
+            const redisHost = process.env.REDIS_HOST || '127.0.0.1';
+            const redisPort = process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT, 10) : 6379;
+            const redisPassword = process.env.REDIS_PASSWORD || undefined;
+
+            this.client = new Redis({
+                host: redisHost,
+                port: redisPort,
+                password: redisPassword,
+                lazyConnect: true,
+                enableOfflineQueue: false,
+                maxRetriesPerRequest: 1,
+                connectTimeout: 2000,
+                retryStrategy: (times) => {
+                    if (times > 2) return 30000;
+                    return Math.min(times * 1000, 3000);
+                },
+            });
+        }
 
         this.client.on('connect', () => {
             this.isRedisConnected = true;
@@ -47,7 +62,7 @@ class HybridCacheService extends EventEmitter {
         this.client.on('error', (err) => {
             this.isRedisConnected = false;
             if (!this.hasLoggedOutage) {
-                console.warn('[Cache] Redis unavailable (operating seamlessly with in-memory TTL cache):', err.message);
+                console.warn('[Cache] Redis unavailable (operating with in-memory TTL cache):', err.message);
                 this.hasLoggedOutage = true;
             }
         });
@@ -57,14 +72,24 @@ class HybridCacheService extends EventEmitter {
             this.emit('close');
         });
 
-        // Attempt initial connection in background safely
-        this.client.connect().catch((err) => {
-            this.isRedisConnected = false;
-            if (!this.hasLoggedOutage) {
-                console.warn('[Cache] Redis offline at startup. Utilizing resilient in-memory TTL cache.');
-                this.hasLoggedOutage = true;
-            }
-        });
+        // Attempt initial connection in background safely (skip in test mode if unwanted)
+        if (process.env.NODE_ENV !== 'test') {
+            this.client.connect().catch((err) => {
+                this.isRedisConnected = false;
+                if (!this.hasLoggedOutage) {
+                    console.warn('[Cache] Redis offline at startup. Utilizing in-memory TTL cache.');
+                    this.hasLoggedOutage = true;
+                }
+            });
+
+            // Warn in production if not connected after startup
+            setTimeout(() => {
+                if (!this.isRedisConnected && process.env.NODE_ENV === 'production' && !this.hasWarnedProductionFallback) {
+                    this.hasWarnedProductionFallback = true;
+                    console.warn('Warning: Redis is not connected. Logout token blacklisting is currently using in-memory storage only and will not survive restarts or scale across multiple instances.');
+                }
+            }, 3000).unref?.();
+        }
     }
 
     async get(key) {
@@ -118,6 +143,14 @@ class HybridCacheService extends EventEmitter {
             }
         }
         return 1;
+    }
+
+    async quit() {
+        try {
+            if (this.isRedisConnected && this.client) {
+                await this.client.quit();
+            }
+        } catch (_) {}
     }
 
     get status() {

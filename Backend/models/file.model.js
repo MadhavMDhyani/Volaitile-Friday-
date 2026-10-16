@@ -37,9 +37,6 @@ const fileSchema = new mongoose.Schema(
 
 fileSchema.index({ projectId: 1, path: 1 }, { unique: true });
 
-const File = mongoose.models.File || mongoose.models.file || mongoose.model('File', fileSchema);
-if (!mongoose.models.file) {
-    mongoose.model('file', fileSchema);
-}
+const File = mongoose.models.File || mongoose.model('File', fileSchema);
 
 export default File;

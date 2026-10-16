@@ -6,35 +6,46 @@ import * as authMiddleware from '../middleware/auth.middleware.js';
 
 const router = Router();
 
-const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
     max: 10,
-    message: { error: 'Too many attempts from this IP, please try again after 15 minutes' },
+    skipSuccessfulRequests: true,
+    message: { error: 'Too many login attempts from this IP, please try again after 15 minutes' },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const registerLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 5,
+    skipSuccessfulRequests: true,
+    message: { error: 'Too many registration attempts from this IP, please try again after 1 hour' },
     standardHeaders: true,
     legacyHeaders: false,
 });
 
 router.post(
     '/register',
-    authLimiter,
+    registerLimiter,
     [
         body('email').isEmail().withMessage('Email must be valid email address').normalizeEmail(),
-        body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+        body('password').isLength({ min: 8, max: 72 }).withMessage('Password must be between 8 and 72 characters long'),
     ],
     userController.createUserController
 );
 
 router.post(
     '/login',
-    authLimiter,
+    loginLimiter,
     [
         body('email').isEmail().withMessage('Email must be valid email address').normalizeEmail(),
-        body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+        body('password').notEmpty().withMessage('Password is required'),
     ],
     userController.loginController
 );
 
-router.get('/all', authMiddleware.authUser, userController.getAllUsersController);
+router.get('/search', authMiddleware.authUser, userController.searchUsersController);
+router.put('/change-password', authMiddleware.authUser, userController.changePasswordController);
 router.get('/profile', authMiddleware.authUser, userController.profileController);
 router.post('/logout', authMiddleware.authUser, userController.logoutController);
 

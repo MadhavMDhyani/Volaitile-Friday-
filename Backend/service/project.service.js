@@ -13,7 +13,9 @@ export const getAllProjectByUserId = async ({ userId }) => {
         throw new Error('Invalid userId');
     }
 
-    const projects = await projectModel.find({ users: userId });
+    const projects = await projectModel.find({ users: userId })
+        .populate('owner', 'email _id')
+        .populate('users', 'email _id');
     return projects;
 };
 
@@ -48,6 +50,17 @@ export const addUsersToProject = async ({ projectId, users, userId }) => {
         throw new Error('User does not belong to this project');
     }
 
+    // Verify member cap at 25
+    const combinedUserIds = new Set(project.users.map((u) => u.toString()));
+    for (const u of users) {
+        combinedUserIds.add(u.toString());
+    }
+    if (combinedUserIds.size > 25) {
+        const err = new Error('Projects cannot have more than 25 members');
+        err.status = 400;
+        throw err;
+    }
+
     // Verify every user in users array exists in the database
     const existingCount = await userModel.countDocuments({ _id: { $in: users } });
     if (existingCount !== users.length) {
@@ -58,7 +71,9 @@ export const addUsersToProject = async ({ projectId, users, userId }) => {
         { _id: projectId },
         { $addToSet: { users: { $each: users } } },
         { new: true }
-    );
+    )
+        .populate('owner', 'email _id')
+        .populate('users', 'email _id');
 
     return updatedProject;
 };
@@ -74,7 +89,9 @@ export const getProjectId = async ({ projectId }) => {
 
     const project = await projectModel.findOne({
         _id: projectId,
-    }).populate('users');
+    })
+        .populate('owner', 'email _id')
+        .populate('users', 'email _id');
 
     return project;
 };

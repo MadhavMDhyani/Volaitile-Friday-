@@ -1,12 +1,20 @@
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axiosInstance, { setAuthToken } from '../config/axios';
+import { UserContext } from './UserContext';
 
-export const UserContext = createContext(null);
+export { UserContext };
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem('token'));
   const [loading, setLoading] = useState(!!localStorage.getItem('token'));
+
+  const logout = useCallback(() => {
+    setToken(null);
+    setUser(null);
+    setAuthToken(null);
+    localStorage.removeItem('token');
+  }, []);
 
   useEffect(() => {
     if (!token) {
@@ -20,17 +28,18 @@ export const UserProvider = ({ children }) => {
       setAuthToken(token);
 
       try {
-        setLoading(true);
-        const res = await axiosInstance.get('/users/me');
+        // Backend exposes /users/profile with authUser middleware
+        const res = await axiosInstance.get('/users/profile');
 
         if (!active) return;
-        setUser(res.data);
-      } catch {
+        const resolvedUser = res.data?.user || res.data;
+        setUser(resolvedUser);
+      } catch (err) {
         if (!active) return;
-        setUser(null);
-        setToken(null);
-        setAuthToken(null);
-        localStorage.removeItem('token');
+        // Only invalidate token if unauthorized (401/403)
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          logout();
+        }
       } finally {
         if (active) setLoading(false);
       }
@@ -41,7 +50,7 @@ export const UserProvider = ({ children }) => {
     return () => {
       active = false;
     };
-  }, [token]);
+  }, [token, logout]);
 
   const login = (newToken, userData) => {
     if (!newToken) return;
@@ -49,13 +58,6 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem('token', newToken);
     setAuthToken(newToken);
     if (userData) setUser(userData);
-  };
-
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-    setAuthToken(null);
-    localStorage.removeItem('token');
   };
 
   return (

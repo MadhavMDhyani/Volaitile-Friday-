@@ -90,20 +90,36 @@ export const Dashboard = () => {
   useEffect(() => {
     let active = true;
 
-    fetchProjects().then((loaded) => {
-      if (!active) return;
-      if (!statsFetchedRef.current && loaded.length > 0) {
-        statsFetchedRef.current = true;
-        fetchAggregatedStats(loaded);
-      } else {
+    axios
+      .get('/projects/all')
+      .then((res) => {
+        if (!active) return;
+        const loaded = res.data?.projects || [];
+        setProjects(loaded);
+        setProjectError('');
+        if (!statsFetchedRef.current && loaded.length > 0) {
+          statsFetchedRef.current = true;
+          fetchAggregatedStats(loaded);
+        } else {
+          setStatsLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (!active) return;
+        console.error('Fetch dashboard projects error:', err);
+        setProjectError(getErrorMessage(err, 'Failed to retrieve workspaces.'));
         setStatsLoading(false);
-      }
-    });
+      })
+      .finally(() => {
+        if (active) {
+          setLoadingProjects(false);
+        }
+      });
 
     return () => {
       active = false;
     };
-  }, [fetchProjects, fetchAggregatedStats]);
+  }, [fetchAggregatedStats]);
 
   // Aggregate lines of code and files across all fetched stats
   const aggregateMetrics = Object.values(statsMap).reduce(

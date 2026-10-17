@@ -37,14 +37,17 @@ export const useProjectSocket = (projectId, options = {}) => {
 
   // Send message via WebSocket with acknowledgement callback
   const sendMessage = useCallback(
-    (content, tempId) => {
+    (content, tempId, model) => {
       return new Promise((resolve) => {
         if (!socket.connected) {
           resolve({ ok: false, error: 'Socket is not connected', tempId });
           return;
         }
 
-        socket.emit('chat:send', { projectId, content, tempId }, (response) => {
+        const payload = { projectId, content, tempId };
+        if (model) payload.model = model;
+
+        socket.emit('chat:send', payload, (response) => {
           resolve(response || { ok: false, error: 'No acknowledgement from server', tempId });
         });
       });

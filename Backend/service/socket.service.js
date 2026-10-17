@@ -4,6 +4,8 @@ import { getAllowedOrigins } from '../config/env.js';
 import redisService from './redis.service.js';
 import { verifyProjectMember } from '../middleware/projectAccess.js';
 import { saveAndBroadcastMessage } from './message.service.js';
+import { generateAiChat } from './ai.service.js';
+import { isAllowedModel, getDefaultModelId } from '../config/aiModels.js';
 
 let io = null;
 
@@ -257,7 +259,7 @@ export const initSocket = (server) => {
             const callback = typeof ack === 'function' ? ack : () => {};
 
             try {
-                const { projectId, tempId } = data || {};
+                const { projectId, tempId, model } = data || {};
                 const content = data?.content ?? data?.text;
 
                 if (!projectId) {
@@ -295,17 +297,102 @@ export const initSocket = (server) => {
                 // Clear typing indicator for this user in this project
                 clearTypingTimeout(projectId, socket.user.id, true);
 
-                return callback({
+                callback({
                     ok: true,
                     message: populatedMessage,
                     tempId,
                 });
+
+                // If message mentions @friday or starts with '/', trigger AI response
+                const isAiPrompt = trimmed.toLowerCase().includes('@friday') || trimmed.startsWith('/');
+                if (isAiPrompt) {
+                    let sanitizedModel = model;
+                    if (!sanitizedModel || typeof sanitizedModel !== 'string') {
+                        sanitizedModel = getDefaultModelId();
+                    } else {
+                        const m = sanitizedModel.trim();
+                        sanitizedModel = (m === 'auto' || isAllowedModel(m)) ? m : getDefaultModelId();
+                    }
+
+                    try {
+                        const aiResult = await generateAiChat({
+                            message: trimmed,
+                            projectName: check.project?.name || 'Volaitile Friday',
+                            model: sanitizedModel,
+                        });
+
+                        await saveAndBroadcastMessage({
+                            projectId,
+                            text: aiResult.reply,
+                            isAi: true,
+                            model: aiResult.model,
+                            source: aiResult.source,
+                            requestedModel: aiResult.requestedModel,
+                            latencyMs: aiResult.latencyMs,
+                        });
+                    } catch (aiErr) {
+                        console.error('[Socket AI] Error handling @friday response:', aiErr.message);
+                    }
+                }
             } catch (err) {
                 console.error('chat:send error:', err);
                 return callback({
                     ok: false,
                     error: err.message || 'Failed to send message',
                 });
+            }
+        });
+
+        // AI chat handler over WebSocket
+        socket.on('ai:chat', async (data, ack) => {
+            const callback = typeof ack === 'function' ? ack : () => {};
+            try {
+                const { projectId, message, model } = data || {};
+                if (!projectId || typeof message !== 'string' || !message.trim()) {
+                    return callback({ ok: false, error: 'Project ID and valid message are required' });
+                }
+
+                const check = await verifyProjectMember(projectId, socket.user.id);
+                if (!check.ok) {
+                    return callback({ ok: false, error: check.message || 'Unauthorized' });
+                }
+
+                let sanitizedModel = model;
+                if (!sanitizedModel || typeof sanitizedModel !== 'string') {
+                    sanitizedModel = getDefaultModelId();
+                } else {
+                    const m = sanitizedModel.trim();
+                    sanitizedModel = (m === 'auto' || isAllowedModel(m)) ? m : getDefaultModelId();
+                }
+
+                const aiResult = await generateAiChat({
+                    message: message.trim(),
+                    projectName: check.project?.name || 'Volaitile Friday',
+                    model: sanitizedModel,
+                });
+
+                const aiMessage = await saveAndBroadcastMessage({
+                    projectId,
+                    text: aiResult.reply,
+                    isAi: true,
+                    model: aiResult.model,
+                    source: aiResult.source,
+                    requestedModel: aiResult.requestedModel,
+                    latencyMs: aiResult.latencyMs,
+                });
+
+                return callback({
+                    ok: true,
+                    reply: aiResult.reply,
+                    source: aiResult.source,
+                    model: aiResult.model,
+                    requestedModel: aiResult.requestedModel,
+                    latencyMs: aiResult.latencyMs,
+                    message: aiMessage,
+                });
+            } catch (err) {
+                console.error('ai:chat socket error:', err);
+                return callback({ ok: false, error: err.message || 'Failed to process AI chat' });
             }
         });
 

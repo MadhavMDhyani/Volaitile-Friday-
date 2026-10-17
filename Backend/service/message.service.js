@@ -3,10 +3,19 @@ import { getIO } from './socket.service.js';
 
 /**
  * Creates, populates, and broadcasts a project chat message.
- * Shared by both the REST controller (POST /projects/:projectId/messages)
- * and the WebSocket handler ("chat:send").
+ * Shared by both the REST controller (POST /projects/:projectId/messages, POST /ai/chat)
+ * and the WebSocket handler ("chat:send", "ai:chat").
  */
-export const saveAndBroadcastMessage = async ({ projectId, senderId, text }) => {
+export const saveAndBroadcastMessage = async ({
+    projectId,
+    senderId = null,
+    text,
+    isAi = false,
+    model = null,
+    source = null,
+    requestedModel = null,
+    latencyMs = null,
+}) => {
     if (typeof text !== 'string') {
         const err = new Error('Message text must be a string');
         err.status = 400;
@@ -14,17 +23,21 @@ export const saveAndBroadcastMessage = async ({ projectId, senderId, text }) => 
     }
 
     const trimmedText = text.trim();
-    if (trimmedText.length < 1 || trimmedText.length > 2000) {
-        const err = new Error('Message text must be between 1 and 2000 characters');
+    if (trimmedText.length < 1 || trimmedText.length > 4000) {
+        const err = new Error('Message text must be between 1 and 4000 characters');
         err.status = 400;
         throw err;
     }
 
     const message = await Message.create({
         projectId,
-        sender: senderId,
-        isAi: false,
+        sender: isAi ? null : senderId,
+        isAi,
         text: trimmedText,
+        model,
+        source,
+        requestedModel,
+        latencyMs,
     });
 
     const populated = await Message.findById(message._id).populate('sender', 'email _id');

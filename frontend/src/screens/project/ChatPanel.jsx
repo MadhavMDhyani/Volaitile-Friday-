@@ -119,6 +119,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const [isSending, setIsSending] = useState(false);
   const [isAiTyping, setIsAiTyping] = useState(false);
   const [hasUnreadBelow, setHasUnreadBelow] = useState(false);
+  const [availableModels, setAvailableModels] = useState([]);
+  const [selectedModel, setSelectedModel] = useState(() => {
+    try {
+      return localStorage.getItem('friday_selected_model') || 'auto';
+    } catch {
+      return 'auto';
+    }
+  });
 
   const messagesContainerRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -284,6 +292,38 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
     };
   }, [projectId, toast]);
 
+  // Fetch available AI models on mount
+  useEffect(() => {
+    let isMounted = true;
+    axios
+      .get('/ai/models')
+      .then((res) => {
+        if (!isMounted) return;
+        const modelsList = res.data?.models || (Array.isArray(res.data) ? res.data : []);
+        setAvailableModels(modelsList);
+      })
+      .catch(() => {
+        // If /ai/models fails, hide dropdown and preserve default behavior
+        if (isMounted) {
+          setAvailableModels([]);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleModelChange = (e) => {
+    const val = e.target.value;
+    setSelectedModel(val);
+    try {
+      localStorage.setItem('friday_selected_model', val);
+    } catch (err) {
+      console.warn('Could not save AI model preference to localStorage:', err);
+    }
+  };
+
   // Typing event handler with debounce
   const handleInputChange = (e) => {
     const val = e.target.value;
@@ -338,6 +378,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         const aiRes = await axios.post('/ai/chat', {
           message: text,
           projectId,
+          model: selectedModel,
         });
 
         // The AI reply was automatically saved as a Message on the backend when projectId is sent!
@@ -347,15 +388,23 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
           isAi: true,
           sender: null,
           createdAt: new Date().toISOString(),
+          model: aiRes.data?.model,
+          source: aiRes.data?.source,
+          requestedModel: aiRes.data?.requestedModel,
+          latencyMs: aiRes.data?.latencyMs,
         };
 
-        const aiSource = aiRes.data?.source; // 'gemini' | 'offline'
+        const aiSource = aiRes.data?.source || returnedAiMessage.source;
 
         setMessages((prev) => [
           ...prev,
           {
             ...returnedAiMessage,
+            source: aiSource,
             aiSource,
+            model: aiRes.data?.model || returnedAiMessage.model,
+            requestedModel: aiRes.data?.requestedModel || returnedAiMessage.requestedModel,
+            latencyMs: aiRes.data?.latencyMs || returnedAiMessage.latencyMs,
             isNew: true,
           },
         ]);
@@ -504,14 +553,78 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 {/* Header label */}
                 <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#737373]">
                   {isAi ? (
-                    <span className="inline-flex items-center gap-1 font-semibold text-[#fafafa]">
+                    <span className="inline-flex items-center gap-1.5 font-semibold text-[#fafafa]">
                       <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                      Friday AI
-                      {msg.aiSource === 'offline' && (
-                        <span className="text-[9px] rounded border border-[#404040] bg-[#171717] px-1 text-[#737373] uppercase">
-                          Offline assistant
-                        </span>
-                      )}
+                      <span>Friday AI</span>
+                      {(() => {
+                        const isOffline =
+                          msg.source === 'offline' ||
+                          msg.aiSource === 'offline' ||
+                          msg.model === 'offline';
+                        const answeringModelId = msg.model;
+                        const requestedModel = msg.requestedModel;
+                        const latencyMs = msg.latencyMs;
+
+                        if (isOffline || (!msg.source && !msg.model)) {
+                          const isFallback = Boolean(
+                            requestedModel &&
+                              requestedModel !== 'offline' &&
+                              requestedModel !== 'auto'
+                          );
+                          return (
+                            <span className="inline-flex items-center gap-1">
+                              <span
+                                className="text-[9px] rounded border border-[#404040] bg-[#171717] px-1 text-[#737373] uppercase cursor-default"
+                                title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
+                              >
+                                Offline
+                              </span>
+                              {isFallback && (
+                                <span
+                                  className="text-[9px] text-amber-400 font-mono lowercase italic"
+                                  title={`Requested ${requestedModel}`}
+                                >
+                                  fallback used
+                                </span>
+                              )}
+                            </span>
+                          );
+                        }
+
+                        const matched = availableModels.find((m) => m.id === answeringModelId);
+                        const speed = matched?.speed
+                          ? matched.speed.charAt(0).toUpperCase() + matched.speed.slice(1)
+                          : null;
+                        const label = speed
+                          ? `Gemini - ${speed}`
+                          : matched?.label || answeringModelId || 'Gemini';
+
+                        const isFallback = Boolean(
+                          requestedModel &&
+                            requestedModel !== 'auto' &&
+                            answeringModelId &&
+                            requestedModel !== answeringModelId
+                        );
+
+                        return (
+                          <span className="inline-flex items-center gap-1">
+                            <span
+                              className="text-[9px] rounded border border-[#333333] bg-[#171717] px-1 text-[#a3a3a3] font-mono cursor-default"
+                              title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
+                            >
+                              {label}
+                            </span>
+                            {isFallback && (
+                              <span
+                                className="text-[9px] text-amber-400 font-mono lowercase italic"
+                                title={`Requested ${requestedModel}`}
+                              >
+                                fallback used
+                              </span>
+                            )}
+                          </span>
+                        );
+                      })()}
                     </span>
                   ) : (
                     <span>{senderEmail}</span>
@@ -593,29 +706,50 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Input Box Area */}
       <form onSubmit={handleSendMessage} className="border-t border-[#262626] bg-[#111111] p-2.5">
-        <div className="relative flex items-center">
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={handleInputChange}
-            placeholder="Type a message or @friday for AI assistance..."
-            className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-3 pr-20 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
-            maxLength={2000}
-            disabled={isSending}
-          />
+        <div className="flex items-center gap-1.5">
+          <div className="relative flex-1 flex items-center">
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={handleInputChange}
+              placeholder="Type a message or @friday for AI assistance..."
+              className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-3 pr-20 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+              maxLength={2000}
+              disabled={isSending}
+            />
 
-          <div className="absolute right-1.5 flex items-center gap-1">
-            <Button
-              type="submit"
-              variant="primary"
-              size="xs"
-              disabled={!inputMessage.trim() || isSending}
-              loading={isSending}
-              icon={<i className="ri-send-plane-2-fill text-xs" />}
-            >
-              Send
-            </Button>
+            <div className="absolute right-1.5 flex items-center gap-1">
+              <Button
+                type="submit"
+                variant="primary"
+                size="xs"
+                disabled={!inputMessage.trim() || isSending}
+                loading={isSending}
+                icon={<i className="ri-send-plane-2-fill text-xs" />}
+              >
+                Send
+              </Button>
+            </div>
           </div>
+
+          {availableModels.length > 0 && (
+            <div className="relative shrink-0">
+              <select
+                value={selectedModel}
+                onChange={handleModelChange}
+                className="h-[34px] rounded-md border border-[#262626] bg-[#0a0a0a] px-2 text-[11px] font-mono text-[#a3a3a3] hover:text-[#fafafa] focus-ring cursor-pointer transition-colors"
+                title="Select Friday AI model"
+                aria-label="Friday AI model selection"
+              >
+                <option value="auto">Auto</option>
+                {availableModels.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.label} ({m.speed})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </form>
     </div>

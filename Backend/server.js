@@ -3,10 +3,12 @@ import http from 'http';
 import mongoose from 'mongoose';
 import app from './app.js';
 import redisService from './service/redis.service.js';
+import { initSocket, getIO } from './service/socket.service.js';
 
 const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
+initSocket(server);
 
 // Keep alive timeout set for reverse proxies / ALBs
 server.keepAliveTimeout = 65000;
@@ -36,6 +38,17 @@ const gracefulShutdown = (signal) => {
 
     server.close(async () => {
         console.log('HTTP server closed.');
+
+        try {
+            const io = getIO();
+            if (io) {
+                await new Promise((resolve) => io.close(resolve));
+                console.log('Socket.IO closed.');
+            }
+        } catch (socketErr) {
+            console.error('Error closing Socket.IO:', socketErr);
+        }
+
         try {
             await mongoose.connection.close(false);
             console.log('MongoDB connection closed.');

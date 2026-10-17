@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import Message from '../models/message.model.js';
 
+import { saveAndBroadcastMessage } from '../service/message.service.js';
+
 export const getMessages = async (req, res) => {
     try {
         const { projectId } = req.params;
@@ -41,27 +43,20 @@ export const getMessages = async (req, res) => {
 export const createMessage = async (req, res) => {
     try {
         const { projectId } = req.params;
-        const { text } = req.body;
+        const text = req.body.text ?? req.body.content;
 
-        if (typeof text !== 'string') {
-            return res.status(400).json({ error: 'Message text must be a string' });
-        }
-
-        const trimmedText = text.trim();
-        if (trimmedText.length < 1 || trimmedText.length > 2000) {
-            return res.status(400).json({ error: 'Message text must be between 1 and 2000 characters' });
-        }
-
-        const message = await Message.create({
+        const senderId = req.user?._id || req.user?.id;
+        const populated = await saveAndBroadcastMessage({
             projectId,
-            sender: req.user._id,
-            isAi: false,
-            text: trimmedText,
+            senderId,
+            text,
         });
 
-        const populated = await Message.findById(message._id).populate('sender', 'email _id');
         return res.status(201).json({ message: populated });
     } catch (err) {
+        if (err.status === 400) {
+            return res.status(400).json({ error: err.message });
+        }
         console.error('createMessage error:', err);
         return res.status(500).json({ error: 'Failed to send message' });
     }

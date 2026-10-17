@@ -2,6 +2,38 @@ import mongoose from 'mongoose';
 import Project from '../models/project.model.js';
 
 /**
+ * Shared helper to verify whether a given user is a member of a project.
+ * Validates the projectId, finds the project, and checks membership.
+ * Returns { ok: true, project } or { ok: false, status, message }.
+ */
+export const verifyProjectMember = async (projectId, userId) => {
+    if (!projectId || !mongoose.Types.ObjectId.isValid(projectId)) {
+        return { ok: false, status: 400, message: 'Invalid project ID' };
+    }
+
+    if (!userId) {
+        return { ok: false, status: 401, message: 'Unauthorized' };
+    }
+
+    const project = await Project.findById(projectId);
+    if (!project) {
+        return { ok: false, status: 404, message: 'Project not found' };
+    }
+
+    const currentUserId = userId.toString();
+    const isMember = Array.isArray(project.users) && project.users.some((u) => {
+        const memberId = u?._id ? u._id.toString() : u.toString();
+        return memberId === currentUserId;
+    });
+
+    if (!isMember) {
+        return { ok: false, status: 403, message: 'You do not have access to this project' };
+    }
+
+    return { ok: true, project };
+};
+
+/**
  * Middleware to ensure the authenticated user is a member of the project.
  * Validates :projectId (or req.body.projectId for routes like /ai/chat),
  * loads the project, verifies membership, and attaches req.project & req.currentUserId.
@@ -18,30 +50,17 @@ export const requireProjectMember = async (req, res, next) => {
             return res.status(400).json({ error: 'Invalid project ID' });
         }
 
-        if (!mongoose.Types.ObjectId.isValid(projectId)) {
-            return res.status(400).json({ error: 'Invalid project ID' });
-        }
-
-        const project = await Project.findById(projectId);
-        if (!project) {
-            return res.status(404).json({ error: 'Project not found' });
-        }
-
-        const currentUserId = req.user?._id ? req.user._id.toString() : null;
+        const currentUserId = req.user?._id ? req.user._id.toString() : (req.user?.id ? req.user.id.toString() : null);
         if (!currentUserId) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
-        const isMember = Array.isArray(project.users) && project.users.some((u) => {
-            const memberId = u?._id ? u._id.toString() : u.toString();
-            return memberId === currentUserId;
-        });
-
-        if (!isMember) {
-            return res.status(403).json({ error: 'You do not have access to this project' });
+        const result = await verifyProjectMember(projectId, currentUserId);
+        if (!result.ok) {
+            return res.status(result.status).json({ error: result.message });
         }
 
-        req.project = project;
+        req.project = result.project;
         req.currentUserId = currentUserId;
         return next();
     } catch (err) {

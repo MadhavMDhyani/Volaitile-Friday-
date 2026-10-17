@@ -23,6 +23,23 @@ const messageSchema = new mongoose.Schema(
             trim: true,
             maxlength: 4000,
         },
+        model: {
+            type: String,
+            default: null,
+        },
+        source: {
+            type: String,
+            enum: ['gemini', 'offline', null],
+            default: null,
+        },
+        requestedModel: {
+            type: String,
+            default: null,
+        },
+        latencyMs: {
+            type: Number,
+            default: null,
+        },
     },
     { timestamps: true }
 );

@@ -1,11 +1,25 @@
 /**
  * Friday AI Assistant Service
  * Provides contextual AI responses, code generation, and code review.
- * Connects to Google Gemini API when GEMINI_API_KEY and GEMINI_MODEL are configured,
- * and includes a rich built-in contextual fallback engine for offline/local development.
+ * Model-aware: resolves models per request, applies task-specific settings,
+ * supports auto-selection, resilient retry fallback chain, and offline engine.
  */
 
-const callGeminiApi = async ({ apiKey, model, prompt, systemInstruction = '' }) => {
+import {
+    getDefaultModelId,
+    getNextModel,
+    resolveModel,
+    TASK_CONFIGS,
+} from '../config/aiModels.js';
+
+export const callGeminiApi = async ({
+    apiKey,
+    model,
+    prompt,
+    systemInstruction = '',
+    temperature = 0.7,
+    maxOutputTokens = 2048,
+}) => {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
     const payload = {
         contents: [
@@ -15,8 +29,8 @@ const callGeminiApi = async ({ apiKey, model, prompt, systemInstruction = '' }) 
             },
         ],
         generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 1024,
+            temperature,
+            maxOutputTokens,
         },
     };
 
@@ -50,7 +64,7 @@ const callGeminiApi = async ({ apiKey, model, prompt, systemInstruction = '' }) 
     }
 };
 
-const getBuiltInResponse = (message, projectName = 'your project') => {
+export const getBuiltInResponse = (message, projectName = 'your project') => {
     const text = message.toLowerCase().trim();
 
     if (text.includes('docker') || text.includes('dockerfile')) {
@@ -160,42 +174,133 @@ I can help you:
 Let me know what you'd like to build or troubleshoot!`;
 };
 
-export const generateAiChat = async ({ message, projectName, context }) => {
+/**
+ * Execute AI request with retry fallback chain:
+ * 1. Primary resolved model
+ * 2. Next model in registry on error
+ * 3. Offline engine if all Gemini calls fail
+ * Logs failure warnings without revealing the API key.
+ */
+const executeAiWithFallback = async ({
+    task,
+    requestedModel,
+    prompt,
+    systemInstruction,
+    generationConfig,
+    getOfflineFallback,
+}) => {
+    const startTime = performance.now();
     const apiKey = process.env.GEMINI_API_KEY;
-    const model = process.env.GEMINI_MODEL;
+    const resolvedRequestedModel = requestedModel || getDefaultModelId();
+    const primaryModelId = resolveModel(resolvedRequestedModel, task);
 
-    if (apiKey && model) {
+    if (apiKey) {
+        // Try primary model
         try {
-            const systemInstruction = `You are Friday, an elite AI full-stack developer assistant built into the "Volaitile Friday" platform.
-You assist developers with Node.js, Express, React, MongoDB, Redis, Docker, system architecture, and security.
-Provide concise, markdown-formatted answers with clear code snippets when appropriate.
-The current project is "${projectName || 'Volaitile Friday'}".`;
-            const prompt = context ? `Project Context: ${JSON.stringify(context)}\n\nUser Question: ${message}` : message;
-            const reply = await callGeminiApi({ apiKey, model, prompt, systemInstruction });
-            return { reply, source: 'gemini' };
-        } catch (apiError) {
-            console.warn('[AI Service] Gemini API call failed, falling back to local assistant:', apiError.message);
+            const text = await callGeminiApi({
+                apiKey,
+                model: primaryModelId,
+                prompt,
+                systemInstruction,
+                temperature: generationConfig.temperature,
+                maxOutputTokens: generationConfig.maxOutputTokens,
+            });
+            const latencyMs = Math.round(performance.now() - startTime);
+            return {
+                text,
+                source: 'gemini',
+                model: primaryModelId,
+                requestedModel: resolvedRequestedModel,
+                latencyMs,
+            };
+        } catch (primaryErr) {
+            const safeMsg = String(primaryErr.message || primaryErr).replace(apiKey, '[REDACTED]');
+            console.warn(
+                `[AI Service] Primary model "${primaryModelId}" failed (${safeMsg}). Retrying with next model in registry...`
+            );
+
+            // Retry once with next model in registry
+            const nextModel = getNextModel(primaryModelId);
+            try {
+                const text = await callGeminiApi({
+                    apiKey,
+                    model: nextModel.id,
+                    prompt,
+                    systemInstruction,
+                    temperature: generationConfig.temperature,
+                    maxOutputTokens: generationConfig.maxOutputTokens,
+                });
+                const latencyMs = Math.round(performance.now() - startTime);
+                return {
+                    text,
+                    source: 'gemini',
+                    model: nextModel.id,
+                    requestedModel: resolvedRequestedModel,
+                    latencyMs,
+                };
+            } catch (secondaryErr) {
+                const safeSecondaryMsg = String(secondaryErr.message || secondaryErr).replace(apiKey, '[REDACTED]');
+                console.warn(
+                    `[AI Service] Fallback model "${nextModel.id}" failed (${safeSecondaryMsg}). Falling back to offline engine.`
+                );
+            }
         }
     }
 
-    return { reply: getBuiltInResponse(message, projectName), source: 'offline' };
+    // Offline fallback
+    const fallbackText = getOfflineFallback();
+    const latencyMs = Math.round(performance.now() - startTime);
+    return {
+        text: fallbackText,
+        source: 'offline',
+        model: 'offline',
+        requestedModel: resolvedRequestedModel,
+        latencyMs,
+    };
 };
 
-export const generateCodeSnippet = async ({ prompt, language = 'javascript', framework = 'express' }) => {
-    const apiKey = process.env.GEMINI_API_KEY;
-    const model = process.env.GEMINI_MODEL;
+export const generateAiChat = async ({ message, projectName, context, model }) => {
+    const taskConfig = TASK_CONFIGS.chat;
+    const systemInstruction = taskConfig.getSystemInstruction(projectName);
+    const prompt = context
+        ? `Project Context: ${JSON.stringify(context)}\n\nUser Question: ${message}`
+        : message;
 
-    if (apiKey && model) {
-        try {
-            const systemPrompt = `You are an expert ${language} developer. Output only clean, working, modern code with brief inline comments. Target framework: ${framework}.`;
-            const code = await callGeminiApi({ apiKey, model, prompt, systemInstruction: systemPrompt });
-            return { code, source: 'gemini' };
-        } catch (err) {
-            console.warn('[AI Service] Gemini API failed for code generation, falling back:', err.message);
-        }
-    }
+    const result = await executeAiWithFallback({
+        task: 'chat',
+        requestedModel: model,
+        prompt,
+        systemInstruction,
+        generationConfig: {
+            temperature: taskConfig.temperature,
+            maxOutputTokens: taskConfig.maxOutputTokens,
+        },
+        getOfflineFallback: () => getBuiltInResponse(message, projectName),
+    });
 
-    const fallbackCode = `// Auto-generated ${language} template (${framework})
+    return {
+        reply: result.text,
+        source: result.source,
+        model: result.model,
+        requestedModel: result.requestedModel,
+        latencyMs: result.latencyMs,
+    };
+};
+
+export const generateCodeSnippet = async ({ prompt, language = 'javascript', framework = 'express', model }) => {
+    const taskConfig = TASK_CONFIGS['generate-code'];
+    const systemInstruction = taskConfig.getSystemInstruction({ language, framework });
+
+    const result = await executeAiWithFallback({
+        task: 'generate-code',
+        requestedModel: model,
+        prompt,
+        systemInstruction,
+        generationConfig: {
+            temperature: taskConfig.temperature,
+            maxOutputTokens: taskConfig.maxOutputTokens,
+        },
+        getOfflineFallback: () => `// Auto-generated ${language} template (${framework})
 // Prompt: ${prompt}
 
 export const handler = async (req, res) => {
@@ -206,37 +311,61 @@ export const handler = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-`;
-    return { code: fallbackCode, source: 'offline' };
+`,
+    });
+
+    return {
+        code: result.text,
+        source: result.source,
+        model: result.model,
+        requestedModel: result.requestedModel,
+        latencyMs: result.latencyMs,
+    };
 };
 
-export const reviewCodeSnippet = async ({ code, language = 'javascript' }) => {
-    const apiKey = process.env.GEMINI_API_KEY;
-    const model = process.env.GEMINI_MODEL;
+export const reviewCodeSnippet = async ({ code, language = 'javascript', model }) => {
+    const taskConfig = TASK_CONFIGS.review;
+    const systemInstruction = taskConfig.getSystemInstruction({ language });
 
-    if (apiKey && model) {
-        try {
-            const systemPrompt = `You are a senior security and performance code reviewer. Analyze the given ${language} code for bugs, security vulnerabilities (OWASP), memory leaks, and performance bottlenecks.`;
-            const review = await callGeminiApi({ apiKey, model, prompt: code, systemInstruction: systemPrompt });
-            return { review, source: 'gemini' };
-        } catch (err) {
-            console.warn('[AI Service] Gemini API review fallback:', err.message);
-        }
-    }
+    const result = await executeAiWithFallback({
+        task: 'review',
+        requestedModel: model,
+        prompt: code,
+        systemInstruction,
+        generationConfig: {
+            temperature: taskConfig.temperature,
+            maxOutputTokens: taskConfig.maxOutputTokens,
+        },
+        getOfflineFallback: () => {
+            const issues = [];
+            if (code.includes('eval(')) issues.push('High Severity: Detected eval() which is vulnerable to remote code execution.');
+            if (code.includes('password') && !code.includes('hash')) issues.push('Warning: Plaintext password handling detected.');
+            if (code.includes('var ')) issues.push('Style: Use const or let instead of legacy var.');
 
-    const issues = [];
-    if (code.includes('eval(')) issues.push('High Severity: Detected eval() which is vulnerable to remote code execution.');
-    if (code.includes('password') && !code.includes('hash')) issues.push('Warning: Plaintext password handling detected.');
-    if (code.includes('var ')) issues.push('Style: Use const or let instead of legacy var.');
+            return `### Code Review Report (${language})
 
-    const fallbackReview = `### Code Review Report (${language})
-
-${issues.length === 0 ? ' No critical vulnerabilities found in preliminary static analysis.' : ' **Identified Opportunities:**\n' + issues.map((i) => `- ${i}`).join('\n')}
+${issues.length === 0 ? 'No critical vulnerabilities found in preliminary static analysis.' : '**Identified Opportunities:**\n' + issues.map((i) => `- ${i}`).join('\n')}
 
 **Recommendations:**
 - Ensure all asynchronous database or network calls are wrapped in \`try/catch\` blocks.
 - Sanitize and validate all incoming inputs using \`express-validator\` or zod.
 - Keep dependencies updated and monitor CVEs.`;
+        },
+    });
 
-    return { review: fallbackReview, source: 'offline' };
+    return {
+        review: result.text,
+        source: result.source,
+        model: result.model,
+        requestedModel: result.requestedModel,
+        latencyMs: result.latencyMs,
+    };
+};
+
+export default {
+    generateAiChat,
+    generateCodeSnippet,
+    reviewCodeSnippet,
+    callGeminiApi,
+    getBuiltInResponse,
 };

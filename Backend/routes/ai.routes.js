@@ -4,6 +4,7 @@ import { body } from 'express-validator';
 import * as aiController from '../controllers/ai.controller.js';
 import * as authMiddleware from '../middleware/auth.middleware.js';
 import { requireProjectMember } from '../middleware/projectAccess.js';
+import { isAllowedModel, getDefaultModelId } from '../config/aiModels.js';
 
 const router = Router();
 
@@ -20,6 +21,24 @@ const aiLimiter = rateLimit({
 // Apply authUser and aiLimiter to all AI routes
 router.use(authMiddleware.authUser, aiLimiter);
 
+/**
+ * Validates and sanitizes the optional model field against the allowlist.
+ * If value is unknown or invalid, falls back to DEFAULT_MODEL.
+ */
+const modelValidation = body('model')
+    .optional({ nullable: true, checkFalsy: false })
+    .isString().withMessage('Model must be a string')
+    .customSanitizer((val) => {
+        if (!val || typeof val !== 'string') return getDefaultModelId();
+        const trimmed = val.trim();
+        if (trimmed === 'auto' || isAllowedModel(trimmed)) {
+            return trimmed;
+        }
+        return getDefaultModelId();
+    });
+
+router.get('/models', aiController.handleGetAiModels);
+
 router.post(
     '/chat',
     requireProjectMember,
@@ -28,6 +47,7 @@ router.post(
             .isString().withMessage('Message must be a string')
             .trim()
             .isLength({ min: 1, max: 4000 }).withMessage('Message must be between 1 and 4000 characters'),
+        modelValidation,
     ],
     aiController.handleAiChat
 );
@@ -39,6 +59,7 @@ router.post(
             .isString().withMessage('Prompt must be a string')
             .trim()
             .isLength({ min: 1, max: 20000 }).withMessage('Prompt must be between 1 and 20000 characters'),
+        modelValidation,
     ],
     aiController.handleGenerateCode
 );
@@ -49,6 +70,7 @@ router.post(
         body('code')
             .isString().withMessage('Code must be a string')
             .isLength({ min: 1, max: 20000 }).withMessage('Code must be between 1 and 20000 characters'),
+        modelValidation,
     ],
     aiController.handleReviewCode
 );

@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
 import getErrorMessage from '../utils/getErrorMessage';
@@ -146,9 +146,26 @@ export const Home = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#0a0a0a]">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-[#262626] bg-[#0a0a0a]/95">
+      <header className="sticky top-0 z-30 border-b border-[#262626] bg-[#0a0a0a]/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-          <Logo size="md" />
+          <div className="flex items-center gap-6">
+            <Logo size="md" to="/dashboard" />
+            <nav className="hidden sm:flex items-center gap-4 text-xs font-medium" aria-label="Main Navigation">
+              <Link
+                to="/dashboard"
+                className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors"
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/"
+                className="text-[#fafafa] border-b-2 border-white pb-0.5 transition-colors"
+                aria-current="page"
+              >
+                Projects
+              </Link>
+            </nav>
+          </div>
           <AccountMenu />
         </div>
       </header>

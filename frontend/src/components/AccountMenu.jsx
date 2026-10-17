@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import ChangePasswordModal from './ChangePasswordModal';
 
@@ -66,6 +67,28 @@ export const AccountMenu = () => {
             </div>
 
             <div className="py-1">
+              <Link
+                to="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#a3a3a3] transition-colors hover:bg-[#171717] hover:text-[#fafafa] focus-ring"
+                role="menuitem"
+              >
+                <i className="ri-dashboard-line text-sm" />
+                <span>Dashboard</span>
+              </Link>
+
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#a3a3a3] transition-colors hover:bg-[#171717] hover:text-[#fafafa] focus-ring"
+                role="menuitem"
+              >
+                <i className="ri-folder-3-line text-sm" />
+                <span>Projects</span>
+              </Link>
+
+              <div className="my-1 border-t border-[#262626]" />
+
               <button
                 type="button"
                 onClick={() => {

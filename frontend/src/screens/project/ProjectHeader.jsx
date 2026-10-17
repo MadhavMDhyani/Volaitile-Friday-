@@ -16,7 +16,7 @@ export const ProjectHeader = ({
         {/* Left: Back Link & Project Name */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <Link
-            to="/"
+            to="/dashboard"
             className="flex h-7 w-7 items-center justify-center rounded-md text-[#a3a3a3] hover:bg-[#171717] hover:text-[#fafafa] transition-colors focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"

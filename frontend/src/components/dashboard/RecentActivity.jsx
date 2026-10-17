@@ -27,8 +27,32 @@ export const RecentActivity = () => {
   }, []);
 
   useEffect(() => {
-    fetchActivity();
-  }, [fetchActivity]);
+    let ignore = false;
+
+    axios
+      .get('/dashboard/activity?limit=10')
+      .then((res) => {
+        if (!ignore) {
+          setActivity(res.data?.activity || []);
+          setError('');
+        }
+      })
+      .catch((err) => {
+        if (!ignore) {
+          console.error('Fetch activity error:', err);
+          setError(getErrorMessage(err, 'Failed to load recent activity.'));
+        }
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <div className="flex flex-col rounded-lg border border-[#262626] bg-[#111111] p-4 text-xs font-sans">

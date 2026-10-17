@@ -17,7 +17,7 @@ export const Login = () => {
   const location = useLocation();
   const { login } = useContext(UserContext);
 
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || '/dashboard';
 
   async function submitHandler(e) {
     e.preventDefault();

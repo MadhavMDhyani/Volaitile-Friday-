@@ -7,6 +7,7 @@ import Button from '../components/Button';
 
 // Lazy-load all screens
 const Home = lazy(() => import('../screens/Home'));
+const Dashboard = lazy(() => import('../screens/Dashboard'));
 const Login = lazy(() => import('../screens/Login'));
 const Register = lazy(() => import('../screens/Register'));
 const Project = lazy(() => import('../screens/Project'));
@@ -40,7 +41,7 @@ const NotFoundPage = () => (
     <p className="mt-2 max-w-sm text-xs text-[#a3a3a3]">
       The requested route or workspace view does not exist.
     </p>
-    <Link to="/" className="mt-6">
+    <Link to="/dashboard" className="mt-6">
       <Button variant="primary" size="sm">
         Return to Dashboard
       </Button>
@@ -81,7 +82,7 @@ const ProtectedRoute = ({ children }) => {
 const GuestRoute = ({ children }) => {
   const { user, loading } = useContext(UserContext);
   if (loading) return <ScreenFallback />;
-  if (user) return <Navigate to="/" replace />;
+  if (user) return <Navigate to="/dashboard" replace />;
   return children;
 };
 
@@ -96,6 +97,14 @@ export const AppRoutes = () => {
               element={
                 <ProtectedRoute>
                   <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
                 </ProtectedRoute>
               }
             />

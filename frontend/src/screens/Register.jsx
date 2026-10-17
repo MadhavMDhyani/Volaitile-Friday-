@@ -51,7 +51,7 @@ export const Register = () => {
       });
 
       login(response.data.token, response.data.user);
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Registration error:', error);
       setErrorMessage(getErrorMessage(error, 'Failed to create account. Please try again.'));

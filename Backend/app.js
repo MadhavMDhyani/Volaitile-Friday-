@@ -14,6 +14,7 @@ import projectRoutes from './routes/project.routes.js';
 import aiRoutes from './routes/ai.routes.js';
 import toolRoutes from './routes/tool.routes.js';
 import healthRoutes from './routes/health.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 
 if (process.env.NODE_ENV !== 'test') {
     connect();
@@ -66,12 +67,13 @@ app.use('/projects', projectRoutes);
 app.use('/users', userRoutes);
 app.use('/ai', aiRoutes);
 app.use('/tools', toolRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 app.get('/', (req, res) => {
     res.json({
         message: 'Volaitile Friday Backend API is operational',
         version: '1.1.0',
-        services: ['/health', '/users', '/projects', '/ai', '/tools'],
+        services: ['/health', '/users', '/projects', '/ai', '/tools', '/dashboard'],
     });
 });
 

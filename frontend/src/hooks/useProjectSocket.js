@@ -150,9 +150,10 @@ export const useProjectSocket = (projectId, options = {}) => {
       });
     };
 
+    const typingTimeouts = typingTimeoutsRef.current;
+
     // If socket is already connected when hook mounts
     if (socket.connected) {
-      setConnected(true);
       joinRoom();
       hasConnectedOnceRef.current = true;
     }
@@ -173,8 +174,8 @@ export const useProjectSocket = (projectId, options = {}) => {
       socket.off('chat:typing', handleTyping);
       socket.off('chat:message', handleChatMessage);
 
-      typingTimeoutsRef.current.forEach((timer) => clearTimeout(timer));
-      typingTimeoutsRef.current.clear();
+      typingTimeouts.forEach((timer) => clearTimeout(timer));
+      typingTimeouts.clear();
       setTypingUsers([]);
       setOnlineUserIds([]);
     };

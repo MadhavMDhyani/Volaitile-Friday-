@@ -202,7 +202,26 @@ For production environments, running the frontend on a static hosting CDN and th
 
 ### Project Messages (`/projects/:projectId/messages`)
 - `GET /projects/:projectId/messages?after=:id&limit=50` - Retrieve project chat history (ascending order, paginated, max limit 100).
-- `POST /projects/:projectId/messages` - Send a project message (1-2000 chars, rate limit 30 / min per user).
+- `POST /projects/:projectId/messages` - Send a project message (1-2000 chars, rate limit 30 / min per user). Broadcasts to room via `chat:message`.
+
+### Real-Time WebSocket Events (`Socket.IO`)
+
+Real-time room chat, user presence, and typing indicators are powered by Socket.IO attached to the Node.js HTTP server.
+
+> [!NOTE]
+> WebSockets require reverse proxies and load balancers to support HTTP/1.1 connection upgrades (`Upgrade: websocket` and `Connection: upgrade`). In Nginx, ensure `proxy_http_version 1.1`, WebSocket upgrade headers, and appropriate read/send timeouts are configured (see `frontend/nginx.conf`).
+
+| Event Name | Direction | Payload | Description |
+| :--- | :--- | :--- | :--- |
+| `project:join` | Client &rarr; Server | `{ projectId: string }` | Request to join a project chat room and register presence. Verifies membership. |
+| `project:joined` | Server &rarr; Client | `{ projectId: string }` | Confirms successful joining of the project room. |
+| `project:leave` | Client &rarr; Server | `{ projectId: string }` | Leave a project chat room and decrement presence count. |
+| `project:error` | Server &rarr; Client | `{ message: string }` | Emitted when joining or room authorization fails. |
+| `presence:update` | Server &rarr; Client | `{ projectId: string, onlineUserIds: string[] }` | Broadcast to the room whenever a member joins, leaves, or disconnects. |
+| `chat:typing` | Client &rarr; Server | `{ projectId: string, isTyping: boolean }` | Notifies that the current user is typing (or stopped typing). |
+| `chat:typing` | Server &rarr; Client | `{ projectId: string, userId: string, email: string, isTyping: boolean }` | Broadcast to other room members. Throttled and auto-cleared after 4 seconds. |
+| `chat:send` | Client &rarr; Server | `{ projectId: string, content: string, tempId?: string }` (Ack callback) | Send message via WebSocket (1-2000 chars, per-user rate limit). Ack returns `{ ok: true, message, tempId }` or `{ ok: false, error }`. |
+| `chat:message` | Server &rarr; Client | `Message Document` | Broadcast to all room members whenever a message is saved (via socket or REST). |
 
 ### Project Files (`/projects/:projectId/files`)
 - `GET /projects/:projectId/files` - List all files in project (empty project remains empty).

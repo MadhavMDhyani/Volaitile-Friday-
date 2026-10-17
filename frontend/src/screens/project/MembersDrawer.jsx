@@ -14,6 +14,7 @@ export const MembersDrawer = ({
   project,
   currentUserId,
   onUpdateMembers,
+  onlineUserIds = [],
 }) => {
   const [isRendered, setIsRendered] = useState(isOpen);
   const [isClosing, setIsClosing] = useState(false);
@@ -172,14 +173,27 @@ export const MembersDrawer = ({
                   className="flex items-center justify-between rounded-md border border-[#262626] bg-[#0a0a0a] p-2.5 text-xs font-mono"
                 >
                   <div className="flex items-center gap-2 truncate pr-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded bg-[#171717] font-mono text-[10px] font-bold text-[#fafafa] border border-[#262626]">
-                      {email.charAt(0).toUpperCase()}
+                    <div className="relative shrink-0">
+                      <div className="flex h-6 w-6 items-center justify-center rounded bg-[#171717] font-mono text-[10px] font-bold text-[#fafafa] border border-[#262626]">
+                        {email.charAt(0).toUpperCase()}
+                      </div>
+                      {onlineUserIds.includes(mId) && (
+                        <span
+                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 border border-[#111111]"
+                          title="Online now"
+                        />
+                      )}
                     </div>
                     <div className="truncate">
-                      <span className="truncate block text-[#fafafa]">
-                        {email}
-                        {isCurrentUser && <span className="text-[#737373] ml-1">(you)</span>}
-                      </span>
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="truncate block text-[#fafafa]">
+                          {email}
+                          {isCurrentUser && <span className="text-[#737373] ml-1">(you)</span>}
+                        </span>
+                        {onlineUserIds.includes(mId) && (
+                          <span className="text-[9px] font-mono text-emerald-400">online</span>
+                        )}
+                      </div>
                     </div>
                   </div>
 

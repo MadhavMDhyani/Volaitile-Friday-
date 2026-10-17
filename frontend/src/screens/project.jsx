@@ -9,6 +9,7 @@ import ChatPanel from './project/ChatPanel';
 import MembersDrawer from './project/MembersDrawer';
 import Skeleton from '../components/Skeleton';
 import Button from '../components/Button';
+import useProjectSocket from '../hooks/useProjectSocket';
 
 export const Project = () => {
   const { projectId } = useParams();
@@ -19,6 +20,9 @@ export const Project = () => {
   const [fetchErrorMsg, setFetchErrorMsg] = useState('');
   const [isMembersDrawerOpen, setIsMembersDrawerOpen] = useState(false);
   const [mobileTab, setMobileTab] = useState('files'); // 'files' | 'chat' | 'members'
+
+  // Connect socket only once project has loaded successfully
+  const socketControls = useProjectSocket(fetchStatus === 'success' ? projectId : null);
 
   const fetchProject = useCallback(async () => {
     if (!projectId) return;
@@ -233,6 +237,7 @@ export const Project = () => {
           <ChatPanel
             projectId={projectId}
             currentUserId={user?._id?.toString() || ''}
+            socketControls={socketControls}
           />
         </section>
       </div>
@@ -247,6 +252,7 @@ export const Project = () => {
         project={project}
         currentUserId={user?._id?.toString() || ''}
         onUpdateMembers={handleUpdateMembers}
+        onlineUserIds={socketControls.onlineUserIds}
       />
     </div>
   );

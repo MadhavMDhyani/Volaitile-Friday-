@@ -22,6 +22,8 @@ export const AiQuickAsk = () => {
         question: prompt,
         reply: res.data?.reply || 'Assistant response received.',
         source: res.data?.source, // 'gemini' | 'offline'
+        model: res.data?.model,
+        latencyMs: res.data?.latencyMs,
         isRateLimited: false,
       });
       setQuestion('');
@@ -121,8 +123,11 @@ export const AiQuickAsk = () => {
 
             <div className="flex items-center gap-2 shrink-0">
               {result.source && (
-                <span className="rounded border border-[#404040] bg-[#171717] px-1.5 py-0.2 text-[#a3a3a3] uppercase">
-                  {result.source === 'gemini' ? 'Gemini AI' : 'Offline Engine'}
+                <span
+                  className="rounded border border-[#404040] bg-[#171717] px-1.5 py-0.2 text-[#a3a3a3] uppercase cursor-default"
+                  title={result.latencyMs ? `Latency: ${result.latencyMs}ms` : undefined}
+                >
+                  {result.source === 'gemini' ? (result.model || 'Gemini AI') : 'Offline Engine'}
                 </span>
               )}
               {!result.isError && (

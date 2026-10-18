@@ -230,13 +230,13 @@ describe('Friday AI Model-Aware Intelligence Unit & Integration Tests', () => {
 
             const result = await aiService.generateAiChat({
                 message: 'How to configure MongoDB?',
-                model: 'gemini-1.5-flash',
+                model: 'gemini-2.5-flash-lite',
             });
 
             // Primary and secondary models were attempted in fallback chain
             expect(attemptedModels.length).toBe(2);
-            expect(attemptedModels[0]).toBe('gemini-1.5-flash');
-            const expectedNext = getNextModel('gemini-1.5-flash').id;
+            expect(attemptedModels[0]).toBe('gemini-2.5-flash-lite');
+            const expectedNext = getNextModel('gemini-2.5-flash-lite').id;
             expect(attemptedModels[1]).toBe(expectedNext);
 
             // Fell back to offline engine
@@ -275,13 +275,67 @@ describe('Friday AI Model-Aware Intelligence Unit & Integration Tests', () => {
 
             const result = await aiService.generateAiChat({
                 message: 'Help with Git',
-                model: 'gemini-1.5-flash',
+                model: 'gemini-2.5-flash-lite',
             });
 
             expect(result.source).toBe('gemini');
-            const expectedSecondary = getNextModel('gemini-1.5-flash').id;
+            const expectedSecondary = getNextModel('gemini-2.5-flash-lite').id;
             expect(result.model).toBe(expectedSecondary);
             expect(result.reply).toBe('Recovered via fallback secondary model!');
+        });
+
+        it('callGeminiApi skips thought parts and joins all text parts', async () => {
+            globalThis.fetch = vi.fn().mockResolvedValue({
+                ok: true,
+                json: async () => ({
+                    candidates: [
+                        {
+                            content: {
+                                parts: [
+                                    { thought: true, text: 'Thinking step by step...' },
+                                    { text: 'Part 1: Hello. ' },
+                                    { text: 'Part 2: World!' },
+                                ],
+                            },
+                        },
+                    ],
+                }),
+            });
+
+            const text = await aiService.callGeminiApi({
+                apiKey: 'test-key',
+                model: 'gemini-2.5-flash-lite',
+                prompt: 'Say hello',
+            });
+
+            expect(text).toBe('Part 1: Hello. Part 2: World!');
+        });
+
+        it('callGeminiApi logs a clear one-line warning naming the model on 404 or model-not-found', async () => {
+            const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+            globalThis.fetch = vi.fn().mockResolvedValue({
+                ok: false,
+                status: 404,
+                json: async () => ({
+                    error: {
+                        message: 'models/gemini-2.5-flash-lite is not found for API version v1beta',
+                        status: 'NOT_FOUND',
+                    },
+                }),
+            });
+
+            await expect(
+                aiService.callGeminiApi({
+                    apiKey: 'test-key',
+                    model: 'gemini-2.5-flash-lite',
+                    prompt: 'Test prompt',
+                })
+            ).rejects.toThrow(/Gemini API returned status 404/);
+
+            expect(warnSpy).toHaveBeenCalledWith(
+                expect.stringMatching(/\[AI Service\] Warning: Gemini model "gemini-2.5-flash-lite" not found/)
+            );
         });
     });
 });

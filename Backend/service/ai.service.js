@@ -49,12 +49,31 @@ export const callGeminiApi = async ({
         });
 
         if (!response.ok) {
-            throw new Error(`Gemini API returned status ${response.status}`);
+            let errorDetails = '';
+            try {
+                const errData = await response.json();
+                errorDetails = errData?.error?.message || '';
+            } catch {
+                // Ignore json parse error
+            }
+
+            if (response.status === 404 || /not found|model.*not.*found/i.test(errorDetails)) {
+                console.warn(
+                    `[AI Service] Warning: Gemini model "${model}" not found (HTTP ${response.status}). The model may be retired or unavailable.`
+                );
+            }
+
+            throw new Error(`Gemini API returned status ${response.status}${errorDetails ? `: ${errorDetails}` : ''}`);
         }
 
         const data = await response.json();
         const candidate = data.candidates?.[0];
-        const text = candidate?.content?.parts?.[0]?.text;
+        const parts = candidate?.content?.parts || [];
+        const text = parts
+            .filter((part) => !part.thought && typeof part.text === 'string')
+            .map((part) => part.text)
+            .join('');
+
         if (!text) {
             throw new Error('No content returned from Gemini API');
         }

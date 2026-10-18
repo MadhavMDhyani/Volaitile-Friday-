@@ -119,7 +119,7 @@
 | `REDIS_PORT` | No | `6379` | Redis port when `REDIS_URL` is omitted. |
 | `REDIS_PASSWORD`| No | _None_ | Redis authentication password. |
 | `GEMINI_API_KEY`| No | _None_ | Google Gemini API key for live AI assistant features. |
-| `GEMINI_MODEL` | No | `gemini-1.5-flash` | Gemini model name (e.g. `gemini-1.5-pro`). |
+| `GEMINI_MODEL` | No | `gemini-2.5-flash-lite` | Gemini model name (e.g. `gemini-2.5-pro`). |
 
 ### Frontend (`frontend/.env`)
 

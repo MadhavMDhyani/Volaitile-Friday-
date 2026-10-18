@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { io as Client } from 'socket.io-client';
 import app from '../app.js';
 import { initSocket, evictUserFromProject, closeProjectRoom } from '../service/socket.service.js';
+import { saveAndBroadcastMessage, isAiTrigger, MAX_MESSAGE_LENGTH } from '../service/message.service.js';
 import redisService from '../service/redis.service.js';
 import Project from '../models/project.model.js';
 import Message from '../models/message.model.js';
@@ -384,4 +385,80 @@ describe('Socket.IO Real-Time Chat & Security Unit Tests (DB-independent)', () =
 
         expect(disconnectReason).toBeDefined();
     });
+
+    it('isAiTrigger correctly identifies @friday and slash commands, rejecting non-command paths', () => {
+        expect(isAiTrigger('@friday help me')).toBe(true);
+        expect(isAiTrigger('Can @Friday check this?')).toBe(true);
+        expect(isAiTrigger('/help')).toBe(true);
+        expect(isAiTrigger('/docker build -t app .')).toBe(true);
+        expect(isAiTrigger('/auth')).toBe(true);
+        expect(isAiTrigger('/db migrate')).toBe(true);
+        expect(isAiTrigger('/test run')).toBe(true);
+        expect(isAiTrigger('/git status')).toBe(true);
+
+        expect(isAiTrigger('/etc/hosts')).toBe(false);
+        expect(isAiTrigger('/usr/bin/env')).toBe(false);
+        expect(isAiTrigger('check /db/schema.sql')).toBe(false);
+        expect(isAiTrigger('hello world')).toBe(false);
+        expect(isAiTrigger('')).toBe(false);
+        expect(isAiTrigger(null)).toBe(false);
+    });
+
+    it('saveAndBroadcastMessage truncates AI messages exceeding 4000 characters with ellipsis without throwing', async () => {
+        const longText = 'A'.repeat(5000);
+        let createdDoc = null;
+        vi.spyOn(Message, 'create').mockImplementation(async (payload) => {
+            createdDoc = { _id: '65f1a2b3c4d5e6f7a8b9c0fc', ...payload };
+            return createdDoc;
+        });
+        vi.spyOn(Message, 'findById').mockReturnValue({
+            populate: vi.fn().mockImplementation(async () => createdDoc),
+        });
+
+        const result = await saveAndBroadcastMessage({
+            projectId: validProjectId,
+            text: longText,
+            isAi: true,
+            model: 'gemini-2.5-flash-lite',
+        });
+
+        expect(result).toBeDefined();
+        expect(result.text.length).toBe(MAX_MESSAGE_LENGTH);
+        expect(result.text.endsWith('…')).toBe(true);
+        expect(result.isAi).toBe(true);
+    });
+
+    it('chat:send rejects message content exceeding MAX_MESSAGE_LENGTH', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            name: 'Test Project',
+            users: [memberUserId],
+        });
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+        socket.emit('project:join', { projectId: validProjectId });
+
+        const tooLongText = 'x'.repeat(MAX_MESSAGE_LENGTH + 1);
+
+        const ack = await new Promise((resolve) => {
+            socket.emit(
+                'chat:send',
+                { projectId: validProjectId, content: tooLongText, tempId: 'temp-overflow' },
+                (res) => resolve(res)
+            );
+        });
+
+        expect(ack).toBeDefined();
+        expect(ack.ok).toBe(false);
+        expect(ack.error).toMatch(/between 1 and 4000 characters/i);
+
+        socket.disconnect();
+    });
 });
+

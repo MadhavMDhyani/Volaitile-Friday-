@@ -50,10 +50,12 @@ export const addUsersToProject = async ({ projectId, users, userId }) => {
         throw new Error('User does not belong to this project');
     }
 
+    const uniqueUsers = Array.from(new Set(users.map(String)));
+
     // Verify member cap at 25
     const combinedUserIds = new Set(project.users.map((u) => u.toString()));
-    for (const u of users) {
-        combinedUserIds.add(u.toString());
+    for (const u of uniqueUsers) {
+        combinedUserIds.add(u);
     }
     if (combinedUserIds.size > 25) {
         const err = new Error('Projects cannot have more than 25 members');
@@ -62,14 +64,14 @@ export const addUsersToProject = async ({ projectId, users, userId }) => {
     }
 
     // Verify every user in users array exists in the database
-    const existingCount = await userModel.countDocuments({ _id: { $in: users } });
-    if (existingCount !== users.length) {
+    const existingCount = await userModel.countDocuments({ _id: { $in: uniqueUsers } });
+    if (existingCount !== uniqueUsers.length) {
         throw new Error('One or more specified users do not exist');
     }
 
     const updatedProject = await projectModel.findOneAndUpdate(
         { _id: projectId },
-        { $addToSet: { users: { $each: users } } },
+        { $addToSet: { users: { $each: uniqueUsers } } },
         { new: true }
     )
         .populate('owner', 'email _id')

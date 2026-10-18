@@ -38,6 +38,20 @@ const modelValidation = body('model')
         return getDefaultModelId();
     });
 
+const languageValidation = body('language')
+    .optional({ values: 'falsy' })
+    .isString().withMessage('Language must be a string')
+    .trim()
+    .isLength({ max: 30 }).withMessage('Language must not exceed 30 characters')
+    .matches(/^[\w+#.\- ]+$/).withMessage('Language contains invalid characters');
+
+const frameworkValidation = body('framework')
+    .optional({ values: 'falsy' })
+    .isString().withMessage('Framework must be a string')
+    .trim()
+    .isLength({ max: 30 }).withMessage('Framework must not exceed 30 characters')
+    .matches(/^[\w+#.\- ]+$/).withMessage('Framework contains invalid characters');
+
 router.get('/models', aiController.handleGetAiModels);
 
 router.post(
@@ -61,6 +75,8 @@ router.post(
             .trim()
             .isLength({ min: 1, max: 20000 }).withMessage('Prompt must be between 1 and 20000 characters'),
         modelValidation,
+        languageValidation,
+        frameworkValidation,
     ],
     aiController.handleGenerateCode
 );
@@ -72,6 +88,8 @@ router.post(
             .isString().withMessage('Code must be a string')
             .isLength({ min: 1, max: 20000 }).withMessage('Code must be between 1 and 20000 characters'),
         modelValidation,
+        languageValidation,
+        frameworkValidation,
     ],
     aiController.handleReviewCode
 );

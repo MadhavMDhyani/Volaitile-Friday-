@@ -113,6 +113,15 @@ const SafeMarkdownBlock = ({ text }) => {
   return <div className="space-y-1">{parts}</div>;
 };
 
+const MAX_MESSAGE_LENGTH = 4000;
+const AI_COMMAND_REGEX = /^(?:\/help|\/docker|\/auth|\/db|\/test|\/git)(?:\s|$)/i;
+
+const isAiTrigger = (text) => {
+  if (!text || typeof text !== 'string') return false;
+  const trimmed = text.trim();
+  return /@friday/i.test(trimmed) || AI_COMMAND_REGEX.test(trimmed);
+};
+
 export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -135,7 +144,33 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const isUserNearBottomRef = useRef(true);
   const typingDebounceRef = useRef(null);
   const isFetchingMissedRef = useRef(false);
+  const aiTypingTimeoutRef = useRef(null);
   const toast = useToast();
+
+  const startAiTyping = useCallback(() => {
+    setIsAiTyping(true);
+    if (aiTypingTimeoutRef.current) clearTimeout(aiTypingTimeoutRef.current);
+    aiTypingTimeoutRef.current = setTimeout(() => {
+      setIsAiTyping(false);
+      aiTypingTimeoutRef.current = null;
+    }, 45000);
+  }, []);
+
+  const clearAiTyping = useCallback(() => {
+    setIsAiTyping(false);
+    if (aiTypingTimeoutRef.current) {
+      clearTimeout(aiTypingTimeoutRef.current);
+      aiTypingTimeoutRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (aiTypingTimeoutRef.current) {
+        clearTimeout(aiTypingTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const scrollToBottom = (smooth = true) => {
     messagesEndRef.current?.scrollIntoView({
@@ -159,6 +194,12 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const handleIncomingMessage = useCallback(
     (msg) => {
       if (!msg || !msg._id) return;
+
+      if (msg.isAi) {
+        clearAiTyping();
+      } else if (isAiTrigger(msg.text)) {
+        startAiTyping();
+      }
 
       setMessages((prev) => {
         // Deduplicate if already present
@@ -189,7 +230,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         setHasUnreadBelow(true);
       }
     },
-    [currentUserId]
+    [currentUserId, clearAiTyping, startAiTyping]
   );
 
   // Fetch missed messages after WebSocket reconnect
@@ -329,7 +370,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
     const val = e.target.value;
     setInputMessage(val);
 
-    const isAi = val.startsWith('/') || val.toLowerCase().includes('@friday');
+    const isAi = isAiTrigger(val);
     if (isAi) {
       sendTyping(false);
       return;
@@ -355,71 +396,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
     sendTyping(false);
     if (typingDebounceRef.current) clearTimeout(typingDebounceRef.current);
 
-    // Check if this is an AI query: mentions @friday or starts with /
-    const isAiPrompt = text.toLowerCase().includes('@friday') || text.startsWith('/');
+    const isAi = isAiTrigger(text);
 
-    if (isAiPrompt) {
-      // Create local user message optimistically
-      const tempId = `temp-${Date.now()}`;
-      const optimisticMsg = {
-        _id: tempId,
-        text,
-        sender: { _id: currentUserId, email: 'You' },
-        createdAt: new Date().toISOString(),
-        isAi: false,
-        isNew: true,
-      };
-
-      setMessages((prev) => [...prev, optimisticMsg]);
-      setIsAiTyping(true);
-      scrollToBottom(true);
-
-      try {
-        const aiRes = await axios.post('/ai/chat', {
-          message: text,
-          projectId,
-          model: selectedModel,
-        });
-
-        // The AI reply was automatically saved as a Message on the backend when projectId is sent!
-        const returnedAiMessage = aiRes.data?.message || {
-          _id: `ai-${Date.now()}`,
-          text: aiRes.data?.reply || 'Assistant response received.',
-          isAi: true,
-          sender: null,
-          createdAt: new Date().toISOString(),
-          model: aiRes.data?.model,
-          source: aiRes.data?.source,
-          requestedModel: aiRes.data?.requestedModel,
-          latencyMs: aiRes.data?.latencyMs,
-        };
-
-        const aiSource = aiRes.data?.source || returnedAiMessage.source;
-
-        setMessages((prev) => [
-          ...prev,
-          {
-            ...returnedAiMessage,
-            source: aiSource,
-            aiSource,
-            model: aiRes.data?.model || returnedAiMessage.model,
-            requestedModel: aiRes.data?.requestedModel || returnedAiMessage.requestedModel,
-            latencyMs: aiRes.data?.latencyMs || returnedAiMessage.latencyMs,
-            isNew: true,
-          },
-        ]);
-        lastMessageIdRef.current = returnedAiMessage._id;
-        scrollToBottom(true);
-      } catch (err) {
-        console.error('AI chat error:', err);
-        toast.error(getErrorMessage(err, 'Failed to obtain AI response'));
-      } finally {
-        setIsAiTyping(false);
-      }
-      return;
-    }
-
-    // Regular team message: optimistic display then send via WebSocket (with REST fallback)
+    // Optimistic message display
     const tempId = `temp-${Date.now()}`;
     const optimisticMsg = {
       _id: tempId,
@@ -431,14 +410,21 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       isNew: true,
     };
 
-    setMessages((prev) => [...prev, optimisticMsg]);
+    setMessages((prev) => {
+      if (prev.some((m) => m._id === tempId)) return prev;
+      return [...prev, optimisticMsg];
+    });
     scrollToBottom(true);
     setIsSending(true);
 
+    if (isAi) {
+      startAiTyping();
+    }
+
     try {
       if (connected) {
-        // Send via Socket "chat:send"
-        const res = await sendMessage(text, tempId);
+        // Send via Socket "chat:send" with model (server handles AI trigger and broadcast)
+        const res = await sendMessage(text, tempId, selectedModel);
         if (res?.ok && res.message) {
           const createdMessage = res.message;
           setMessages((prev) => {
@@ -453,7 +439,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
           throw new Error(res?.error || 'Failed to send message over socket');
         }
       } else {
-        // Fallback to REST endpoint POST /projects/:projectId/messages
+        // Disconnected fallback: POST /projects/:projectId/messages then POST /ai/chat
         const res = await axios.post(`/projects/${projectId}/messages`, { text });
         const createdMessage = res.data?.message;
 
@@ -467,6 +453,31 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
           });
           lastMessageIdRef.current = createdMessage._id;
         }
+
+        if (isAi) {
+          try {
+            const aiRes = await axios.post('/ai/chat', {
+              message: text,
+              projectId,
+              model: selectedModel,
+            });
+
+            const returnedAiMessage = aiRes.data?.message;
+            if (returnedAiMessage) {
+              setMessages((prev) => {
+                if (prev.some((m) => m._id === returnedAiMessage._id)) return prev;
+                return [...prev, { ...returnedAiMessage, isNew: true }];
+              });
+              lastMessageIdRef.current = returnedAiMessage._id;
+              scrollToBottom(true);
+            }
+          } catch (aiErr) {
+            console.error('AI chat error:', aiErr);
+            toast.error(getErrorMessage(aiErr, 'Failed to obtain AI response'));
+          } finally {
+            clearAiTyping();
+          }
+        }
       }
     } catch (err) {
       console.error('Send message error:', err);
@@ -474,6 +485,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       // Remove failed optimistic message and restore input
       setMessages((prev) => prev.filter((m) => m._id !== tempId));
       setInputMessage(text);
+      if (isAi) {
+        clearAiTyping();
+      }
     } finally {
       setIsSending(false);
     }
@@ -714,7 +728,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               onChange={handleInputChange}
               placeholder="Type a message or @friday for AI assistance..."
               className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-3 pr-20 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
-              maxLength={2000}
+              maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />
 

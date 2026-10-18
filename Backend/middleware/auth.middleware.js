@@ -1,9 +1,22 @@
 import jwt from 'jsonwebtoken';
 import redisService from '../service/redis.service.js';
 
+export const extractToken = (req) => {
+    if (!req) return null;
+    const authHeader = req.headers?.authorization;
+    if (authHeader && typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.slice(7).trim();
+        if (token) return token;
+    }
+    if (req.cookies?.token) {
+        return req.cookies.token;
+    }
+    return null;
+};
+
 export const authUser = async (req, res, next) => {
     try {
-        const token = (req.cookies && req.cookies.token) || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+        const token = extractToken(req);
 
         if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });

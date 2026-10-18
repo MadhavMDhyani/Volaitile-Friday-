@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import axios from '../config/axios';
 import { useToast } from '../context/useToast';
+import { UserContext } from '../context/UserContext';
 import getErrorMessage from '../utils/getErrorMessage';
 
 export const ChangePasswordModal = ({ isOpen, onClose }) => {
+  const { user, login } = useContext(UserContext);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -61,7 +63,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
       });
 
       if (res.data?.token) {
-        localStorage.setItem('token', res.data.token);
+        login(res.data.token, user);
       }
 
       toast.success('Your password has been successfully updated');

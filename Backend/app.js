@@ -40,7 +40,9 @@ app.use(
             if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
                 return callback(null, true);
             }
-            return callback(new Error(`Origin ${origin} not allowed by CORS`));
+            const corsError = new Error(`Origin ${origin} not allowed by CORS`);
+            corsError.status = 403;
+            return callback(corsError);
         },
         credentials: true,
     })
@@ -84,6 +86,9 @@ app.use((req, res) => {
 
 // Central error handler returning JSON
 app.use((err, req, res, next) => {
+    if (err.message && err.message.includes('not allowed by CORS')) {
+        return res.status(403).json({ error: err.message });
+    }
     console.error('Unhandled application error:', err);
     const status = err.status || err.statusCode || 500;
     if (status >= 500 && process.env.NODE_ENV === 'production') {

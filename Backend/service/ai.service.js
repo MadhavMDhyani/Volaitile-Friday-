@@ -86,7 +86,7 @@ export const callGeminiApi = async ({
 export const getBuiltInResponse = (message, projectName = 'your project') => {
     const text = message.toLowerCase().trim();
 
-    if (text.includes('docker') || text.includes('dockerfile')) {
+    if (/\b(?:docker|dockerfile)\b/i.test(text)) {
         return `### Recommended Dockerfile for ${projectName}
 
 \`\`\`dockerfile
@@ -114,7 +114,7 @@ CMD ["npm", "start"]
 - Keep image size small with Alpine or Slim bases.`;
     }
 
-    if (text.includes('auth') || text.includes('jwt') || text.includes('login') || text.includes('token')) {
+    if (/\b(?:auth|authentication|jwt|login|token)\b/i.test(text)) {
         return `### Authentication Best Practices for ${projectName}
 
 1. **Token Invalidation / Blacklisting:** When users log out, blacklist their JWT until expiration (supported via Redis/memory store).
@@ -123,7 +123,7 @@ CMD ["npm", "start"]
 4. **Rate Limiting:** Protect \`/users/login\` and \`/users/register\` with strict window rate limits (already active in your routes).`;
     }
 
-    if (text.includes('mongo') || text.includes('database') || text.includes('mongoose') || text.includes('schema')) {
+    if (/\b(?:mongo|mongodb|database|mongoose|schema)\b/i.test(text)) {
         return `### Database Optimization & Schema Design
 
 - **Indexes:** Ensure fields used in frequent queries (such as \`email\`, \`users\`, or foreign keys) have explicit unique or secondary indexes.
@@ -131,7 +131,7 @@ CMD ["npm", "start"]
 - **Transactions:** Use Mongoose sessions for multi-document operations to prevent inconsistencies.`;
     }
 
-    if (text.includes('test') || text.includes('jest') || text.includes('vitest')) {
+    if (/\b(?:test|testing|jest|vitest)\b/i.test(text)) {
         return `### Testing Recommendations for ${projectName}
 
 \`\`\`javascript
@@ -151,7 +151,7 @@ describe('Project Endpoints', () => {
 Use \`supertest\` for integration tests and \`vitest\` for fast ESM runner support.`;
     }
 
-    if (text.includes('git') || text.includes('branch') || text.includes('commit')) {
+    if (/\b(?:git|github|branch|commit)\b/i.test(text)) {
         return `### Recommended Git Workflow for ${projectName}
 
 \`\`\`bash
@@ -168,7 +168,7 @@ git rebase origin/main
 \`\`\``;
     }
 
-    if (text.includes('help') || text.startsWith('/')) {
+    if (/\bhelp\b/i.test(text) || text.startsWith('/')) {
         return `### Friday Assistant Command Hub
 
 Here are the tools and actions available in **${projectName}**:

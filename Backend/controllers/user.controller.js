@@ -3,6 +3,7 @@ import * as userService from '../service/user.service.js';
 import { validationResult } from 'express-validator';
 import redisService from '../service/redis.service.js';
 import jwt from 'jsonwebtoken';
+import { extractToken } from '../middleware/auth.middleware.js';
 
 export const createUserController = async (req, res) => {
     const errors = validationResult(req);
@@ -85,7 +86,7 @@ export const profileController = async (req, res) => {
 
 export const logoutController = async (req, res) => {
     try {
-        const token = (req.cookies && req.cookies.token) || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+        const token = extractToken(req);
 
         if (token) {
             const decoded = jwt.decode(token);
@@ -171,7 +172,7 @@ export const changePasswordController = async (req, res) => {
         await user.save();
 
         // Blacklist old token
-        const oldToken = (req.cookies && req.cookies.token) || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+        const oldToken = extractToken(req);
         if (oldToken) {
             const decoded = jwt.decode(oldToken);
             let secondsLeft = 86400;
@@ -187,9 +188,6 @@ export const changePasswordController = async (req, res) => {
         }
 
         const newToken = user.generateJWT();
-        if (res.cookie) {
-            res.cookie('token', newToken);
-        }
 
         return res.status(200).json({ token: newToken });
     } catch (err) {

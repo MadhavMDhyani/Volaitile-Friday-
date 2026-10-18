@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '../context/useToast';
 import socket from '../lib/socket';
 
 /**
@@ -8,6 +10,8 @@ import socket from '../lib/socket';
  */
 export const useProjectSocket = (projectId, options = {}) => {
   const { onMessage, onReconnect } = options;
+  const navigate = useNavigate();
+  const toast = useToast();
   const [connected, setConnected] = useState(socket.connected);
   const [isReconnecting, setIsReconnecting] = useState(false);
   const [onlineUserIds, setOnlineUserIds] = useState([]);
@@ -161,12 +165,24 @@ export const useProjectSocket = (projectId, options = {}) => {
       hasConnectedOnceRef.current = true;
     }
 
+    const handleProjectRemoved = () => {
+      toast.error('You have been removed from this project');
+      navigate('/dashboard');
+    };
+
+    const handleProjectDeleted = () => {
+      toast.info('This project has been deleted');
+      navigate('/dashboard');
+    };
+
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
     socket.on('connect_error', handleConnectError);
     socket.on('presence:update', handlePresence);
     socket.on('chat:typing', handleTyping);
     socket.on('chat:message', handleChatMessage);
+    socket.on('project:removed', handleProjectRemoved);
+    socket.on('project:deleted', handleProjectDeleted);
 
     return () => {
       socket.emit('project:leave', { projectId });
@@ -176,13 +192,15 @@ export const useProjectSocket = (projectId, options = {}) => {
       socket.off('presence:update', handlePresence);
       socket.off('chat:typing', handleTyping);
       socket.off('chat:message', handleChatMessage);
+      socket.off('project:removed', handleProjectRemoved);
+      socket.off('project:deleted', handleProjectDeleted);
 
       typingTimeouts.forEach((timer) => clearTimeout(timer));
       typingTimeouts.clear();
       setTypingUsers([]);
       setOnlineUserIds([]);
     };
-  }, [projectId]);
+  }, [projectId, navigate, toast]);
 
   return {
     socket,

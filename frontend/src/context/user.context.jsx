@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import axiosInstance, { setAuthToken, setUnauthorizedCallback } from '../config/axios';
+import socket from '../lib/socket';
 import { UserContext } from './UserContext';
 
 export { UserContext };
@@ -17,6 +18,7 @@ export const UserProvider = ({ children }) => {
     } catch {
       // Ignore network or server failures during logout
     } finally {
+      socket.disconnect();
       setToken(null);
       setUser(null);
       setLoading(false);
@@ -29,6 +31,7 @@ export const UserProvider = ({ children }) => {
   // Register unauthorized response interceptor callback
   useEffect(() => {
     setUnauthorizedCallback(() => {
+      socket.disconnect();
       setToken(null);
       setUser(null);
       setLoading(false);
@@ -37,6 +40,21 @@ export const UserProvider = ({ children }) => {
       setServerError('');
     });
   }, []);
+
+  // Treat socket connect_error 'Unauthorized' / 'Session expired' as a logout
+  useEffect(() => {
+    const handleConnectError = (err) => {
+      const message = err?.message || '';
+      if (message.includes('Unauthorized') || message.includes('Session expired')) {
+        logout();
+      }
+    };
+
+    socket.on('connect_error', handleConnectError);
+    return () => {
+      socket.off('connect_error', handleConnectError);
+    };
+  }, [logout]);
 
   const retryProfileFetch = useCallback(() => {
     setLoading(true);

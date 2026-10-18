@@ -1,6 +1,16 @@
 import Message from '../models/message.model.js';
 import { getIO } from './socket.service.js';
 
+export const MAX_MESSAGE_LENGTH = 4000;
+export const KNOWN_AI_COMMANDS = ['/help', '/docker', '/auth', '/db', '/test', '/git'];
+export const AI_COMMAND_REGEX = /^(?:\/help|\/docker|\/auth|\/db|\/test|\/git)(?:\s|$)/i;
+
+export const isAiTrigger = (text) => {
+    if (!text || typeof text !== 'string') return false;
+    const trimmed = text.trim();
+    return /@friday/i.test(trimmed) || AI_COMMAND_REGEX.test(trimmed);
+};
+
 /**
  * Creates, populates, and broadcasts a project chat message.
  * Shared by both the REST controller (POST /projects/:projectId/messages, POST /ai/chat)
@@ -22,9 +32,14 @@ export const saveAndBroadcastMessage = async ({
         throw err;
     }
 
-    const trimmedText = text.trim();
-    if (trimmedText.length < 1 || trimmedText.length > 4000) {
-        const err = new Error('Message text must be between 1 and 4000 characters');
+    let trimmedText = text.trim();
+
+    if (isAi && trimmedText.length > MAX_MESSAGE_LENGTH) {
+        trimmedText = trimmedText.slice(0, MAX_MESSAGE_LENGTH - 1) + '…';
+    }
+
+    if (trimmedText.length < 1 || trimmedText.length > MAX_MESSAGE_LENGTH) {
+        const err = new Error(`Message text must be between 1 and ${MAX_MESSAGE_LENGTH} characters`);
         err.status = 400;
         throw err;
     }

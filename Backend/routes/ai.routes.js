@@ -5,6 +5,7 @@ import * as aiController from '../controllers/ai.controller.js';
 import * as authMiddleware from '../middleware/auth.middleware.js';
 import { requireProjectMember } from '../middleware/projectAccess.js';
 import { isAllowedModel, getDefaultModelId } from '../config/aiModels.js';
+import { MAX_MESSAGE_LENGTH } from '../service/message.service.js';
 
 const router = Router();
 
@@ -46,7 +47,7 @@ router.post(
         body('message')
             .isString().withMessage('Message must be a string')
             .trim()
-            .isLength({ min: 1, max: 4000 }).withMessage('Message must be between 1 and 4000 characters'),
+            .isLength({ min: 1, max: MAX_MESSAGE_LENGTH }).withMessage(`Message must be between 1 and ${MAX_MESSAGE_LENGTH} characters`),
         modelValidation,
     ],
     aiController.handleAiChat

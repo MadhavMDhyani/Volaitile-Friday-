@@ -3,7 +3,7 @@ import http from 'http';
 import jwt from 'jsonwebtoken';
 import { io as Client } from 'socket.io-client';
 import app from '../app.js';
-import { initSocket } from '../service/socket.service.js';
+import { initSocket, evictUserFromProject, closeProjectRoom } from '../service/socket.service.js';
 import redisService from '../service/redis.service.js';
 import Project from '../models/project.model.js';
 import Message from '../models/message.model.js';
@@ -260,5 +260,128 @@ describe('Socket.IO Real-Time Chat & Security Unit Tests (DB-independent)', () =
         expect(ack.message.text).toBe('Message sent via socket event!');
 
         socket.disconnect();
+    });
+
+    it('project:join is idempotent and project:leave does nothing when not joined', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            name: 'Test Project',
+            users: [memberUserId],
+        });
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        // First join
+        const join1 = await new Promise((resolve) => {
+            socket.emit('project:join', { projectId: validProjectId });
+            socket.on('project:joined', resolve);
+        });
+        expect(join1).toEqual({ projectId: validProjectId });
+
+        // Second join should be idempotent and not cause error
+        const join2 = await new Promise((resolve) => {
+            socket.emit('project:join', { projectId: validProjectId });
+            socket.on('project:joined', resolve);
+        });
+        expect(join2).toEqual({ projectId: validProjectId });
+
+        // Leave an unjoined project should do nothing and not error
+        socket.emit('project:leave', { projectId: '65f1a2b3c4d5e6f7a8b9c099' });
+
+        socket.disconnect();
+    });
+
+    it('evictUserFromProject and closeProjectRoom are safe when called and when io is null', async () => {
+        // Safe when io exists
+        await expect(evictUserFromProject(validProjectId, memberUserId)).resolves.not.toThrow();
+        await expect(closeProjectRoom(validProjectId)).resolves.not.toThrow();
+        await expect(evictUserFromProject(null, null)).resolves.not.toThrow();
+        await expect(closeProjectRoom(null)).resolves.not.toThrow();
+    });
+
+    it('evictUserFromProject emits project:removed to the evicted user socket', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            name: 'Test Project',
+            users: [memberUserId],
+        });
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+        socket.emit('project:join', { projectId: validProjectId });
+        await new Promise((resolve) => socket.on('project:joined', resolve));
+
+        const removedPromise = new Promise((resolve) => {
+            socket.on('project:removed', resolve);
+        });
+
+        await evictUserFromProject(validProjectId, memberUserId);
+
+        const removedPayload = await removedPromise;
+        expect(removedPayload).toEqual({ projectId: validProjectId });
+
+        socket.disconnect();
+    });
+
+    it('closeProjectRoom emits project:deleted to room sockets', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            name: 'Test Project',
+            users: [memberUserId],
+        });
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+        socket.emit('project:join', { projectId: validProjectId });
+        await new Promise((resolve) => socket.on('project:joined', resolve));
+
+        const deletedPromise = new Promise((resolve) => {
+            socket.on('project:deleted', resolve);
+        });
+
+        await closeProjectRoom(validProjectId);
+
+        const deletedPayload = await deletedPromise;
+        expect(deletedPayload).toEqual({ projectId: validProjectId });
+
+        socket.disconnect();
+    });
+
+    it('socket disconnects automatically when JWT exp expires', async () => {
+        const shortLivedToken = jwt.sign(
+            { _id: memberUserId, email: 'expiring@test.com' },
+            JWT_SECRET,
+            { expiresIn: '1s' }
+        );
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: shortLivedToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        const disconnectReason = await new Promise((resolve) => {
+            socket.on('disconnect', (reason) => resolve(reason));
+        });
+
+        expect(disconnectReason).toBeDefined();
     });
 });

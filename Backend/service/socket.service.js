@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { getAllowedOrigins } from '../config/env.js';
 import redisService from './redis.service.js';
 import { verifyProjectMember } from '../middleware/projectAccess.js';
-import { saveAndBroadcastMessage } from './message.service.js';
+import { saveAndBroadcastMessage, MAX_MESSAGE_LENGTH, isAiTrigger } from './message.service.js';
 import { generateAiChat } from './ai.service.js';
 import { isAllowedModel, getDefaultModelId } from '../config/aiModels.js';
 
@@ -136,6 +136,7 @@ export const initSocket = (server) => {
                     id: userId,
                     email: decoded.email,
                 };
+                socket.tokenExp = decoded.exp;
                 return next();
             } catch (jwtError) {
                 if (jwtError.name === 'TokenExpiredError') {
@@ -152,12 +153,32 @@ export const initSocket = (server) => {
     io.on('connection', (socket) => {
         socket.joinedProjects = new Set();
 
+        let expiryTimer = null;
+        if (socket.tokenExp) {
+            const msUntilExpiry = socket.tokenExp * 1000 - Date.now();
+            if (msUntilExpiry <= 0) {
+                socket.disconnect(true);
+                return;
+            }
+            expiryTimer = setTimeout(() => {
+                socket.disconnect(true);
+            }, msUntilExpiry);
+            if (typeof expiryTimer.unref === 'function') {
+                expiryTimer.unref();
+            }
+        }
+
         // Join project room
         socket.on('project:join', async (data) => {
             try {
                 const projectId = data?.projectId;
                 if (!projectId) {
                     return socket.emit('project:error', { message: 'Invalid project ID' });
+                }
+
+                if (socket.joinedProjects.has(projectId)) {
+                    socket.emit('project:joined', { projectId });
+                    return;
                 }
 
                 const check = await verifyProjectMember(projectId, socket.user.id);
@@ -182,7 +203,7 @@ export const initSocket = (server) => {
         socket.on('project:leave', async (data) => {
             try {
                 const projectId = data?.projectId;
-                if (!projectId) return;
+                if (!projectId || !socket.joinedProjects.has(projectId)) return;
 
                 const roomName = `project:${projectId}`;
                 socket.leave(roomName);
@@ -277,8 +298,8 @@ export const initSocket = (server) => {
                 }
 
                 const trimmed = content.trim();
-                if (trimmed.length < 1 || trimmed.length > 2000) {
-                    return callback({ ok: false, error: 'Message text must be between 1 and 2000 characters' });
+                if (trimmed.length < 1 || trimmed.length > MAX_MESSAGE_LENGTH) {
+                    return callback({ ok: false, error: `Message text must be between 1 and ${MAX_MESSAGE_LENGTH} characters` });
                 }
 
                 // Check project membership
@@ -303,8 +324,8 @@ export const initSocket = (server) => {
                     tempId,
                 });
 
-                // If message mentions @friday or starts with '/', trigger AI response
-                const isAiPrompt = trimmed.toLowerCase().includes('@friday') || trimmed.startsWith('/');
+                // Trigger the AI only on "@friday" or a known command (/help /docker /auth /db /test /git)
+                const isAiPrompt = isAiTrigger(trimmed);
                 if (isAiPrompt) {
                     let sanitizedModel = model;
                     if (!sanitizedModel || typeof sanitizedModel !== 'string') {
@@ -398,6 +419,10 @@ export const initSocket = (server) => {
 
         // Disconnect
         socket.on('disconnect', () => {
+            if (expiryTimer) {
+                clearTimeout(expiryTimer);
+                expiryTimer = null;
+            }
             try {
                 for (const projectId of socket.joinedProjects) {
                     removeUserFromPresence(projectId, socket.user.id);
@@ -416,7 +441,65 @@ export const initSocket = (server) => {
 
 export const getIO = () => io;
 
+export const evictUserFromProject = async (projectId, userId) => {
+    if (!io || !projectId || !userId) return;
+    const room = `project:${projectId}`;
+    const targetUserId = userId.toString();
+
+    try {
+        const sockets = await io.in(room).fetchSockets();
+        let evicted = false;
+
+        for (const s of sockets) {
+            const sUserId = (s.user?.id || s.user?._id)?.toString();
+            if (sUserId === targetUserId) {
+                s.leave(room);
+                if (s.joinedProjects) {
+                    s.joinedProjects.delete(projectId);
+                }
+                removeUserFromPresence(projectId, targetUserId);
+                clearTypingTimeout(projectId, targetUserId, true);
+                s.emit('project:removed', { projectId });
+                evicted = true;
+            }
+        }
+
+        if (evicted) {
+            broadcastPresence(projectId);
+        }
+    } catch (err) {
+        console.error('evictUserFromProject error:', err);
+    }
+};
+
+export const closeProjectRoom = async (projectId) => {
+    if (!io || !projectId) return;
+    const room = `project:${projectId}`;
+
+    try {
+        io.to(room).emit('project:deleted', { projectId });
+
+        const sockets = await io.in(room).fetchSockets();
+        for (const s of sockets) {
+            if (s.joinedProjects) {
+                s.joinedProjects.delete(projectId);
+            }
+            s.leave(room);
+        }
+
+        if (typeof io.in(room).socketsLeave === 'function') {
+            io.in(room).socketsLeave(room);
+        }
+
+        projectPresence.delete(projectId);
+    } catch (err) {
+        console.error('closeProjectRoom error:', err);
+    }
+};
+
 export default {
     initSocket,
     getIO,
+    evictUserFromProject,
+    closeProjectRoom,
 };

@@ -6,6 +6,7 @@ import * as projectService from '../service/project.service.js';
 import { seedDefaultFiles } from '../service/file.service.js';
 import userModel from '../models/user.models.js';
 import { validationResult } from 'express-validator';
+import { evictUserFromProject, closeProjectRoom } from '../service/socket.service.js';
 
 export const createProject = async (req, res) => {
     const errors = validationResult(req);
@@ -174,6 +175,8 @@ export const deleteProject = async (req, res) => {
         await File.deleteMany({ projectId });
         await Message.deleteMany({ projectId });
 
+        await closeProjectRoom(projectId);
+
         return res.status(200).json({ message: 'Project deleted successfully' });
     } catch (err) {
         console.error('deleteProject error:', err);
@@ -228,6 +231,8 @@ export const removeMemberFromProject = async (req, res) => {
             (u) => (u?._id ? u._id.toString() : u.toString()) !== targetUserId
         );
         await project.save();
+
+        await evictUserFromProject(projectId, targetUserId);
 
         const updatedProject = await projectModel.findById(projectId)
             .populate('owner', 'email _id')

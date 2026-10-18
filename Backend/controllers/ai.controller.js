@@ -1,8 +1,7 @@
 import { validationResult } from 'express-validator';
 import * as aiService from '../service/ai.service.js';
-import Message from '../models/message.model.js';
 import { AI_MODELS, getDefaultModelId } from '../config/aiModels.js';
-import { getIO } from '../service/socket.service.js';
+import { saveAndBroadcastMessage } from '../service/message.service.js';
 
 export const handleAiChat = async (req, res) => {
     const errors = validationResult(req);
@@ -34,9 +33,8 @@ export const handleAiChat = async (req, res) => {
         let savedMessage = null;
         if (req.project) {
             try {
-                savedMessage = await Message.create({
+                savedMessage = await saveAndBroadcastMessage({
                     projectId: req.project._id,
-                    sender: null,
                     isAi: true,
                     text: reply,
                     model: answeringModel,
@@ -44,16 +42,6 @@ export const handleAiChat = async (req, res) => {
                     requestedModel,
                     latencyMs,
                 });
-
-                // Broadcast to project room so all active collaborators see Friday's response
-                try {
-                    const io = getIO();
-                    if (io) {
-                        io.to(`project:${req.project._id}`).emit('chat:message', savedMessage);
-                    }
-                } catch (broadcastErr) {
-                    console.warn('Socket broadcast warning:', broadcastErr?.message);
-                }
             } catch (saveErr) {
                 console.warn('Could not save AI reply as message:', saveErr.message);
             }

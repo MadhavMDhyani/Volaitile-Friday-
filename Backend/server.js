@@ -24,7 +24,7 @@ process.on('uncaughtException', (err) => {
 
 let isShuttingDown = false;
 
-const gracefulShutdown = (signal) => {
+export const gracefulShutdown = async (signal = 'SIGTERM') => {
     if (isShuttingDown) return;
     isShuttingDown = true;
     console.log(`Received ${signal}. Starting graceful shutdown...`);
@@ -36,41 +36,53 @@ const gracefulShutdown = (signal) => {
     }, 10000);
     forceExitTimer.unref();
 
-    server.close(async () => {
-        console.log('HTTP server closed.');
-
-        try {
-            const io = getIO();
-            if (io) {
-                await new Promise((resolve) => io.close(resolve));
-                console.log('Socket.IO closed.');
-            }
-        } catch (socketErr) {
-            console.error('Error closing Socket.IO:', socketErr);
+    try {
+        const io = getIO();
+        if (io) {
+            await new Promise((resolve) => io.close(resolve));
+            console.log('Socket.IO and HTTP server closed.');
+        } else if (server.listening) {
+            await new Promise((resolve) => server.close(resolve));
+            console.log('HTTP server closed.');
         }
+    } catch (socketErr) {
+        console.error('Error closing Socket.IO:', socketErr);
+    }
 
-        try {
+    try {
+        if (mongoose.connection && mongoose.connection.readyState !== 0) {
             await mongoose.connection.close(false);
             console.log('MongoDB connection closed.');
-        } catch (dbErr) {
-            console.error('Error closing MongoDB connection:', dbErr);
         }
+    } catch (dbErr) {
+        console.error('Error closing MongoDB connection:', dbErr);
+    }
 
-        try {
-            await redisService.quit();
-            console.log('Redis client closed.');
-        } catch (cacheErr) {
-            console.error('Error closing Redis connection:', cacheErr);
-        }
+    try {
+        await redisService.quit();
+        console.log('Redis client closed.');
+    } catch (cacheErr) {
+        console.error('Error closing Redis connection:', cacheErr);
+    }
 
-        console.log('Graceful shutdown complete.');
-        process.exit(0);
-    });
+    console.log('Graceful shutdown complete.');
+    process.exit(0);
 };
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+if (process.send) {
+    process.on('message', (msg) => {
+        if (msg === 'SIGTERM' || msg?.type === 'SIGTERM') {
+            gracefulShutdown('SIGTERM');
+        }
+    });
+}
 
 server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    const addr = server.address();
+    const actualPort = typeof addr === 'object' && addr ? addr.port : port;
+    console.log(`Server is running on port ${actualPort}`);
 });
+
+export { server };

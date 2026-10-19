@@ -112,26 +112,26 @@ export const MembersDrawer = ({
       >
         {/* Backdrop */}
         <div
-          className="fixed inset-0 bg-black/70 transition-opacity duration-250"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-250"
           onClick={onClose}
           aria-hidden="true"
         />
 
         {/* Drawer Panel */}
         <aside
-          className={`fixed inset-y-0 right-0 flex w-full max-w-sm flex-col border-l border-[#262626] bg-[#111111] p-5 text-[#fafafa] modal-shadow transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 right-0 flex w-full max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#fafafa] shadow-2xl transition-transform duration-300 ease-out ${
             isClosing ? 'animate-slide-out-right' : 'animate-slide-in-right'
           }`}
           role="dialog"
           aria-label="Project Members"
         >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-[#262626] pb-4">
+          <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
             <div>
               <h2 className="text-sm font-semibold tracking-tight text-[#fafafa]">
                 Project Members
               </h2>
-              <p className="text-[11px] text-[#737373]">
+              <p className="text-[11px] text-[#a3a3a3]">
                 {members.length} / 25 collaborators
               </p>
             </div>
@@ -139,7 +139,7 @@ export const MembersDrawer = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex h-7 w-7 items-center justify-center rounded-md text-[#a3a3a3] hover:bg-[#171717] hover:text-[#fafafa] transition-colors focus-ring"
+              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-colors focus-ring"
               aria-label="Close members drawer"
             >
               <i className="ri-close-line text-lg" />
@@ -160,7 +160,7 @@ export const MembersDrawer = ({
           </div>
 
           {/* Members List */}
-          <div className="flex-1 overflow-y-auto space-y-1 pr-1">
+          <div className="flex-1 overflow-y-auto space-y-1.5 pr-1">
             {members.map((member) => {
               const mId = member?._id ? member._id.toString() : member.toString();
               const isMemberOwner = mId === ownerId;
@@ -170,25 +170,25 @@ export const MembersDrawer = ({
               return (
                 <div
                   key={mId}
-                  className="flex items-center justify-between rounded-md border border-[#262626] bg-[#0a0a0a] p-2.5 text-xs font-mono"
+                  className="flex items-center justify-between rounded-xl glass border-glass-border/40 hover:border-glass-border/80 p-2.5 text-xs font-mono transition-all"
                 >
-                  <div className="flex items-center gap-2 truncate pr-2">
+                  <div className="flex items-center gap-2.5 truncate pr-2">
                     <div className="relative shrink-0">
-                      <div className="flex h-6 w-6 items-center justify-center rounded bg-[#171717] font-mono text-[10px] font-bold text-[#fafafa] border border-[#262626]">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-[#fafafa] border border-white/[0.1] shadow-glass">
                         {email.charAt(0).toUpperCase()}
                       </div>
                       {onlineUserIds.includes(mId) && (
                         <span
-                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 border border-[#111111]"
+                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 border border-[#05060a] shadow-[0_0_6px_rgba(52,211,153,0.8)]"
                           title="Online now"
                         />
                       )}
                     </div>
                     <div className="truncate">
                       <div className="flex items-center gap-1.5 truncate">
-                        <span className="truncate block text-[#fafafa]">
+                        <span className="truncate block text-[#fafafa] font-medium">
                           {email}
-                          {isCurrentUser && <span className="text-[#737373] ml-1">(you)</span>}
+                          {isCurrentUser && <span className="text-[#a3a3a3] ml-1 font-normal">(you)</span>}
                         </span>
                         {onlineUserIds.includes(mId) && (
                           <span className="text-[9px] font-mono text-emerald-400">online</span>
@@ -199,7 +199,7 @@ export const MembersDrawer = ({
 
                   <div className="flex items-center gap-2">
                     {isMemberOwner ? (
-                      <span className="rounded border border-[#404040] bg-[#171717] px-1.5 py-0.5 text-[9px] font-mono text-[#a3a3a3] uppercase">
+                      <span className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-[9px] font-mono text-cyan-300 uppercase shadow-[0_0_8px_rgba(0,240,255,0.2)]">
                         Owner
                       </span>
                     ) : isOwner ? (
@@ -221,7 +221,7 @@ export const MembersDrawer = ({
 
           {/* Drawer Footer: Leave Project option for non-owners */}
           {!isOwner && (
-            <div className="border-t border-[#262626] pt-4 mt-auto">
+            <div className="border-t border-white/[0.08] pt-4 mt-auto">
               <Button
                 variant="danger"
                 size="sm"

@@ -28,7 +28,7 @@ const SafeMarkdownBlock = ({ text }) => {
         return (
           <code
             key={idx}
-            className="rounded border border-[#262626] bg-[#0a0a0a] px-1 py-0.5 font-mono text-[11px] text-[#fafafa]"
+            className="rounded-md border border-white/[0.1] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-cyan-200"
           >
             {token.slice(1, -1)}
           </code>
@@ -44,13 +44,13 @@ const SafeMarkdownBlock = ({ text }) => {
     };
 
     return (
-      <div key={key} className="my-2 rounded-md border border-[#262626] bg-[#0a0a0a] text-xs font-mono overflow-hidden">
-        <div className="flex items-center justify-between border-b border-[#262626] bg-[#111111] px-3 py-1 text-[10px] text-[#737373]">
-          <span className="uppercase">{lang || 'CODE'}</span>
+      <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#07090e]/95 text-xs font-mono overflow-hidden shadow-glass">
+        <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[10px] text-[#a3a3a3]">
+          <span className="uppercase text-cyan-400 font-semibold">{lang || 'CODE'}</span>
           <button
             type="button"
             onClick={handleCopy}
-            className="text-[#a3a3a3] hover:text-[#fafafa] flex items-center gap-1 focus-ring rounded"
+            className="text-[#a3a3a3] hover:text-[#fafafa] flex items-center gap-1 focus-ring rounded px-1.5 py-0.5 transition-colors"
             title="Copy code"
             aria-label="Copy code block"
           >
@@ -58,7 +58,7 @@ const SafeMarkdownBlock = ({ text }) => {
             <span>Copy</span>
           </button>
         </div>
-        <pre className="p-3 overflow-x-auto text-[#fafafa] leading-relaxed">
+        <pre className="p-3.5 overflow-x-auto text-[#fafafa] leading-relaxed">
           <code>{code}</code>
         </pre>
       </div>
@@ -497,11 +497,11 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const otherTypingUsers = (typingUsers || []).filter((u) => u.userId !== currentUserId);
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#0a0a0a] text-[#fafafa] overflow-hidden select-none">
+    <div className="flex h-full w-full flex-col bg-[#07090e]/85 backdrop-blur-xl text-[#fafafa] overflow-hidden select-none">
       {/* Chat Header */}
-      <div className="flex h-9 shrink-0 items-center justify-between border-b border-[#262626] bg-[#111111] px-3 text-xs">
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#0a0c12]/90 backdrop-blur-md px-3.5 text-xs">
         <div className="flex items-center gap-2">
-          <i className="ri-chat-3-line text-[#a3a3a3]" />
+          <i className="ri-chat-3-line text-cyan-400" />
           <span className="font-semibold text-xs text-[#fafafa]">Room Chat & Friday AI</span>
         </div>
 
@@ -509,7 +509,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         <div className="flex items-center gap-2 font-mono text-[10px]">
           <span
             className={`h-2 w-2 rounded-full transition-colors ${
-              connected ? 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)]' : 'bg-amber-500 animate-pulse'
+              connected ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.7)]' : 'bg-amber-400 animate-pulse'
             }`}
           />
           <span className={connected ? 'text-[#a3a3a3]' : 'text-amber-400'}>
@@ -522,12 +522,12 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Disconnected / Reconnecting banner */}
       {isReconnecting && (
-        <div className="flex items-center justify-between bg-amber-500/10 border-b border-amber-500/20 px-3 py-1.5 text-[11px] text-amber-400 font-mono animate-fade-in">
+        <div className="flex items-center justify-between bg-amber-500/10 border-b border-amber-500/20 px-3 py-1.5 text-[11px] text-amber-300 font-mono animate-fade-in backdrop-blur-sm">
           <div className="flex items-center gap-2">
             <i className="ri-loader-4-line animate-spin text-xs" />
             <span>Reconnecting to real-time chat...</span>
           </div>
-          <span className="text-[10px] text-amber-400/70">Syncing live events</span>
+          <span className="text-[10px] text-amber-300/70">Syncing live events</span>
         </div>
       )}
 
@@ -535,14 +535,16 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       <div
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto p-3 space-y-3 relative select-text"
+        className="flex-1 overflow-y-auto p-3.5 space-y-3 relative select-text"
       >
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[#737373]">
-            <i className="ri-chat-smile-2-line text-3xl mb-2 text-[#404040]" />
-            <p className="text-xs font-medium text-[#a3a3a3]">No messages in this workspace yet</p>
-            <p className="text-[11px] text-[#737373] mt-1 max-w-xs">
-              Chat live with collaborators or mention <span className="font-mono text-[#fafafa]">@friday</span> for AI
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass border-glass-border/40 text-cyan-400/50 mb-3 shadow-glass">
+              <i className="ri-chat-smile-2-line text-2xl" />
+            </div>
+            <p className="text-xs font-medium text-[#fafafa]">No messages in this workspace yet</p>
+            <p className="text-[11px] text-[#a3a3a3] mt-1 max-w-xs leading-relaxed">
+              Chat live with collaborators or mention <span className="font-mono text-cyan-300 font-semibold">@friday</span> for AI
               assistance.
             </p>
           </div>
@@ -565,11 +567,11 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 }`}
               >
                 {/* Header label */}
-                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#737373]">
+                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#a3a3a3]">
                   {isAi ? (
                     <span className="inline-flex items-center gap-1.5 font-semibold text-[#fafafa]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                      <span>Friday AI</span>
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(0,240,255,0.8)] animate-pulse" />
+                      <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent font-bold">Friday AI</span>
                       {(() => {
                         const isOffline =
                           msg.source === 'offline' ||
@@ -588,7 +590,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                           return (
                             <span className="inline-flex items-center gap-1">
                               <span
-                                className="text-[9px] rounded border border-[#404040] bg-[#171717] px-1 text-[#737373] uppercase cursor-default"
+                                className="text-[9px] rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.2 text-[#a3a3a3] uppercase cursor-default font-mono"
                                 title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
                               >
                                 Offline
@@ -623,7 +625,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                         return (
                           <span className="inline-flex items-center gap-1">
                             <span
-                              className="text-[9px] rounded border border-[#333333] bg-[#171717] px-1 text-[#a3a3a3] font-mono cursor-default"
+                              className="text-[9px] rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.2 text-cyan-300 font-mono cursor-default"
                               title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
                             >
                               {label}
@@ -643,20 +645,20 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                   ) : (
                     <span>{senderEmail}</span>
                   )}
-                  {formattedTime && <span className="text-[10px] text-[#525252]">{formattedTime}</span>}
+                  {formattedTime && <span className="text-[10px] text-white/35">{formattedTime}</span>}
                   {isOptimistic && (
-                    <span className="text-[9px] text-[#737373] italic">sending...</span>
+                    <span className="text-[9px] text-cyan-400/70 italic">sending...</span>
                   )}
                 </div>
 
-                {/* Message Bubble */}
+                {/* Message Bubble - translucent without individual blur for maximum performance */}
                 <div
-                  className={`max-w-[88%] sm:max-w-[80%] rounded-lg px-3.5 py-2 text-xs leading-relaxed ${
+                  className={`max-w-[88%] sm:max-w-[82%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${
                     isAi
-                      ? 'border border-[#262626] bg-[#111111] text-[#fafafa]'
+                      ? 'border border-cyan-500/25 bg-cyan-950/20 text-[#f0f9ff] shadow-glass'
                       : isMe
-                      ? `border border-[#404040] bg-[#171717] text-[#fafafa] ${isOptimistic ? 'opacity-70' : ''}`
-                      : 'border border-[#262626] bg-[#111111] text-[#a3a3a3]'
+                      ? `border border-violet-500/30 bg-violet-950/25 text-[#fafafa] shadow-glass ${isOptimistic ? 'opacity-70' : ''}`
+                      : 'border border-white/[0.08] bg-white/[0.04] text-[#e5e5e5]'
                   }`}
                 >
                   {isAi ? (
@@ -673,11 +675,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         {/* AI Typing Indicator */}
         {isAiTyping && (
           <div className="flex flex-col items-start animate-fade-in">
-            <span className="text-[11px] font-mono text-[#737373] mb-1">Friday AI is thinking…</span>
-            <div className="flex items-center gap-1 rounded-lg border border-[#262626] bg-[#111111] px-3 py-2 text-xs text-[#a3a3a3]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#fafafa] animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-[#fafafa] animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-[#fafafa] animate-bounce" style={{ animationDelay: '300ms' }} />
+            <span className="text-[11px] font-mono text-cyan-400/80 mb-1 flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              Friday AI is thinking…
+            </span>
+            <div className="flex items-center gap-1.5 rounded-2xl border border-cyan-500/25 bg-cyan-950/20 px-3.5 py-2 text-xs text-cyan-300 shadow-glass">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
             </div>
           </div>
         )}
@@ -687,7 +692,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Typing indicator for other members */}
       {otherTypingUsers.length > 0 && (
-        <div className="flex items-center gap-2 border-t border-[#262626] bg-[#0d0d0d] px-3 py-1.5 text-[11px] font-mono text-[#a3a3a3] animate-fade-in">
+        <div className="flex items-center gap-2 border-t border-white/[0.08] bg-[#0c0e14]/80 px-3.5 py-1.5 text-[11px] font-mono text-[#a3a3a3] animate-fade-in backdrop-blur-sm">
           <div className="flex items-center gap-1">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '0ms' }} />
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -711,23 +716,23 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
             size="xs"
             onClick={() => scrollToBottom(true)}
             icon={<i className="ri-arrow-down-line text-xs" />}
-            className="shadow-md"
+            className="shadow-glass"
           >
             New messages
           </Button>
         </div>
       )}
 
-      {/* Input Box Area */}
-      <form onSubmit={handleSendMessage} className="border-t border-[#262626] bg-[#111111] p-2.5">
-        <div className="flex items-center gap-1.5">
+      {/* Input Box Area - Liquid Glass Composer */}
+      <form onSubmit={handleSendMessage} className="glass-liquid border-t border-white/[0.08] p-3">
+        <div className="flex items-center gap-2">
           <div className="relative flex-1 flex items-center">
             <input
               type="text"
               value={inputMessage}
               onChange={handleInputChange}
               placeholder="Type a message or @friday for AI assistance..."
-              className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-3 pr-20 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+              className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />
@@ -751,7 +756,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               <select
                 value={selectedModel}
                 onChange={handleModelChange}
-                className="h-[34px] rounded-md border border-[#262626] bg-[#0a0a0a] px-2 text-[11px] font-mono text-[#a3a3a3] hover:text-[#fafafa] focus-ring cursor-pointer transition-colors"
+                className="h-[36px] rounded-xl glass-input px-2.5 text-[11px] font-mono text-[#a3a3a3] hover:text-[#fafafa] focus:border-cyan-400/50 cursor-pointer transition-all"
                 title="Select Friday AI model"
                 aria-label="Friday AI model selection"
               >

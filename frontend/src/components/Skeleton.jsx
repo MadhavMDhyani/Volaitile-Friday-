@@ -6,7 +6,7 @@ export const Skeleton = ({
 }) => {
   return (
     <div
-      className={`skeleton-shimmer border border-[#262626]/50 ${rounded} ${className}`}
+      className={`skeleton-shimmer border border-white/10 ${rounded} ${className}`}
       style={{
         width: width,
         height: height,
@@ -17,7 +17,7 @@ export const Skeleton = ({
 };
 
 export const ProjectCardSkeleton = () => (
-  <div className="flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-5 h-44">
+  <div className="flex flex-col justify-between rounded-2xl glass p-5 h-44">
     <div>
       <div className="flex items-center justify-between">
         <Skeleton width="60%" height="20px" />
@@ -28,7 +28,7 @@ export const ProjectCardSkeleton = () => (
         <Skeleton width="70%" height="12px" />
       </div>
     </div>
-    <div className="flex items-center justify-between border-t border-[#262626] pt-3">
+    <div className="flex items-center justify-between border-t border-white/10 pt-3">
       <Skeleton width="80px" height="14px" />
       <Skeleton width="60px" height="14px" />
     </div>
@@ -36,7 +36,7 @@ export const ProjectCardSkeleton = () => (
 );
 
 export const FileItemSkeleton = () => (
-  <div className="flex items-center gap-2.5 px-3 py-2 border-b border-[#262626]/40">
+  <div className="flex items-center gap-2.5 px-3 py-2 border-b border-white/10">
     <Skeleton width="16px" height="16px" rounded="rounded" />
     <Skeleton width="70%" height="14px" />
   </div>

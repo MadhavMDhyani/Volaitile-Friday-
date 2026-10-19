@@ -21,7 +21,7 @@ export const OfflineBanner = ({ onRetry }) => {
 
   return (
     <aside
-      className="sticky top-0 z-50 flex items-center justify-between border-b border-[#404040] bg-[#171717] px-4 py-2 text-xs text-[#fafafa] font-sans"
+      className="sticky top-0 z-50 flex items-center justify-between border-b border-red-500/30 bg-red-500/15 backdrop-blur-md px-4 py-2 text-xs text-[#fafafa] font-sans"
       aria-label="Network status banner"
     >
       <div className="flex items-center gap-2">

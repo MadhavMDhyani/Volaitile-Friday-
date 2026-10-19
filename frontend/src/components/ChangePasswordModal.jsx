@@ -96,7 +96,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+            className="w-full glass-input px-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
             placeholder="••••••••"
             required
           />
@@ -111,7 +111,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+            className="w-full glass-input px-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
             placeholder="••••••••"
             minLength={8}
             maxLength={72}
@@ -123,7 +123,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
                 <span>Strength:</span>
                 <span className="font-mono text-[#fafafa]">{strength.label}</span>
               </div>
-              <div className="h-1 w-full rounded-full bg-[#262626] overflow-hidden">
+              <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div
                   className="h-full bg-white transition-[width] duration-200"
                   style={{ width: `${strength.percent}%` }}
@@ -142,7 +142,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+            className="w-full glass-input px-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
             placeholder="••••••••"
             required
           />

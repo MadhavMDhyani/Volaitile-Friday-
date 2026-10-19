@@ -15,11 +15,11 @@ export const StatCards = ({
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-4 h-28"
+            className="flex flex-col justify-between rounded-2xl glass p-4 h-28"
           >
             <div className="flex items-center justify-between">
               <Skeleton width="45%" height="14px" />
-              <Skeleton width="28px" height="28px" rounded="rounded-md" />
+              <Skeleton width="28px" height="28px" rounded="rounded-xl" />
             </div>
             <Skeleton width="60%" height="24px" />
             <Skeleton width="80%" height="12px" />
@@ -31,9 +31,9 @@ export const StatCards = ({
 
   if (error) {
     return (
-      <div className="flex items-center justify-between rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-xs text-red-400">
+      <div className="flex items-center justify-between rounded-xl border border-red-500/30 bg-red-500/15 p-4 text-xs text-red-300">
         <div className="flex items-center gap-2">
-          <i className="ri-error-warning-line text-base" />
+          <i className="ri-error-warning-line text-base text-red-400" />
           <span>{error}</span>
         </div>
         {onRetry && (
@@ -72,10 +72,10 @@ export const StatCards = ({
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {/* 1. Total Projects */}
-      <div className="flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-4 transition-colors hover:border-[#404040]">
+      <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
         <div className="flex items-center justify-between text-xs text-[#a3a3a3]">
           <span className="font-medium">Total Projects</span>
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#262626] bg-[#171717] text-[#fafafa]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#00f0ff] shadow-sm">
             <i className="ri-folder-3-line text-sm" />
           </div>
         </div>
@@ -90,10 +90,10 @@ export const StatCards = ({
       </div>
 
       {/* 2. Projects Ownership (Owned vs Shared) */}
-      <div className="flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-4 transition-colors hover:border-[#404040]">
+      <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
         <div className="flex items-center justify-between text-xs text-[#a3a3a3]">
           <span className="font-medium">Ownership</span>
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#262626] bg-[#171717] text-[#fafafa]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#a855f7] shadow-sm">
             <i className="ri-shield-user-line text-sm" />
           </div>
         </div>
@@ -105,10 +105,10 @@ export const StatCards = ({
             <span className="text-xs font-mono text-[#737373]">/ {totalProjects} owned</span>
           </div>
 
-          {/* Simple CSS ownership ratio bar */}
-          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#1e1e1e]">
+          {/* Liquid ownership ratio bar */}
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full bg-[#fafafa] transition-all duration-300"
+              className="h-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)] transition-all duration-300"
               style={{ width: `${ownedPercent}%` }}
               title={`${ownedCount} owned (${ownedPercent}%)`}
             />
@@ -121,10 +121,10 @@ export const StatCards = ({
       </div>
 
       {/* 3. Files & Lines of Code */}
-      <div className="flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-4 transition-colors hover:border-[#404040]">
+      <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
         <div className="flex items-center justify-between text-xs text-[#a3a3a3]">
           <span className="font-medium">Total Codebase</span>
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#262626] bg-[#171717] text-[#fafafa]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#fafafa] shadow-sm">
             <i className="ri-code-box-line text-sm" />
           </div>
         </div>
@@ -149,10 +149,10 @@ export const StatCards = ({
       </div>
 
       {/* 4. Collaborators */}
-      <div className="flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-4 transition-colors hover:border-[#404040]">
+      <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
         <div className="flex items-center justify-between text-xs text-[#a3a3a3]">
           <span className="font-medium">Collaborators</span>
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#262626] bg-[#171717] text-[#fafafa]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#fbbf24] shadow-sm">
             <i className="ri-team-line text-sm" />
           </div>
         </div>

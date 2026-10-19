@@ -55,11 +55,13 @@ export const RecentActivity = () => {
   }, []);
 
   return (
-    <div className="flex flex-col rounded-lg border border-[#262626] bg-[#111111] p-4 text-xs font-sans">
+    <div className="flex flex-col rounded-2xl glass p-4 sm:p-5 text-xs font-sans">
       {/* Panel Header */}
-      <div className="flex items-center justify-between border-b border-[#262626] pb-3 mb-3">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
         <div className="flex items-center gap-2">
-          <i className="ri-history-line text-sm text-[#a3a3a3]" />
+          <div className="flex h-6 w-6 items-center justify-center rounded-lg glass text-[#00f0ff]">
+            <i className="ri-history-line text-xs" />
+          </div>
           <h3 className="font-semibold text-sm text-[#fafafa] tracking-tight">
             Recent Activity
           </h3>
@@ -67,7 +69,7 @@ export const RecentActivity = () => {
         <button
           type="button"
           onClick={fetchActivity}
-          className="text-[#737373] hover:text-[#fafafa] p-1 rounded focus-ring transition-colors"
+          className="text-[#737373] hover:text-[#fafafa] p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
           title="Refresh activity"
           aria-label="Refresh recent activity"
         >
@@ -79,7 +81,7 @@ export const RecentActivity = () => {
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="space-y-1.5 p-2 rounded-md border border-[#262626]/40 bg-[#0a0a0a]/50">
+            <div key={i} className="space-y-1.5 p-2.5 rounded-xl border border-white/10 bg-white/[0.02]">
               <div className="flex items-center justify-between">
                 <Skeleton width="40%" height="12px" />
                 <Skeleton width="20%" height="10px" />
@@ -89,7 +91,7 @@ export const RecentActivity = () => {
           ))}
         </div>
       ) : error ? (
-        <div className="rounded-md border border-red-500/30 bg-red-500/10 p-3 text-red-400">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/15 p-3 text-red-300">
           <p>{error}</p>
           <Button variant="secondary" size="xs" onClick={fetchActivity} className="mt-2">
             Retry
@@ -115,7 +117,7 @@ export const RecentActivity = () => {
                 onClick={() => {
                   if (projectId) navigate(`/project/${projectId}`);
                 }}
-                className="group flex flex-col gap-1 rounded-md border border-[#262626] bg-[#0a0a0a] p-2.5 cursor-pointer transition-all duration-150 hover:border-[#404040] hover:bg-[#141414] focus-ring"
+                className="group flex flex-col gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] p-3 cursor-pointer transition-all duration-150 hover:border-white/20 hover:bg-white/[0.06] focus-ring"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -129,18 +131,18 @@ export const RecentActivity = () => {
                 {/* Activity Meta */}
                 <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-[#737373]">
                   <div className="flex items-center gap-1.5 truncate">
-                    <span className="rounded bg-[#171717] border border-[#262626] px-1 py-0.2 text-[#fafafa] truncate max-w-[120px]">
+                    <span className="rounded-full bg-white/[0.08] border border-white/10 px-2 py-0.2 text-[#fafafa] truncate max-w-[120px]">
                       {projectName}
                     </span>
                     <span>·</span>
                     <span className="truncate text-[#a3a3a3]">
                       {isAi && (
-                        <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-white" />
+                        <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-[#00f0ff]" />
                       )}
                       {senderName}
                     </span>
                   </div>
-                  {timeStr && <span className="shrink-0 text-[#525252]">{timeStr}</span>}
+                  {timeStr && <span className="shrink-0 text-[#737373]">{timeStr}</span>}
                 </div>
 
                 {/* Message snippet */}
@@ -154,7 +156,9 @@ export const RecentActivity = () => {
       ) : (
         /* Empty State */
         <div className="flex flex-col items-center justify-center py-8 text-center text-[#737373]">
-          <i className="ri-chat-voice-line text-2xl mb-2 text-[#404040]" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl glass mb-2 text-[#a3a3a3]">
+            <i className="ri-chat-voice-line text-lg text-[#00f0ff]" />
+          </div>
           <p className="text-xs text-[#a3a3a3] font-medium">No recent activity yet</p>
           <p className="text-[11px] text-[#737373] mt-1 max-w-[200px]">
             Send a message in any project workspace to view live team updates here.

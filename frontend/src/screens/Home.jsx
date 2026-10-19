@@ -144,9 +144,9 @@ export const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#0a0a0a]">
+    <div className="min-h-screen bg-transparent text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#05060a]">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-[#262626] bg-[#0a0a0a]/95 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#05060a]/65 backdrop-blur-[var(--blur)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <Logo size="md" to="/dashboard" />
@@ -173,7 +173,7 @@ export const Home = () => {
       {/* Main Container */}
       <main className="mx-auto flex-1 w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Title & Actions Bar */}
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-[#262626] pb-5">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-5">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#fafafa]">
               Projects
@@ -206,7 +206,7 @@ export const Home = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search projects..."
-              className="w-full rounded-md border border-[#262626] bg-[#111111] pl-9 pr-3.5 py-1.5 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+              className="w-full glass-input pl-9 pr-8 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
               aria-label="Search projects by name"
             />
             {searchQuery && (
@@ -226,18 +226,18 @@ export const Home = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="rounded-md border border-[#262626] bg-[#111111] px-2.5 py-1.5 text-xs text-[#fafafa] focus-ring cursor-pointer"
+              className="glass-input px-3 py-2 text-xs text-[#fafafa] focus-ring cursor-pointer"
               aria-label="Sort projects"
             >
-              <option value="newest">Newest first</option>
-              <option value="name">Name (A-Z)</option>
+              <option value="newest" className="bg-[#05060a]">Newest first</option>
+              <option value="name" className="bg-[#05060a]">Name (A-Z)</option>
             </select>
           </div>
         </div>
 
         {/* Fetch Error Display */}
         {fetchError && (
-          <div className="mb-6 flex items-center justify-between rounded-md border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-400">
+          <div className="mb-6 flex items-center justify-between rounded-xl border border-red-500/30 bg-red-500/15 p-3 text-xs text-red-300">
             <span>{fetchError}</span>
             <Button variant="secondary" size="xs" onClick={fetchProjects}>
               Retry
@@ -266,7 +266,7 @@ export const Home = () => {
                     animationDelay: `${Math.min(index, 8) * 40}ms`,
                     animationFillMode: 'both',
                   }}
-                  className={`group relative flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-5 cursor-pointer transition-all duration-150 ease-out hover:border-[#404040] animate-fade-up ${
+                  className={`group relative flex flex-col justify-between rounded-2xl glass p-5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.45)] animate-fade-up ${
                     isRemoving ? 'opacity-0 scale-95 transition-all duration-150' : ''
                   }`}
                   role="button"
@@ -281,14 +281,14 @@ export const Home = () => {
                   <div>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2 max-w-[80%]">
-                        <i className="ri-folder-line text-[#a3a3a3] text-base group-hover:text-[#fafafa] transition-colors" />
+                        <i className="ri-folder-line text-[#a3a3a3] text-base group-hover:text-[#00f0ff] transition-colors" />
                         <h2 className="font-semibold text-sm tracking-tight text-[#fafafa] truncate font-mono">
                           {proj.name}
                         </h2>
                       </div>
 
                       {isProjOwner && (
-                        <span className="inline-flex items-center rounded border border-[#404040] bg-[#171717] px-1.5 py-0.5 text-[10px] font-mono text-[#a3a3a3]">
+                        <span className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.06] px-2 py-0.5 text-[10px] font-mono text-[#a3a3a3]">
                           Owner
                         </span>
                       )}
@@ -312,7 +312,7 @@ export const Home = () => {
                   </div>
 
                   {/* Card Footer */}
-                  <div className="mt-5 flex items-center justify-between border-t border-[#262626] pt-3 text-xs">
+                  <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-3 text-xs">
                     <span className="inline-flex items-center gap-1 text-[#a3a3a3] group-hover:text-[#fafafa] transition-colors">
                       Open workspace
                       <i className="ri-arrow-right-line text-xs transition-transform duration-150 group-hover:translate-x-0.5" />
@@ -325,7 +325,7 @@ export const Home = () => {
                           e.stopPropagation();
                           setDeletingProjectId(proj._id);
                         }}
-                        className="text-[#737373] hover:text-red-400 p-1 rounded focus-ring transition-colors"
+                        className="text-[#737373] hover:text-red-400 p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
                         title="Delete project"
                         aria-label={`Delete project ${proj.name}`}
                       >
@@ -338,9 +338,9 @@ export const Home = () => {
             })}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-[#262626] bg-[#111111]/50 py-16 px-4 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-md border border-[#262626] bg-[#171717] text-[#a3a3a3] mb-4">
-              <i className="ri-folder-add-line text-2xl" />
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-16 px-4 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass text-[#a3a3a3] mb-4">
+              <i className="ri-folder-add-line text-2xl text-[#00f0ff]" />
             </div>
             <h3 className="text-sm font-semibold text-[#fafafa]">
               {searchQuery ? 'No matching projects' : 'No projects yet'}
@@ -376,7 +376,7 @@ export const Home = () => {
       >
         <form onSubmit={handleCreateProject} className="space-y-4">
           {createError && (
-            <div className="rounded-md border border-red-500/30 bg-red-500/10 p-2.5 text-xs text-red-400">
+            <div className="rounded-lg border border-red-500/30 bg-red-500/15 p-2.5 text-xs text-red-300">
               {createError}
             </div>
           )}
@@ -394,11 +394,11 @@ export const Home = () => {
                 setCreateError('');
               }}
               placeholder="e.g. backend-api or auth-service"
-              className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors font-mono"
+              className="w-full glass-input px-3.5 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors font-mono"
               autoFocus
               required
             />
-            <p className="mt-1 text-[11px] text-[#737373]">
+            <p className="mt-1.5 text-[11px] text-[#737373]">
               Starter files (README.md, index.js, package.json) will be seeded automatically.
             </p>
           </div>

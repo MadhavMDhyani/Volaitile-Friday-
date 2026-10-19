@@ -61,11 +61,11 @@ export const Register = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] px-4 py-8 sm:px-6 sm:py-12 text-[#fafafa] flex items-center justify-center font-sans">
+    <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-[#fafafa] flex items-center justify-center font-sans">
       <div className="w-full max-w-4xl">
-        <div className="grid w-full overflow-hidden rounded-lg border border-[#262626] bg-[#111111] lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="grid w-full overflow-hidden rounded-2xl glass-liquid lg:grid-cols-[1.1fr_0.9fr] modal-shadow">
           {/* Brand Info Panel (Desktop) - 60ms stagger entrance */}
-          <div className="hidden bg-[#111111] p-8 sm:p-10 lg:flex lg:flex-col lg:justify-between border-r border-[#262626]">
+          <div className="hidden p-8 sm:p-10 lg:flex lg:flex-col lg:justify-between border-r border-white/10 bg-white/[0.02]">
             <div>
               <div className="animate-fade-up" style={{ animationDelay: '0ms' }}>
                 <Logo size="md" to={null} />
@@ -91,22 +91,22 @@ export const Register = () => {
                 style={{ animationDelay: '180ms' }}
               >
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-[#fafafa] text-sm" />
+                  <i className="ri-check-line text-[#00f0ff] text-sm" />
                   <span>Unlimited projects with auto-seeded starter files</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-[#fafafa] text-sm" />
+                  <i className="ri-check-line text-[#00f0ff] text-sm" />
                   <span>Interactive code generation & AI security reviews</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-[#fafafa] text-sm" />
+                  <i className="ri-check-line text-[#00f0ff] text-sm" />
                   <span>Granular owner permissions and team controls</span>
                 </li>
               </ul>
             </div>
 
             <div
-              className="mt-8 rounded-md border border-[#262626] bg-[#0a0a0a] p-3 text-xs text-[#737373] font-mono animate-fade-up"
+              className="mt-8 rounded-xl glass-input p-3 text-xs text-[#a3a3a3] font-mono animate-fade-up"
               style={{ animationDelay: '240ms' }}
             >
               Passwords are encrypted with bcrypt before saving.
@@ -134,17 +134,17 @@ export const Register = () => {
               <div
                 role="alert"
                 aria-live="polite"
-                className="mb-5 flex items-start gap-2.5 rounded-md border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-400 animate-fade-in"
+                className="mb-5 flex items-start gap-2.5 rounded-lg border border-red-500/30 bg-red-500/15 p-3 text-xs text-red-300 animate-fade-in"
               >
-                <i className="ri-error-warning-line text-base leading-none mt-0.5" />
+                <i className="ri-error-warning-line text-base leading-none mt-0.5 text-red-400" />
                 <div className="flex-1">
-                  <p className="font-semibold text-red-400">Registration error</p>
-                  <p className="mt-0.5 text-red-300">{errorMessage}</p>
+                  <p className="font-semibold text-red-300">Registration error</p>
+                  <p className="mt-0.5 text-red-200">{errorMessage}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setErrorMessage('')}
-                  className="text-red-400 hover:text-red-300 p-0.5 focus-ring rounded"
+                  className="text-red-300 hover:text-white p-0.5 focus-ring rounded"
                   aria-label="Dismiss error"
                 >
                   <i className="ri-close-line text-sm" />
@@ -166,7 +166,7 @@ export const Register = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="developer@company.com"
-                  className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3.5 py-2 text-sm text-[#fafafa] placeholder-[#737373] transition-colors duration-150 focus-ring"
+                  className="w-full glass-input px-3.5 py-2.5 text-sm text-[#fafafa] placeholder-[#737373] transition-colors duration-150 focus-ring"
                 />
               </div>
 
@@ -189,12 +189,12 @@ export const Register = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Choose a strong password"
-                    className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-3.5 pr-10 py-2 text-sm text-[#fafafa] placeholder-[#737373] transition-colors duration-150 focus-ring"
+                    className="w-full glass-input pl-3.5 pr-10 py-2.5 text-sm text-[#fafafa] placeholder-[#737373] transition-colors duration-150 focus-ring"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#737373] hover:text-[#fafafa] transition-colors focus:outline-none"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#a3a3a3] hover:text-[#fafafa] transition-colors focus:outline-none"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     <i className={showPassword ? 'ri-eye-off-line text-base' : 'ri-eye-line text-base'} />
@@ -207,7 +207,7 @@ export const Register = () => {
                       <span>Strength:</span>
                       <span className="font-mono text-[#fafafa]">{strength.label}</span>
                     </div>
-                    <div className="h-1 w-full rounded-full bg-[#262626] overflow-hidden">
+                    <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                       <div
                         className="h-full bg-white transition-[width] duration-200"
                         style={{ width: `${strength.percent}%` }}
@@ -230,9 +230,9 @@ export const Register = () => {
               </div>
             </form>
 
-            <div className="mt-6 border-t border-[#262626] pt-4 text-center text-xs text-[#a3a3a3]">
+            <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[#a3a3a3]">
               Already have an account?{' '}
-              <Link to="/login" className="font-medium text-white underline hover:text-[#e5e5e5] focus-ring rounded">
+              <Link to="/login" className="font-medium text-white underline hover:text-[#00f0ff] focus-ring rounded transition-colors">
                 Sign in here
               </Link>
             </div>

@@ -57,7 +57,7 @@ export const ProjectGrid = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects..."
-            className="w-full rounded-md border border-[#262626] bg-[#111111] pl-8 pr-8 py-1.5 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+            className="w-full glass-input pl-8 pr-8 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
             aria-label="Search projects by name"
           />
           {searchQuery && (
@@ -77,18 +77,18 @@ export const ProjectGrid = ({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="rounded-md border border-[#262626] bg-[#111111] px-2.5 py-1.5 text-xs text-[#fafafa] focus-ring cursor-pointer"
+            className="glass-input px-3 py-2 text-xs text-[#fafafa] focus-ring cursor-pointer"
             aria-label="Sort projects"
           >
-            <option value="updated">Recently updated</option>
-            <option value="name">Name (A-Z)</option>
+            <option value="updated" className="bg-[#05060a]">Recently updated</option>
+            <option value="name" className="bg-[#05060a]">Name (A-Z)</option>
           </select>
         </div>
       </div>
 
       {/* Error state */}
       {error && (
-        <div className="flex items-center justify-between rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-xs text-red-400">
+        <div className="flex items-center justify-between rounded-xl border border-red-500/30 bg-red-500/15 p-4 text-xs text-red-300">
           <span>{error}</span>
           {onRetry && (
             <Button variant="secondary" size="xs" onClick={onRetry}>
@@ -119,7 +119,7 @@ export const ProjectGrid = ({
               <div
                 key={proj._id}
                 onClick={() => navigate(`/project/${proj._id}`)}
-                className="group relative flex flex-col justify-between rounded-lg border border-[#262626] bg-[#111111] p-4 cursor-pointer transition-all duration-150 ease-out hover:border-[#404040] focus-ring animate-fade-up"
+                className="group relative flex flex-col justify-between rounded-2xl glass p-4.5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.45)] focus-ring animate-fade-up"
                 style={{
                   animationDelay: `${Math.min(idx, 6) * 35}ms`,
                   animationFillMode: 'both',
@@ -138,7 +138,7 @@ export const ProjectGrid = ({
                   {/* Card Header: Title & Badges */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0 max-w-[70%]">
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded border border-[#262626] bg-[#171717] text-[#a3a3a3] group-hover:text-[#fafafa] transition-colors">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl glass text-[#a3a3a3] group-hover:text-[#00f0ff] transition-colors">
                         <i className="ri-folder-line text-sm" />
                       </div>
                       <h3 className="font-mono font-semibold text-xs sm:text-sm text-[#fafafa] truncate tracking-tight">
@@ -150,7 +150,7 @@ export const ProjectGrid = ({
                       {/* Online dot indicator if active */}
                       {onlineCount > 0 && (
                         <span
-                          className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[9px] font-mono text-emerald-400"
+                          className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[9px] font-mono text-emerald-400"
                           title={`${onlineCount} collaborator online now`}
                         >
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -160,11 +160,7 @@ export const ProjectGrid = ({
 
                       {/* Owner vs Member Badge */}
                       <span
-                        className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-mono ${
-                          isProjOwner
-                            ? 'border-[#404040] bg-[#171717] text-[#fafafa]'
-                            : 'border-[#262626] bg-[#0a0a0a] text-[#737373]'
-                        }`}
+                        className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-mono border-white/15 bg-white/[0.06] text-[#a3a3a3]"
                       >
                         {isProjOwner ? 'Owner' : 'Member'}
                       </span>
@@ -178,14 +174,14 @@ export const ProjectGrid = ({
                       <span>{stats ? `${stats.filesCount} files` : '— files'}</span>
                     </span>
                     {stats?.totalLines > 0 && (
-                      <span className="text-[11px] text-[#525252]">
+                      <span className="text-[11px] text-[#a3a3a3]">
                         {stats.totalLines.toLocaleString()} LOC
                       </span>
                     )}
                   </div>
 
                   {/* Collaborator Avatars */}
-                  <div className="mt-3 flex items-center gap-1.5">
+                  <div className="mt-3.5 flex items-center gap-1.5">
                     <div className="flex -space-x-1.5 overflow-hidden">
                       {displayMembers.map((member, mIdx) => {
                         const email = member?.email || 'User';
@@ -193,7 +189,7 @@ export const ProjectGrid = ({
                         return (
                           <div
                             key={member?._id || mIdx}
-                            className="flex h-5 w-5 items-center justify-center rounded-full border border-[#111111] bg-[#262626] font-mono text-[9px] font-bold text-[#fafafa]"
+                            className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-white/[0.1] font-mono text-[9px] font-bold text-[#fafafa]"
                             title={email}
                           >
                             {initial}
@@ -203,7 +199,7 @@ export const ProjectGrid = ({
                     </div>
 
                     {extraCount > 0 && (
-                      <span className="rounded bg-[#171717] px-1 py-0.5 text-[10px] font-mono text-[#737373]">
+                      <span className="rounded-full bg-white/[0.06] border border-white/10 px-1.5 py-0.2 text-[10px] font-mono text-[#737373]">
                         +{extraCount}
                       </span>
                     )}
@@ -211,8 +207,8 @@ export const ProjectGrid = ({
                 </div>
 
                 {/* Card Footer: Open Button */}
-                <div className="mt-4 flex items-center justify-between border-t border-[#262626] pt-2.5 text-xs">
-                  <span className="text-[11px] font-mono text-[#525252]">
+                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-2.5 text-xs">
+                  <span className="text-[11px] font-mono text-[#737373]">
                     {proj.createdAt
                       ? new Date(proj.createdAt).toLocaleDateString([], {
                           month: 'short',
@@ -240,9 +236,9 @@ export const ProjectGrid = ({
         </div>
       ) : (
         /* Empty State */
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-[#262626] bg-[#111111]/40 py-12 px-4 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md border border-[#262626] bg-[#171717] text-[#a3a3a3] mb-3">
-            <i className="ri-folder-add-line text-xl" />
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-12 px-4 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl glass text-[#a3a3a3] mb-3">
+            <i className="ri-folder-add-line text-xl text-[#00f0ff]" />
           </div>
           <h4 className="text-sm font-semibold text-[#fafafa]">
             {searchQuery ? 'No matching projects found' : 'No projects yet'}

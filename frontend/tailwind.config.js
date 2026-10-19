@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         sans: ['"IBM Plex Sans"', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'monospace'],
+        title: ['Anton', 'Impact', 'sans-serif'],
       },
       colors: {
         slate: colors.neutral,
@@ -31,7 +32,7 @@ export default {
           900: '#262626',
           950: '#171717',
         },
-        page: '#0a0a0a',
+        page: '#05060a',
         surface: '#111111',
         raised: '#171717',
         border: '#262626',
@@ -39,6 +40,14 @@ export default {
         'text-primary': '#fafafa',
         'text-muted': '#a3a3a3',
         'text-faint': '#737373',
+        'aurora-cyan': '#00f0ff',
+        'aurora-violet': '#a855f7',
+        'aurora-rose': '#f43f5e',
+        'aurora-amber': '#fbbf24',
+        'glass-border': 'rgba(255, 255, 255, 0.12)',
+        'glass-border-strong': 'rgba(255, 255, 255, 0.22)',
+        'glass-fill': 'rgba(10, 12, 20, 0.45)',
+        'glass-strong': 'rgba(10, 12, 20, 0.72)',
       },
       keyframes: {
         'fade-in': {

@@ -12,21 +12,21 @@ export const Button = ({
   ...props
 }) => {
   const baseClasses =
-    'relative inline-flex items-center justify-center font-medium select-none rounded-md transition-all duration-150 ease-out focus-ring active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer';
+    'relative inline-flex items-center justify-center font-medium select-none rounded-lg transition-all duration-150 ease-out focus-ring active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer';
 
   const variantClasses = {
-    // Primary: WHITE (#fafafa) with near-black text (#0a0a0a), hover #e5e5e5
+    // Primary stays LIGHT with dark text for contrast plus specular highlight and soft glow
     primary:
-      'bg-[#fafafa] text-[#0a0a0a] border border-transparent hover:bg-[#e5e5e5] shadow-sm',
-    // Secondary: transparent with 1px #404040 border and white text, hover bg #171717
+      'bg-[#fafafa] text-[#05060a] border border-white/40 hover:bg-white shadow-[0_4px_16px_rgba(255,255,255,0.18),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_6px_20px_rgba(255,255,255,0.25),inset_0_1px_0_rgba(255,255,255,1)]',
+    // Secondary becomes glass with subtle specular line
     secondary:
-      'bg-transparent text-[#fafafa] border border-[#404040] hover:bg-[#171717] hover:border-[#525252]',
-    // Danger: subtle desaturated red
+      'bg-white/[0.06] text-[#fafafa] border border-white/15 hover:bg-white/[0.12] hover:border-white/30 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.35)]',
+    // Danger becomes tinted red glass
     danger:
-      'bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 hover:border-red-500/50',
-    // Ghost: borderless, neutral hover
+      'bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 hover:border-red-500/50 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(248,113,113,0.3),0_4px_16px_rgba(239,68,68,0.15)]',
+    // Ghost becomes transparent glass hover
     ghost:
-      'bg-transparent text-[#a3a3a3] border border-transparent hover:bg-[#171717] hover:text-[#fafafa]',
+      'bg-transparent text-[#a3a3a3] border border-transparent hover:bg-white/[0.08] hover:text-[#fafafa] hover:border-white/10 backdrop-blur-[8px]',
   };
 
   const sizeClasses = {

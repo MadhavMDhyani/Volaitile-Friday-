@@ -18,7 +18,7 @@ export const ConfirmDialog = ({
       <div className="space-y-4">
         <p className="text-sm text-[#a3a3a3] leading-relaxed">{message}</p>
         {description && (
-          <div className="rounded-md border border-[#262626] bg-[#0a0a0a] p-3 text-xs text-[#737373] font-mono">
+          <div className="rounded-lg glass-input p-3 text-xs text-[#a3a3a3] font-mono">
             {description}
           </div>
         )}

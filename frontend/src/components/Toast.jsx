@@ -39,18 +39,18 @@ export const ToastItem = ({ toast, onDismiss }) => {
   const typeConfig = {
     success: {
       icon: 'ri-checkbox-circle-line text-emerald-400',
-      border: 'border-[#262626]',
-      bar: 'bg-emerald-500/60',
+      border: 'border-white/15',
+      bar: 'bg-emerald-400/80',
     },
     error: {
       icon: 'ri-error-warning-line text-red-400',
-      border: 'border-[#262626]',
-      bar: 'bg-red-500/60',
+      border: 'border-white/15',
+      bar: 'bg-red-400/80',
     },
     info: {
-      icon: 'ri-information-line text-[#fafafa]',
-      border: 'border-[#262626]',
-      bar: 'bg-white/60',
+      icon: 'ri-information-line text-cyan-300',
+      border: 'border-white/15',
+      bar: 'bg-cyan-400/80',
     },
   };
 
@@ -60,7 +60,7 @@ export const ToastItem = ({ toast, onDismiss }) => {
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`group relative flex w-full max-w-sm overflow-hidden rounded-lg border ${config.border} bg-[#171717] p-3 text-sm text-[#fafafa] modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
+      className={`group relative flex w-full max-w-sm overflow-hidden rounded-xl glass-strong p-3.5 text-sm text-[#fafafa] modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
       role="status"
       aria-live="polite"
     >
@@ -73,7 +73,7 @@ export const ToastItem = ({ toast, onDismiss }) => {
         <button
           type="button"
           onClick={() => onDismiss(toast.id)}
-          className="text-[#737373] hover:text-[#fafafa] p-0.5 rounded focus-ring"
+          className="text-[#a3a3a3] hover:text-[#fafafa] p-1 rounded-md hover:bg-white/10 transition-colors focus-ring"
           aria-label="Dismiss notification"
         >
           <i className="ri-close-line text-sm" />
@@ -81,7 +81,7 @@ export const ToastItem = ({ toast, onDismiss }) => {
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#262626]">
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/10">
         <div
           className={`h-full ${config.bar} transition-[width] duration-75 ease-linear`}
           style={{ width: `${progress}%` }}

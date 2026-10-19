@@ -110,9 +110,9 @@ export const Modal = ({
       aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
     >
-      {/* Backdrop */}
+      {/* Frosted Backdrop */}
       <div
-        className="fixed inset-0 bg-black/80 transition-opacity duration-150"
+        className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-150"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -120,12 +120,12 @@ export const Modal = ({
       {/* Modal Dialog Content */}
       <div
         ref={modalRef}
-        className={`relative w-full ${maxWidth} rounded-lg border border-[#262626] bg-[#111111] p-5 sm:p-6 text-[#fafafa] modal-shadow transition-all duration-150 ${
+        className={`relative w-full ${maxWidth} glass-liquid p-5 sm:p-6 text-[#fafafa] modal-shadow transition-all duration-150 ${
           isClosing ? 'animate-scale-out' : 'animate-scale-in'
         } ${className}`}
       >
         {title && (
-          <div className="mb-4 flex items-center justify-between border-b border-[#262626] pb-3">
+          <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
             <h2 id={titleId} className="text-base font-semibold tracking-tight text-[#fafafa]">
               {title}
             </h2>
@@ -133,7 +133,7 @@ export const Modal = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex h-7 w-7 items-center justify-center rounded-md text-[#a3a3a3] transition-colors hover:bg-[#171717] hover:text-[#fafafa] focus-ring"
+                className="flex h-7 w-7 items-center justify-center rounded-lg text-[#a3a3a3] transition-colors hover:bg-white/10 hover:text-[#fafafa] focus-ring"
                 aria-label="Close dialog"
               >
                 <i className="ri-close-line text-lg" />

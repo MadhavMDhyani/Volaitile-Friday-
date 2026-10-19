@@ -51,18 +51,21 @@ export const AiQuickAsk = () => {
   };
 
   return (
-    <div className="flex flex-col rounded-lg border border-[#262626] bg-[#111111] p-4 text-xs font-sans">
+    <div className="flex flex-col rounded-2xl glass p-4 text-xs font-sans border-glass-border/60 shadow-glass">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#262626] pb-3 mb-3">
-        <div className="flex items-center gap-2">
-          <span className="flex h-5 w-5 items-center justify-center rounded bg-white text-[#0a0a0a] font-mono font-bold text-[10px]">
+      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-cyan-400 to-indigo-500 text-[#05060a] font-mono font-bold text-[10px] shadow-[0_0_12px_rgba(0,240,255,0.35)]">
             AI
           </span>
           <h3 className="font-semibold text-sm text-[#fafafa] tracking-tight">
             Friday AI Quick Ask
           </h3>
         </div>
-        <span className="text-[10px] font-mono text-[#737373]">Powered by Gemini</span>
+        <span className="text-[10px] font-mono text-cyan-400/70 flex items-center gap-1.5">
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+          Powered by Gemini
+        </span>
       </div>
 
       {/* Input Form */}
@@ -72,7 +75,7 @@ export const AiQuickAsk = () => {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a technical question, debug snippet, or explain a concept..."
-          className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] pl-3 pr-16 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+          className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all"
           maxLength={1000}
           disabled={isLoading}
           aria-label="Ask Friday AI"
@@ -95,11 +98,11 @@ export const AiQuickAsk = () => {
 
       {/* Reply Container */}
       {isLoading && (
-        <div className="mt-3 flex items-center gap-2 rounded-md border border-[#262626] bg-[#0a0a0a] p-3 text-xs text-[#a3a3a3] animate-pulse">
-          <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '0ms' }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '150ms' }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '300ms' }} />
-          <span className="font-mono text-[11px] text-[#737373] ml-1">
+        <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-cyan-500/25 bg-cyan-950/25 p-3 text-xs text-cyan-200/90 animate-pulse">
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+          <span className="font-mono text-[11px] text-cyan-300/80 ml-1">
             Friday AI is thinking...
           </span>
         </div>
@@ -107,24 +110,24 @@ export const AiQuickAsk = () => {
 
       {result && !isLoading && (
         <div
-          className={`mt-3 rounded-md border p-3 animate-fade-in text-xs ${
+          className={`mt-3 rounded-xl border p-3.5 animate-fade-in text-xs shadow-glass ${
             result.isError
               ? result.isRateLimited
-                ? 'border-amber-500/30 bg-amber-500/10 text-amber-300'
-                : 'border-red-500/30 bg-red-500/10 text-red-300'
-              : 'border-[#262626] bg-[#0a0a0a] text-[#fafafa]'
+                ? 'border-amber-500/30 bg-amber-950/30 text-amber-200'
+                : 'border-red-500/30 bg-red-950/30 text-red-200'
+              : 'border-white/[0.1] bg-white/[0.03] text-[#fafafa]'
           }`}
         >
           {/* Header of reply */}
-          <div className="flex items-center justify-between border-b border-[#262626]/60 pb-2 mb-2 font-mono text-[10px]">
-            <span className="truncate max-w-[200px] text-[#737373] italic">
+          <div className="flex items-center justify-between border-b border-white/[0.08] pb-2 mb-2.5 font-mono text-[10px]">
+            <span className="truncate max-w-[200px] text-[#a3a3a3] italic">
               &quot;{result.question}&quot;
             </span>
 
             <div className="flex items-center gap-2 shrink-0">
               {result.source && (
                 <span
-                  className="rounded border border-[#404040] bg-[#171717] px-1.5 py-0.2 text-[#a3a3a3] uppercase cursor-default"
+                  className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 text-cyan-300 uppercase cursor-default font-mono text-[9px]"
                   title={result.latencyMs ? `Latency: ${result.latencyMs}ms` : undefined}
                 >
                   {result.source === 'gemini' ? (result.model || 'Gemini AI') : 'Offline Engine'}
@@ -134,7 +137,7 @@ export const AiQuickAsk = () => {
                 <button
                   type="button"
                   onClick={handleCopyReply}
-                  className="text-[#737373] hover:text-[#fafafa] transition-colors focus-ring rounded"
+                  className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors focus-ring rounded p-1"
                   title="Copy AI response"
                   aria-label="Copy AI response"
                 >
@@ -144,7 +147,7 @@ export const AiQuickAsk = () => {
               <button
                 type="button"
                 onClick={() => setResult(null)}
-                className="text-[#737373] hover:text-[#fafafa] transition-colors focus-ring rounded"
+                className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors focus-ring rounded p-1"
                 title="Dismiss response"
                 aria-label="Dismiss AI response"
               >

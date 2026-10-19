@@ -10,29 +10,29 @@ export const ProjectHeader = ({
   onSelectMobileTab,
 }) => {
   return (
-    <header className="border-b border-[#262626] bg-[#0a0a0a]">
+    <header className="border-b border-white/[0.08] bg-[#07090e]/75 backdrop-blur-xl sticky top-0 z-30">
       {/* Top Navbar */}
       <div className="flex h-12 items-center justify-between px-3 sm:px-4">
         {/* Left: Back Link & Project Name */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <Link
             to="/dashboard"
-            className="flex h-7 w-7 items-center justify-center rounded-md text-[#a3a3a3] hover:bg-[#171717] hover:text-[#fafafa] transition-colors focus-ring"
+            className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >
             <i className="ri-arrow-left-line text-base" />
           </Link>
 
-          <div className="h-4 w-[1px] bg-[#262626]" />
+          <div className="h-4 w-[1px] bg-white/[0.1]" />
 
           <div className="flex items-center gap-2 min-w-0">
-            <span className="font-mono font-semibold text-xs sm:text-sm text-[#fafafa] truncate">
+            <span className="font-mono font-semibold text-xs sm:text-sm text-[#fafafa] tracking-wide truncate">
               {project?.name || 'Project Workspace'}
             </span>
 
             {isOwner && (
-              <span className="hidden sm:inline-flex items-center rounded border border-[#404040] bg-[#171717] px-1.5 py-0.2 text-[10px] font-mono text-[#a3a3a3]">
+              <span className="hidden sm:inline-flex items-center rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-[10px] font-mono text-cyan-300 shadow-[0_0_8px_rgba(0,240,255,0.2)]">
                 Owner
               </span>
             )}
@@ -50,7 +50,7 @@ export const ProjectHeader = ({
             aria-label="View project members"
           >
             <span className="hidden sm:inline">Members</span>
-            <span className="font-mono text-[10px] bg-[#171717] px-1 rounded text-[#a3a3a3]">
+            <span className="font-mono text-[10px] bg-white/[0.08] px-1.5 py-0.2 rounded-full text-white/80">
               {project?.users?.length || 1}
             </span>
           </Button>
@@ -60,13 +60,13 @@ export const ProjectHeader = ({
       </div>
 
       {/* Mobile Tab Switcher (< md screens) */}
-      <div className="flex md:hidden border-t border-[#262626] bg-[#111111] px-2 text-xs">
+      <div className="flex md:hidden border-t border-white/[0.08] bg-[#0c0e14]/80 backdrop-blur-md px-2 text-xs">
         <button
           type="button"
           onClick={() => onSelectMobileTab('files')}
           className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
             mobileTab === 'files'
-              ? 'border-white text-white'
+              ? 'border-cyan-400 text-cyan-300 font-semibold'
               : 'border-transparent text-[#737373] hover:text-[#a3a3a3]'
           }`}
         >
@@ -79,7 +79,7 @@ export const ProjectHeader = ({
           onClick={() => onSelectMobileTab('chat')}
           className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
             mobileTab === 'chat'
-              ? 'border-white text-white'
+              ? 'border-cyan-400 text-cyan-300 font-semibold'
               : 'border-transparent text-[#737373] hover:text-[#a3a3a3]'
           }`}
         >
@@ -92,7 +92,7 @@ export const ProjectHeader = ({
           onClick={() => onSelectMobileTab('members')}
           className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
             mobileTab === 'members'
-              ? 'border-white text-white'
+              ? 'border-cyan-400 text-cyan-300 font-semibold'
               : 'border-transparent text-[#737373] hover:text-[#a3a3a3]'
           }`}
         >

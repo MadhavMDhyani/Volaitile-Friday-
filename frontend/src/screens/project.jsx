@@ -101,26 +101,26 @@ export const Project = () => {
   // Loading State with Skeletons
   if (fetchStatus === 'loading') {
     return (
-      <div className="flex h-screen w-full flex-col bg-[#0a0a0a] text-[#fafafa] font-sans">
+      <div className="flex h-screen w-full flex-col bg-[#05060a]/80 backdrop-blur-sm text-[#fafafa] font-sans">
         {/* Header Skeleton */}
-        <div className="flex h-12 items-center justify-between border-b border-[#262626] bg-[#0a0a0a] px-4">
+        <div className="flex h-12 items-center justify-between border-b border-white/[0.08] bg-[#07090e]/70 backdrop-blur-md px-4">
           <div className="flex items-center gap-3">
-            <Skeleton width="24px" height="24px" rounded="rounded" />
-            <Skeleton width="140px" height="16px" />
+            <Skeleton width="28px" height="28px" rounded="rounded-lg" />
+            <Skeleton width="150px" height="18px" />
           </div>
-          <Skeleton width="90px" height="24px" rounded="rounded" />
+          <Skeleton width="96px" height="28px" rounded="rounded-lg" />
         </div>
 
         {/* Content Skeleton */}
         <div className="flex flex-1 overflow-hidden">
-          <div className="w-64 border-r border-[#262626] bg-[#111111] p-3 space-y-2">
+          <div className="w-64 border-r border-white/[0.08] bg-[#090b10]/60 backdrop-blur-md p-3 space-y-2">
             <Skeleton width="60%" height="16px" />
-            <Skeleton width="100%" height="24px" />
-            <Skeleton width="100%" height="24px" />
-            <Skeleton width="100%" height="24px" />
+            <Skeleton width="100%" height="28px" rounded="rounded-lg" />
+            <Skeleton width="100%" height="28px" rounded="rounded-lg" />
+            <Skeleton width="100%" height="28px" rounded="rounded-lg" />
           </div>
-          <div className="flex-1 bg-[#0a0a0a] p-4">
-            <Skeleton width="100%" height="100%" />
+          <div className="flex-1 bg-[#05060a]/70 p-4">
+            <Skeleton width="100%" height="100%" rounded="rounded-2xl" />
           </div>
         </div>
       </div>
@@ -130,67 +130,20 @@ export const Project = () => {
   // 403 Forbidden State: User does not have access
   if (fetchStatus === 'forbidden') {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0a0a0a] px-4 text-center text-[#fafafa] font-sans">
-        <div className="flex h-12 w-12 items-center justify-center rounded-md border border-[#404040] bg-[#171717] text-[#fafafa] mb-4">
-          <i className="ri-lock-line text-2xl text-red-400" />
-        </div>
-        <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
-          Access Denied
-        </h1>
-        <p className="mt-2 text-xs text-[#a3a3a3] max-w-sm">
-          You do not have access to this project. Ask the project owner to add you as a collaborator.
-        </p>
-        <Link to="/" className="mt-6">
-          <Button variant="primary" size="sm">
-            Return to Dashboard
-          </Button>
-        </Link>
-      </div>
-    );
-  }
-
-  // 404 Not Found State
-  if (fetchStatus === 'notfound') {
-    return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0a0a0a] px-4 text-center text-[#fafafa] font-sans">
-        <div className="flex h-12 w-12 items-center justify-center rounded-md border border-[#262626] bg-[#171717] text-[#a3a3a3] mb-4">
-          <i className="ri-folder-warning-line text-2xl" />
-        </div>
-        <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
-          Project Not Found
-        </h1>
-        <p className="mt-2 text-xs text-[#a3a3a3] max-w-sm">
-          The requested project workspace does not exist or may have been deleted.
-        </p>
-        <Link to="/" className="mt-6">
-          <Button variant="primary" size="sm">
-            Return to Dashboard
-          </Button>
-        </Link>
-      </div>
-    );
-  }
-
-  // Error State with Retry
-  if (fetchStatus === 'error') {
-    return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0a0a0a] px-4 text-center text-[#fafafa] font-sans">
-        <div className="flex h-12 w-12 items-center justify-center rounded-md border border-red-500/30 bg-red-500/10 text-red-400 mb-4">
-          <i className="ri-error-warning-line text-2xl" />
-        </div>
-        <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
-          Unable to Load Workspace
-        </h1>
-        <p className="mt-2 text-xs text-[#a3a3a3] max-w-sm">
-          {fetchErrorMsg || 'A network error occurred while retrieving project details.'}
-        </p>
-        <div className="mt-6 flex gap-3">
-          <Button variant="secondary" size="sm" onClick={fetchProject}>
-            Retry
-          </Button>
-          <Link to="/">
-            <Button variant="ghost" size="sm">
-              Dashboard
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#05060a]/80 backdrop-blur-sm px-4 text-center text-[#fafafa] font-sans">
+        <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400 mb-4 shadow-[0_0_24px_rgba(239,68,68,0.25)]">
+            <i className="ri-lock-line text-2xl" />
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
+            Access Denied
+          </h1>
+          <p className="mt-2 text-xs text-[#a3a3a3] leading-relaxed">
+            You do not have access to this project. Ask the project owner to add you as a collaborator.
+          </p>
+          <Link to="/" className="mt-6">
+            <Button variant="primary" size="sm">
+              Return to Dashboard
             </Button>
           </Link>
         </div>
@@ -198,8 +151,61 @@ export const Project = () => {
     );
   }
 
+  // 404 Not Found State
+  if (fetchStatus === 'notfound') {
+    return (
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#05060a]/80 backdrop-blur-sm px-4 text-center text-[#fafafa] font-sans">
+        <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-[#a3a3a3] mb-4 shadow-glass">
+            <i className="ri-folder-warning-line text-2xl text-cyan-400" />
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
+            Project Not Found
+          </h1>
+          <p className="mt-2 text-xs text-[#a3a3a3] leading-relaxed">
+            The requested project workspace does not exist or may have been deleted.
+          </p>
+          <Link to="/" className="mt-6">
+            <Button variant="primary" size="sm">
+              Return to Dashboard
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Error State with Retry
+  if (fetchStatus === 'error') {
+    return (
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#05060a]/80 backdrop-blur-sm px-4 text-center text-[#fafafa] font-sans">
+        <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400 mb-4 shadow-[0_0_24px_rgba(239,68,68,0.25)]">
+            <i className="ri-error-warning-line text-2xl" />
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
+            Unable to Load Workspace
+          </h1>
+          <p className="mt-2 text-xs text-[#a3a3a3] leading-relaxed">
+            {fetchErrorMsg || 'A network error occurred while retrieving project details.'}
+          </p>
+          <div className="mt-6 flex gap-3">
+            <Button variant="secondary" size="sm" onClick={fetchProject}>
+              Retry
+            </Button>
+            <Link to="/">
+              <Button variant="ghost" size="sm">
+                Dashboard
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex h-screen w-full flex-col bg-[#0a0a0a] text-[#fafafa] font-sans overflow-hidden">
+    <div className="flex h-screen w-full flex-col bg-[#05060a]/70 text-[#fafafa] font-sans overflow-hidden">
       {/* Top Navigation */}
       <ProjectHeader
         project={project}
@@ -219,7 +225,7 @@ export const Project = () => {
         {/* Desktop Layout: Split Files & Chat */}
         {/* Files Panel (File tree + code editor) */}
         <section
-          className={`flex-1 flex flex-col min-w-0 border-r border-[#262626] ${
+          className={`flex-1 flex flex-col min-w-0 border-r border-white/[0.08] ${
             mobileTab === 'files' ? 'flex' : 'hidden md:flex'
           }`}
           aria-label="File management and code editor"
@@ -229,7 +235,7 @@ export const Project = () => {
 
         {/* Chat & AI Panel */}
         <section
-          className={`w-full md:w-[380px] lg:w-[440px] shrink-0 flex flex-col ${
+          className={`w-full md:w-[380px] lg:w-[440px] shrink-0 flex flex-col border-l border-white/[0.08] bg-[#0c0e14]/50 backdrop-blur-xl ${
             mobileTab === 'chat' ? 'flex' : 'hidden md:flex'
           }`}
           aria-label="Team chat and Friday AI assistant"

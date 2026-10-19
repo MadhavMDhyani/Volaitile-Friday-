@@ -258,12 +258,13 @@ export const FilesPanel = ({ projectId }) => {
   };
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-[#0a0a0a]">
+    <div className="flex h-full w-full overflow-hidden bg-[#05060a]/90">
       {/* Sidebar: File Explorer */}
-      <aside className="w-56 sm:w-64 shrink-0 border-r border-[#262626] bg-[#111111] flex flex-col">
+      <aside className="w-56 sm:w-64 shrink-0 border-r border-white/[0.08] bg-[#090b10]/75 backdrop-blur-md flex flex-col">
         {/* Files Header & Add Button */}
-        <div className="flex h-9 shrink-0 items-center justify-between border-b border-[#262626] px-3">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#737373] font-semibold">
+        <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] px-3.5">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#a3a3a3] font-semibold flex items-center gap-1.5">
+            <i className="ri-folder-open-line text-xs text-cyan-400" />
             Files ({files.length})
           </span>
           <button
@@ -274,24 +275,24 @@ export const FilesPanel = ({ projectId }) => {
               setNewFilePath('');
               setIsNewFileModalOpen(true);
             }}
-            className="flex h-6 w-6 items-center justify-center rounded text-[#a3a3a3] hover:bg-[#171717] hover:text-[#fafafa] transition-colors focus-ring"
+            className="flex h-6 w-6 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-all focus-ring"
             title="Create new file"
             aria-label="Create new file"
           >
-            <i className="ri-file-add-line text-sm" />
+            <i className="ri-file-add-line text-xs" />
           </button>
         </div>
 
         {/* Files List */}
-        <div className="flex-1 overflow-y-auto py-1">
+        <div className="flex-1 overflow-y-auto py-1.5">
           {loading ? (
-            <div className="space-y-1 p-2">
-              <div className="h-6 w-full rounded bg-[#171717] skeleton-shimmer" />
-              <div className="h-6 w-full rounded bg-[#171717] skeleton-shimmer" />
-              <div className="h-6 w-full rounded bg-[#171717] skeleton-shimmer" />
+            <div className="space-y-1.5 p-2.5">
+              <div className="h-7 w-full rounded-lg bg-white/[0.04] skeleton-shimmer" />
+              <div className="h-7 w-full rounded-lg bg-white/[0.04] skeleton-shimmer" />
+              <div className="h-7 w-full rounded-lg bg-white/[0.04] skeleton-shimmer" />
             </div>
           ) : files.length > 0 ? (
-            <ul className="space-y-0.5 px-1.5" role="list">
+            <ul className="space-y-0.5 px-2" role="list">
               {files.map((file) => {
                 const isActive = file._id === activeFileId;
                 const isItemRenaming = file._id === renamingFileId;
@@ -301,16 +302,16 @@ export const FilesPanel = ({ projectId }) => {
                   <li
                     key={file._id}
                     onClick={() => setActiveFileId(file._id)}
-                    className={`group relative flex items-center justify-between rounded-md px-2 py-1.5 text-xs font-mono transition-colors duration-150 cursor-pointer ${
+                    className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-all duration-150 cursor-pointer ${
                       isActive
-                        ? 'bg-[#171717] text-[#fafafa] font-medium'
-                        : 'text-[#a3a3a3] hover:bg-[#171717]/60 hover:text-[#fafafa]'
+                        ? 'glass-strong text-[#fafafa] font-medium border border-cyan-400/30 shadow-[0_0_12px_rgba(0,240,255,0.12)]'
+                        : 'text-[#a3a3a3] hover:bg-white/[0.04] hover:text-[#fafafa]'
                     }`}
                   >
                     {/* Active Bar indicator */}
                     {isActive && (
                       <span
-                        className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full bg-white transition-all duration-150"
+                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-cyan-400 to-indigo-500 shadow-[0_0_8px_rgba(0,240,255,0.6)] transition-all duration-150"
                         aria-hidden="true"
                       />
                     )}
@@ -319,10 +320,10 @@ export const FilesPanel = ({ projectId }) => {
                       <i
                         className={`text-sm ${
                           file.name.endsWith('.json')
-                            ? 'ri-braces-line text-[#a3a3a3]'
+                            ? 'ri-braces-line text-amber-400/80'
                             : file.name.endsWith('.md')
-                            ? 'ri-markdown-line text-[#a3a3a3]'
-                            : 'ri-file-code-line text-[#a3a3a3]'
+                            ? 'ri-markdown-line text-cyan-400/80'
+                            : 'ri-file-code-line text-cyan-400/80'
                         }`}
                       />
 
@@ -338,7 +339,7 @@ export const FilesPanel = ({ projectId }) => {
                             if (e.key === 'Escape') setRenamingFileId(null);
                           }}
                           onBlur={() => handleConfirmRename(file._id)}
-                          className="w-full bg-[#0a0a0a] border border-white px-1 py-0.5 text-xs text-[#fafafa] rounded outline-none"
+                          className="w-full glass-input border-cyan-400/50 px-1.5 py-0.5 text-xs text-[#fafafa] rounded-md outline-none"
                         />
                       ) : (
                         <span className="truncate">{file.path || file.name}</span>
@@ -376,7 +377,7 @@ export const FilesPanel = ({ projectId }) => {
 
                     {/* Unsaved indicator dot when not hovering */}
                     {status === 'unsaved' && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#a3a3a3] group-hover:hidden" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-400/70 group-hover:hidden" />
                     )}
                   </li>
                 );
@@ -423,7 +424,7 @@ export const FilesPanel = ({ projectId }) => {
       >
         <form onSubmit={handleCreateFile} className="space-y-4">
           {newFileError && (
-            <div className="rounded-md border border-red-500/30 bg-red-500/10 p-2.5 text-xs text-red-400">
+            <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-2.5 text-xs text-red-300">
               {newFileError}
             </div>
           )}
@@ -441,7 +442,7 @@ export const FilesPanel = ({ projectId }) => {
                 setNewFileError('');
               }}
               placeholder="e.g. server.js or utils/helper.js"
-              className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono"
               autoFocus
               required
             />
@@ -457,7 +458,7 @@ export const FilesPanel = ({ projectId }) => {
               value={newFilePath}
               onChange={(e) => setNewFilePath(e.target.value)}
               placeholder="Defaults to file name (no leading slash)"
-              className="w-full rounded-md border border-[#262626] bg-[#0a0a0a] px-3.5 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono"
             />
             <p className="mt-1 text-[11px] text-[#737373]">
               No &apos;..&apos;, no leading slashes, max 200 characters.

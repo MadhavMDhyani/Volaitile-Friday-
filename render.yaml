@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: volaitile-friday-api
+    runtime: node
+    rootDir: Backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health/ping
+    envVars:
+      - key: NODE_ENV
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: TRUST_PROXY
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        sync: false
+      - key: NODE_VERSION
+        sync: false

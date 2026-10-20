@@ -228,15 +228,16 @@ describe('Friday AI Model-Aware Intelligence Unit & Integration Tests', () => {
                 };
             });
 
+            const primaryTestModel = AI_MODELS[0].id;
             const result = await aiService.generateAiChat({
                 message: 'How to configure MongoDB?',
-                model: 'gemini-2.5-flash-lite',
+                model: primaryTestModel,
             });
 
             // Primary and secondary models were attempted in fallback chain
             expect(attemptedModels.length).toBe(2);
-            expect(attemptedModels[0]).toBe('gemini-2.5-flash-lite');
-            const expectedNext = getNextModel('gemini-2.5-flash-lite').id;
+            expect(attemptedModels[0]).toBe(primaryTestModel);
+            const expectedNext = getNextModel(primaryTestModel).id;
             expect(attemptedModels[1]).toBe(expectedNext);
 
             // Fell back to offline engine
@@ -273,13 +274,14 @@ describe('Friday AI Model-Aware Intelligence Unit & Integration Tests', () => {
                 };
             });
 
+            const primaryTestModel = AI_MODELS[0].id;
             const result = await aiService.generateAiChat({
                 message: 'Help with Git',
-                model: 'gemini-2.5-flash-lite',
+                model: primaryTestModel,
             });
 
             expect(result.source).toBe('gemini');
-            const expectedSecondary = getNextModel('gemini-2.5-flash-lite').id;
+            const expectedSecondary = getNextModel(primaryTestModel).id;
             expect(result.model).toBe(expectedSecondary);
             expect(result.reply).toBe('Recovered via fallback secondary model!');
         });

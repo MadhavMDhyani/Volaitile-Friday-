@@ -13,9 +13,9 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
   };
 
   const wordmarkSizes = {
-    sm: 'text-sm tracking-wide',
-    md: 'text-base tracking-wide',
-    lg: 'text-lg tracking-wide',
+    sm: 'text-sm tracking-wide pt-[1px]',
+    md: 'text-base tracking-wide pt-[2px]',
+    lg: 'text-lg tracking-wide pt-[3px]',
   };
 
   const icon = (

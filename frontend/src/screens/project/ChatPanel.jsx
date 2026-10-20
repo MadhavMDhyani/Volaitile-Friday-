@@ -500,19 +500,19 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
     <div className="flex h-full w-full flex-col bg-[#07090e]/85 backdrop-blur-xl text-[#fafafa] overflow-hidden select-none">
       {/* Chat Header */}
       <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#0a0c12]/90 backdrop-blur-md px-3.5 text-xs">
-        <div className="flex items-center gap-2">
-          <i className="ri-chat-3-line text-cyan-400" />
-          <span className="font-semibold text-xs text-[#fafafa]">Room Chat & Friday AI</span>
+        <div className="flex items-center gap-2 min-w-0">
+          <i className="ri-chat-3-line text-cyan-400 shrink-0" />
+          <span className="font-semibold text-xs text-[#fafafa] truncate">Room Chat & Friday AI</span>
         </div>
 
         {/* Live presence indicator */}
-        <div className="flex items-center gap-2 font-mono text-[10px]">
+        <div className="flex items-center gap-1.5 shrink-0 font-mono text-[10px] tabular-nums">
           <span
-            className={`h-2 w-2 rounded-full transition-colors ${
+            className={`h-2 w-2 rounded-full shrink-0 transition-colors ${
               connected ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.7)]' : 'bg-amber-400 animate-pulse'
             }`}
           />
-          <span className={connected ? 'text-[#a3a3a3]' : 'text-amber-400'}>
+          <span className={`whitespace-nowrap ${connected ? 'text-[#a3a3a3]' : 'text-amber-400'}`}>
             {connected
               ? `${onlineUserIds.length} ${onlineUserIds.length === 1 ? 'member' : 'members'} online`
               : 'Connecting...'}
@@ -567,11 +567,11 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 }`}
               >
                 {/* Header label */}
-                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#a3a3a3]">
+                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#a3a3a3] max-w-full">
                   {isAi ? (
-                    <span className="inline-flex items-center gap-1.5 font-semibold text-[#fafafa]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(0,240,255,0.8)] animate-pulse" />
-                      <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent font-bold">Friday AI</span>
+                    <span className="inline-flex items-center gap-1.5 font-semibold text-[#fafafa] min-w-0 flex-wrap">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(0,240,255,0.8)] animate-pulse" />
+                      <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent font-bold shrink-0">Friday AI</span>
                       {(() => {
                         const isOffline =
                           msg.source === 'offline' ||
@@ -643,11 +643,11 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                       })()}
                     </span>
                   ) : (
-                    <span>{senderEmail}</span>
+                    <span className="font-mono truncate max-w-[150px] sm:max-w-[220px]" title={senderEmail}>{senderEmail}</span>
                   )}
-                  {formattedTime && <span className="text-[10px] text-white/35">{formattedTime}</span>}
+                  {formattedTime && <span className="text-[10px] text-white/35 tabular-nums shrink-0 ml-0.5">{formattedTime}</span>}
                   {isOptimistic && (
-                    <span className="text-[9px] text-cyan-400/70 italic">sending...</span>
+                    <span className="text-[9px] text-cyan-400/70 italic shrink-0">sending...</span>
                   )}
                 </div>
 
@@ -724,51 +724,61 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       )}
 
       {/* Input Box Area - Liquid Glass Composer */}
-      <form onSubmit={handleSendMessage} className="glass-liquid border-t border-white/[0.08] p-3">
-        <div className="flex items-center gap-2">
-          <div className="relative flex-1 flex items-center">
+      <form onSubmit={handleSendMessage} className="glass-liquid border-t border-white/[0.08] p-2.5 sm:p-3">
+        {/* Model pill / bar if models available */}
+        {availableModels.length > 0 && (
+          <div className="flex items-center justify-between gap-2 mb-2 px-1 text-[10px] font-mono text-[#a3a3a3]">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(0,240,255,0.8)] shrink-0" />
+              <span className="text-white/50 text-[10px] shrink-0">Model:</span>
+              <div className="relative inline-flex items-center">
+                <select
+                  value={selectedModel}
+                  onChange={handleModelChange}
+                  className="h-6 rounded-full glass-pill border border-white/[0.12] bg-[#0c0e16]/80 px-2 pr-5 text-[10px] font-mono text-cyan-300 hover:text-white focus:border-cyan-400/60 cursor-pointer appearance-none transition-all outline-none"
+                  title="Select Friday AI model"
+                  aria-label="Friday AI model selection"
+                >
+                  <option value="auto" className="bg-[#111] text-white">Auto (Best match)</option>
+                  {availableModels.map((m) => (
+                    <option key={m.id} value={m.id} className="bg-[#111] text-white">
+                      {m.label} ({m.speed})
+                    </option>
+                  ))}
+                </select>
+                <i className="ri-arrow-down-s-line pointer-events-none absolute right-1.5 text-[10px] text-cyan-300/70" />
+              </div>
+            </div>
+            <span className="text-[10px] text-white/40 hidden sm:inline tabular-nums">
+              {inputMessage.length}/{MAX_MESSAGE_LENGTH}
+            </span>
+          </div>
+        )}
+
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="relative flex-1 min-w-0 flex items-center">
             <input
               type="text"
               value={inputMessage}
               onChange={handleInputChange}
-              placeholder="Type a message or @friday for AI assistance..."
-              className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all"
+              placeholder="Type a message or @friday..."
+              className="w-full h-10 min-w-0 rounded-xl glass-input px-3.5 text-xs text-[#fafafa] placeholder-white/40 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />
-
-            <div className="absolute right-1.5 flex items-center gap-1">
-              <Button
-                type="submit"
-                variant="primary"
-                size="xs"
-                disabled={!inputMessage.trim() || isSending}
-                loading={isSending}
-                icon={<i className="ri-send-plane-2-fill text-xs" />}
-              >
-                Send
-              </Button>
-            </div>
           </div>
 
-          {availableModels.length > 0 && (
-            <div className="relative shrink-0">
-              <select
-                value={selectedModel}
-                onChange={handleModelChange}
-                className="h-[36px] rounded-xl glass-input px-2.5 text-[11px] font-mono text-[#a3a3a3] hover:text-[#fafafa] focus:border-cyan-400/50 cursor-pointer transition-all"
-                title="Select Friday AI model"
-                aria-label="Friday AI model selection"
-              >
-                <option value="auto">Auto</option>
-                {availableModels.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {m.label} ({m.speed})
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <Button
+            type="submit"
+            variant="primary"
+            size="sm"
+            disabled={!inputMessage.trim() || isSending}
+            loading={isSending}
+            icon={<i className="ri-send-plane-2-fill text-sm" />}
+            className="h-10 w-10 shrink-0 p-0 flex items-center justify-center rounded-xl"
+            title="Send message"
+            aria-label="Send message"
+          />
         </div>
       </form>
     </div>

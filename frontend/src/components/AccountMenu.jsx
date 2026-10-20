@@ -45,7 +45,7 @@ export const AccountMenu = () => {
           <div className="flex h-5 w-5 items-center justify-center rounded bg-[#fafafa] font-mono text-[10px] font-bold text-[#05060a]">
             {initial}
           </div>
-          <span className="hidden sm:inline font-medium max-w-[150px] truncate text-left">
+          <span className="hidden sm:inline font-mono font-medium max-w-[150px] truncate text-left">
             {user?.email || 'Account'}
           </span>
           <i
@@ -63,7 +63,7 @@ export const AccountMenu = () => {
           >
             <div className="border-b border-white/10 px-3 py-2">
               <span className="block text-[10px] uppercase tracking-wider text-[#737373]">Signed in as</span>
-              <span className="block font-medium truncate text-[#fafafa] mt-0.5">{user?.email}</span>
+              <span className="block font-mono text-xs font-medium truncate text-[#fafafa] mt-0.5">{user?.email}</span>
             </div>
 
             <div className="py-1">

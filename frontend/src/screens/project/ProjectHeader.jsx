@@ -14,17 +14,17 @@ export const ProjectHeader = ({
       {/* Top Navbar */}
       <div className="flex h-12 items-center justify-between px-3 sm:px-4">
         {/* Left: Back Link & Project Name */}
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <Link
             to="/dashboard"
-            className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-all focus-ring"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >
             <i className="ri-arrow-left-line text-base" />
           </Link>
 
-          <div className="h-4 w-[1px] bg-white/[0.1]" />
+          <div className="h-4 w-[1px] bg-white/[0.1] shrink-0" />
 
           <div className="flex items-center gap-2 min-w-0">
             <span className="font-mono font-semibold text-xs sm:text-sm text-[#fafafa] tracking-wide truncate">
@@ -32,7 +32,7 @@ export const ProjectHeader = ({
             </span>
 
             {isOwner && (
-              <span className="hidden sm:inline-flex items-center rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-[10px] font-mono text-cyan-300 shadow-[0_0_8px_rgba(0,240,255,0.2)]">
+              <span className="shrink-0 inline-flex items-center rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-[10px] font-mono text-cyan-300 shadow-[0_0_8px_rgba(0,240,255,0.2)]">
                 Owner
               </span>
             )}
@@ -40,7 +40,7 @@ export const ProjectHeader = ({
         </div>
 
         {/* Right: Members & Account Menu */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <Button
             variant="secondary"
             size="xs"
@@ -48,9 +48,10 @@ export const ProjectHeader = ({
             icon={<i className="ri-group-line text-xs" />}
             title="View project members"
             aria-label="View project members"
+            className="h-8"
           >
             <span className="hidden sm:inline">Members</span>
-            <span className="font-mono text-[10px] bg-white/[0.08] px-1.5 py-0.2 rounded-full text-white/80">
+            <span className="font-mono text-[10px] tabular-nums bg-white/[0.08] px-1.5 py-0.5 rounded-full text-white/80">
               {project?.users?.length || 1}
             </span>
           </Button>

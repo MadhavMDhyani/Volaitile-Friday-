@@ -80,7 +80,7 @@ export const StatCards = ({
           </div>
         </div>
         <div className="mt-3">
-          <div className="font-mono text-2xl font-bold tracking-tight text-[#fafafa]">
+          <div className="font-mono text-2xl font-bold tracking-tight text-[#fafafa] tabular-nums">
             {totalProjects}
           </div>
           <p className="mt-1 text-[11px] text-[#737373]">
@@ -99,10 +99,10 @@ export const StatCards = ({
         </div>
         <div className="mt-3">
           <div className="flex items-baseline gap-2">
-            <span className="font-mono text-2xl font-bold tracking-tight text-[#fafafa]">
+            <span className="font-mono text-2xl font-bold tracking-tight text-[#fafafa] tabular-nums">
               {ownedCount}
             </span>
-            <span className="text-xs font-mono text-[#737373]">/ {totalProjects} owned</span>
+            <span className="text-xs font-mono text-[#737373] tabular-nums">/ {totalProjects} owned</span>
           </div>
 
           {/* Liquid ownership ratio bar */}
@@ -114,7 +114,7 @@ export const StatCards = ({
             />
           </div>
 
-          <p className="mt-1.5 text-[11px] text-[#737373]">
+          <p className="mt-1.5 text-[11px] text-[#737373] tabular-nums">
             {ownedCount} owned · {memberCount} shared
           </p>
         </div>
@@ -136,11 +136,11 @@ export const StatCards = ({
             </div>
           ) : (
             <>
-              <div className="font-mono text-2xl font-bold tracking-tight text-[#fafafa]">
+              <div className="font-mono text-2xl font-bold tracking-tight text-[#fafafa] tabular-nums">
                 {projectStats.totalFiles.toLocaleString()}{' '}
                 <span className="text-sm font-normal text-[#a3a3a3]">files</span>
               </div>
-              <p className="mt-1 font-mono text-[11px] text-[#737373]">
+              <p className="mt-1 font-mono text-[11px] text-[#737373] tabular-nums">
                 {projectStats.totalLines.toLocaleString()} lines of code
               </p>
             </>
@@ -157,10 +157,10 @@ export const StatCards = ({
           </div>
         </div>
         <div className="mt-3">
-          <div className="font-mono text-2xl font-bold tracking-tight text-[#fafafa]">
+          <div className="font-mono text-2xl font-bold tracking-tight text-[#fafafa] tabular-nums">
             {uniqueCollaborators.size}
           </div>
-          <p className="mt-1 text-[11px] text-[#737373]">
+          <p className="mt-1 text-[11px] text-[#737373] tabular-nums">
             {uniqueCollaborators.size === 1 ? 'Peer collaborator' : 'Peer collaborators across projects'}
           </p>
         </div>

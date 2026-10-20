@@ -1,6 +1,7 @@
 import { useEffect, useRef, useMemo, useState } from 'react';
 import Button from '../../components/Button';
 import { useToast } from '../../context/useToast';
+import AiCodeAssistant from './AiCodeAssistant';
 
 export const FileEditor = ({
   activeFile,
@@ -9,11 +10,13 @@ export const FileEditor = ({
   onSaveContent,
   saveStatus = 'saved', // 'saved' | 'saving' | 'unsaved' | 'error'
   onRetrySave,
+  projectId,
 }) => {
   const textareaRef = useRef(null);
   const gutterRef = useRef(null);
   const toast = useToast();
   const [copied, setCopied] = useState(false);
+  const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
 
   // Line numbers calculation
   const lineCount = useMemo(() => {
@@ -59,7 +62,39 @@ export const FileEditor = ({
       if (activeFile?._id) {
         onSaveContent(activeFile._id, draftContent);
       }
+      return;
     }
+
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'i') {
+      e.preventDefault();
+      setIsAiAssistantOpen((prev) => !prev);
+    }
+  };
+
+  const handleInsertCode = (code) => {
+    if (!activeFile?._id) return;
+    const textarea = textareaRef.current;
+    if (textarea) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = draftContent || '';
+      const updated = value.substring(0, start) + code + value.substring(end);
+      onChangeContent(activeFile._id, updated);
+      requestAnimationFrame(() => {
+        if (textareaRef.current) {
+          textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + code.length;
+          textareaRef.current.focus();
+        }
+      });
+    } else {
+      const updated = (draftContent ? draftContent + '\n\n' : '') + code;
+      onChangeContent(activeFile._id, updated);
+    }
+  };
+
+  const handleReplaceCode = (code) => {
+    if (!activeFile?._id) return;
+    onChangeContent(activeFile._id, code);
   };
 
   // Warn user before leaving page if unsaved changes exist
@@ -172,6 +207,18 @@ export const FileEditor = ({
           <div className="h-3 w-[1px] bg-white/[0.1]" />
 
           <Button
+            variant={isAiAssistantOpen ? 'primary' : 'ghost'}
+            size="xs"
+            onClick={() => setIsAiAssistantOpen((prev) => !prev)}
+            icon={<i className="ri-sparkling-fill text-brand-yellow text-xs" />}
+            title="Toggle Friday AI Assistant (Ctrl+I)"
+            aria-label="Toggle Friday AI Assistant"
+            className={isAiAssistantOpen ? 'shadow-[0_0_12px_rgba(255,214,10,0.4)]' : ''}
+          >
+            <span className="hidden sm:inline">Friday AI</span>
+          </Button>
+
+          <Button
             variant="ghost"
             size="xs"
             onClick={handleCopyContent}
@@ -202,7 +249,7 @@ export const FileEditor = ({
         </div>
       </div>
 
-      {/* Editor Body: Gutter + Monospace Textarea (Near-opaque background >= 0.80 for performance & clarity) */}
+      {/* Editor Body: Gutter + Monospace Textarea + AI Assistant Panel */}
       <div className="relative flex flex-1 overflow-hidden font-mono text-xs">
         {/* Line Numbers Gutter */}
         <div
@@ -234,6 +281,21 @@ export const FileEditor = ({
             aria-label={`Code editor for ${activeFile.name}`}
           />
         </div>
+
+        {/* AI Assistant Split Panel */}
+        {isAiAssistantOpen && (
+          <div className="w-full sm:w-[380px] md:w-[420px] shrink-0 h-full border-l border-white/[0.1] z-20">
+            <AiCodeAssistant
+              isOpen={isAiAssistantOpen}
+              onClose={() => setIsAiAssistantOpen(false)}
+              activeFile={activeFile}
+              draftContent={draftContent}
+              projectId={projectId}
+              onInsertCode={handleInsertCode}
+              onReplaceCode={handleReplaceCode}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -412,6 +412,7 @@ export const FilesPanel = ({ projectId }) => {
           onSaveContent={handleSaveFile}
           saveStatus={activeFile ? saveStatuses[activeFile._id] || 'saved' : 'saved'}
           onRetrySave={() => activeFile && handleSaveFile(activeFile._id, drafts[activeFile._id])}
+          projectId={projectId}
         />
       </main>
 

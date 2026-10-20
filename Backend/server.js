@@ -79,6 +79,17 @@ if (process.send) {
     });
 }
 
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`[Server Error] Port ${port} is already in use by another running instance.`);
+        console.error(`[Server Error] Another Node process (PID running in another terminal) is already using port ${port}.`);
+        console.error(`[Server Error] Stop the previous 'npm run dev' terminal or change PORT in .env.`);
+    } else {
+        console.error('[Server Error]', err);
+    }
+    process.exit(1);
+});
+
 server.listen(port, () => {
     const addr = server.address();
     const actualPort = typeof addr === 'object' && addr ? addr.port : port;

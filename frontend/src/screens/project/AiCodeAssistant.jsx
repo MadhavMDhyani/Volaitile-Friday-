@@ -311,7 +311,7 @@ export const AiCodeAssistant = ({
               }}
               placeholder="e.g. Create an Express router with JWT middleware, error handling, and MongoDB CRUD queries..."
               rows={4}
-              className="w-full rounded-xl border border-white/[0.12] bg-[#05060a]/90 p-3 font-sans text-xs text-[#fafafa] placeholder-white/25 outline-none focus:border-brand-yellow transition-all resize-none"
+              className="w-full rounded-xl border border-white/[0.12] bg-[#000000]/95 p-3 font-sans text-xs text-[#fafafa] placeholder-white/25 outline-none focus:border-brand-yellow transition-all resize-none"
             />
 
             {/* Language & Framework Selectors */}
@@ -372,7 +372,7 @@ export const AiCodeAssistant = ({
 
             {/* Generated Output Card */}
             {generatedResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#05060a]/90 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#000000]/95 overflow-hidden shadow-glass animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -462,7 +462,7 @@ export const AiCodeAssistant = ({
             )}
 
             {reviewResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#05060a]/90 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#000000]/95 overflow-hidden shadow-glass animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
@@ -484,7 +484,7 @@ export const AiCodeAssistant = ({
                   </button>
                 </div>
 
-                <div className="p-3.5 max-h-80 overflow-y-auto text-xs text-[#fafafa] leading-relaxed whitespace-pre-wrap select-text bg-[#030407] font-mono">
+                <div className="p-3.5 max-h-80 overflow-y-auto text-xs text-[#fafafa] leading-relaxed whitespace-pre-wrap select-text bg-[#000000] font-mono">
                   {reviewResult.review}
                 </div>
               </div>
@@ -522,7 +522,7 @@ export const AiCodeAssistant = ({
             )}
 
             {explainResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#05060a]/90 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#000000]/95 overflow-hidden shadow-glass animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />

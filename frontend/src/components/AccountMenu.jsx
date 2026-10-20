@@ -42,7 +42,7 @@ export const AccountMenu = () => {
           aria-haspopup="true"
           aria-label="Account options"
         >
-          <div className="flex h-5 w-5 items-center justify-center rounded bg-[#fafafa] font-mono text-[10px] font-bold text-[#05060a]">
+          <div className="flex h-5 w-5 items-center justify-center rounded bg-[#fafafa] font-mono text-[10px] font-bold text-[#000000]">
             {initial}
           </div>
           <span className="hidden sm:inline font-mono font-medium max-w-[150px] truncate text-left">

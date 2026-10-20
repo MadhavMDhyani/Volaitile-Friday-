@@ -80,8 +80,8 @@ export const ProjectGrid = ({
             className="glass-input px-3 py-2 text-xs text-[#fafafa] focus-ring cursor-pointer"
             aria-label="Sort projects"
           >
-            <option value="updated" className="bg-[#05060a]">Recently updated</option>
-            <option value="name" className="bg-[#05060a]">Name (A-Z)</option>
+            <option value="updated" className="bg-[#000000]">Recently updated</option>
+            <option value="name" className="bg-[#000000]">Name (A-Z)</option>
           </select>
         </div>
       </div>

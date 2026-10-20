@@ -88,9 +88,9 @@ export const ProductMockup = () => {
         </div>
 
         {/* Window Content: 3-Column IDE Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 min-h-[380px] bg-[#05060a]/90 text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-12 min-h-[380px] bg-[#000000]/95 text-xs">
           {/* Column 1: File Tree (3 cols on md) */}
-          <div className="hidden md:flex md:col-span-3 flex-col border-r border-white/[0.08] bg-[#080a10]/85 p-3 select-none">
+          <div className="hidden md:flex md:col-span-3 flex-col border-r border-white/[0.08] bg-[#000000]/85 p-3 select-none">
             <div className="text-[10px] font-mono uppercase tracking-wider text-[#737373] mb-2 px-1 flex items-center justify-between">
               <span>EXPLORER</span>
               <span className="text-[9px] text-white/30 tabular-nums">4 files</span>

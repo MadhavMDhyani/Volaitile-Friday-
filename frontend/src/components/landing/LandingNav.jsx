@@ -32,7 +32,7 @@ export const LandingNav = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
-          ? 'bg-[#05060a]/75 backdrop-blur-xl border-b border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
+          ? 'bg-[#000000]/80 backdrop-blur-xl border-b border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >

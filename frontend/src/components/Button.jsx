@@ -17,7 +17,7 @@ export const Button = ({
   const variantClasses = {
     // Primary stays LIGHT with dark text for contrast plus specular highlight and soft glow
     primary:
-      'bg-[#fafafa] text-[#05060a] border border-white/40 hover:bg-white shadow-[0_4px_16px_rgba(255,255,255,0.18),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_6px_20px_rgba(255,255,255,0.25),inset_0_1px_0_rgba(255,255,255,1)]',
+      'bg-[#fafafa] text-[#000000] border border-white/40 hover:bg-white shadow-[0_4px_16px_rgba(255,255,255,0.18),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_6px_20px_rgba(255,255,255,0.25),inset_0_1px_0_rgba(255,255,255,1)]',
     // Secondary becomes glass with subtle specular line
     secondary:
       'bg-white/[0.06] text-[#fafafa] border border-white/15 hover:bg-white/[0.12] hover:border-white/30 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.35)]',

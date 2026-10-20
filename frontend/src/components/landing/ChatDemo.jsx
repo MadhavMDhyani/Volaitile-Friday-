@@ -28,7 +28,8 @@ export const ChatDemo = () => {
     document.addEventListener('visibilitychange', handleVisibility);
 
     let observer;
-    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+    const node = containerRef.current;
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window && node) {
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -37,15 +38,13 @@ export const ChatDemo = () => {
         },
         { threshold: 0.1 }
       );
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
-      }
+      observer.observe(node);
     }
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibility);
-      if (observer && containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (observer && node) {
+        observer.unobserve(node);
       }
     };
   }, []);

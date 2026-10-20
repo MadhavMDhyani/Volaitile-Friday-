@@ -11,6 +11,7 @@ const Dashboard = lazy(() => import('../screens/Dashboard'));
 const Login = lazy(() => import('../screens/Login'));
 const Register = lazy(() => import('../screens/Register'));
 const Project = lazy(() => import('../screens/Project'));
+const Landing = lazy(() => import('../screens/Landing'));
 
 const ScreenFallback = () => (
   <div className="flex min-h-screen w-full flex-col bg-transparent p-6 text-[#fafafa]">
@@ -90,20 +91,22 @@ const GuestRoute = ({ children }) => {
   return children;
 };
 
+// Root route: Shows Home when logged in, Landing when guest
+const RootRoute = () => {
+  const { user, loading } = useContext(UserContext);
+  if (loading) return <ScreenFallback />;
+  if (user) return <Home />;
+  return <Landing />;
+};
+
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
       <PageTransition>
         <Suspense fallback={<ScreenFallback />}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/" element={<RootRoute />} />
+            <Route path="/welcome" element={<Landing />} />
             <Route
               path="/dashboard"
               element={

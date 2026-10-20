@@ -35,25 +35,25 @@ export const Reveal = ({
   ...rest
 }) => {
   const domRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isDone, setIsDone] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return true;
+    }
+    return false;
+  });
+  const [isDone, setIsDone] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return true;
+    }
+    return false;
+  });
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setIsVisible(true);
-      setIsDone(true);
-      return;
-    }
-
     const el = domRef.current;
-    if (!el) return;
+    if (!el || isVisible) return;
 
     const observer = getSharedObserver();
-    if (!observer) {
-      setIsVisible(true);
-      setIsDone(true);
-      return;
-    }
+    if (!observer) return;
 
     observerCallbacks.set(el, () => {
       setIsVisible(true);
@@ -64,7 +64,7 @@ export const Reveal = ({
       observerCallbacks.delete(el);
       observer?.unobserve(el);
     };
-  }, []);
+  }, [isVisible]);
 
   const handleTransitionEnd = (e) => {
     if (e.target === domRef.current) {

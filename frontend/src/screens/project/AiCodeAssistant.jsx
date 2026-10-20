@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import { useToast } from '../../context/useToast';
@@ -19,10 +19,29 @@ export const AiCodeAssistant = ({
   const [availableModels, setAvailableModels] = useState([]);
   const [copiedIndex, setCopiedIndex] = useState(null);
 
+  // Infer default language and framework from filename
+  const fileName = (activeFile?.name || '').toLowerCase();
+  let defaultLanguage = 'javascript';
+  if (fileName.endsWith('.ts') || fileName.endsWith('.tsx')) defaultLanguage = 'typescript';
+  else if (fileName.endsWith('.py')) defaultLanguage = 'python';
+  else if (fileName.endsWith('.html')) defaultLanguage = 'html';
+  else if (fileName.endsWith('.css')) defaultLanguage = 'css';
+  else if (fileName.endsWith('.json')) defaultLanguage = 'json';
+  else if (fileName.endsWith('.sql')) defaultLanguage = 'sql';
+  else if (fileName.endsWith('.sh')) defaultLanguage = 'bash';
+
+  const defaultFramework =
+    fileName.includes('react') || fileName.endsWith('.jsx') || fileName.endsWith('.tsx')
+      ? 'react'
+      : 'express';
+
   // Generate Mode State
   const [prompt, setPrompt] = useState('');
-  const [language, setLanguage] = useState('javascript');
-  const [framework, setFramework] = useState('express');
+  const [userLanguage, setUserLanguage] = useState(null);
+  const [userFramework, setUserFramework] = useState(null);
+  const language = userLanguage ?? defaultLanguage;
+  const framework = userFramework ?? defaultFramework;
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState(null);
   const [generateError, setGenerateError] = useState('');
@@ -36,26 +55,6 @@ export const AiCodeAssistant = ({
   const [isExplaining, setIsExplaining] = useState(false);
   const [explainResult, setExplainResult] = useState(null);
   const [explainError, setExplainError] = useState('');
-
-  // Infer default language from filename
-  useEffect(() => {
-    if (!activeFile?.name) return;
-    const name = activeFile.name.toLowerCase();
-    if (name.endsWith('.ts') || name.endsWith('.tsx')) setLanguage('typescript');
-    else if (name.endsWith('.py')) setLanguage('python');
-    else if (name.endsWith('.html')) setLanguage('html');
-    else if (name.endsWith('.css')) setLanguage('css');
-    else if (name.endsWith('.json')) setLanguage('json');
-    else if (name.endsWith('.sql')) setLanguage('sql');
-    else if (name.endsWith('.sh')) setLanguage('bash');
-    else setLanguage('javascript');
-
-    if (name.includes('react') || name.endsWith('.jsx') || name.endsWith('.tsx')) {
-      setFramework('react');
-    } else {
-      setFramework('express');
-    }
-  }, [activeFile?.name]);
 
   // Fetch available models from backend registry
   useEffect(() => {
@@ -323,7 +322,7 @@ export const AiCodeAssistant = ({
                 </label>
                 <select
                   value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
+                  onChange={(e) => setUserLanguage(e.target.value)}
                   className="w-full rounded-lg border border-white/[0.1] bg-white/[0.04] p-1.5 font-mono text-xs text-[#fafafa] outline-none hover:border-white/20 focus:border-brand-yellow"
                 >
                   <option value="javascript" className="bg-[#090b10]">JavaScript</option>
@@ -342,7 +341,7 @@ export const AiCodeAssistant = ({
                 </label>
                 <select
                   value={framework}
-                  onChange={(e) => setFramework(e.target.value)}
+                  onChange={(e) => setUserFramework(e.target.value)}
                   className="w-full rounded-lg border border-white/[0.1] bg-white/[0.04] p-1.5 font-mono text-xs text-[#fafafa] outline-none hover:border-white/20 focus:border-brand-yellow"
                 >
                   <option value="express" className="bg-[#090b10]">Express</option>

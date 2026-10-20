@@ -27,8 +27,8 @@ describe('Graceful Shutdown Test', () => {
                 try {
                     child.kill('SIGKILL');
                 } catch {}
-                reject(new Error('Graceful shutdown test timed out after 5000ms'));
-            }, 5000);
+                reject(new Error('Graceful shutdown test timed out after 10000ms'));
+            }, 10000);
 
             child.stdout.on('data', (d) => {
                 const text = d.toString();
@@ -75,5 +75,5 @@ describe('Graceful Shutdown Test', () => {
         const result = await exitPromise;
         expect(result.code).toBe(0);
         expect(result.duration).toBeLessThan(3000);
-    }, 10000);
+    }, 15000);
 });

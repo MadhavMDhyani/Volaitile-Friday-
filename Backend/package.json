@@ -8,7 +8,7 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "migrate:owner": "node scripts/migrate-owner.js",
-    "test": "vitest run"
+    "test": "vitest run --fileParallelism=false"
   },
   "keywords": [],
   "author": "",

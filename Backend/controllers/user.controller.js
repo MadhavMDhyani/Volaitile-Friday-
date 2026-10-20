@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import userModel from '../models/user.models.js';
 import * as userService from '../service/user.service.js';
 import { validationResult } from 'express-validator';
@@ -8,15 +9,26 @@ import { extractToken } from '../middleware/auth.middleware.js';
 export const createUserController = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const firstError = errors.array()[0]?.msg || 'Validation failed';
+        return res.status(400).json({ error: firstError, errors: errors.array() });
     }
 
     try {
-        const user = await userService.createUser(req.body);
+        const rawEmail = (req.body.email || '').trim().toLowerCase();
+        const user = await userService.createUser({ ...req.body, email: rawEmail });
         const token = user.generateJWT();
 
         const userObj = user.toObject ? user.toObject() : { ...user._doc };
         delete userObj.password;
+
+        if (res.cookie) {
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                maxAge: 24 * 60 * 60 * 1000,
+            });
+        }
 
         return res.status(201).json({ user: userObj, token });
     } catch (error) {
@@ -31,14 +43,36 @@ export const createUserController = async (req, res) => {
 export const loginController = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const firstError = errors.array()[0]?.msg || 'Validation failed';
+        return res.status(400).json({ error: firstError, errors: errors.array() });
     }
 
     try {
-        const { email, password } = req.body;
-        const user = await userModel.findOne({ email }).select('+password');
+        const rawEmail = (req.body.email || '').trim();
+        const password = req.body.password || '';
+        const cleanEmail = rawEmail.toLowerCase();
 
+        if (!cleanEmail || !password) {
+            return res.status(400).json({ error: 'Email and password are required' });
+        }
+
+        // 1. Try exact lowercase match
+        let user = await userModel.findOne({ email: cleanEmail }).select('+password');
+
+        // 2. Fallback to case-insensitive regex if stored differently
         if (!user) {
+            const escaped = cleanEmail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            user = await userModel.findOne({ email: { $regex: new RegExp(`^${escaped}$`, 'i') } }).select('+password');
+        }
+
+        // 3. Fallback for Gmail addresses (with or without dots)
+        if (!user && cleanEmail.includes('@gmail.com')) {
+            const [localPart, domain] = cleanEmail.split('@');
+            const noDots = localPart.replace(/\./g, '') + '@' + domain;
+            user = await userModel.findOne({ email: noDots }).select('+password');
+        }
+
+        if (!user || !user.password) {
             return res.status(401).json({
                 error: 'Invalid email or password',
             });
@@ -56,6 +90,15 @@ export const loginController = async (req, res) => {
         const userObj = user.toObject ? user.toObject() : { ...user._doc };
         delete userObj.password;
 
+        if (res.cookie) {
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                maxAge: 24 * 60 * 60 * 1000,
+            });
+        }
+
         return res.status(200).json({ user: userObj, token });
     } catch (err) {
         console.error('Login error:', err);
@@ -65,8 +108,16 @@ export const loginController = async (req, res) => {
 
 export const profileController = async (req, res) => {
     try {
-        const filter = req.user?._id ? { _id: req.user._id } : { email: req.user?.email };
-        const user = await userModel.findOne(filter).select('_id email');
+        const userId = req.user?._id || req.user?.id;
+        let user = null;
+
+        if (userId && mongoose.Types.ObjectId.isValid(userId)) {
+            user = await userModel.findById(userId).select('_id email');
+        }
+
+        if (!user && req.user?.email) {
+            user = await userModel.findOne({ email: req.user.email }).select('_id email');
+        }
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

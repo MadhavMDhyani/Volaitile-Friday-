@@ -166,9 +166,9 @@ export const Dashboard = () => {
   const userGreeting = user?.name || (user?.email ? user.email.split('@')[0] : 'Developer');
 
   return (
-    <div className="min-h-screen bg-transparent text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#05060a]">
+    <div className="min-h-screen bg-transparent text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#000000]">
       {/* Top Navigation Header */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#05060a]/65 backdrop-blur-[var(--blur)]">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#000000]/75 backdrop-blur-[var(--blur)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <Logo size="md" to="/dashboard" />

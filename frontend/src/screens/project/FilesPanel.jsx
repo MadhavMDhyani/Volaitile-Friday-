@@ -258,9 +258,9 @@ export const FilesPanel = ({ projectId }) => {
   };
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-[#05060a]/90">
+    <div className="flex h-full w-full overflow-hidden bg-[#000000]/95">
       {/* Sidebar: File Explorer */}
-      <aside className="w-56 sm:w-64 shrink-0 border-r border-white/[0.08] bg-[#090b10]/75 backdrop-blur-md flex flex-col">
+      <aside className="w-56 sm:w-64 shrink-0 border-r border-white/[0.08] bg-[#000000]/85 backdrop-blur-md flex flex-col">
         {/* Files Header & Add Button */}
         <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] px-3.5">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[#a3a3a3] font-semibold flex items-center gap-1.5">

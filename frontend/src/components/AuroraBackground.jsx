@@ -15,7 +15,7 @@ export const AuroraBackground = () => {
 
   return (
     <div
-      className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-[#05060a]"
+      className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-[#000000]"
       aria-hidden="true"
     >
       {/* Hidden SVG defining progressive enhancement liquid refraction filter */}

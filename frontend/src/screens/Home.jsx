@@ -144,9 +144,9 @@ export const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#05060a]">
+    <div className="min-h-screen bg-transparent text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#000000]">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#05060a]/65 backdrop-blur-[var(--blur)]">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#000000]/75 backdrop-blur-[var(--blur)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <Logo size="md" to="/dashboard" />
@@ -229,8 +229,8 @@ export const Home = () => {
               className="glass-input px-3 py-2 text-xs text-[#fafafa] focus-ring cursor-pointer"
               aria-label="Sort projects"
             >
-              <option value="newest" className="bg-[#05060a]">Newest first</option>
-              <option value="name" className="bg-[#05060a]">Name (A-Z)</option>
+              <option value="newest" className="bg-[#000000]">Newest first</option>
+              <option value="name" className="bg-[#000000]">Name (A-Z)</option>
             </select>
           </div>
         </div>

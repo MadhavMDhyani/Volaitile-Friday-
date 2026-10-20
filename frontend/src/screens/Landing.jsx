@@ -11,7 +11,7 @@ import AuroraBackground from '../components/AuroraBackground';
 
 export const Landing = () => {
   return (
-    <div className="relative min-h-screen w-full bg-[#05060a] text-[#fafafa] selection:bg-[#fafafa] selection:text-[#05060a] overflow-x-hidden">
+    <div className="relative min-h-screen w-full bg-[#000000] text-[#fafafa] selection:bg-[#fafafa] selection:text-[#000000] overflow-x-hidden">
       {/* Shared Aurora Orbs Background */}
       <AuroraBackground />
 

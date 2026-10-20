@@ -122,7 +122,7 @@ export const FileEditor = ({
 
   if (!activeFile) {
     return (
-      <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center text-[#737373] bg-[#05060a]/90">
+      <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center text-[#737373] bg-[#000000]/95">
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass border-glass-border/50 text-cyan-400/60 mb-3 shadow-glass">
           <i className="ri-code-box-line text-3xl" />
         </div>
@@ -186,9 +186,9 @@ export const FileEditor = ({
   };
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#05060a]/90 text-[#fafafa] overflow-hidden select-none">
+    <div className="flex h-full w-full flex-col bg-[#000000]/95 text-[#fafafa] overflow-hidden select-none">
       {/* Editor Top Bar */}
-      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#0c0e14]/90 backdrop-blur-md px-3.5 text-xs">
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#000000]/90 backdrop-blur-md px-3.5 text-xs">
         {/* File Path & Language */}
         <div className="flex items-center gap-2 min-w-0">
           <i className="ri-file-text-line text-cyan-400 text-sm" />
@@ -254,7 +254,7 @@ export const FileEditor = ({
         {/* Line Numbers Gutter */}
         <div
           ref={gutterRef}
-          className="w-12 shrink-0 overflow-hidden select-none border-r border-white/[0.08] bg-[#07090e]/95 py-3 text-right text-white/30 font-mono text-xs select-none"
+          className="w-12 shrink-0 overflow-hidden select-none border-r border-white/[0.08] bg-[#000000]/95 py-3 text-right text-white/30 font-mono text-xs select-none"
           aria-hidden="true"
         >
           {lineNumbers.map((num) => (
@@ -265,7 +265,7 @@ export const FileEditor = ({
         </div>
 
         {/* Synchronized Textarea */}
-        <div className="relative flex-1 overflow-hidden bg-[#05060a]/92">
+        <div className="relative flex-1 overflow-hidden bg-[#000000]/95">
           <textarea
             ref={textareaRef}
             value={draftContent}

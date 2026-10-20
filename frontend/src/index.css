@@ -7,29 +7,29 @@
   --font-mono: 'IBM Plex Mono', monospace;
   --font-title: 'Anton', Impact, sans-serif;
 
-  --bg-page: #05060a;
-  --bg-surface: #111111;
-  --bg-raised: #171717;
-  --border-subtle: #262626;
-  --border-strong: #404040;
+  --bg-page: #000000;
+  --bg-surface: #0a0a0a;
+  --bg-raised: #121212;
+  --border-subtle: #1c1c1c;
+  --border-strong: #333333;
   --text-primary: #fafafa;
   --text-muted: #a3a3a3;
   --text-faint: #737373;
 
   /* Brand Color Tokens */
-  --brand-black: #0A0A0A;
+  --brand-black: #000000;
   --brand-yellow: #FFD60A;
   --brand-amber: #FFB800;
   --brand-pale: #FFF3B0;
 
   /* Liquid Glass Tokens - High Translucency with Defined Luminous Edge */
-  --glass-fill: rgba(10, 12, 20, 0.18);
-  --glass-fill-strong: rgba(10, 12, 20, 0.58);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-border-strong: rgba(255, 255, 255, 0.28);
-  --specular-highlight: rgba(255, 255, 255, 0.40);
+  --glass-fill: rgba(255, 255, 255, 0.03);
+  --glass-fill-strong: rgba(8, 8, 8, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-strong: rgba(255, 255, 255, 0.24);
+  --specular-highlight: rgba(255, 255, 255, 0.35);
   --glass-glow: 0 0 24px -2px rgba(255, 255, 255, 0.04);
-  --glass-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.70);
+  --glass-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.95);
   --blur: 15px;
   --saturation: 180%;
   --brightness: 1.05;
@@ -52,7 +52,7 @@ body {
   height: 100%;
   width: 100%;
   font-family: var(--font-sans);
-  background-color: #05060a;
+  background-color: #000000;
   color: #fafafa;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -62,7 +62,7 @@ body {
 /* Global Selection */
 ::selection {
   background-color: #fafafa;
-  color: #05060a;
+  color: #000000;
 }
 
 /* Custom Scrollbar - Neutral 6px */
@@ -95,7 +95,7 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #05060a, 0 0 0 4px rgba(250, 250, 250, 0.7);
+  box-shadow: 0 0 0 2px #000000, 0 0 0 4px rgba(250, 250, 250, 0.7);
 }
 
 @layer components {
@@ -163,7 +163,7 @@ select:focus-visible {
     outline: none;
     border-color: rgba(255, 255, 255, 0.50);
     background: rgba(14, 18, 32, 0.65);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30), 0 0 0 2px #05060a, 0 0 0 4px rgba(250, 250, 250, 0.7);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30), 0 0 0 2px #000000, 0 0 0 4px rgba(250, 250, 250, 0.7);
   }
 
   /* Glass Pill for Chips, Tabs, Badges */
@@ -196,7 +196,7 @@ select:focus-visible {
 
   /* Scrim for busy backgrounds */
   .glass-scrim {
-    background: rgba(5, 6, 10, 0.55);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }

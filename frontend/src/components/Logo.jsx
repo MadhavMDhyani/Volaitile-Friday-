@@ -27,28 +27,28 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       aria-hidden="true"
     >
       <defs>
-        {/* Squircle glass fill gradient */}
+        {/* Near-black glass squircle tile gradient (#0B0B0B to #1C1C1C) */}
         <linearGradient id={tileId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(255, 255, 255, 0.14)" />
-          <stop offset="45%" stopColor="rgba(255, 255, 255, 0.03)" />
-          <stop offset="100%" stopColor="rgba(10, 12, 20, 0.78)" />
+          <stop offset="0%" stopColor="#1C1C1C" />
+          <stop offset="60%" stopColor="#111111" />
+          <stop offset="100%" stopColor="#0B0B0B" />
         </linearGradient>
 
-        {/* Luminous Monogram cyan-to-violet gradient */}
+        {/* Luminous yellow-to-amber monogram gradient (#FFD60A to #FFB800) */}
         <linearGradient id={gradId} x1="15%" y1="90%" x2="90%" y2="10%">
-          <stop offset="0%" stopColor="#00f0ff" />
-          <stop offset="100%" stopColor="#c084fc" />
+          <stop offset="0%" stopColor="#FFD60A" />
+          <stop offset="100%" stopColor="#FFB800" />
         </linearGradient>
 
-        {/* Specular sheen gradient for top-left edge */}
+        {/* Thin yellow-tinted edge highlight for top-left edge */}
         <linearGradient id={highlightId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(255, 255, 255, 0.55)" />
-          <stop offset="60%" stopColor="rgba(255, 255, 255, 0.1)" />
-          <stop offset="100%" stopColor="rgba(255, 255, 255, 0)" />
+          <stop offset="0%" stopColor="rgba(255, 214, 10, 0.45)" />
+          <stop offset="45%" stopColor="rgba(255, 243, 176, 0.20)" />
+          <stop offset="100%" stopColor="rgba(255, 214, 10, 0)" />
         </linearGradient>
       </defs>
 
-      {/* Glass Squircle Tile */}
+      {/* Near-black Squircle Glass Tile */}
       <rect
         x="3"
         y="3"
@@ -56,11 +56,11 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
         height="58"
         rx="16"
         fill={`url(#${tileId})`}
-        stroke="rgba(255, 255, 255, 0.16)"
+        stroke="rgba(255, 214, 10, 0.24)"
         strokeWidth="1.2"
       />
 
-      {/* Top-Left Specular Sheen Arc */}
+      {/* Top-Left Specular Yellow Sheen Arc */}
       <path
         d="M 19 4 L 44 4 C 52 4 58.5 9.5 59.5 17"
         fill="none"
@@ -92,20 +92,20 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
         strokeLinecap="round"
       />
 
-      {/* Inner specular line highlight on the stroke */}
+      {/* Inner specular line highlight on the stroke in brand-pale */}
       <path
         d="M 18 22 L 27.5 45 L 43 17"
         fill="none"
-        stroke="rgba(255, 255, 255, 0.65)"
+        stroke="#FFF3B0"
         strokeWidth="1"
         strokeLinecap="round"
         strokeLinejoin="round"
-        opacity="0.8"
+        opacity="0.85"
       />
 
-      {/* Small liquid-droplet highlight at V's vertex */}
-      <circle cx="28" cy="48" r="2.2" fill="#00f0ff" />
-      <circle cx="28" cy="47.6" r="1" fill="#ffffff" opacity="0.9" />
+      {/* Small droplet highlight at V's vertex in brand-pale (#FFF3B0) */}
+      <circle cx="28" cy="48" r="2.2" fill="#FFF3B0" />
+      <circle cx="28" cy="47.6" r="1" fill="#FFFFFF" opacity="0.9" />
     </svg>
   );
 

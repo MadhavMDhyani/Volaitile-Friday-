@@ -5,7 +5,7 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/[0.08] bg-[#000000]/95 backdrop-blur-xl py-12 relative z-10">
+    <footer className="border-t border-white/[0.08] bg-page/95 backdrop-blur-xl py-12 relative z-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo & Tagline */}
@@ -34,7 +34,7 @@ export const Footer = () => {
             <Link to="/login" className="hover:text-white transition-colors">
               Log in
             </Link>
-            <Link to="/register" className="text-brand-yellow hover:underline">
+            <Link to="/register" className="text-accent hover:underline">
               Register
             </Link>
           </nav>
@@ -45,7 +45,7 @@ export const Footer = () => {
             &copy; {currentYear} Volaitile Friday. Built with React 19, Node.js, Express, MongoDB, and Redis.
           </p>
           <div className="flex items-center gap-2 font-mono text-[11px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-white" />
             <span>Systems fully operational</span>
           </div>
         </div>

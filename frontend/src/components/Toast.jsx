@@ -38,19 +38,19 @@ export const ToastItem = ({ toast, onDismiss }) => {
 
   const typeConfig = {
     success: {
-      icon: 'ri-checkbox-circle-line text-emerald-400',
+      icon: 'ri-check-line text-[#CECECE]',
       border: 'border-white/15',
-      bar: 'bg-emerald-400/80',
+      bar: 'bg-white/60',
     },
     error: {
-      icon: 'ri-error-warning-line text-red-400',
+      icon: 'ri-error-warning-line text-accent',
       border: 'border-white/15',
-      bar: 'bg-red-400/80',
+      bar: 'bg-accent/80',
     },
     info: {
-      icon: 'ri-information-line text-cyan-300',
+      icon: 'ri-information-line text-[#A1A1A1]',
       border: 'border-white/15',
-      bar: 'bg-cyan-400/80',
+      bar: 'bg-[#A1A1A1]/80',
     },
   };
 

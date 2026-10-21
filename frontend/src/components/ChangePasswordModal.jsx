@@ -82,7 +82,8 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} title="Change Password" maxWidth="max-w-md">
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="rounded-md border border-red-500/30 bg-red-500/10 p-2.5 text-xs text-red-400">
+          <div className="rounded-md border border-accent-deep bg-accent-tint/40 p-2.5 text-xs text-accent flex items-center gap-2">
+            <i className="ri-error-warning-line text-sm" />
             {error}
           </div>
         )}

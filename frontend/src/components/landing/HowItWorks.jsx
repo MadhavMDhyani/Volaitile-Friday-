@@ -27,7 +27,7 @@ export const HowItWorks = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Reveal delay={0}>
-            <span className="text-xs font-mono uppercase tracking-wider text-brand-yellow font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               SIMPLE WORKFLOW
             </span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] leading-tight">
@@ -45,7 +45,7 @@ export const HowItWorks = () => {
               <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="font-mono text-2xl font-bold text-brand-yellow/90 tabular-nums">
+                    <span className="font-mono text-2xl font-bold text-accent/90 tabular-nums">
                       {step.num}
                     </span>
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-[#fafafa]">

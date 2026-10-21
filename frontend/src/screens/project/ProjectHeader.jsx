@@ -10,14 +10,14 @@ export const ProjectHeader = ({
   onSelectMobileTab,
 }) => {
   return (
-    <header className="border-b border-white/[0.08] bg-[#07090e]/75 backdrop-blur-xl sticky top-0 z-30">
+    <header className="border-b border-white/[0.08] bg-page/75 backdrop-blur-xl sticky top-0 z-30">
       {/* Top Navbar */}
       <div className="flex h-12 items-center justify-between px-3 sm:px-4">
         {/* Left: Back Link & Project Name */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <Link
             to="/dashboard"
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-all focus-ring"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#A1A1A1] hover:text-[#FFFFFF] hover:border-accent/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >
@@ -32,7 +32,7 @@ export const ProjectHeader = ({
             </span>
 
             {isOwner && (
-              <span className="shrink-0 inline-flex items-center rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-[10px] font-mono text-cyan-300 shadow-[0_0_8px_rgba(0,240,255,0.2)]">
+              <span className="shrink-0 inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-mono text-accent shadow-[0_0_8px_rgba(255,87,34,0.2)]">
                 Owner
               </span>
             )}
@@ -61,14 +61,14 @@ export const ProjectHeader = ({
       </div>
 
       {/* Mobile Tab Switcher (< md screens) */}
-      <div className="flex md:hidden border-t border-white/[0.08] bg-[#0c0e14]/80 backdrop-blur-md px-2 text-xs">
+      <div className="flex md:hidden border-t border-white/[0.08] bg-raised/80 backdrop-blur-md px-2 text-xs">
         <button
           type="button"
           onClick={() => onSelectMobileTab('files')}
           className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
             mobileTab === 'files'
-              ? 'border-cyan-400 text-cyan-300 font-semibold'
-              : 'border-transparent text-[#737373] hover:text-[#a3a3a3]'
+              ? 'border-accent text-accent font-semibold'
+              : 'border-transparent text-[#737373] hover:text-[#A1A1A1]'
           }`}
         >
           <i className="ri-file-code-line mr-1 text-xs" />
@@ -80,8 +80,8 @@ export const ProjectHeader = ({
           onClick={() => onSelectMobileTab('chat')}
           className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
             mobileTab === 'chat'
-              ? 'border-cyan-400 text-cyan-300 font-semibold'
-              : 'border-transparent text-[#737373] hover:text-[#a3a3a3]'
+              ? 'border-accent text-accent font-semibold'
+              : 'border-transparent text-[#737373] hover:text-[#A1A1A1]'
           }`}
         >
           <i className="ri-chat-3-line mr-1 text-xs" />
@@ -93,8 +93,8 @@ export const ProjectHeader = ({
           onClick={() => onSelectMobileTab('members')}
           className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
             mobileTab === 'members'
-              ? 'border-cyan-400 text-cyan-300 font-semibold'
-              : 'border-transparent text-[#737373] hover:text-[#a3a3a3]'
+              ? 'border-accent text-accent font-semibold'
+              : 'border-transparent text-[#737373] hover:text-[#A1A1A1]'
           }`}
         >
           <i className="ri-group-line mr-1 text-xs" />

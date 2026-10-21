@@ -39,11 +39,11 @@ export const SystemStatusChip = () => {
   if (status === 'normal') {
     return (
       <div
-        className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-mono text-emerald-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(110,231,183,0.2)]"
+        className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[11px] font-mono text-[#CECECE] backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"
         title="All system components and datastores are healthy"
         aria-label="System status: All systems normal"
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+        <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)]" />
         All systems normal
       </div>
     );
@@ -51,11 +51,11 @@ export const SystemStatusChip = () => {
 
   return (
     <div
-      className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-mono text-amber-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(252,211,77,0.2)]"
+      className="inline-flex items-center gap-1.5 rounded-full border border-accent-hover/30 bg-accent-tint/30 px-2.5 py-0.5 text-[11px] font-mono text-accent-hover backdrop-blur-md"
       title="System running with degraded dependencies"
       aria-label="System status: Degraded"
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+      <span className="h-1.5 w-1.5 rounded-full bg-accent-hover" />
       Degraded
     </div>
   );

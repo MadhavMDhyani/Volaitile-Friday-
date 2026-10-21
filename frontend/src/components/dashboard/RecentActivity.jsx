@@ -59,7 +59,7 @@ export const RecentActivity = () => {
       {/* Panel Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg glass text-[#00f0ff]">
+          <div className="flex h-6 w-6 items-center justify-center rounded-lg glass text-accent">
             <i className="ri-history-line text-xs" />
           </div>
           <h3 className="font-semibold text-sm text-[#fafafa] tracking-tight">
@@ -91,8 +91,11 @@ export const RecentActivity = () => {
           ))}
         </div>
       ) : error ? (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/15 p-3 text-red-300">
+        <div className="rounded-xl border border-accent-deep bg-accent-tint/40 p-3 text-accent">
+          <div className="flex items-center gap-2">
+            <i className="ri-error-warning-line text-sm" />
           <p>{error}</p>
+          </div>
           <Button variant="secondary" size="xs" onClick={fetchActivity} className="mt-2">
             Retry
           </Button>
@@ -137,7 +140,7 @@ export const RecentActivity = () => {
                     <span>·</span>
                     <span className="truncate text-[#a3a3a3]">
                       {isAi && (
-                        <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-[#00f0ff]" />
+                        <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-accent" />
                       )}
                       {senderName}
                     </span>
@@ -157,7 +160,7 @@ export const RecentActivity = () => {
         /* Empty State */
         <div className="flex flex-col items-center justify-center py-8 text-center text-[#737373]">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl glass mb-2 text-[#a3a3a3]">
-            <i className="ri-chat-voice-line text-lg text-[#00f0ff]" />
+            <i className="ri-chat-voice-line text-lg text-accent" />
           </div>
           <p className="text-xs text-[#a3a3a3] font-medium">No recent activity yet</p>
           <p className="text-[11px] text-[#737373] mt-1 max-w-[200px]">

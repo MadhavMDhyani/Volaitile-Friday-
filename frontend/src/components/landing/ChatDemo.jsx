@@ -73,7 +73,7 @@ export const ChatDemo = () => {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <Reveal delay={0}>
           <div className="text-center mb-10">
-            <span className="text-xs font-mono uppercase tracking-wider text-brand-yellow font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               LIVE PREVIEW
             </span>
             <h2 className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-[#fafafa]">
@@ -90,10 +90,10 @@ export const ChatDemo = () => {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4 text-xs font-mono">
               <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(0,240,255,0.8)] animate-pulse" />
+                <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_8px_rgba(255,87,34,0.8)] animate-pulse" />
                 <span className="font-semibold text-white">Friday AI Room Assistant</span>
               </div>
-              <span className="text-[10px] text-cyan-300 rounded border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5">
+                <span className="text-[10px] text-[#A1A1A1] rounded border border-accent/30 bg-accent/10 px-2 py-0.5">
                 Gemini 2.5 Flash
               </span>
             </div>
@@ -103,25 +103,25 @@ export const ChatDemo = () => {
               {/* User question */}
               <div className="flex flex-col items-end">
                 <span className="text-[10px] font-mono text-[#a3a3a3] mb-1">lead-dev@company.com</span>
-                <div className="rounded-2xl border border-violet-500/30 bg-violet-950/25 px-4 py-2.5 text-xs text-[#fafafa] max-w-[90%] sm:max-w-[80%] shadow-glass">
+                <div className="rounded-2xl border border-accent-press/30 bg-accent-tint/25 px-4 py-2.5 text-xs text-[#FFFFFF] max-w-[90%] sm:max-w-[80%] shadow-glass">
                   {current.user}
                 </div>
               </div>
 
               {/* Friday AI response with layout-contained typewriter text */}
               <div className="flex flex-col items-start">
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-cyan-300 mb-1 font-semibold">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent mb-1 font-semibold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                   Friday AI
                 </span>
                 <div
-                  className="rounded-2xl border border-cyan-500/25 bg-cyan-950/20 px-4 py-3 text-xs text-[#f0f9ff] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-glass min-h-[72px]"
+                  className="rounded-2xl border border-accent-deep bg-accent-tint/20 px-4 py-3 text-xs text-[#CECECE] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-glass min-h-[72px]"
                   style={{ contain: 'layout paint' }}
                 >
                   <p className="whitespace-pre-wrap">
                     {current.ai.slice(0, typedChars)}
                     {typedChars < current.ai.length && (
-                      <span className="inline-block w-1.5 h-3.5 ml-1 bg-cyan-400 animate-pulse align-middle" />
+                      <span className="inline-block w-1.5 h-3.5 ml-1 bg-accent animate-pulse align-middle" />
                     )}
                   </p>
                 </div>
@@ -131,7 +131,7 @@ export const ChatDemo = () => {
             {/* Sub-label */}
             <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-[#737373]">
               <span>Type @friday or /help in any project chat</span>
-              <span className="text-brand-yellow">Responses stream in real-time</span>
+              <span className="text-accent">Responses stream in real-time</span>
             </div>
           </div>
         </Reveal>

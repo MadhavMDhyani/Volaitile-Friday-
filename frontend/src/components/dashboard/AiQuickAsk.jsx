@@ -55,15 +55,15 @@ export const AiQuickAsk = () => {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-cyan-400 to-indigo-500 text-[#000000] font-mono font-bold text-[10px] shadow-[0_0_12px_rgba(0,240,255,0.35)]">
+          <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-[#FF5722] to-[#A14327] text-[#111111] font-mono font-bold text-[10px] shadow-[0_0_12px_rgba(255,87,34,0.35)]">
             AI
           </span>
           <h3 className="font-semibold text-sm text-[#fafafa] tracking-tight">
             Friday AI Quick Ask
           </h3>
         </div>
-        <span className="text-[10px] font-mono text-cyan-400/70 flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+        <span className="text-[10px] font-mono text-accent/70 flex items-center gap-1.5">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
           Powered by Gemini
         </span>
       </div>
@@ -75,7 +75,7 @@ export const AiQuickAsk = () => {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a technical question, debug snippet, or explain a concept..."
-          className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all"
+          className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#FFFFFF] placeholder-[#737373] transition-all"
           maxLength={1000}
           disabled={isLoading}
           aria-label="Ask Friday AI"
@@ -98,11 +98,11 @@ export const AiQuickAsk = () => {
 
       {/* Reply Container */}
       {isLoading && (
-        <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-cyan-500/25 bg-cyan-950/25 p-3 text-xs text-cyan-200/90 animate-pulse">
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
-          <span className="font-mono text-[11px] text-cyan-300/80 ml-1">
+        <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-accent/25 bg-accent-tint/25 p-3 text-xs text-[#CECECE]/90 animate-pulse">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '0ms' }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '150ms' }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '300ms' }} />
+          <span className="font-mono text-[11px] text-accent/80 ml-1">
             Friday AI is thinking...
           </span>
         </div>
@@ -113,9 +113,9 @@ export const AiQuickAsk = () => {
           className={`mt-3 rounded-xl border p-3.5 animate-fade-in text-xs shadow-glass ${
             result.isError
               ? result.isRateLimited
-                ? 'border-amber-500/30 bg-amber-950/30 text-amber-200'
-                : 'border-red-500/30 bg-red-950/30 text-red-200'
-              : 'border-white/[0.1] bg-white/[0.03] text-[#fafafa]'
+                ? 'border-accent-hover/30 bg-accent-tint/30 text-[#CECECE]'
+                : 'border-accent-deep bg-accent-tint/40 text-accent'
+              : 'border-white/[0.1] bg-white/[0.03] text-[#FFFFFF]'
           }`}
         >
           {/* Header of reply */}
@@ -127,7 +127,7 @@ export const AiQuickAsk = () => {
             <div className="flex items-center gap-2 shrink-0">
               {result.source && (
                 <span
-                  className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 text-cyan-300 uppercase cursor-default font-mono text-[9px]"
+                  className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[#CECECE] uppercase cursor-default font-mono text-[9px]"
                   title={result.latencyMs ? `Latency: ${result.latencyMs}ms` : undefined}
                 >
                   {result.source === 'gemini' ? (result.model || 'Gemini AI') : 'Offline Engine'}
@@ -157,7 +157,7 @@ export const AiQuickAsk = () => {
           </div>
 
           {/* Reply Text */}
-          <p className="whitespace-pre-wrap leading-relaxed text-[#e5e5e5]">
+          <p className="whitespace-pre-wrap leading-relaxed text-[#CECECE]">
             {result.reply}
           </p>
         </div>

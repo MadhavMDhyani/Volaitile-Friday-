@@ -28,7 +28,7 @@ const SafeMarkdownBlock = ({ text }) => {
         return (
           <code
             key={idx}
-            className="rounded-md border border-white/[0.1] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-cyan-200"
+            className="rounded-md border border-white/[0.1] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-[#CECECE]"
           >
             {token.slice(1, -1)}
           </code>
@@ -46,7 +46,7 @@ const SafeMarkdownBlock = ({ text }) => {
     return (
       <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#07090e]/95 text-xs font-mono overflow-hidden shadow-glass">
         <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[10px] text-[#a3a3a3]">
-          <span className="uppercase text-cyan-400 font-semibold">{lang || 'CODE'}</span>
+          <span className="uppercase text-accent font-semibold">{lang || 'CODE'}</span>
           <button
             type="button"
             onClick={handleCopy}
@@ -501,7 +501,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       {/* Chat Header */}
       <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#0a0c12]/90 backdrop-blur-md px-3.5 text-xs">
         <div className="flex items-center gap-2 min-w-0">
-          <i className="ri-chat-3-line text-cyan-400 shrink-0" />
+          <i className="ri-chat-3-line text-accent shrink-0" />
           <span className="font-semibold text-xs text-[#fafafa] truncate">Room Chat & Friday AI</span>
         </div>
 
@@ -509,10 +509,10 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         <div className="flex items-center gap-1.5 shrink-0 font-mono text-[10px] tabular-nums">
           <span
             className={`h-2 w-2 rounded-full shrink-0 transition-colors ${
-              connected ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.7)]' : 'bg-amber-400 animate-pulse'
+              connected ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]' : 'bg-accent animate-pulse'
             }`}
           />
-          <span className={`whitespace-nowrap ${connected ? 'text-[#a3a3a3]' : 'text-amber-400'}`}>
+          <span className={`whitespace-nowrap ${connected ? 'text-[#A1A1A1]' : 'text-accent'}`}>
             {connected
               ? `${onlineUserIds.length} ${onlineUserIds.length === 1 ? 'member' : 'members'} online`
               : 'Connecting...'}
@@ -522,12 +522,12 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Disconnected / Reconnecting banner */}
       {isReconnecting && (
-        <div className="flex items-center justify-between bg-amber-500/10 border-b border-amber-500/20 px-3 py-1.5 text-[11px] text-amber-300 font-mono animate-fade-in backdrop-blur-sm">
+        <div className="flex items-center justify-between bg-accent-tint/30 border-b border-accent-deep px-3 py-1.5 text-[11px] text-accent font-mono animate-fade-in backdrop-blur-sm">
           <div className="flex items-center gap-2">
             <i className="ri-loader-4-line animate-spin text-xs" />
             <span>Reconnecting to real-time chat...</span>
           </div>
-          <span className="text-[10px] text-amber-300/70">Syncing live events</span>
+          <span className="text-[10px] text-accent/70">Syncing live events</span>
         </div>
       )}
 
@@ -539,12 +539,12 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       >
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[#737373]">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass border-glass-border/40 text-cyan-400/50 mb-3 shadow-glass">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass border-glass-border/40 text-accent/50 mb-3 shadow-glass">
               <i className="ri-chat-smile-2-line text-2xl" />
             </div>
             <p className="text-xs font-medium text-[#fafafa]">No messages in this workspace yet</p>
             <p className="text-[11px] text-[#a3a3a3] mt-1 max-w-xs leading-relaxed">
-              Chat live with collaborators or mention <span className="font-mono text-cyan-300 font-semibold">@friday</span> for AI
+              Chat live with collaborators or mention <span className="font-mono text-accent font-semibold">@friday</span> for AI
               assistance.
             </p>
           </div>
@@ -570,8 +570,8 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#a3a3a3] max-w-full">
                   {isAi ? (
                     <span className="inline-flex items-center gap-1.5 font-semibold text-[#fafafa] min-w-0 flex-wrap">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(0,240,255,0.8)] animate-pulse" />
-                      <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent font-bold shrink-0">Friday AI</span>
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgba(255,87,34,0.8)] animate-pulse" />
+                      <span className="text-accent font-bold shrink-0">Friday AI</span>
                       {(() => {
                         const isOffline =
                           msg.source === 'offline' ||
@@ -597,7 +597,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                               </span>
                               {isFallback && (
                                 <span
-                                  className="text-[9px] text-amber-400 font-mono lowercase italic"
+                                  className="text-[9px] text-accent-hover font-mono lowercase italic"
                                   title={`Requested ${requestedModel}`}
                                 >
                                   fallback used
@@ -625,14 +625,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                         return (
                           <span className="inline-flex items-center gap-1">
                             <span
-                              className="text-[9px] rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.2 text-cyan-300 font-mono cursor-default"
+                              className="text-[9px] rounded-full border border-accent/30 bg-accent/10 px-2 py-0.2 text-accent font-mono cursor-default"
                               title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
                             >
                               {label}
                             </span>
                             {isFallback && (
                               <span
-                                className="text-[9px] text-amber-400 font-mono lowercase italic"
+                                className="text-[9px] text-accent-hover font-mono lowercase italic"
                                 title={`Requested ${requestedModel}`}
                               >
                                 fallback used
@@ -647,7 +647,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                   )}
                   {formattedTime && <span className="text-[10px] text-white/35 tabular-nums shrink-0 ml-0.5">{formattedTime}</span>}
                   {isOptimistic && (
-                    <span className="text-[9px] text-cyan-400/70 italic shrink-0">sending...</span>
+                    <span className="text-[9px] text-accent/70 italic shrink-0">sending...</span>
                   )}
                 </div>
 
@@ -655,9 +655,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 <div
                   className={`max-w-[88%] sm:max-w-[82%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${
                     isAi
-                      ? 'border border-cyan-500/25 bg-cyan-950/20 text-[#f0f9ff] shadow-glass'
+                      ? 'border border-accent-deep bg-accent-tint/20 text-[#CECECE] shadow-glass'
                       : isMe
-                      ? `border border-violet-500/30 bg-violet-950/25 text-[#fafafa] shadow-glass ${isOptimistic ? 'opacity-70' : ''}`
+                      ? `border border-accent-press/30 bg-accent-tint/25 text-[#FFFFFF] shadow-glass ${isOptimistic ? 'opacity-70' : ''}`
                       : 'border border-white/[0.08] bg-white/[0.04] text-[#e5e5e5]'
                   }`}
                 >
@@ -675,14 +675,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         {/* AI Typing Indicator */}
         {isAiTyping && (
           <div className="flex flex-col items-start animate-fade-in">
-            <span className="text-[11px] font-mono text-cyan-400/80 mb-1 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-[11px] font-mono text-accent/80 mb-1 flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
               Friday AI is thinking…
             </span>
-            <div className="flex items-center gap-1.5 rounded-2xl border border-cyan-500/25 bg-cyan-950/20 px-3.5 py-2 text-xs text-cyan-300 shadow-glass">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div className="flex items-center gap-1.5 rounded-2xl border border-accent-deep bg-accent-tint/20 px-3.5 py-2 text-xs text-accent shadow-glass">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '300ms' }} />
             </div>
           </div>
         )}
@@ -694,9 +694,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       {otherTypingUsers.length > 0 && (
         <div className="flex items-center gap-2 border-t border-white/[0.08] bg-[#0c0e14]/80 px-3.5 py-1.5 text-[11px] font-mono text-[#a3a3a3] animate-fade-in backdrop-blur-sm">
           <div className="flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+            <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '0ms' }} />
+            <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '150ms' }} />
+            <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '300ms' }} />
           </div>
           <span className="truncate">
             {otherTypingUsers.length === 1
@@ -729,13 +729,13 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         {availableModels.length > 0 && (
           <div className="flex items-center justify-between gap-2 mb-2 px-1 text-[10px] font-mono text-[#a3a3a3]">
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(0,240,255,0.8)] shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgba(255,87,34,0.8)] shrink-0" />
               <span className="text-white/50 text-[10px] shrink-0">Model:</span>
               <div className="relative inline-flex items-center">
                 <select
                   value={selectedModel}
                   onChange={handleModelChange}
-                  className="h-6 rounded-full glass-pill border border-white/[0.12] bg-[#0c0e16]/80 px-2 pr-5 text-[10px] font-mono text-cyan-300 hover:text-white focus:border-cyan-400/60 cursor-pointer appearance-none transition-all outline-none"
+                  className="h-6 rounded-full glass-pill border border-white/[0.12] bg-raised/80 px-2 pr-5 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-all outline-none"
                   title="Select Friday AI model"
                   aria-label="Friday AI model selection"
                 >
@@ -746,7 +746,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                     </option>
                   ))}
                 </select>
-                <i className="ri-arrow-down-s-line pointer-events-none absolute right-1.5 text-[10px] text-cyan-300/70" />
+                <i className="ri-arrow-down-s-line pointer-events-none absolute right-1.5 text-[10px] text-accent/70" />
               </div>
             </div>
             <span className="text-[10px] text-white/40 hidden sm:inline tabular-nums">
@@ -762,7 +762,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               value={inputMessage}
               onChange={handleInputChange}
               placeholder="Type a message or @friday..."
-              className="w-full h-10 min-w-0 rounded-xl glass-input px-3.5 text-xs text-[#fafafa] placeholder-white/40 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all"
+              className="w-full h-10 min-w-0 rounded-xl glass-input px-3.5 text-xs text-[#FFFFFF] placeholder-white/40 transition-all"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />

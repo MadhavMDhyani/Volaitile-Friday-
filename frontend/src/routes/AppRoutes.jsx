@@ -35,7 +35,7 @@ const NotFoundPage = () => (
   <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#fafafa] font-sans">
     <div className="glass-liquid p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
       <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass mb-4 text-[#fafafa]">
-        <i className="ri-compass-3-line text-2xl text-[#00f0ff]" />
+        <i className="ri-compass-3-line text-2xl text-accent" />
       </div>
       <h1 className="text-xl font-bold tracking-tight text-[#fafafa] sm:text-2xl">
         Page Not Found
@@ -62,7 +62,7 @@ const ProtectedRoute = ({ children }) => {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#fafafa] font-sans">
         <div className="glass-liquid p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/30 bg-red-500/15 text-red-400 mb-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4">
             <i className="ri-wifi-off-line text-2xl" />
           </div>
           <h2 className="text-lg font-bold text-[#fafafa]">Server Unreachable</h2>

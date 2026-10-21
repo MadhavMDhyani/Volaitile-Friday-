@@ -304,7 +304,7 @@ export const Dashboard = () => {
               htmlFor="dashboard-project-name"
               className="block text-xs font-medium text-[#a3a3a3] mb-1.5"
             >
-              Project Name <span className="text-red-400">*</span>
+              Project Name <span className="text-accent">*</span>
             </label>
             <input
               id="dashboard-project-name"
@@ -322,7 +322,7 @@ export const Dashboard = () => {
               disabled={isCreating}
             />
             {createError ? (
-              <p className="mt-1.5 text-xs text-red-400 font-medium">{createError}</p>
+              <p className="mt-1.5 text-xs text-accent font-medium">{createError}</p>
             ) : (
               <p className="mt-1.5 text-[11px] text-[#737373]">
                 Names must be unique to your account. Standard seed files will be created automatically.

@@ -237,7 +237,7 @@ export const Home = () => {
 
         {/* Fetch Error Display */}
         {fetchError && (
-          <div className="mb-6 flex items-center justify-between rounded-xl border border-red-500/30 bg-red-500/15 p-3 text-xs text-red-300">
+          <div className="mb-6 flex items-center justify-between rounded-xl border border-accent-deep bg-accent-tint/40 p-3 text-xs text-accent">
             <span>{fetchError}</span>
             <Button variant="secondary" size="xs" onClick={fetchProjects}>
               Retry
@@ -281,7 +281,7 @@ export const Home = () => {
                   <div>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2 max-w-[80%]">
-                        <i className="ri-folder-line text-[#a3a3a3] text-base group-hover:text-[#00f0ff] transition-colors" />
+                        <i className="ri-folder-line text-[#a3a3a3] text-base group-hover:text-accent transition-colors" />
                         <h2 className="font-semibold text-sm tracking-tight text-[#fafafa] truncate font-mono">
                           {proj.name}
                         </h2>
@@ -325,7 +325,7 @@ export const Home = () => {
                           e.stopPropagation();
                           setDeletingProjectId(proj._id);
                         }}
-                        className="text-[#737373] hover:text-red-400 p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
+                        className="text-[#737373] hover:text-accent p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
                         title="Delete project"
                         aria-label={`Delete project ${proj.name}`}
                       >
@@ -340,7 +340,7 @@ export const Home = () => {
         ) : (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-16 px-4 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass text-[#a3a3a3] mb-4">
-              <i className="ri-folder-add-line text-2xl text-[#00f0ff]" />
+              <i className="ri-folder-add-line text-2xl text-accent" />
             </div>
             <h3 className="text-sm font-semibold text-[#fafafa]">
               {searchQuery ? 'No matching projects' : 'No projects yet'}
@@ -376,7 +376,7 @@ export const Home = () => {
       >
         <form onSubmit={handleCreateProject} className="space-y-4">
           {createError && (
-            <div className="rounded-lg border border-red-500/30 bg-red-500/15 p-2.5 text-xs text-red-300">
+            <div className="rounded-lg border border-accent-deep bg-accent-tint/40 p-2.5 text-xs text-accent">
               {createError}
             </div>
           )}

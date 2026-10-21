@@ -139,7 +139,7 @@ export const MembersDrawer = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-colors focus-ring"
+              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#A1A1A1] hover:text-[#FFFFFF] hover:border-accent/40 transition-colors focus-ring"
               aria-label="Close members drawer"
             >
               <i className="ri-close-line text-lg" />
@@ -179,7 +179,7 @@ export const MembersDrawer = ({
                       </div>
                       {onlineUserIds.includes(mId) && (
                         <span
-                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 border border-[#000000] shadow-[0_0_6px_rgba(52,211,153,0.8)]"
+                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#111111] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
                           title="Online now"
                         />
                       )}
@@ -191,7 +191,7 @@ export const MembersDrawer = ({
                           {isCurrentUser && <span className="text-[#a3a3a3] ml-1 font-normal">(you)</span>}
                         </span>
                         {onlineUserIds.includes(mId) && (
-                          <span className="text-[9px] font-mono text-emerald-400">online</span>
+                          <span className="text-[9px] font-mono text-[#CECECE]">online</span>
                         )}
                       </div>
                     </div>
@@ -199,14 +199,14 @@ export const MembersDrawer = ({
 
                   <div className="flex items-center gap-2">
                     {isMemberOwner ? (
-                      <span className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 text-[9px] font-mono text-cyan-300 uppercase shadow-[0_0_8px_rgba(0,240,255,0.2)]">
+                      <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[9px] font-mono text-accent uppercase shadow-[0_0_8px_rgba(255,87,34,0.2)]">
                         Owner
                       </span>
                     ) : isOwner ? (
                       <button
                         type="button"
                         onClick={() => setMemberToRemove(member)}
-                        className="p-1 text-[#737373] hover:text-red-400 rounded focus-ring transition-colors"
+                        className="p-1 text-[#737373] hover:text-accent rounded focus-ring transition-colors"
                         title="Remove member"
                         aria-label={`Remove ${email}`}
                       >

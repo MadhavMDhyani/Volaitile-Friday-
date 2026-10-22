@@ -40,29 +40,29 @@ export const AuroraBackground = () => {
         </defs>
       </svg>
 
-      {/* Aurora Orb 1: Cyan luminous field (vivid & enlarged) */}
+      {/* Aurora Orb 1: Warm copper luminous field */}
       <div
         className="absolute -top-[12%] -left-[8%] w-[760px] h-[760px] md:w-[1050px] md:h-[1050px] rounded-full aurora-orb-1 opacity-80 blur-[90px] md:blur-[130px]"
         style={{
-          background: 'radial-gradient(circle at 45% 45%, rgba(255,87,34,0.22) 0%, rgba(207,78,36,0.10) 45%, transparent 70%)',
+          background: 'radial-gradient(circle at 45% 45%, rgba(217,138,90,0.18) 0%, rgba(196,122,74,0.08) 45%, transparent 70%)',
           ...playStyle,
         }}
       />
 
-      {/* Aurora Orb 2: Violet luminous field (vivid & enlarged) */}
+      {/* Aurora Orb 2: Deep brown luminous field */}
       <div
         className="absolute top-[30%] -right-[10%] w-[720px] h-[720px] md:w-[980px] md:h-[980px] rounded-full aurora-orb-2 opacity-75 blur-[90px] md:blur-[130px]"
         style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(161,67,39,0.22) 0%, rgba(114,58,41,0.12) 45%, transparent 70%)',
+          background: 'radial-gradient(circle at 50% 50%, rgba(168,104,64,0.18) 0%, rgba(122,74,48,0.10) 45%, transparent 70%)',
           ...playStyle,
         }}
       />
 
-      {/* Aurora Orb 3: Rose & Amber accent field (vivid & enlarged) */}
+      {/* Aurora Orb 3: Amber accent field */}
       <div
         className="absolute -bottom-[12%] left-[20%] w-[540px] h-[540px] md:w-[760px] md:h-[760px] rounded-full aurora-orb-3 opacity-65 blur-[80px] md:blur-[115px]"
         style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(114,58,41,0.26) 0%, rgba(67,50,43,0.14) 40%, transparent 68%)',
+          background: 'radial-gradient(circle at 50% 50%, rgba(122,74,48,0.22) 0%, rgba(58,37,24,0.12) 40%, transparent 68%)',
           ...playStyle,
         }}
       />

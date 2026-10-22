@@ -17,16 +17,16 @@ export const Button = ({
   const variantClasses = {
     // Primary: accent fill with dark text for contrast (WCAG AA ~6:1)
     primary:
-      'bg-accent text-[#111111] border border-accent/40 hover:bg-accent-hover shadow-[0_4px_16px_rgba(255,87,34,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] hover:shadow-[0_6px_20px_rgba(255,87,34,0.40),inset_0_1px_0_rgba(255,255,255,0.35)]',
+      'bg-accent text-[#140d09] border border-accent/40 hover:bg-accent-hover shadow-[0_4px_16px_rgba(217,138,90,0.25),inset_0_1px_0_rgba(255,200,150,0.25)] hover:shadow-[0_6px_20px_rgba(217,138,90,0.40),inset_0_1px_0_rgba(255,200,150,0.35)]',
     // Secondary becomes glass with subtle specular line
     secondary:
-      'bg-white/[0.06] text-[#FFFFFF] border border-white/15 hover:bg-white/[0.12] hover:border-white/30 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.35)]',
-    // Danger becomes tinted accent glass (orange-on-dark, accessible)
+      'bg-white/[0.04] text-[#f3e6da] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,200,150,0.15),0_4px_12px_rgba(0,0,0,0.35)]',
+    // Danger becomes tinted accent glass (copper-on-dark, accessible)
     danger:
-      'bg-accent-tint/40 text-accent border border-accent-deep hover:bg-accent-tint/60 hover:border-accent-press backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,87,34,0.2),0_4px_16px_rgba(255,87,34,0.10)]',
+      'bg-accent-tint/40 text-accent border border-accent-deep hover:bg-accent-tint/60 hover:border-accent-press backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(217,138,90,0.2),0_4px_16px_rgba(217,138,90,0.10)]',
     // Ghost becomes transparent glass hover
     ghost:
-      'bg-transparent text-[#A1A1A1] border border-transparent hover:bg-white/[0.08] hover:text-[#FFFFFF] hover:border-white/10 backdrop-blur-[8px]',
+      'bg-transparent text-[#a89384] border border-transparent hover:bg-white/[0.06] hover:text-[#f3e6da] hover:border-white/8 backdrop-blur-[8px]',
   };
 
   const sizeClasses = {

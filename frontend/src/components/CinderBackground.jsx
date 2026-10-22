@@ -30,8 +30,8 @@ const LARGE_R = 4;
 const LARGE_CHANCE = 0.12;
 const FADE_IN_ZONE = 0.08;
 const FADE_OUT_ZONE = 0.15;
-const BG = '#0a0a0a';
-const COLORS = ['#ff6a1a', '#ff7a2a', '#ff8a3d', '#ff5e10'];
+const BG = '#140d09';
+const COLORS = ['#d98a5a', '#e0975f', '#f0b088', '#c47a4a'];
 const DPR_CAP = 2;
 
 /* Three depth layers: far objects are slower, smaller, dimmer */
@@ -136,7 +136,7 @@ export const CinderBackground = () => {
       const vigH = h * 0.22;
       const vig = ctx.createLinearGradient(0, h - vigH, 0, h);
       vig.addColorStop(0, 'transparent');
-      vig.addColorStop(1, 'rgba(255, 87, 34, 0.025)');
+      vig.addColorStop(1, 'rgba(217, 138, 90, 0.025)');
       ctx.fillStyle = vig;
       ctx.fillRect(0, h - vigH, w, vigH);
 

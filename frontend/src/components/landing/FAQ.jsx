@@ -36,7 +36,7 @@ export const FAQ = () => {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <Reveal delay={0}>
-            <span className="text-xs font-mono uppercase tracking-wider text-brand-yellow font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               GOT QUESTIONS?
             </span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] leading-tight">
@@ -68,7 +68,7 @@ export const FAQ = () => {
                     <span>{item.q}</span>
                     <span
                       className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass text-xs text-[#a3a3a3] transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 text-brand-yellow' : ''
+                        isOpen ? 'rotate-180 text-accent' : ''
                       }`}
                       aria-hidden="true"
                     >

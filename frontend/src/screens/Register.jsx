@@ -91,15 +91,15 @@ export const Register = () => {
                 style={{ animationDelay: '180ms' }}
               >
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-[#00f0ff] text-sm" />
+                  <i className="ri-check-line text-accent text-sm" />
                   <span>Unlimited projects with auto-seeded starter files</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-[#00f0ff] text-sm" />
+                  <i className="ri-check-line text-accent text-sm" />
                   <span>Interactive code generation & AI security reviews</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-[#00f0ff] text-sm" />
+                  <i className="ri-check-line text-accent text-sm" />
                   <span>Granular owner permissions and team controls</span>
                 </li>
               </ul>
@@ -134,17 +134,17 @@ export const Register = () => {
               <div
                 role="alert"
                 aria-live="polite"
-                className="mb-5 flex items-start gap-2.5 rounded-lg border border-red-500/30 bg-red-500/15 p-3 text-xs text-red-300 animate-fade-in"
+                className="mb-5 flex items-start gap-2.5 rounded-lg border border-accent-deep bg-accent-tint/40 p-3 text-xs text-accent animate-fade-in"
               >
-                <i className="ri-error-warning-line text-base leading-none mt-0.5 text-red-400" />
+                <i className="ri-error-warning-line text-base leading-none mt-0.5 text-accent" />
                 <div className="flex-1">
-                  <p className="font-semibold text-red-300">Registration error</p>
-                  <p className="mt-0.5 text-red-200">{errorMessage}</p>
+                  <p className="font-semibold text-accent">Registration error</p>
+                  <p className="mt-0.5 text-[#CECECE]">{errorMessage}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setErrorMessage('')}
-                  className="text-red-300 hover:text-white p-0.5 focus-ring rounded"
+                  className="text-accent hover:text-white p-0.5 focus-ring rounded"
                   aria-label="Dismiss error"
                 >
                   <i className="ri-close-line text-sm" />
@@ -232,7 +232,7 @@ export const Register = () => {
 
             <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[#a3a3a3]">
               Already have an account?{' '}
-              <Link to="/login" className="font-medium text-white underline hover:text-[#00f0ff] focus-ring rounded transition-colors">
+              <Link to="/login" className="font-medium text-white underline hover:text-accent focus-ring rounded transition-colors">
                 Sign in here
               </Link>
             </div>

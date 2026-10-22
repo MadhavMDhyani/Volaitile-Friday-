@@ -15,18 +15,18 @@ export const Button = ({
     'relative inline-flex items-center justify-center font-medium select-none rounded-lg transition-all duration-150 ease-out focus-ring active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer';
 
   const variantClasses = {
-    // Primary stays LIGHT with dark text for contrast plus specular highlight and soft glow
+    // Primary: accent fill with dark text for contrast (WCAG AA ~6:1)
     primary:
-      'bg-[#fafafa] text-[#000000] border border-white/40 hover:bg-white shadow-[0_4px_16px_rgba(255,255,255,0.18),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_6px_20px_rgba(255,255,255,0.25),inset_0_1px_0_rgba(255,255,255,1)]',
+      'bg-accent text-[#111111] border border-accent/40 hover:bg-accent-hover shadow-[0_4px_16px_rgba(255,87,34,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] hover:shadow-[0_6px_20px_rgba(255,87,34,0.40),inset_0_1px_0_rgba(255,255,255,0.35)]',
     // Secondary becomes glass with subtle specular line
     secondary:
-      'bg-white/[0.06] text-[#fafafa] border border-white/15 hover:bg-white/[0.12] hover:border-white/30 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.35)]',
-    // Danger becomes tinted red glass
+      'bg-white/[0.06] text-[#FFFFFF] border border-white/15 hover:bg-white/[0.12] hover:border-white/30 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.35)]',
+    // Danger becomes tinted accent glass (orange-on-dark, accessible)
     danger:
-      'bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 hover:border-red-500/50 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(248,113,113,0.3),0_4px_16px_rgba(239,68,68,0.15)]',
+      'bg-accent-tint/40 text-accent border border-accent-deep hover:bg-accent-tint/60 hover:border-accent-press backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,87,34,0.2),0_4px_16px_rgba(255,87,34,0.10)]',
     // Ghost becomes transparent glass hover
     ghost:
-      'bg-transparent text-[#a3a3a3] border border-transparent hover:bg-white/[0.08] hover:text-[#fafafa] hover:border-white/10 backdrop-blur-[8px]',
+      'bg-transparent text-[#A1A1A1] border border-transparent hover:bg-white/[0.08] hover:text-[#FFFFFF] hover:border-white/10 backdrop-blur-[8px]',
   };
 
   const sizeClasses = {

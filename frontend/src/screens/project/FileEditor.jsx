@@ -123,7 +123,7 @@ export const FileEditor = ({
   if (!activeFile) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center text-[#737373] bg-[#000000]/95">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass border-glass-border/50 text-cyan-400/60 mb-3 shadow-glass">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass border-glass-border/50 text-accent/60 mb-3 shadow-glass">
           <i className="ri-code-box-line text-3xl" />
         </div>
         <p className="text-sm font-medium text-[#fafafa]">No file selected</p>
@@ -138,7 +138,7 @@ export const FileEditor = ({
     switch (saveStatus) {
       case 'saving':
         return (
-          <span className="flex items-center gap-1.5 text-cyan-300 font-mono text-[11px] animate-fade-in">
+          <span className="flex items-center gap-1.5 text-[#A1A1A1] font-mono text-[11px] animate-fade-in">
             <svg
               className="animate-spin h-3 w-3 text-current"
               xmlns="http://www.w3.org/2000/svg"
@@ -154,20 +154,20 @@ export const FileEditor = ({
       case 'unsaved':
         return (
           <span className="flex items-center gap-1.5 text-[#a3a3a3] font-mono text-[11px] animate-fade-in">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
             <span>Unsaved changes</span>
           </span>
         );
       case 'error':
         return (
-          <span className="flex items-center gap-1.5 text-red-400 font-mono text-[11px] animate-fade-in">
+          <span className="flex items-center gap-1.5 text-accent font-mono text-[11px] animate-fade-in">
             <i className="ri-error-warning-line text-xs" />
             <span>Save failed</span>
             {onRetrySave && (
               <button
                 type="button"
                 onClick={onRetrySave}
-                className="underline hover:text-red-300 ml-1 cursor-pointer focus-ring"
+                className="underline hover:text-accent-hover ml-1 cursor-pointer focus-ring"
               >
                 Retry
               </button>
@@ -177,7 +177,7 @@ export const FileEditor = ({
       case 'saved':
       default:
         return (
-          <span className="flex items-center gap-1.5 text-emerald-400/90 font-mono text-[11px] animate-fade-in">
+          <span className="flex items-center gap-1.5 text-[#CECECE] font-mono text-[11px] animate-fade-in">
             <i className="ri-check-line text-xs" />
             <span>Saved</span>
           </span>
@@ -191,11 +191,11 @@ export const FileEditor = ({
       <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#000000]/90 backdrop-blur-md px-3.5 text-xs">
         {/* File Path & Language */}
         <div className="flex items-center gap-2 min-w-0">
-          <i className="ri-file-text-line text-cyan-400 text-sm" />
+          <i className="ri-file-text-line text-accent text-sm" />
           <span className="font-mono text-xs text-[#fafafa] truncate font-medium">
             {activeFile.path || activeFile.name}
           </span>
-          <span className="rounded-md border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 text-[10px] font-mono text-cyan-300 uppercase">
+          <span className="rounded-md border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 text-[10px] font-mono text-[#CECECE] uppercase">
             {activeFile.language || 'text'}
           </span>
         </div>
@@ -210,10 +210,10 @@ export const FileEditor = ({
             variant={isAiAssistantOpen ? 'primary' : 'ghost'}
             size="xs"
             onClick={() => setIsAiAssistantOpen((prev) => !prev)}
-            icon={<i className="ri-sparkling-fill text-brand-yellow text-xs" />}
+            icon={<i className="ri-sparkling-fill text-accent text-xs" />}
             title="Toggle Friday AI Assistant (Ctrl+I)"
             aria-label="Toggle Friday AI Assistant"
-            className={isAiAssistantOpen ? 'shadow-[0_0_12px_rgba(255,214,10,0.4)]' : ''}
+            className={isAiAssistantOpen ? 'shadow-[0_0_12px_rgba(255,87,34,0.4)]' : ''}
           >
             <span className="hidden sm:inline">Friday AI</span>
           </Button>
@@ -224,7 +224,7 @@ export const FileEditor = ({
             onClick={handleCopyContent}
             icon={
               copied ? (
-                <i className="ri-check-line text-emerald-400 text-xs" />
+                <i className="ri-check-line text-[#CECECE] text-xs" />
               ) : (
                 <i className="ri-file-copy-line text-xs" />
               )

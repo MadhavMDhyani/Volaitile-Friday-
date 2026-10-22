@@ -30,7 +30,7 @@ export class ErrorBoundary extends Component {
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-[#404040] bg-[#171717] text-[#fafafa] mb-4">
               <i
                 className={`text-2xl ${
-                  isConfigError ? 'ri-settings-5-line' : 'ri-error-warning-line text-red-400'
+                  isConfigError ? 'ri-settings-5-line' : 'ri-error-warning-line text-accent'
                 }`}
               />
             </div>

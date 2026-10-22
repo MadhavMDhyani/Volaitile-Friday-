@@ -32,7 +32,7 @@ export const LandingNav = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
-          ? 'bg-[#000000]/80 backdrop-blur-xl border-b border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
+          ? 'bg-page/80 backdrop-blur-xl border-b border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
@@ -65,7 +65,7 @@ export const LandingNav = () => {
           </Link>
           <Link
             to="/register"
-            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-brand-yellow text-brand-black hover:bg-brand-amber transition-all shadow-[0_0_20px_rgba(255,214,10,0.3)] hover:shadow-[0_0_26px_rgba(255,214,10,0.45)] focus-ring"
+            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#111111] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgba(255,87,34,0.3)] hover:shadow-[0_0_26px_rgba(255,87,34,0.45)] focus-ring"
           >
             Get started
           </Link>
@@ -75,7 +75,7 @@ export const LandingNav = () => {
         <div className="flex sm:hidden items-center gap-2">
           <Link
             to="/register"
-            className="h-8 px-3 inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-brand-yellow text-brand-black"
+            className="h-8 px-3 inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-accent text-[#111111]"
           >
             Start
           </Link>
@@ -93,7 +93,7 @@ export const LandingNav = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden border-b border-white/[0.12] bg-[#07090e]/95 backdrop-blur-2xl px-4 py-4 space-y-3 animate-fade-in">
+        <div className="sm:hidden border-b border-white/[0.12] bg-page/95 backdrop-blur-2xl px-4 py-4 space-y-3 animate-fade-in">
           <nav className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <a
@@ -115,7 +115,7 @@ export const LandingNav = () => {
             </Link>
             <Link
               to="/register"
-              className="flex-1 py-2 text-center text-xs font-semibold bg-brand-yellow text-brand-black rounded-xl"
+              className="flex-1 py-2 text-center text-xs font-semibold bg-accent text-[#111111] rounded-xl"
             >
               Get started
             </Link>

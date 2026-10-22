@@ -34,17 +34,17 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
           <stop offset="100%" stopColor="#0B0B0B" />
         </linearGradient>
 
-        {/* Luminous yellow-to-amber monogram gradient (#FFD60A to #FFB800) */}
+        {/* Luminous orange-to-amber monogram gradient (#FF5722 to #CF4E24) */}
         <linearGradient id={gradId} x1="15%" y1="90%" x2="90%" y2="10%">
-          <stop offset="0%" stopColor="#FFD60A" />
-          <stop offset="100%" stopColor="#FFB800" />
+          <stop offset="0%" stopColor="#FF5722" />
+          <stop offset="100%" stopColor="#CF4E24" />
         </linearGradient>
 
-        {/* Thin yellow-tinted edge highlight for top-left edge */}
+        {/* Thin orange-tinted edge highlight for top-left edge */}
         <linearGradient id={highlightId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(255, 214, 10, 0.45)" />
-          <stop offset="45%" stopColor="rgba(255, 243, 176, 0.20)" />
-          <stop offset="100%" stopColor="rgba(255, 214, 10, 0)" />
+          <stop offset="0%" stopColor="rgba(255, 87, 34, 0.45)" />
+          <stop offset="45%" stopColor="rgba(255, 255, 255, 0.20)" />
+          <stop offset="100%" stopColor="rgba(255, 87, 34, 0)" />
         </linearGradient>
       </defs>
 
@@ -56,7 +56,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
         height="58"
         rx="16"
         fill={`url(#${tileId})`}
-        stroke="rgba(255, 214, 10, 0.24)"
+        stroke="rgba(255, 87, 34, 0.24)"
         strokeWidth="1.2"
       />
 
@@ -96,7 +96,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       <path
         d="M 18 22 L 27.5 45 L 43 17"
         fill="none"
-        stroke="#FFF3B0"
+        stroke="#FFFFFF"
         strokeWidth="1"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -104,7 +104,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       />
 
       {/* Small droplet highlight at V's vertex in brand-pale (#FFF3B0) */}
-      <circle cx="28" cy="48" r="2.2" fill="#FFF3B0" />
+      <circle cx="28" cy="48" r="2.2" fill="#FFFFFF" />
       <circle cx="28" cy="47.6" r="1" fill="#FFFFFF" opacity="0.9" />
     </svg>
   );

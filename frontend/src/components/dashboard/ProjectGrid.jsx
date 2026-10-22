@@ -88,7 +88,7 @@ export const ProjectGrid = ({
 
       {/* Error state */}
       {error && (
-        <div className="flex items-center justify-between rounded-xl border border-red-500/30 bg-red-500/15 p-4 text-xs text-red-300">
+        <div className="flex items-center justify-between rounded-xl border border-accent-deep bg-accent-tint/40 p-4 text-xs text-accent">
           <span>{error}</span>
           {onRetry && (
             <Button variant="secondary" size="xs" onClick={onRetry}>
@@ -138,7 +138,7 @@ export const ProjectGrid = ({
                   {/* Card Header: Title & Badges */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0 max-w-[70%]">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl glass text-[#a3a3a3] group-hover:text-[#00f0ff] transition-colors">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl glass text-[#A1A1A1] group-hover:text-accent transition-colors">
                         <i className="ri-folder-line text-sm" />
                       </div>
                       <h3 className="font-mono font-semibold text-xs sm:text-sm text-[#fafafa] truncate tracking-tight">
@@ -150,10 +150,10 @@ export const ProjectGrid = ({
                       {/* Online dot indicator if active */}
                       {onlineCount > 0 && (
                         <span
-                          className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[9px] font-mono text-emerald-400"
+                          className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-[9px] font-mono text-[#CECECE]"
                           title={`${onlineCount} collaborator online now`}
                         >
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                           {onlineCount} online
                         </span>
                       )}
@@ -238,7 +238,7 @@ export const ProjectGrid = ({
         /* Empty State */
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-12 px-4 text-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl glass text-[#a3a3a3] mb-3">
-            <i className="ri-folder-add-line text-xl text-[#00f0ff]" />
+            <i className="ri-folder-add-line text-xl text-accent" />
           </div>
           <h4 className="text-sm font-semibold text-[#fafafa]">
             {searchQuery ? 'No matching projects found' : 'No projects yet'}

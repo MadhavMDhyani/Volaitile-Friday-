@@ -39,7 +39,7 @@ export const Benefits = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Reveal delay={0}>
-            <span className="text-xs font-mono uppercase tracking-wider text-brand-yellow font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               THE WORKSPACE ADVANTAGE
             </span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] leading-tight">
@@ -62,7 +62,7 @@ export const Benefits = () => {
               <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-brand-yellow">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-accent">
                       <i className={`${b.icon} text-lg`} />
                     </div>
                     <span className="text-[10px] font-mono text-[#a3a3a3] border border-white/10 rounded-full px-2.5 py-0.5 bg-white/[0.04]">
@@ -78,7 +78,7 @@ export const Benefits = () => {
                   </p>
                 </div>
 
-                <div className="mt-6 border-t border-white/[0.08] pt-3 flex items-center text-[11px] font-mono text-cyan-300">
+                <div className="mt-6 border-t border-white/[0.08] pt-3 flex items-center text-[11px] font-mono text-accent">
                   <span>Built for developers</span>
                   <i className="ri-arrow-right-s-line text-sm ml-1" />
                 </div>

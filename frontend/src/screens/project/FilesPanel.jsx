@@ -264,7 +264,7 @@ export const FilesPanel = ({ projectId }) => {
         {/* Files Header & Add Button */}
         <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] px-3.5">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[#a3a3a3] font-semibold flex items-center gap-1.5">
-            <i className="ri-folder-open-line text-xs text-cyan-400" />
+            <i className="ri-folder-open-line text-xs text-accent" />
             Files ({files.length})
           </span>
           <button
@@ -275,7 +275,7 @@ export const FilesPanel = ({ projectId }) => {
               setNewFilePath('');
               setIsNewFileModalOpen(true);
             }}
-            className="flex h-6 w-6 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a3a3a3] hover:text-[#fafafa] hover:border-cyan-400/40 transition-all focus-ring"
+            className="flex h-6 w-6 items-center justify-center rounded-lg glass border-glass-border/40 text-[#A1A1A1] hover:text-[#FFFFFF] hover:border-accent/40 transition-all focus-ring"
             title="Create new file"
             aria-label="Create new file"
           >
@@ -304,14 +304,14 @@ export const FilesPanel = ({ projectId }) => {
                     onClick={() => setActiveFileId(file._id)}
                     className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-all duration-150 cursor-pointer ${
                       isActive
-                        ? 'glass-strong text-[#fafafa] font-medium border border-cyan-400/30 shadow-[0_0_12px_rgba(0,240,255,0.12)]'
+                        ? 'glass-strong text-[#FFFFFF] font-medium border border-accent/30 shadow-[0_0_12px_rgba(255,87,34,0.12)]'
                         : 'text-[#a3a3a3] hover:bg-white/[0.04] hover:text-[#fafafa]'
                     }`}
                   >
                     {/* Active Bar indicator */}
                     {isActive && (
                       <span
-                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-cyan-400 to-indigo-500 shadow-[0_0_8px_rgba(0,240,255,0.6)] transition-all duration-150"
+                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-press shadow-[0_0_8px_rgba(255,87,34,0.6)] transition-all duration-150"
                         aria-hidden="true"
                       />
                     )}
@@ -320,10 +320,10 @@ export const FilesPanel = ({ projectId }) => {
                       <i
                         className={`text-sm ${
                           file.name.endsWith('.json')
-                            ? 'ri-braces-line text-amber-400/80'
+                            ? 'ri-braces-line text-[#CECECE]/80'
                             : file.name.endsWith('.md')
-                            ? 'ri-markdown-line text-cyan-400/80'
-                            : 'ri-file-code-line text-cyan-400/80'
+                            ? 'ri-markdown-line text-accent/80'
+                            : 'ri-file-code-line text-accent/80'
                         }`}
                       />
 
@@ -339,7 +339,7 @@ export const FilesPanel = ({ projectId }) => {
                             if (e.key === 'Escape') setRenamingFileId(null);
                           }}
                           onBlur={() => handleConfirmRename(file._id)}
-                          className="w-full glass-input border-cyan-400/50 px-1.5 py-0.5 text-xs text-[#fafafa] rounded-md outline-none"
+                          className="w-full glass-input border-accent/50 px-1.5 py-0.5 text-xs text-[#FFFFFF] rounded-md outline-none"
                         />
                       ) : (
                         <span className="truncate">{file.path || file.name}</span>
@@ -365,7 +365,7 @@ export const FilesPanel = ({ projectId }) => {
                               e.stopPropagation();
                               setDeletingFile(file);
                             }}
-                            className="p-1 text-[#737373] hover:text-red-400 rounded focus-ring"
+                            className="p-1 text-[#737373] hover:text-accent rounded focus-ring"
                             title="Delete file"
                             aria-label={`Delete ${file.name}`}
                           >
@@ -377,7 +377,7 @@ export const FilesPanel = ({ projectId }) => {
 
                     {/* Unsaved indicator dot when not hovering */}
                     {status === 'unsaved' && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-400/70 group-hover:hidden" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent/70 group-hover:hidden" />
                     )}
                   </li>
                 );
@@ -425,7 +425,7 @@ export const FilesPanel = ({ projectId }) => {
       >
         <form onSubmit={handleCreateFile} className="space-y-4">
           {newFileError && (
-            <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-2.5 text-xs text-red-300">
+            <div className="rounded-xl border border-accent-deep bg-accent-tint/40 p-2.5 text-xs text-accent">
               {newFileError}
             </div>
           )}
@@ -443,7 +443,7 @@ export const FilesPanel = ({ projectId }) => {
                 setNewFileError('');
               }}
               placeholder="e.g. server.js or utils/helper.js"
-              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#FFFFFF] placeholder-[#737373] transition-all font-mono"
               autoFocus
               required
             />
@@ -459,7 +459,7 @@ export const FilesPanel = ({ projectId }) => {
               value={newFilePath}
               onChange={(e) => setNewFilePath(e.target.value)}
               placeholder="Defaults to file name (no leading slash)"
-              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#FFFFFF] placeholder-[#737373] transition-all font-mono"
             />
             <p className="mt-1 text-[11px] text-[#737373]">
               No &apos;..&apos;, no leading slashes, max 200 characters.

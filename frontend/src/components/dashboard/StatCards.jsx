@@ -31,9 +31,9 @@ export const StatCards = ({
 
   if (error) {
     return (
-      <div className="flex items-center justify-between rounded-xl border border-red-500/30 bg-red-500/15 p-4 text-xs text-red-300">
+      <div className="flex items-center justify-between rounded-xl border border-accent-deep bg-accent-tint/40 p-4 text-xs text-accent">
         <div className="flex items-center gap-2">
-          <i className="ri-error-warning-line text-base text-red-400" />
+          <i className="ri-error-warning-line text-base text-accent" />
           <span>{error}</span>
         </div>
         {onRetry && (
@@ -75,7 +75,7 @@ export const StatCards = ({
       <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
         <div className="flex items-center justify-between text-xs text-[#a3a3a3]">
           <span className="font-medium">Total Projects</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#00f0ff] shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-accent shadow-sm">
             <i className="ri-folder-3-line text-sm" />
           </div>
         </div>
@@ -93,7 +93,7 @@ export const StatCards = ({
       <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
         <div className="flex items-center justify-between text-xs text-[#a3a3a3]">
           <span className="font-medium">Ownership</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#a855f7] shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#CECECE] shadow-sm">
             <i className="ri-shield-user-line text-sm" />
           </div>
         </div>
@@ -152,7 +152,7 @@ export const StatCards = ({
       <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
         <div className="flex items-center justify-between text-xs text-[#a3a3a3]">
           <span className="font-medium">Collaborators</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#fbbf24] shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-accent-hover shadow-sm">
             <i className="ri-team-line text-sm" />
           </div>
         </div>

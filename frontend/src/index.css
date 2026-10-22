@@ -7,24 +7,26 @@
   --font-mono: 'IBM Plex Mono', monospace;
   --font-title: 'Anton', Impact, sans-serif;
 
-  --bg-page: #000000;
-  --bg-surface: #0a0a0a;
-  --bg-raised: #121212;
-  --border-subtle: #1c1c1c;
-  --border-strong: #333333;
-  --text-primary: #fafafa;
-  --text-muted: #a3a3a3;
+  --bg-page: #111111;
+  --bg-surface: #161616;
+  --bg-raised: #1C1C1C;
+  --border-subtle: #2A221E;
+  --border-strong: #43322B;
+  --text-primary: #FFFFFF;
+  --text-muted: #A1A1A1;
   --text-faint: #737373;
+  --text-secondary: #CECECE;
 
-  /* Brand Color Tokens */
-  --brand-black: #000000;
-  --brand-yellow: #FFD60A;
-  --brand-amber: #FFB800;
-  --brand-pale: #FFF3B0;
+  /* Accent Color Tokens */
+  --accent: #FF5722;
+  --accent-hover: #CF4E24;
+  --accent-press: #A14327;
+  --accent-deep: #723A29;
+  --accent-tint: #43322B;
 
   /* Liquid Glass Tokens - High Translucency with Defined Luminous Edge */
   --glass-fill: rgba(255, 255, 255, 0.03);
-  --glass-fill-strong: rgba(8, 8, 8, 0.75);
+  --glass-fill-strong: rgba(17, 17, 17, 0.75);
   --glass-border: rgba(255, 255, 255, 0.14);
   --glass-border-strong: rgba(255, 255, 255, 0.24);
   --specular-highlight: rgba(255, 255, 255, 0.35);
@@ -52,8 +54,8 @@ body {
   height: 100%;
   width: 100%;
   font-family: var(--font-sans);
-  background-color: #000000;
-  color: #fafafa;
+  background-color: #111111;
+  color: #FFFFFF;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -61,8 +63,8 @@ body {
 
 /* Global Selection */
 ::selection {
-  background-color: #fafafa;
-  color: #000000;
+  background-color: #FF5722;
+  color: #111111;
 }
 
 /* Custom Scrollbar - Neutral 6px */
@@ -82,10 +84,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 87, 34, 0.5);
 }
 
-/* Accessible focus ring: 2px white ring with black offset */
+/* Accessible focus ring: 2px offset ring with accent colour */
 .focus-ring {
   outline: none;
 }
@@ -95,14 +97,14 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #000000, 0 0 0 4px rgba(250, 250, 250, 0.7);
+  box-shadow: 0 0 0 2px #111111, 0 0 0 4px rgba(255, 87, 34, 0.85);
 }
 
 @layer components {
   /* Glass Panels / Cards */
   .glass {
     position: relative;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(10, 12, 20, 0.18);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(17, 17, 17, 0.18);
     backdrop-filter: blur(var(--blur)) saturate(var(--saturation)) brightness(1.05);
     -webkit-backdrop-filter: blur(var(--blur)) saturate(var(--saturation)) brightness(1.05);
     border: 1px solid var(--glass-border);
@@ -111,7 +113,7 @@ select:focus-visible {
     transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
   }
   .glass:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(12, 16, 26, 0.24);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(17, 17, 17, 0.24);
     border-color: rgba(255, 255, 255, 0.28);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.50), inset 0 -1px 0 rgba(255, 255, 255, 0.06), 0 0 30px -2px rgba(255, 255, 255, 0.06), 0 24px 48px -12px rgba(0, 0, 0, 0.80);
   }
@@ -136,7 +138,7 @@ select:focus-visible {
   /* Strong Glass for Modals, Drawers, Menus */
   .glass-strong {
     position: relative;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(10, 12, 20, 0.58);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(17, 17, 17, 0.58);
     backdrop-filter: blur(calc(var(--blur) + 6px)) saturate(var(--saturation)) brightness(1.05);
     -webkit-backdrop-filter: blur(calc(var(--blur) + 6px)) saturate(var(--saturation)) brightness(1.05);
     border: 1px solid var(--glass-border-strong);
@@ -147,29 +149,29 @@ select:focus-visible {
 
   /* Glass Input for Form controls */
   .glass-input {
-    background: rgba(10, 12, 20, 0.35);
+    background: rgba(17, 17, 17, 0.35);
     border: 1px solid var(--glass-border);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 1px 2px rgba(0, 0, 0, 0.35);
     border-radius: 8px;
     transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-    color: #fafafa;
+    color: #FFFFFF;
   }
   .glass-input:hover {
     border-color: rgba(255, 255, 255, 0.28);
-    background: rgba(12, 16, 28, 0.48);
+    background: rgba(17, 17, 17, 0.48);
   }
   .glass-input:focus,
   .glass-input:focus-visible {
     outline: none;
     border-color: rgba(255, 255, 255, 0.50);
-    background: rgba(14, 18, 32, 0.65);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30), 0 0 0 2px #000000, 0 0 0 4px rgba(250, 250, 250, 0.7);
+    background: rgba(17, 17, 17, 0.65);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30), 0 0 0 2px #111111, 0 0 0 4px rgba(255, 87, 34, 0.85);
   }
 
   /* Glass Pill for Chips, Tabs, Badges */
   .glass-pill {
     border-radius: 9999px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(10, 12, 20, 0.20);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(17, 17, 17, 0.20);
     backdrop-filter: blur(var(--blur)) saturate(var(--saturation)) brightness(1.05);
     -webkit-backdrop-filter: blur(var(--blur)) saturate(var(--saturation)) brightness(1.05);
     border: 1px solid var(--glass-border);
@@ -177,7 +179,7 @@ select:focus-visible {
     transition: all 160ms ease-out;
   }
   .glass-pill:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(14, 18, 30, 0.26);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(17, 17, 17, 0.26);
     border-color: rgba(255, 255, 255, 0.28);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.50), 0 0 20px -2px rgba(255, 255, 255, 0.05), 0 10px 22px -6px rgba(0, 0, 0, 0.6);
   }
@@ -185,7 +187,7 @@ select:focus-visible {
   /* Hero Surface Glass-Liquid (progressive enhancement) */
   .glass-liquid {
     position: relative;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(10, 12, 20, 0.20);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(17, 17, 17, 0.20);
     backdrop-filter: blur(var(--blur)) saturate(var(--saturation)) brightness(1.05);
     -webkit-backdrop-filter: blur(var(--blur)) saturate(var(--saturation)) brightness(1.05);
     border: 1px solid var(--glass-border);
@@ -196,7 +198,7 @@ select:focus-visible {
 
   /* Scrim for busy backgrounds */
   .glass-scrim {
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(17, 17, 17, 0.75);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }

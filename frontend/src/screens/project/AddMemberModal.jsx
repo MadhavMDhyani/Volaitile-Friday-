@@ -115,7 +115,7 @@ export const AddMemberModal = ({
             Search Users by Email
           </label>
           <div className="relative">
-            <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-cyan-400/70" />
+            <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-accent/70" />
             <input
               id="member-search"
               type="text"
@@ -128,12 +128,12 @@ export const AddMemberModal = ({
                 }
               }}
               placeholder="Type at least 3 characters..."
-              className="w-full rounded-xl glass-input pl-9 pr-3.5 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono"
+              className="w-full rounded-xl glass-input pl-9 pr-3.5 py-2.5 text-xs text-[#FFFFFF] placeholder-[#737373] transition-all font-mono"
               autoFocus
             />
             {isSearching && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                <svg className="animate-spin h-3.5 w-3.5 text-cyan-400" viewBox="0 0 24 24" fill="none">
+                <svg className="animate-spin h-3.5 w-3.5 text-accent" viewBox="0 0 24 24" fill="none">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
@@ -149,7 +149,7 @@ export const AddMemberModal = ({
 
         {/* Error message */}
         {searchError && (
-          <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-2.5 text-xs text-red-300">
+          <div className="rounded-xl border border-accent-deep bg-accent-tint/40 p-2.5 text-xs text-accent">
             {searchError}
           </div>
         )}
@@ -173,7 +173,7 @@ export const AddMemberModal = ({
                     alreadyMember
                       ? 'opacity-40 cursor-not-allowed bg-transparent'
                       : isSelected
-                      ? 'glass-strong border border-cyan-400/40 text-[#fafafa] cursor-pointer shadow-[0_0_8px_rgba(0,240,255,0.15)]'
+                      ? 'glass-strong border border-accent/40 text-[#FFFFFF] cursor-pointer shadow-[0_0_8px_rgba(255,87,34,0.15)]'
                       : 'hover:bg-white/[0.05] text-[#a3a3a3] hover:text-[#fafafa] cursor-pointer'
                   }`}
                 >
@@ -192,7 +192,7 @@ export const AddMemberModal = ({
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => toggleSelectUser(u._id.toString())}
-                        className="rounded border-white/20 bg-white/[0.06] text-cyan-400 focus-ring cursor-pointer"
+                        className="rounded border-white/20 bg-white/[0.06] text-accent focus-ring cursor-pointer"
                         aria-label={`Select ${u.email}`}
                       />
                     )}

@@ -42,7 +42,7 @@ export const AccountMenu = () => {
           aria-haspopup="true"
           aria-label="Account options"
         >
-          <div className="flex h-5 w-5 items-center justify-center rounded bg-[#fafafa] font-mono text-[10px] font-bold text-[#000000]">
+          <div className="flex h-5 w-5 items-center justify-center rounded bg-accent font-mono text-[10px] font-bold text-[#111111]">
             {initial}
           </div>
           <span className="hidden sm:inline font-mono font-medium max-w-[150px] truncate text-left">
@@ -108,7 +108,7 @@ export const AccountMenu = () => {
                   setIsOpen(false);
                   logout();
                 }}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-red-400 transition-colors hover:bg-red-500/15 focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-accent transition-colors hover:bg-accent-tint/40 focus-ring"
                 role="menuitem"
               >
                 <i className="ri-logout-box-r-line text-sm" />

@@ -132,7 +132,7 @@ export const Project = () => {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#000000]/85 backdrop-blur-sm px-4 text-center text-[#fafafa] font-sans">
         <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400 mb-4 shadow-[0_0_24px_rgba(239,68,68,0.25)]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgba(255,87,34,0.25)]">
             <i className="ri-lock-line text-2xl" />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
@@ -157,7 +157,7 @@ export const Project = () => {
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#000000]/85 backdrop-blur-sm px-4 text-center text-[#fafafa] font-sans">
         <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-[#a3a3a3] mb-4 shadow-glass">
-            <i className="ri-folder-warning-line text-2xl text-cyan-400" />
+            <i className="ri-folder-warning-line text-2xl text-accent" />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">
             Project Not Found
@@ -180,7 +180,7 @@ export const Project = () => {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#000000]/85 backdrop-blur-sm px-4 text-center text-[#fafafa] font-sans">
         <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400 mb-4 shadow-[0_0_24px_rgba(239,68,68,0.25)]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgba(255,87,34,0.25)]">
             <i className="ri-error-warning-line text-2xl" />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-[#fafafa]">

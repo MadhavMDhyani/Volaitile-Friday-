@@ -7,13 +7,10 @@ import HowItWorks from '../components/landing/HowItWorks';
 import FAQ from '../components/landing/FAQ';
 import FinalCTA from '../components/landing/FinalCTA';
 import Footer from '../components/landing/Footer';
-import AuroraBackground from '../components/AuroraBackground';
 
 export const Landing = () => {
   return (
-    <div className="relative min-h-screen w-full bg-[#000000] text-[#fafafa] selection:bg-[#fafafa] selection:text-[#000000] overflow-x-hidden">
-      {/* Shared Aurora Orbs Background */}
-      <AuroraBackground />
+    <div className="relative min-h-screen w-full bg-transparent text-[#fafafa] selection:bg-[#fafafa] selection:text-[#000000] overflow-x-hidden">
 
       {/* Sticky Translucent Glass Header */}
       <LandingNav />

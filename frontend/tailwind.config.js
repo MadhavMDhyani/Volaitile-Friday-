@@ -17,7 +17,7 @@ export default {
       colors: {
         slate: colors.neutral,
         stone: colors.neutral,
-        page: '#111111',
+        page: '#0a0a0a',
         surface: '#161616',
         raised: '#1C1C1C',
         border: '#2A221E',

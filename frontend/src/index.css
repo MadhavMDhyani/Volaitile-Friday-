@@ -7,7 +7,7 @@
   --font-mono: 'IBM Plex Mono', monospace;
   --font-title: 'Anton', Impact, sans-serif;
 
-  --bg-page: #111111;
+  --bg-page: #0a0a0a;
   --bg-surface: #161616;
   --bg-raised: #1C1C1C;
   --border-subtle: #2A221E;
@@ -54,7 +54,7 @@ body {
   height: 100%;
   width: 100%;
   font-family: var(--font-sans);
-  background-color: #111111;
+  background-color: #0a0a0a;
   color: #FFFFFF;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

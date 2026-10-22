@@ -4,6 +4,12 @@ services:
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   redis:
     image: redis:7-alpine
@@ -18,9 +24,14 @@ services:
       - Backend/.env
     environment:
       - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/volatile-friday
+      - REDIS_HOST=redis
+      - CLIENT_URL=http://localhost
     depends_on:
-      - mongo
-      - redis
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_started
     ports:
       - "3000:3000"
 

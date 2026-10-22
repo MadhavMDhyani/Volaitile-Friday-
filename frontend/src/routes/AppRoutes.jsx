@@ -10,7 +10,7 @@ const Home = lazy(() => import('../screens/Home'));
 const Dashboard = lazy(() => import('../screens/Dashboard'));
 const Login = lazy(() => import('../screens/Login'));
 const Register = lazy(() => import('../screens/Register'));
-const Project = lazy(() => import('../screens/Project'));
+const Project = lazy(() => import('../screens/project'));
 const Landing = lazy(() => import('../screens/Landing'));
 
 const ScreenFallback = () => (

@@ -62,14 +62,14 @@ export const RecentActivity = () => {
           <div className="flex h-6 w-6 items-center justify-center rounded-lg glass text-accent">
             <i className="ri-history-line text-xs" />
           </div>
-          <h3 className="font-semibold text-sm text-[#fafafa] tracking-tight">
+          <h3 className="font-semibold text-sm text-[#f3e6da] tracking-tight">
             Recent Activity
           </h3>
         </div>
         <button
           type="button"
           onClick={fetchActivity}
-          className="text-[#737373] hover:text-[#fafafa] p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
+          className="text-[#6e5d50] hover:text-[#f3e6da] p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
           title="Refresh activity"
           aria-label="Refresh recent activity"
         >
@@ -132,24 +132,24 @@ export const RecentActivity = () => {
                 aria-label={`Open project ${projectName}`}
               >
                 {/* Activity Meta */}
-                <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-[#737373]">
+                <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-[#6e5d50]">
                   <div className="flex items-center gap-1.5 truncate">
-                    <span className="rounded-full bg-white/[0.08] border border-white/10 px-2 py-0.2 text-[#fafafa] truncate max-w-[120px]">
+                    <span className="rounded-full bg-white/[0.08] border border-white/10 px-2 py-0.2 text-[#f3e6da] truncate max-w-[120px]">
                       {projectName}
                     </span>
                     <span>·</span>
-                    <span className="truncate text-[#a3a3a3]">
+                    <span className="truncate text-[#a89384]">
                       {isAi && (
                         <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-accent" />
                       )}
                       {senderName}
                     </span>
                   </div>
-                  {timeStr && <span className="shrink-0 text-[#737373]">{timeStr}</span>}
+                  {timeStr && <span className="shrink-0 text-[#6e5d50]">{timeStr}</span>}
                 </div>
 
                 {/* Message snippet */}
-                <p className="line-clamp-2 text-xs text-[#a3a3a3] group-hover:text-[#fafafa] transition-colors leading-relaxed break-words">
+                <p className="line-clamp-2 text-xs text-[#a89384] group-hover:text-[#f3e6da] transition-colors leading-relaxed break-words">
                   {item.text}
                 </p>
               </div>
@@ -158,12 +158,12 @@ export const RecentActivity = () => {
         </div>
       ) : (
         /* Empty State */
-        <div className="flex flex-col items-center justify-center py-8 text-center text-[#737373]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl glass mb-2 text-[#a3a3a3]">
+        <div className="flex flex-col items-center justify-center py-8 text-center text-[#6e5d50]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl glass mb-2 text-[#a89384]">
             <i className="ri-chat-voice-line text-lg text-accent" />
           </div>
-          <p className="text-xs text-[#a3a3a3] font-medium">No recent activity yet</p>
-          <p className="text-[11px] text-[#737373] mt-1 max-w-[200px]">
+          <p className="text-xs text-[#a89384] font-medium">No recent activity yet</p>
+          <p className="text-[11px] text-[#6e5d50] mt-1 max-w-[200px]">
             Send a message in any project workspace to view live team updates here.
           </p>
         </div>

@@ -21,13 +21,13 @@ export const OfflineBanner = ({ onRetry }) => {
 
   return (
     <aside
-      className="sticky top-0 z-50 flex items-center justify-between border-b border-accent-deep bg-accent-tint/40 backdrop-blur-md px-4 py-2 text-xs text-[#FFFFFF] font-sans"
+      className="sticky top-0 z-50 flex items-center justify-between border-b border-accent-deep bg-accent-tint/40 backdrop-blur-md px-4 py-2 text-xs text-[#f3e6da] font-sans"
       aria-label="Network status banner"
     >
       <div className="flex items-center gap-2">
         <span className="flex h-2 w-2 rounded-full bg-accent" />
         <span className="font-medium">You are currently offline.</span>
-        <span className="hidden sm:inline text-[#a3a3a3]">
+        <span className="hidden sm:inline text-[#a89384]">
           Changes will not synchronize with the cloud until your connection is restored.
         </span>
       </div>

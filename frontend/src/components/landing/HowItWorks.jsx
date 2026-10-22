@@ -30,10 +30,10 @@ export const HowItWorks = () => {
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               SIMPLE WORKFLOW
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] leading-tight">
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
               From zero to shipping in 3 steps
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-[#a3a3a3] leading-relaxed">
+            <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               No complex pipeline setup or external plugins required. Everything is ready the moment you sign in.
             </p>
           </Reveal>
@@ -48,20 +48,20 @@ export const HowItWorks = () => {
                     <span className="font-mono text-2xl font-bold text-accent/90 tabular-nums">
                       {step.num}
                     </span>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-[#fafafa]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-[#f3e6da]">
                       <i className={`${step.icon} text-lg`} />
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#fafafa]">
+                  <h3 className="text-lg font-bold text-[#f3e6da]">
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-[#a3a3a3] leading-relaxed">
+                  <p className="mt-2 text-xs sm:text-sm text-[#a89384] leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className="mt-6 border-t border-white/[0.08] pt-3 text-[10px] font-mono text-[#737373] uppercase tracking-wider">
+                <div className="mt-6 border-t border-white/[0.08] pt-3 text-[10px] font-mono text-[#6e5d50] uppercase tracking-wider">
                   Step {idx + 1} of 3
                 </div>
               </div>

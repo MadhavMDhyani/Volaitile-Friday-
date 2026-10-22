@@ -47,7 +47,7 @@ export const LandingNav = () => {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-xs font-medium text-[#a3a3a3] hover:text-[#fafafa] transition-colors focus-ring rounded py-1 px-1.5"
+                className="text-xs font-medium text-[#a89384] hover:text-[#f3e6da] transition-colors focus-ring rounded py-1 px-1.5"
               >
                 {link.label}
               </a>
@@ -59,13 +59,13 @@ export const LandingNav = () => {
         <div className="hidden sm:flex items-center gap-3">
           <Link
             to="/login"
-            className="h-9 px-3.5 inline-flex items-center justify-center rounded-xl text-xs font-medium text-[#fafafa] hover:text-white glass hover:border-white/30 transition-all focus-ring"
+            className="h-9 px-3.5 inline-flex items-center justify-center rounded-xl text-xs font-medium text-[#f3e6da] hover:text-white glass hover:border-white/30 transition-all focus-ring"
           >
             Log in
           </Link>
           <Link
             to="/register"
-            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#111111] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgba(255,87,34,0.3)] hover:shadow-[0_0_26px_rgba(255,87,34,0.45)] focus-ring"
+            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgba(255,87,34,0.3)] hover:shadow-[0_0_26px_rgba(255,87,34,0.45)] focus-ring"
           >
             Get started
           </Link>
@@ -75,14 +75,14 @@ export const LandingNav = () => {
         <div className="flex sm:hidden items-center gap-2">
           <Link
             to="/register"
-            className="h-8 px-3 inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-accent text-[#111111]"
+            className="h-8 px-3 inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-accent text-[#140d09]"
           >
             Start
           </Link>
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="h-8 w-8 inline-flex items-center justify-center rounded-lg glass text-[#a3a3a3] hover:text-white focus-ring"
+            className="h-8 w-8 inline-flex items-center justify-center rounded-lg glass text-[#a89384] hover:text-white focus-ring"
             aria-label="Toggle menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -100,7 +100,7 @@ export const LandingNav = () => {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-2 text-sm text-[#a3a3a3] hover:text-white"
+                className="py-2 text-sm text-[#a89384] hover:text-white"
               >
                 {link.label}
               </a>
@@ -109,13 +109,13 @@ export const LandingNav = () => {
           <div className="pt-2 border-t border-white/10 flex items-center gap-2">
             <Link
               to="/login"
-              className="flex-1 py-2 text-center text-xs font-medium glass rounded-xl text-[#fafafa]"
+              className="flex-1 py-2 text-center text-xs font-medium glass rounded-xl text-[#f3e6da]"
             >
               Log in
             </Link>
             <Link
               to="/register"
-              className="flex-1 py-2 text-center text-xs font-semibold bg-accent text-[#111111] rounded-xl"
+              className="flex-1 py-2 text-center text-xs font-semibold bg-accent text-[#140d09] rounded-xl"
             >
               Get started
             </Link>

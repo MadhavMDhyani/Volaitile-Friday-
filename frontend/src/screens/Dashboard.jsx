@@ -166,23 +166,23 @@ export const Dashboard = () => {
   const userGreeting = user?.name || (user?.email ? user.email.split('@')[0] : 'Developer');
 
   return (
-    <div className="min-h-screen bg-transparent text-[#fafafa] flex flex-col font-sans selection:bg-[#fafafa] selection:text-[#000000]">
+    <div className="min-h-screen bg-transparent text-[#f3e6da] flex flex-col font-sans selection:bg-[#f3e6da] selection:text-[#0f0a07]">
       {/* Top Navigation Header */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#000000]/75 backdrop-blur-[var(--blur)]">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0f0a07]/75 backdrop-blur-[var(--blur)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <Logo size="md" to="/dashboard" />
             <nav className="hidden sm:flex items-center gap-4 text-xs font-medium" aria-label="Main Navigation">
               <Link
                 to="/dashboard"
-                className="text-[#fafafa] border-b-2 border-white pb-0.5 transition-colors"
+                className="text-[#f3e6da] border-b-2 border-white pb-0.5 transition-colors"
                 aria-current="page"
               >
                 Dashboard
               </Link>
               <Link
                 to="/"
-                className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors"
+                className="text-[#a89384] hover:text-[#f3e6da] transition-colors"
               >
                 Projects
               </Link>
@@ -202,11 +202,11 @@ export const Dashboard = () => {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-6">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#fafafa]">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#f3e6da]">
                 Welcome back, {userGreeting}
               </h1>
             </div>
-            <p className="mt-1 text-xs sm:text-sm text-[#a3a3a3]">
+            <p className="mt-1 text-xs sm:text-sm text-[#a89384]">
               Workspace overview, code intelligence metrics, and live collaborator activity.
             </p>
           </div>
@@ -249,17 +249,17 @@ export const Dashboard = () => {
           <section className="lg:col-span-2 space-y-4" aria-label="Projects grid">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-base font-semibold tracking-tight text-[#fafafa]">
+                <h2 className="text-base font-semibold tracking-tight text-[#f3e6da]">
                   Your Workspaces
                 </h2>
-                <p className="text-[11px] text-[#737373]">
+                <p className="text-[11px] text-[#6e5d50]">
                   Select a project to start coding, editing files, or chatting.
                 </p>
               </div>
 
               <Link
                 to="/"
-                className="text-xs text-[#a3a3a3] hover:text-[#fafafa] flex items-center gap-1 transition-colors font-mono"
+                className="text-xs text-[#a89384] hover:text-[#f3e6da] flex items-center gap-1 transition-colors font-mono"
               >
                 <span>View all</span>
                 <i className="ri-arrow-right-line text-xs" />
@@ -302,7 +302,7 @@ export const Dashboard = () => {
           <div>
             <label
               htmlFor="dashboard-project-name"
-              className="block text-xs font-medium text-[#a3a3a3] mb-1.5"
+              className="block text-xs font-medium text-[#a89384] mb-1.5"
             >
               Project Name <span className="text-accent">*</span>
             </label>
@@ -316,7 +316,7 @@ export const Dashboard = () => {
                 setCreateError('');
               }}
               placeholder="e.g. backend-microservice, my-awesome-app"
-              className="w-full glass-input px-3.5 py-2.5 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors font-mono"
+              className="w-full glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] focus-ring transition-colors font-mono"
               maxLength={50}
               autoFocus
               disabled={isCreating}
@@ -324,7 +324,7 @@ export const Dashboard = () => {
             {createError ? (
               <p className="mt-1.5 text-xs text-accent font-medium">{createError}</p>
             ) : (
-              <p className="mt-1.5 text-[11px] text-[#737373]">
+              <p className="mt-1.5 text-[11px] text-[#6e5d50]">
                 Names must be unique to your account. Standard seed files will be created automatically.
               </p>
             )}

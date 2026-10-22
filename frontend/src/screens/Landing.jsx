@@ -10,7 +10,7 @@ import Footer from '../components/landing/Footer';
 
 export const Landing = () => {
   return (
-    <div className="relative min-h-screen w-full bg-transparent text-[#fafafa] selection:bg-[#fafafa] selection:text-[#000000] overflow-x-hidden">
+    <div className="relative min-h-screen w-full bg-transparent text-[#f3e6da] selection:bg-[#f3e6da] selection:text-[#0f0a07] overflow-x-hidden">
 
       {/* Sticky Translucent Glass Header */}
       <LandingNav />

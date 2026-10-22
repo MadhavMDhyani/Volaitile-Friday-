@@ -51,20 +51,20 @@ export const ProjectGrid = ({
       {/* Search and Sort Toolbar */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative flex-1 max-w-sm">
-          <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#737373]" />
+          <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#6e5d50]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects..."
-            className="w-full glass-input pl-8 pr-8 py-2 text-xs text-[#fafafa] placeholder-[#737373] focus-ring transition-colors"
+            className="w-full glass-input pl-8 pr-8 py-2 text-xs text-[#f3e6da] placeholder-[#6e5d50] focus-ring transition-colors"
             aria-label="Search projects by name"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#737373] hover:text-[#fafafa] p-0.5"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#6e5d50] hover:text-[#f3e6da] p-0.5"
               aria-label="Clear search input"
             >
               <i className="ri-close-line text-xs" />
@@ -73,15 +73,15 @@ export const ProjectGrid = ({
         </div>
 
         <div className="flex items-center gap-2 self-end sm:self-auto">
-          <span className="text-xs text-[#737373]">Sort:</span>
+          <span className="text-xs text-[#6e5d50]">Sort:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="glass-input px-3 py-2 text-xs text-[#fafafa] focus-ring cursor-pointer"
+            className="glass-input px-3 py-2 text-xs text-[#f3e6da] focus-ring cursor-pointer"
             aria-label="Sort projects"
           >
-            <option value="updated" className="bg-[#000000]">Recently updated</option>
-            <option value="name" className="bg-[#000000]">Name (A-Z)</option>
+            <option value="updated" className="bg-[#0f0a07]">Recently updated</option>
+            <option value="name" className="bg-[#0f0a07]">Name (A-Z)</option>
           </select>
         </div>
       </div>
@@ -138,10 +138,10 @@ export const ProjectGrid = ({
                   {/* Card Header: Title & Badges */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0 max-w-[70%]">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl glass text-[#A1A1A1] group-hover:text-accent transition-colors">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl glass text-[#a89384] group-hover:text-accent transition-colors">
                         <i className="ri-folder-line text-sm" />
                       </div>
-                      <h3 className="font-mono font-semibold text-xs sm:text-sm text-[#fafafa] truncate tracking-tight">
+                      <h3 className="font-mono font-semibold text-xs sm:text-sm text-[#f3e6da] truncate tracking-tight">
                         {proj.name}
                       </h3>
                     </div>
@@ -150,7 +150,7 @@ export const ProjectGrid = ({
                       {/* Online dot indicator if active */}
                       {onlineCount > 0 && (
                         <span
-                          className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-[9px] font-mono text-[#CECECE]"
+                          className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-[9px] font-mono text-[#c4b5a8]"
                           title={`${onlineCount} collaborator online now`}
                         >
                           <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
@@ -160,7 +160,7 @@ export const ProjectGrid = ({
 
                       {/* Owner vs Member Badge */}
                       <span
-                        className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-mono border-white/15 bg-white/[0.06] text-[#a3a3a3]"
+                        className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-mono border-white/15 bg-white/[0.06] text-[#a89384]"
                       >
                         {isProjOwner ? 'Owner' : 'Member'}
                       </span>
@@ -168,13 +168,13 @@ export const ProjectGrid = ({
                   </div>
 
                   {/* Metadata Row: Files & Lines */}
-                  <div className="mt-3 flex items-center gap-3 text-xs text-[#737373] font-mono">
+                  <div className="mt-3 flex items-center gap-3 text-xs text-[#6e5d50] font-mono">
                     <span className="flex items-center gap-1">
                       <i className="ri-file-code-line text-xs" />
                       <span>{stats ? `${stats.filesCount} files` : '— files'}</span>
                     </span>
                     {stats?.totalLines > 0 && (
-                      <span className="text-[11px] text-[#a3a3a3]">
+                      <span className="text-[11px] text-[#a89384]">
                         {stats.totalLines.toLocaleString()} LOC
                       </span>
                     )}
@@ -189,7 +189,7 @@ export const ProjectGrid = ({
                         return (
                           <div
                             key={member?._id || mIdx}
-                            className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-white/[0.1] font-mono text-[9px] font-bold text-[#fafafa]"
+                            className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-white/[0.1] font-mono text-[9px] font-bold text-[#f3e6da]"
                             title={email}
                           >
                             {initial}
@@ -199,7 +199,7 @@ export const ProjectGrid = ({
                     </div>
 
                     {extraCount > 0 && (
-                      <span className="rounded-full bg-white/[0.06] border border-white/10 px-1.5 py-0.2 text-[10px] font-mono text-[#737373]">
+                      <span className="rounded-full bg-white/[0.06] border border-white/10 px-1.5 py-0.2 text-[10px] font-mono text-[#6e5d50]">
                         +{extraCount}
                       </span>
                     )}
@@ -208,7 +208,7 @@ export const ProjectGrid = ({
 
                 {/* Card Footer: Open Button */}
                 <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-2.5 text-xs">
-                  <span className="text-[11px] font-mono text-[#737373]">
+                  <span className="text-[11px] font-mono text-[#6e5d50]">
                     {proj.createdAt
                       ? new Date(proj.createdAt).toLocaleDateString([], {
                           month: 'short',
@@ -225,7 +225,7 @@ export const ProjectGrid = ({
                       navigate(`/project/${proj._id}`);
                     }}
                     iconRight={<i className="ri-arrow-right-line text-xs" />}
-                    className="text-[#a3a3a3] hover:text-[#fafafa] font-mono"
+                    className="text-[#a89384] hover:text-[#f3e6da] font-mono"
                   >
                     Open
                   </Button>
@@ -237,13 +237,13 @@ export const ProjectGrid = ({
       ) : (
         /* Empty State */
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-12 px-4 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl glass text-[#a3a3a3] mb-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl glass text-[#a89384] mb-3">
             <i className="ri-folder-add-line text-xl text-accent" />
           </div>
-          <h4 className="text-sm font-semibold text-[#fafafa]">
+          <h4 className="text-sm font-semibold text-[#f3e6da]">
             {searchQuery ? 'No matching projects found' : 'No projects yet'}
           </h4>
-          <p className="mt-1 text-xs text-[#a3a3a3] max-w-sm">
+          <p className="mt-1 text-xs text-[#a89384] max-w-sm">
             {searchQuery
               ? `No project matches "${searchQuery}". Clear your search query to view all workspaces.`
               : 'Create your first collaborative developer project to start coding and chatting.'}

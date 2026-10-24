@@ -133,16 +133,16 @@ export const ProductMockup = () => {
             <div className="p-3 font-mono text-[11px] leading-relaxed text-[#c4b5a8] overflow-x-auto select-none">
               <pre className="space-y-0.5">
                 <code>
-                  {/* Syntax: keyword=#FF5722, string=#c4b5a8, function=#f3e6da, number/comment=#6e5d50 */}
-                  <span className="text-[#6e5d50]">1</span>  <span className="text-[#FF5722]">import</span> jwt <span className="text-[#FF5722]">from</span> <span className="text-[#c4b5a8]">&apos;jsonwebtoken&apos;</span>;{'\n'}
-                  <span className="text-[#6e5d50]">2</span>  <span className="text-[#FF5722]">import</span> redis <span className="text-[#FF5722]">from</span> <span className="text-[#c4b5a8]">&apos;../service/cache.js&apos;</span>;{'\n'}
+                  {/* Syntax: keyword=accent, string=#c4b5a8, function=#f3e6da, number/comment=#6e5d50 */}
+                  <span className="text-[#6e5d50]">1</span>  <span className="text-accent">import</span> jwt <span className="text-accent">from</span> <span className="text-[#c4b5a8]">&apos;jsonwebtoken&apos;</span>;{'\n'}
+                  <span className="text-[#6e5d50]">2</span>  <span className="text-accent">import</span> redis <span className="text-accent">from</span> <span className="text-[#c4b5a8]">&apos;../service/cache.js&apos;</span>;{'\n'}
                   <span className="text-[#6e5d50]">3</span>{'\n'}
-                  <span className="text-[#6e5d50]">4</span>  <span className="text-[#FF5722]">export const</span> <span className="text-[#f3e6da]">authUser</span> = <span className="text-[#FF5722]">async</span> (req, res, next) =&gt; &#123;{'\n'}
-                  <span className="text-[#6e5d50]">5</span>    <span className="text-[#FF5722]">const</span> token = req.cookies.token;{'\n'}
-                  <span className="text-[#6e5d50]">6</span>    <span className="text-[#FF5722]">if</span> (!token) <span className="text-[#FF5722]">return</span> res.status(<span className="text-[#6e5d50]">401</span>).json(&#123; error: <span className="text-[#c4b5a8]">&apos;Unauthorized&apos;</span> &#125;);{'\n'}
+                  <span className="text-[#6e5d50]">4</span>  <span className="text-accent">export const</span> <span className="text-[#f3e6da]">authUser</span> = <span className="text-accent">async</span> (req, res, next) =&gt; &#123;{'\n'}
+                  <span className="text-[#6e5d50]">5</span>    <span className="text-accent">const</span> token = req.cookies.token;{'\n'}
+                  <span className="text-[#6e5d50]">6</span>    <span className="text-accent">if</span> (!token) <span className="text-accent">return</span> res.status(<span className="text-[#6e5d50]">401</span>).json(&#123; error: <span className="text-[#c4b5a8]">&apos;Unauthorized&apos;</span> &#125;);{'\n'}
                   <span className="text-[#6e5d50]">7</span>{'\n'}
-                  <span className="text-[#6e5d50]">8</span>    <span className="text-[#FF5722]">const</span> isBlacklisted = <span className="text-[#FF5722]">await</span> redis.get(`blacklist:$&#123;token&#125;`);{'\n'}
-                  <span className="text-[#6e5d50]">9</span>    <span className="text-[#FF5722]">if</span> (isBlacklisted) <span className="text-[#FF5722]">return</span> res.status(<span className="text-[#6e5d50]">401</span>).end();{'\n'}
+                  <span className="text-[#6e5d50]">8</span>    <span className="text-accent">const</span> isBlacklisted = <span className="text-accent">await</span> redis.get(`blacklist:$&#123;token&#125;`);{'\n'}
+                  <span className="text-[#6e5d50]">9</span>    <span className="text-accent">if</span> (isBlacklisted) <span className="text-accent">return</span> res.status(<span className="text-[#6e5d50]">401</span>).end();{'\n'}
                   <span className="text-[#6e5d50]">10</span>   req.user = jwt.verify(token, process.env.JWT_SECRET);{'\n'}
                   <span className="text-[#6e5d50]">11</span>   next();{'\n'}
                   <span className="text-[#6e5d50]">12</span> &#125;;
@@ -173,7 +173,7 @@ export const ProductMockup = () => {
               {/* Friday AI response */}
               <div className="flex flex-col items-start">
                 <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent mb-1 font-semibold">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgba(255,87,34,0.8)]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)]" />
                   Friday AI · Gemini
                 </span>
                 <div className="rounded-2xl border border-accent-deep bg-accent-tint/20 px-3 py-2 text-[11px] text-[#c4b5a8] leading-relaxed">

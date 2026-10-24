@@ -55,7 +55,7 @@ export const AiQuickAsk = () => {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-[#FF5722] to-[#A14327] text-[#140d09] font-mono font-bold text-[10px] shadow-[0_0_12px_rgba(255,87,34,0.35)]">
+          <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent-hover text-[#140d09] font-mono font-bold text-[10px] shadow-[0_0_12px_rgb(var(--accent-rgb)/0.35)]">
             AI
           </span>
           <h3 className="font-semibold text-sm text-[#f3e6da] tracking-tight">

@@ -32,7 +32,7 @@ export const ProjectHeader = ({
             </span>
 
             {isOwner && (
-              <span className="shrink-0 inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-mono text-accent shadow-[0_0_8px_rgba(255,87,34,0.2)]">
+              <span className="shrink-0 inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-mono text-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.2)]">
                 Owner
               </span>
             )}

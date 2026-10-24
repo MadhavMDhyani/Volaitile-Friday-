@@ -18,7 +18,7 @@ export const ProjectHeader = ({
           <Link
             to="/dashboard"
             viewTransition
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-colors focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >

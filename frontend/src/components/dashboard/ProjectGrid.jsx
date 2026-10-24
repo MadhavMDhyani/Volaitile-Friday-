@@ -119,9 +119,9 @@ export const ProjectGrid = ({
               <div
                 key={proj._id}
                 onClick={() => navigate(`/project/${proj._id}`, { viewTransition: true })}
-                className="group relative flex flex-col justify-between rounded-2xl glass p-4.5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.45)] focus-ring animate-fade-up"
+                className="group relative flex flex-col justify-between rounded-2xl glass p-4.5 cursor-pointer transition-[border-color,transform] duration-180 ease-out hover:border-white/25 hover:-translate-y-0.5 focus-ring animate-fade-up"
                 style={{
-                  animationDelay: `${Math.min(idx, 6) * 35}ms`,
+                  animationDelay: `${Math.min(idx, 11) * 40}ms`,
                   animationFillMode: 'both',
                 }}
                 role="button"
@@ -153,7 +153,7 @@ export const ProjectGrid = ({
                           className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-[9px] font-mono text-[#c4b5a8]"
                           title={`${onlineCount} collaborator online now`}
                         >
-                          <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                          <span className="presence-dot h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.7)]" />
                           {onlineCount} online
                         </span>
                       )}

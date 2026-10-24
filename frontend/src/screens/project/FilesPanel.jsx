@@ -254,24 +254,28 @@ export const FilesPanel = ({ projectId }) => {
 
   const handleDeleteFile = async () => {
     if (!deletingFile) return;
+    const fileToDelete = deletingFile;
+    setDeletingFile(null);
 
     try {
       setIsDeleting(true);
-      await axios.delete(`/projects/${projectId}/files/${deletingFile._id}`);
-      toast.success(`Deleted file "${deletingFile.name}"`);
+      setFadingOutFileId(fileToDelete._id);
+      await new Promise((r) => setTimeout(r, 200));
+      await axios.delete(`/projects/${projectId}/files/${fileToDelete._id}`);
+      toast.success(`Deleted file "${fileToDelete.name}"`);
 
       setFiles((prev) => {
-        const remaining = prev.filter((f) => f._id !== deletingFile._id);
-        if (activeFileId === deletingFile._id) {
+        const remaining = prev.filter((f) => f._id !== fileToDelete._id);
+        if (activeFileId === fileToDelete._id) {
           setActiveFileId(remaining[0]?._id || null);
         }
         return remaining;
       });
-      setDeletingFile(null);
     } catch (err) {
       toast.error(getErrorMessage(err, 'Failed to delete file'));
     } finally {
       setIsDeleting(false);
+      setFadingOutFileId(null);
     }
   };
 
@@ -293,7 +297,7 @@ export const FilesPanel = ({ projectId }) => {
               setNewFilePath('');
               setIsNewFileModalOpen(true);
             }}
-            className="flex h-6 w-6 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-6 w-6 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-colors focus-ring"
             title="Create new file"
             aria-label="Create new file"
           >
@@ -310,29 +314,45 @@ export const FilesPanel = ({ projectId }) => {
               <div className="h-7 w-full rounded-lg bg-white/[0.04] skeleton-shimmer" />
             </div>
           ) : files.length > 0 ? (
-            <ul className="space-y-0.5 px-2" role="list">
+            <ul className="relative space-y-0.5 px-2" role="list">
+              {/* Active Bar indicator transitioning via translateY */}
+              {files.length > 0 && indicatorStyle.opacity > 0 && (
+                <span
+                  className="pointer-events-none absolute left-0 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-press shadow-[0_0_8px_rgb(var(--accent-rgb)/0.6)] transition-[transform,height,opacity] duration-200 ease-out z-10"
+                  style={{
+                    transform: `translate3d(0, ${indicatorStyle.top + 6}px, 0)`,
+                    height: `${Math.max(0, indicatorStyle.height - 12)}px`,
+                    opacity: indicatorStyle.opacity,
+                  }}
+                  aria-hidden="true"
+                />
+              )}
               {files.map((file) => {
                 const isActive = file._id === activeFileId;
                 const isItemRenaming = file._id === renamingFileId;
                 const status = saveStatuses[file._id];
+                const isFadingOut = file._id === fadingOutFileId;
 
                 return (
                   <li
                     key={file._id}
+                    ref={(el) => {
+                      if (el) itemRefs.current.set(file._id, el);
+                      else itemRefs.current.delete(file._id);
+                    }}
                     onClick={() => setActiveFileId(file._id)}
-                    className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-all duration-150 cursor-pointer ${
+                    className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-[background-color,border-color,color] duration-150 cursor-pointer ${
+                      isFadingOut
+                        ? 'opacity-0 -translate-x-3 transition-[opacity,transform] duration-200 pointer-events-none'
+                        : file.isNew
+                        ? 'animate-file-row-in'
+                        : ''
+                    } ${
                       isActive
                         ? 'glass-strong text-[#f3e6da] font-medium border border-accent/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.12)]'
                         : 'text-[#a89384] hover:bg-white/[0.04] hover:text-[#f3e6da]'
                     }`}
                   >
-                    {/* Active Bar indicator */}
-                    {isActive && (
-                      <span
-                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-press shadow-[0_0_8px_rgb(var(--accent-rgb)/0.6)] transition-all duration-150"
-                        aria-hidden="true"
-                      />
-                    )}
 
                     <div className="flex items-center gap-2 min-w-0 flex-1 pl-1">
                       <i
@@ -461,7 +481,7 @@ export const FilesPanel = ({ projectId }) => {
                 setNewFileError('');
               }}
               placeholder="e.g. server.js or utils/helper.js"
-              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-all font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-[border-color,background-color] font-mono"
               autoFocus
               required
             />
@@ -477,7 +497,7 @@ export const FilesPanel = ({ projectId }) => {
               value={newFilePath}
               onChange={(e) => setNewFilePath(e.target.value)}
               placeholder="Defaults to file name (no leading slash)"
-              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-all font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-[border-color,background-color] font-mono"
             />
             <p className="mt-1 text-[11px] text-[#6e5d50]">
               No &apos;..&apos;, no leading slashes, max 200 characters.

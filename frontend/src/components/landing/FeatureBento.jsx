@@ -2,7 +2,7 @@ import Reveal from './Reveal';
 
 export const FeatureBento = () => {
   return (
-    <section id="features" className="py-20 sm:py-28 relative">
+    <section id="features" className="py-20 sm:py-28 relative landing-section-contain">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -22,7 +22,7 @@ export const FeatureBento = () => {
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-5">
           {/* Card 1: Friday AI Assistant (Lg: 8 cols) */}
-          <div className="md:col-span-3 lg:col-span-8">
+          <div className="md:col-span-3 lg:col-span-8 bento-scroll-card">
             <Reveal delay={60} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
@@ -62,7 +62,7 @@ export const FeatureBento = () => {
           </div>
 
           {/* Card 2: Real-time Room Chat (Lg: 4 cols) */}
-          <div className="md:col-span-3 lg:col-span-4">
+          <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={120} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
@@ -86,7 +86,7 @@ export const FeatureBento = () => {
           </div>
 
           {/* Card 3: Cloud File Workspace (Lg: 4 cols) */}
-          <div className="md:col-span-3 lg:col-span-4">
+          <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={180} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
@@ -110,7 +110,7 @@ export const FeatureBento = () => {
           </div>
 
           {/* Card 4: Team Management & Roles (Lg: 4 cols) */}
-          <div className="md:col-span-3 lg:col-span-4">
+          <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={240} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
@@ -133,7 +133,7 @@ export const FeatureBento = () => {
           </div>
 
           {/* Card 5: Security by Default (Lg: 4 cols) */}
-          <div className="md:col-span-3 lg:col-span-4">
+          <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={300} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
@@ -157,7 +157,7 @@ export const FeatureBento = () => {
           </div>
 
           {/* Card 6: Developer Utilities & Self-Hosting (Lg: 12 cols split) */}
-          <div className="md:col-span-3 lg:col-span-6">
+          <div className="md:col-span-3 lg:col-span-6 bento-scroll-card">
             <Reveal delay={360} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
@@ -180,7 +180,7 @@ export const FeatureBento = () => {
             </Reveal>
           </div>
 
-          <div className="md:col-span-3 lg:col-span-6">
+          <div className="md:col-span-3 lg:col-span-6 bento-scroll-card">
             <Reveal delay={420} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>

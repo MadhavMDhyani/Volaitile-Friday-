@@ -23,7 +23,7 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 sm:py-28 relative">
+    <section id="how-it-works" className="py-20 sm:py-28 relative landing-section-contain">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Reveal delay={0}>
@@ -39,7 +39,12 @@ export const HowItWorks = () => {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Connector Line between steps (drawn via scaleX scroll animation) */}
+          <div
+            className="hidden md:block absolute top-[44px] left-[16%] right-[16%] h-[2px] bg-gradient-to-r from-accent/15 via-accent/50 to-accent/15 pointer-events-none how-it-works-connector z-0"
+            aria-hidden="true"
+          />
           {steps.map((step, idx) => (
             <Reveal key={step.num} delay={idx * 100} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-all duration-200">

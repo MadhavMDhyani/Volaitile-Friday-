@@ -69,7 +69,7 @@ export const ChatDemo = () => {
   }, [typedChars, activeIdx, isPaused, current.ai.length]);
 
   return (
-    <section className="py-16 sm:py-24 relative overflow-hidden">
+    <section className="py-16 sm:py-24 relative overflow-hidden landing-section-contain">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <Reveal delay={0}>
           <div className="text-center mb-10">

@@ -84,7 +84,7 @@ export const Reveal = ({
         transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
         ...willChangeStyle,
       }}
-      className={`transition-all ${
+      className={`transition-[opacity,transform] ${
         transformOnly
           ? isVisible
             ? 'translate-y-0'

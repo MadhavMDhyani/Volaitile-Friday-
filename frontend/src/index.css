@@ -360,6 +360,56 @@ select:focus-visible {
   animation-delay: -2.3s;
 }
 
+/* Below-the-fold content visibility containment */
+.landing-section-contain {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+}
+
+/* CSS Scroll-Driven Animations (@supports animation-timeline: view()) */
+@supports (animation-timeline: view()) {
+  .how-it-works-connector {
+    transform-origin: left center;
+    animation: connector-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 15% cover 40%;
+  }
+
+  @keyframes connector-draw {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .bento-scroll-card {
+    animation: bento-scroll-in linear both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 25%;
+  }
+
+  .bento-scroll-card:nth-of-type(1) { animation-range: entry 5% cover 22%; }
+  .bento-scroll-card:nth-of-type(2) { animation-range: entry 8% cover 25%; }
+  .bento-scroll-card:nth-of-type(3) { animation-range: entry 11% cover 28%; }
+  .bento-scroll-card:nth-of-type(4) { animation-range: entry 14% cover 31%; }
+  .bento-scroll-card:nth-of-type(5) { animation-range: entry 17% cover 34%; }
+  .bento-scroll-card:nth-of-type(6) { animation-range: entry 20% cover 37%; }
+  .bento-scroll-card:nth-of-type(7) { animation-range: entry 23% cover 40%; }
+
+  @keyframes bento-scroll-in {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,

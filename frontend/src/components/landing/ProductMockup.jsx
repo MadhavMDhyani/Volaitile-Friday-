@@ -71,7 +71,7 @@ export const ProductMockup = () => {
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
               {/* macOS window dots -> accent palette (Rule) */}
-              <span className="h-3 w-3 rounded-full bg-[#FF5722]/90" />
+              <span className="h-3 w-3 rounded-full bg-accent/90" />
               <span className="h-3 w-3 rounded-full bg-[#a89384]/90" />
               <span className="h-3 w-3 rounded-full bg-[#c4b5a8]/90" />
             </div>

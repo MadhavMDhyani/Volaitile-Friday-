@@ -90,7 +90,7 @@ export const ChatDemo = () => {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4 text-xs font-mono">
               <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_8px_rgba(255,87,34,0.8)] animate-pulse" />
+                <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
                 <span className="font-semibold text-white">Friday AI Room Assistant</span>
               </div>
                 <span className="text-[10px] text-[#a89384] rounded border border-accent/30 bg-accent/10 px-2 py-0.5">

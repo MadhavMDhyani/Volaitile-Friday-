@@ -27,7 +27,7 @@ export const FeatureBento = () => {
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent shadow-[0_0_16px_rgba(255,87,34,0.2)]">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                       <i className="ri-robot-2-line text-xl" />
                     </div>
                     <span className="text-[10px] font-mono rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[#c4b5a8]">
@@ -114,7 +114,7 @@ export const FeatureBento = () => {
             <Reveal delay={240} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgba(255,87,34,0.2)]">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                     <i className="ri-team-line text-xl" />
                   </div>
                   <h3 className="text-lg font-bold text-[#f3e6da]">
@@ -161,7 +161,7 @@ export const FeatureBento = () => {
             <Reveal delay={360} transformOnly={true}>
               <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgba(255,87,34,0.2)]">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                     <i className="ri-tools-line text-xl" />
                   </div>
                   <h3 className="text-lg font-bold text-[#f3e6da]">

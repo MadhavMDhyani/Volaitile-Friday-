@@ -59,7 +59,7 @@ export const Benefits = () => {
               transformOnly={true}
               className={idx === 0 ? 'lg:col-span-2' : ''}
             >
-              <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-[border-color] duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-accent">

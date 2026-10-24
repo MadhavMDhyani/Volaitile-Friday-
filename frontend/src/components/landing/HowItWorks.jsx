@@ -47,7 +47,7 @@ export const HowItWorks = () => {
           />
           {steps.map((step, idx) => (
             <Reveal key={step.num} delay={idx * 100} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-[border-color] duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <span className="font-mono text-2xl font-bold text-accent/90 tabular-nums">

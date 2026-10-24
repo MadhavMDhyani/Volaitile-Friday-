@@ -56,7 +56,7 @@ export const FAQ = () => {
 
             return (
               <Reveal key={item.q} delay={idx * 60} transformOnly={true}>
-                <div className="rounded-2xl glass border border-white/10 overflow-hidden transition-all duration-200">
+                <div className="rounded-2xl glass border border-white/10 overflow-hidden transition-[border-color] duration-200">
                   <button
                     id={headerId}
                     type="button"

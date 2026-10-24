@@ -97,7 +97,7 @@ export const Hero = () => {
           <Link
             to="/register"
             viewTransition
-            className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)] hover:shadow-[0_0_32px_rgb(var(--accent-rgb)/0.5)] focus-ring"
+            className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-[background-color,transform] shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)] focus-ring"
           >
             Get started free
             <i className="ri-arrow-right-line ml-1.5 text-base" />
@@ -105,7 +105,7 @@ export const Hero = () => {
 
           <a
             href="#features"
-            className="w-full sm:w-auto h-11 px-6 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#f3e6da] glass hover:border-white/30 transition-all focus-ring"
+            className="w-full sm:w-auto h-11 px-6 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#f3e6da] glass hover:border-white/30 transition-[border-color,color] focus-ring"
           >
             Explore features
           </a>

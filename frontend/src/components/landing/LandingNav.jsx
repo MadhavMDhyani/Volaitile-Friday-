@@ -30,7 +30,7 @@ export const LandingNav = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color] duration-200 ${
         scrolled
           ? 'bg-page/80 backdrop-blur-xl border-b border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
           : 'bg-transparent border-b border-transparent'
@@ -60,14 +60,14 @@ export const LandingNav = () => {
           <Link
             to="/login"
             viewTransition
-            className="h-9 px-3.5 inline-flex items-center justify-center rounded-xl text-xs font-medium text-[#f3e6da] hover:text-white glass hover:border-white/30 transition-all focus-ring"
+            className="h-9 px-3.5 inline-flex items-center justify-center rounded-xl text-xs font-medium text-[#f3e6da] hover:text-white glass hover:border-white/30 transition-[border-color,color] focus-ring"
           >
             Log in
           </Link>
           <Link
             to="/register"
             viewTransition
-            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
+            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-[background-color,transform] shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
           >
             Get started
           </Link>

@@ -52,13 +52,35 @@ export const Hero = () => {
           <span className="truncate hidden sm:inline">Real-time developer workspaces</span>
         </div>
 
-        {/* Primary Page Headline (Only H1 on Landing Page) */}
-        <div className="animate-fade-up" style={{ animationDelay: '60ms' }}>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#f3e6da] leading-[1.08] max-w-4xl mx-auto">
-            Code together.{' '}
-            <span className="block sm:inline">Ask Friday.{' '}</span>
-            <span className="text-accent font-extrabold drop-shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)]">
-              Ship faster.
+        {/* Primary Page Headline (Only H1 on Landing Page) - Mask reveal */}
+        <div>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#f3e6da] leading-[1.08] max-w-4xl mx-auto flex flex-wrap justify-center gap-x-3 gap-y-1">
+            <span className="inline-block overflow-hidden align-top">
+              <span className="hero-mask-line" style={{ animationDelay: '0ms' }}>
+                Code together.
+              </span>
+            </span>{' '}
+            <span className="inline-block overflow-hidden align-top">
+              <span className="hero-mask-line" style={{ animationDelay: '80ms' }}>
+                Ask Friday.
+              </span>
+            </span>{' '}
+            <span className="inline-block overflow-hidden align-top">
+              <span className="hero-mask-line relative" style={{ animationDelay: '160ms' }}>
+                {/* Glow layer pulsing opacity slowly (4s, opacity-only animation) */}
+                <span
+                  aria-hidden="true"
+                  className="hero-glow-layer pointer-events-none absolute inset-0 select-none font-extrabold blur-md text-accent"
+                  style={{
+                    color: 'rgb(var(--accent-rgb))',
+                  }}
+                >
+                  Ship faster.
+                </span>
+                <span className="relative z-10 text-accent font-extrabold">
+                  Ship faster.
+                </span>
+              </span>
             </span>
           </h1>
         </div>

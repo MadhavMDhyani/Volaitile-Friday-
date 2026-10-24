@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 export const ProductMockup = () => {
   const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef(null);
+  const cardRef = useRef(null);
 
   useEffect(() => {
     // Visibility API pause
@@ -34,43 +35,129 @@ export const ProductMockup = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Pointer tilt: max 5deg rotateX/rotateY, perspective 1200px via rAF + lerp
+    // strictly active only for (hover: hover) and (pointer: fine)
+    const card = cardRef.current;
+    const container = containerRef.current;
+    if (!card || !container) return;
+
+    const canHoverFine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    if (!canHoverFine.matches || prefersReducedMotion.matches) return;
+
+    let animId = 0;
+    let isHovered = false;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let lastTime = 0;
+    let rect = null;
+
+    function loop(now) {
+      if (!lastTime) lastTime = now;
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      // dt-based exponential smoothing for uniform speed at 60/120/144Hz
+      const blend = 1 - Math.exp(-12 * dt);
+      currentX += (targetX - currentX) * blend;
+      currentY += (targetY - currentY) * blend;
+
+      card.style.transform = `perspective(1200px) rotateX(${currentX.toFixed(3)}deg) rotateY(${currentY.toFixed(3)}deg)`;
+
+      if (isHovered || Math.abs(currentX) > 0.01 || Math.abs(currentY) > 0.01) {
+        animId = requestAnimationFrame(loop);
+      } else {
+        card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+        card.style.willChange = 'auto';
+        animId = 0;
+      }
+    }
+
+    function onPointerEnter() {
+      if (prefersReducedMotion.matches) return;
+      isHovered = true;
+      // Read bounding rect once on enter, NOT inside rAF loop (no layout reads inside animation loop rule)
+      rect = container.getBoundingClientRect();
+      card.style.willChange = 'transform';
+      lastTime = performance.now();
+      if (!animId) {
+        animId = requestAnimationFrame(loop);
+      }
+    }
+
+    function onPointerMove(e) {
+      if (!isHovered || !rect) return;
+      const normX = (e.clientX - rect.left) / rect.width - 0.5;
+      const normY = (e.clientY - rect.top) / rect.height - 0.5;
+      // Max 5deg tilt (normalized -0.5..0.5 * 10 = -5..5 deg)
+      targetX = -normY * 10;
+      targetY = normX * 10;
+    }
+
+    function onPointerLeave() {
+      isHovered = false;
+      targetX = 0;
+      targetY = 0;
+      rect = null;
+      if (!animId) {
+        lastTime = performance.now();
+        animId = requestAnimationFrame(loop);
+      }
+    }
+
+    container.addEventListener('pointerenter', onPointerEnter);
+    container.addEventListener('pointermove', onPointerMove);
+    container.addEventListener('pointerleave', onPointerLeave);
+
+    return () => {
+      container.removeEventListener('pointerenter', onPointerEnter);
+      container.removeEventListener('pointermove', onPointerMove);
+      container.removeEventListener('pointerleave', onPointerLeave);
+      if (animId) cancelAnimationFrame(animId);
+      card.style.transform = '';
+      card.style.willChange = 'auto';
+    };
+  }, []);
+
   const floatingAnimStyle = isPaused ? { animationPlayState: 'paused' } : undefined;
 
   return (
     <div ref={containerRef} className="relative mx-auto w-full max-w-5xl">
       {/* Floating Pill: Online Presence (Top-right) */}
       <div
-        className="absolute -top-3.5 right-6 z-20 hidden sm:flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-[11px] font-mono text-[#f3e6da] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)]"
-        style={{
-          transform: 'translateY(0)',
-          ...floatingAnimStyle,
-        }}
+        className="absolute -top-3.5 right-6 z-20 hidden sm:flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-[11px] font-mono text-[#f3e6da] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)] animate-float-pill-1"
+        style={floatingAnimStyle}
       >
         <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
-        <span className="text-[#a89384]">Room Presence:</span>
-        <span className="text-white font-semibold tabular-nums">2 members online</span>
+        <span className="text-[#a89384]">Room:</span>
+        <span className="text-white font-semibold tabular-nums">1 member online</span>
       </div>
 
       {/* Floating Pill: Cloud Sync Status (Bottom-left) */}
       <div
-        className="absolute -bottom-3.5 left-6 z-20 hidden sm:flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-[11px] font-mono text-[#f3e6da] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)]"
-        style={{
-          transform: 'translateY(0)',
-          ...floatingAnimStyle,
-        }}
+        className="absolute -bottom-3.5 left-6 z-20 hidden sm:flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-[11px] font-mono text-[#f3e6da] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)] animate-float-pill-2"
+        style={floatingAnimStyle}
       >
         <i className="ri-check-line text-[#c4b5a8] text-xs" />
         <span className="text-[#a89384]">Status:</span>
-        <span className="text-[#c4b5a8] font-medium">Saved to Cloud</span>
+        <span className="text-[#c4b5a8] font-medium">Saved</span>
       </div>
 
-      {/* Glass Window Container */}
-      <div className="relative rounded-2xl glass-strong border border-white/[0.22] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.04)]">
+      {/* Glass Window Container with 3D Tilt */}
+      <div
+        ref={cardRef}
+        className="relative rounded-2xl glass-strong border border-white/[0.22] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.04)] transition-transform duration-75 ease-out"
+        style={{ transformStyle: 'preserve-3d' }}
+      >
         {/* Window Title Bar */}
         <div className="flex h-11 items-center justify-between border-b border-white/[0.10] bg-raised/90 px-4">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
-              {/* macOS window dots -> accent palette (Rule) */}
+              {/* macOS window dots -> accent palette */}
               <span className="h-3 w-3 rounded-full bg-accent/90" />
               <span className="h-3 w-3 rounded-full bg-[#a89384]/90" />
               <span className="h-3 w-3 rounded-full bg-[#c4b5a8]/90" />

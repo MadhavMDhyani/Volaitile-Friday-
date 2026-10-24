@@ -110,7 +110,10 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
   );
 
   const content = (
-    <div className={`inline-flex items-center gap-2.5 ${className}`}>
+    <div
+      className={`inline-flex items-center gap-2.5 site-logo ${className}`}
+      style={{ viewTransitionName: 'site-logo' }}
+    >
       {icon}
       {showWordmark && (
         <span
@@ -128,6 +131,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
     return (
       <Link
         to={to}
+        viewTransition
         className="group inline-flex items-center focus-ring rounded-lg p-0.5"
         aria-label="Volaitile Friday Home"
       >

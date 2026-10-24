@@ -75,7 +75,7 @@ export const AiQuickAsk = () => {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a technical question, debug snippet, or explain a concept..."
-          className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-all"
+          className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-[border-color,background-color]"
           maxLength={1000}
           disabled={isLoading}
           aria-label="Ask Friday AI"

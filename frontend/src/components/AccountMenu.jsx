@@ -37,7 +37,7 @@ export const AccountMenu = () => {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-xs text-[#f3e6da] transition-all hover:border-white/18 hover:bg-white/[0.08] backdrop-blur-md focus-ring shadow-[inset_0_1px_0_rgba(255,200,150,0.12)]"
+          className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-xs text-[#f3e6da] transition-[border-color,background-color] hover:border-white/18 hover:bg-white/[0.08] backdrop-blur-md focus-ring shadow-[inset_0_1px_0_rgba(255,200,150,0.12)]"
           aria-expanded={isOpen}
           aria-haspopup="true"
           aria-label="Account options"

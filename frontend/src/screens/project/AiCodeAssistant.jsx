@@ -218,7 +218,7 @@ export const AiCodeAssistant = ({
           <select
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
-            className="rounded-lg border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-mono text-[11px] text-[#f3e6da] outline-none hover:border-white/25 focus:border-accent transition-all"
+            className="rounded-lg border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-mono text-[11px] text-[#f3e6da] outline-none hover:border-white/25 focus:border-accent transition-[border-color,background-color]"
             aria-label="Select AI Model"
           >
             <option value="auto" className="bg-[#090b10] text-[#f3e6da]">
@@ -248,7 +248,7 @@ export const AiCodeAssistant = ({
         <button
           type="button"
           onClick={() => setMode('generate')}
-          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-[background-color,border-color,color] ${
             mode === 'generate'
               ? 'bg-white/[0.1] text-accent border border-white/[0.12] shadow-sm'
               : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
@@ -261,7 +261,7 @@ export const AiCodeAssistant = ({
         <button
           type="button"
           onClick={() => setMode('review')}
-          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-[background-color,border-color,color] ${
             mode === 'review'
               ? 'bg-white/[0.1] text-accent border border-white/[0.12] shadow-sm'
               : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
@@ -274,7 +274,7 @@ export const AiCodeAssistant = ({
         <button
           type="button"
           onClick={() => setMode('explain')}
-          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-[background-color,border-color,color] ${
             mode === 'explain'
               ? 'bg-white/[0.1] text-[#c4b5a8] border border-white/[0.12] shadow-sm'
               : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
@@ -311,7 +311,7 @@ export const AiCodeAssistant = ({
               }}
               placeholder="e.g. Create an Express router with JWT middleware, error handling, and MongoDB CRUD queries..."
               rows={4}
-              className="w-full rounded-xl border border-white/[0.12] bg-[#0f0a07]/95 p-3 font-sans text-xs text-[#f3e6da] placeholder-white/25 outline-none focus:border-accent transition-all resize-none"
+              className="w-full rounded-xl border border-white/[0.12] bg-[#0f0a07]/95 p-3 font-sans text-xs text-[#f3e6da] placeholder-white/25 outline-none focus:border-accent transition-[border-color,background-color] resize-none"
             />
 
             {/* Language & Framework Selectors */}

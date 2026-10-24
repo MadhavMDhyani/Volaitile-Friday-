@@ -128,7 +128,7 @@ export const AddMemberModal = ({
                 }
               }}
               placeholder="Type at least 3 characters..."
-              className="w-full rounded-xl glass-input pl-9 pr-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-all font-mono"
+              className="w-full rounded-xl glass-input pl-9 pr-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-[border-color,background-color] font-mono"
               autoFocus
             />
             {isSearching && (
@@ -169,7 +169,7 @@ export const AddMemberModal = ({
                 <div
                   key={u._id}
                   onClick={() => !alreadyMember && toggleSelectUser(u._id.toString())}
-                  className={`flex items-center justify-between rounded-lg p-2 text-xs transition-all duration-150 ${
+                  className={`flex items-center justify-between rounded-lg p-2 text-xs transition-[border-color,background-color,color] duration-150 ${
                     alreadyMember
                       ? 'opacity-40 cursor-not-allowed bg-transparent'
                       : isSelected

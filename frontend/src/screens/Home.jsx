@@ -266,8 +266,8 @@ export const Home = () => {
                     animationDelay: `${Math.min(index, 8) * 40}ms`,
                     animationFillMode: 'both',
                   }}
-                  className={`group relative flex flex-col justify-between rounded-2xl glass p-5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.45)] animate-fade-up ${
-                    isRemoving ? 'opacity-0 scale-95 transition-all duration-150' : ''
+                  className={`group relative flex flex-col justify-between rounded-2xl glass p-5 cursor-pointer transition-[border-color,transform] duration-180 ease-out hover:border-white/25 hover:-translate-y-0.5 animate-fade-up ${
+                    isRemoving ? 'opacity-0 scale-95 transition-[opacity,transform] duration-150' : ''
                   }`}
                   role="button"
                   tabIndex={0}

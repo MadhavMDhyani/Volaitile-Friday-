@@ -117,8 +117,14 @@ export const CinderBackground = ({ intensity = 1 }) => {
   const intensityRef = useRef(intensity);
   const redrawRef = useRef(null);
 
+<<<<<<< HEAD
   useEffect(() => {
     intensityRef.current = intensity;
+=======
+  intensityRef.current = intensity;
+
+  useEffect(() => {
+>>>>>>> 7bd7e1a3c13b6b314cb7ad4b5072b613372634e2
     if (redrawRef.current) {
       redrawRef.current();
     }

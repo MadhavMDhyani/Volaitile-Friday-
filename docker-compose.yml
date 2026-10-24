@@ -21,7 +21,8 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file:
-      - Backend/.env
+      - path: Backend/.env
+        required: false
     environment:
       - PORT=3000
       - MONGODB_URI=mongodb://mongo:27017/volatile-friday

@@ -111,7 +111,7 @@ export const AddMemberModal = ({
       <div className="space-y-4">
         {/* Search Input */}
         <div>
-          <label className="block text-xs font-medium text-[#a3a3a3] mb-1.5" htmlFor="member-search">
+          <label className="block text-xs font-medium text-[#a89384] mb-1.5" htmlFor="member-search">
             Search Users by Email
           </label>
           <div className="relative">
@@ -128,7 +128,7 @@ export const AddMemberModal = ({
                 }
               }}
               placeholder="Type at least 3 characters..."
-              className="w-full rounded-xl glass-input pl-9 pr-3.5 py-2.5 text-xs text-[#FFFFFF] placeholder-[#737373] transition-all font-mono"
+              className="w-full rounded-xl glass-input pl-9 pr-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-all font-mono"
               autoFocus
             />
             {isSearching && (
@@ -141,7 +141,7 @@ export const AddMemberModal = ({
             )}
           </div>
           {searchQuery.trim().length > 0 && searchQuery.trim().length < 3 && (
-            <p className="mt-1.5 text-[11px] text-[#737373]">
+            <p className="mt-1.5 text-[11px] text-[#6e5d50]">
               Type at least 3 characters to search.
             </p>
           )}
@@ -157,7 +157,7 @@ export const AddMemberModal = ({
         {/* Search Results List */}
         <div className="max-h-52 overflow-y-auto rounded-xl border border-white/[0.08] bg-black/40 p-1.5 space-y-1">
           {searchQuery.trim().length >= 3 && !isSearching && searchResults.length === 0 ? (
-            <div className="p-4 text-center text-xs text-[#737373]">
+            <div className="p-4 text-center text-xs text-[#6e5d50]">
               No users found matching &quot;{searchQuery}&quot;
             </div>
           ) : searchResults.length > 0 ? (
@@ -173,12 +173,12 @@ export const AddMemberModal = ({
                     alreadyMember
                       ? 'opacity-40 cursor-not-allowed bg-transparent'
                       : isSelected
-                      ? 'glass-strong border border-accent/40 text-[#FFFFFF] cursor-pointer shadow-[0_0_8px_rgba(255,87,34,0.15)]'
-                      : 'hover:bg-white/[0.05] text-[#a3a3a3] hover:text-[#fafafa] cursor-pointer'
+                      ? 'glass-strong border border-accent/40 text-[#f3e6da] cursor-pointer shadow-[0_0_8px_rgb(var(--accent-rgb)/0.15)]'
+                      : 'hover:bg-white/[0.05] text-[#a89384] hover:text-[#f3e6da] cursor-pointer'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 truncate pr-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-white/[0.08] text-[10px] font-mono text-[#fafafa] border border-white/[0.1]">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-white/[0.08] text-[10px] font-mono text-[#f3e6da] border border-white/[0.1]">
                       {u.email.charAt(0).toUpperCase()}
                     </div>
                     <span className="truncate font-medium">{u.email}</span>
@@ -186,7 +186,7 @@ export const AddMemberModal = ({
 
                   <div>
                     {alreadyMember ? (
-                      <span className="text-[10px] text-[#737373] uppercase font-mono">Member</span>
+                      <span className="text-[10px] text-[#6e5d50] uppercase font-mono">Member</span>
                     ) : (
                       <input
                         type="checkbox"
@@ -201,7 +201,7 @@ export const AddMemberModal = ({
               );
             })
           ) : (
-            <div className="p-4 text-center text-xs text-[#737373]">
+            <div className="p-4 text-center text-xs text-[#6e5d50]">
               Search for teammates by email to add them.
             </div>
           )}
@@ -209,7 +209,7 @@ export const AddMemberModal = ({
 
         {/* Modal Actions */}
         <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-3.5">
-          <span className="text-xs text-[#a3a3a3]">
+          <span className="text-xs text-[#a89384]">
             {selectedUserIds.size} user{selectedUserIds.size !== 1 ? 's' : ''} selected
           </span>
 

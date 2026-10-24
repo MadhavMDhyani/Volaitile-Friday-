@@ -12,13 +12,13 @@ export const Footer = () => {
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
             <Logo size="md" to="/" />
             <span className="hidden sm:inline text-white/20">|</span>
-            <span className="text-xs text-[#a3a3a3]">
+            <span className="text-xs text-[#a89384]">
               Real-time engineering workspaces &amp; Friday AI
             </span>
           </div>
 
           {/* Section Navigation */}
-          <nav className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#a3a3a3]" aria-label="Footer Navigation">
+          <nav className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#a89384]" aria-label="Footer Navigation">
             <a href="#features" className="hover:text-white transition-colors">
               Features
             </a>
@@ -40,7 +40,7 @@ export const Footer = () => {
           </nav>
         </div>
 
-        <div className="mt-8 border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#737373]">
+        <div className="mt-8 border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6e5d50]">
           <p className="tabular-nums">
             &copy; {currentYear} Volaitile Friday. Built with React 19, Node.js, Express, MongoDB, and Redis.
           </p>

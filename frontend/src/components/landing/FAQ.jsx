@@ -39,10 +39,10 @@ export const FAQ = () => {
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               GOT QUESTIONS?
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] leading-tight">
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
               Frequently Asked Questions
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-[#a3a3a3] leading-relaxed">
+            <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               Clear, honest answers about our tech stack, security, and hosting.
             </p>
           </Reveal>
@@ -63,11 +63,11 @@ export const FAQ = () => {
                     onClick={() => toggle(idx)}
                     aria-expanded={isOpen}
                     aria-controls={contentId}
-                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left text-sm sm:text-base font-semibold text-[#fafafa] hover:text-white transition-colors focus-ring cursor-pointer"
+                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left text-sm sm:text-base font-semibold text-[#f3e6da] hover:text-white transition-colors focus-ring cursor-pointer"
                   >
                     <span>{item.q}</span>
                     <span
-                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass text-xs text-[#a3a3a3] transition-transform duration-200 ${
+                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass text-xs text-[#a89384] transition-transform duration-200 ${
                         isOpen ? 'rotate-180 text-accent' : ''
                       }`}
                       aria-hidden="true"
@@ -81,7 +81,7 @@ export const FAQ = () => {
                       id={contentId}
                       role="region"
                       aria-labelledby={headerId}
-                      className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-[#a3a3a3] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in"
+                      className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-[#a89384] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in"
                     >
                       <p>{item.a}</p>
                     </div>

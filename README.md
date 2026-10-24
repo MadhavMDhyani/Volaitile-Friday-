@@ -149,10 +149,10 @@ npm run migrate:owner
 
 ## Docker & Containerization
 
-To run the complete production stack (MongoDB, Redis, Backend, and Frontend) locally via Docker:
+To run the complete production stack (MongoDB, Redis, Backend, and Frontend) locally via Docker, copy `Backend/.env.example` to `Backend/.env` before running (the compose file already sets the Mongo, Redis and CLIENT_URL values):
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ### Key Security & Architecture Features:

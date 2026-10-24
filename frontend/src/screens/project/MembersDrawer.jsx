@@ -119,7 +119,7 @@ export const MembersDrawer = ({
 
         {/* Drawer Panel */}
         <aside
-          className={`fixed inset-y-0 right-0 flex w-full max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#fafafa] shadow-2xl transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 right-0 flex w-full max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#f3e6da] shadow-2xl transition-transform duration-300 ease-out ${
             isClosing ? 'animate-slide-out-right' : 'animate-slide-in-right'
           }`}
           role="dialog"
@@ -128,10 +128,10 @@ export const MembersDrawer = ({
           {/* Header */}
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
             <div>
-              <h2 className="text-sm font-semibold tracking-tight text-[#fafafa]">
+              <h2 className="text-sm font-semibold tracking-tight text-[#f3e6da]">
                 Project Members
               </h2>
-              <p className="text-[11px] text-[#a3a3a3]">
+              <p className="text-[11px] text-[#a89384]">
                 {members.length} / 25 collaborators
               </p>
             </div>
@@ -139,7 +139,7 @@ export const MembersDrawer = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#A1A1A1] hover:text-[#FFFFFF] hover:border-accent/40 transition-colors focus-ring"
+              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-colors focus-ring"
               aria-label="Close members drawer"
             >
               <i className="ri-close-line text-lg" />
@@ -174,24 +174,24 @@ export const MembersDrawer = ({
                 >
                   <div className="flex items-center gap-2.5 truncate pr-2">
                     <div className="relative shrink-0">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-[#fafafa] border border-white/[0.1] shadow-glass">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-[#f3e6da] border border-white/[0.1] shadow-glass">
                         {email.charAt(0).toUpperCase()}
                       </div>
                       {onlineUserIds.includes(mId) && (
                         <span
-                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#111111] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
+                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#140d09] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
                           title="Online now"
                         />
                       )}
                     </div>
                     <div className="truncate">
                       <div className="flex items-center gap-1.5 truncate">
-                        <span className="truncate block text-[#fafafa] font-medium">
+                        <span className="truncate block text-[#f3e6da] font-medium">
                           {email}
-                          {isCurrentUser && <span className="text-[#a3a3a3] ml-1 font-normal">(you)</span>}
+                          {isCurrentUser && <span className="text-[#a89384] ml-1 font-normal">(you)</span>}
                         </span>
                         {onlineUserIds.includes(mId) && (
-                          <span className="text-[9px] font-mono text-[#CECECE]">online</span>
+                          <span className="text-[9px] font-mono text-[#c4b5a8]">online</span>
                         )}
                       </div>
                     </div>
@@ -199,14 +199,14 @@ export const MembersDrawer = ({
 
                   <div className="flex items-center gap-2">
                     {isMemberOwner ? (
-                      <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[9px] font-mono text-accent uppercase shadow-[0_0_8px_rgba(255,87,34,0.2)]">
+                      <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[9px] font-mono text-accent uppercase shadow-[0_0_8px_rgb(var(--accent-rgb)/0.2)]">
                         Owner
                       </span>
                     ) : isOwner ? (
                       <button
                         type="button"
                         onClick={() => setMemberToRemove(member)}
-                        className="p-1 text-[#737373] hover:text-accent rounded focus-ring transition-colors"
+                        className="p-1 text-[#6e5d50] hover:text-accent rounded focus-ring transition-colors"
                         title="Remove member"
                         aria-label={`Remove ${email}`}
                       >

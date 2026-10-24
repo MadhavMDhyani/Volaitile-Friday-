@@ -42,10 +42,10 @@ export const Benefits = () => {
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               THE WORKSPACE ADVANTAGE
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] leading-tight">
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
               Why engineering teams build on Volaitile Friday
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-[#a3a3a3] leading-relaxed">
+            <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               Designed to eliminate developer friction and keep your entire team aligned inside one high-speed workspace.
             </p>
           </Reveal>
@@ -65,15 +65,15 @@ export const Benefits = () => {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-accent">
                       <i className={`${b.icon} text-lg`} />
                     </div>
-                    <span className="text-[10px] font-mono text-[#a3a3a3] border border-white/10 rounded-full px-2.5 py-0.5 bg-white/[0.04]">
+                    <span className="text-[10px] font-mono text-[#a89384] border border-white/10 rounded-full px-2.5 py-0.5 bg-white/[0.04]">
                       {b.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#fafafa]">
+                  <h3 className="text-lg font-bold text-[#f3e6da]">
                     {b.title}
                   </h3>
-                  <p className="mt-2.5 text-xs sm:text-sm text-[#a3a3a3] leading-relaxed">
+                  <p className="mt-2.5 text-xs sm:text-sm text-[#a89384] leading-relaxed">
                     {b.desc}
                   </p>
                 </div>

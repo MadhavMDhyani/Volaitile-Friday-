@@ -303,6 +303,63 @@ select:focus-visible {
   }
 }
 
+/* Hero Line-by-Line Mask Reveal (700ms --ease-out, transform-only) */
+@keyframes hero-line-reveal {
+  0% {
+    transform: translateY(110%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hero-mask-line {
+  display: inline-block;
+  animation: hero-line-reveal 700ms var(--ease-out) both;
+}
+
+/* Hero Accent Text Glow Pulse Layer (4s, opacity-only) */
+@keyframes glow-layer-pulse {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.hero-glow-layer {
+  animation: glow-layer-pulse 4s ease-in-out infinite;
+}
+
+/* Product Mockup Floating Pills (+/-6px loop, 5-7s, ease-in-out alternate) */
+@keyframes float-pill-1 {
+  0% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes float-pill-2 {
+  0% {
+    transform: translateY(6px);
+  }
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-pill-1 {
+  animation: float-pill-1 5.4s ease-in-out infinite alternate;
+}
+
+.animate-float-pill-2 {
+  animation: float-pill-2 6.8s ease-in-out infinite alternate;
+  animation-delay: -2.3s;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,

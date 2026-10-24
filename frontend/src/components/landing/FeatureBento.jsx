@@ -1,4 +1,88 @@
+import { useRef, useEffect } from 'react';
 import Reveal from './Reveal';
+
+const BentoCard = ({ children, className = '' }) => {
+  const cardRef = useRef(null);
+  const spotlightRef = useRef(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    const spotlight = spotlightRef.current;
+    if (!card || !spotlight) return;
+
+    // Fine-pointer only (no touch / coarse pointer listeners)
+    const finePointer = window.matchMedia('(pointer: fine)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    if (!finePointer.matches || reducedMotion.matches) return;
+
+    let animId = 0;
+    let rect = null;
+    let targetX = 0;
+    let targetY = 0;
+
+    function render() {
+      spotlight.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
+      animId = 0;
+    }
+
+    function onPointerEnter() {
+      // Bounding rect read once on pointerenter, NOT in the animation loop
+      rect = card.getBoundingClientRect();
+      spotlight.style.willChange = 'transform';
+    }
+
+    function onPointerMove(e) {
+      if (!rect) rect = card.getBoundingClientRect();
+      targetX = e.clientX - rect.left;
+      targetY = e.clientY - rect.top;
+      if (!animId) {
+        animId = requestAnimationFrame(render);
+      }
+    }
+
+    function onPointerLeave() {
+      rect = null;
+      spotlight.style.willChange = 'auto';
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = 0;
+      }
+    }
+
+    card.addEventListener('pointerenter', onPointerEnter);
+    card.addEventListener('pointermove', onPointerMove);
+    card.addEventListener('pointerleave', onPointerLeave);
+
+    return () => {
+      card.removeEventListener('pointerenter', onPointerEnter);
+      card.removeEventListener('pointermove', onPointerMove);
+      card.removeEventListener('pointerleave', onPointerLeave);
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      className={`group relative h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between overflow-hidden hover:border-white/30 transition-[border-color,background-color] duration-200 ${className}`}
+    >
+      {/* Low-alpha accent radial-gradient spotlight, moved via rAF translate3d on fine pointers */}
+      <div
+        ref={spotlightRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 -left-40 h-80 w-80 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background: 'radial-gradient(circle, rgb(var(--accent-rgb) / 0.12) 0%, transparent 70%)',
+          transform: 'translate3d(-9999px, -9999px, 0)',
+        }}
+      />
+      <div className="relative z-10 flex flex-col justify-between h-full">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 export const FeatureBento = () => {
   return (
@@ -24,7 +108,7 @@ export const FeatureBento = () => {
           {/* Card 1: Friday AI Assistant (Lg: 8 cols) */}
           <div className="md:col-span-3 lg:col-span-8 bento-scroll-card">
             <Reveal delay={60} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <BentoCard>
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
@@ -57,14 +141,14 @@ export const FeatureBento = () => {
                     <span className="text-accent font-medium">Rate limit: 20 req/min</span>
                   </div>
                 </div>
-              </div>
+              </BentoCard>
             </Reveal>
           </div>
 
           {/* Card 2: Real-time Room Chat (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={120} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <BentoCard>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-white/20 text-[#c4b5a8] mb-4 shadow-[0_0_16px_rgba(255,255,255,0.06)]">
                     <i className="ri-chat-3-line text-xl" />
@@ -81,14 +165,14 @@ export const FeatureBento = () => {
                   <span className="h-2 w-2 rounded-full bg-white" />
                   <span>Sub-millisecond room broadcasts</span>
                 </div>
-              </div>
+              </BentoCard>
             </Reveal>
           </div>
 
           {/* Card 3: Cloud File Workspace (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={180} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <BentoCard>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent-hover/30 text-accent-hover mb-4 shadow-[0_0_16px_rgba(207,78,36,0.2)]">
                     <i className="ri-file-code-line text-xl" />
@@ -105,14 +189,14 @@ export const FeatureBento = () => {
                   <span>Capacity: Up to 100 files</span>
                   <span>Max 200 KB/file</span>
                 </div>
-              </div>
+              </BentoCard>
             </Reveal>
           </div>
 
           {/* Card 4: Team Management & Roles (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={240} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <BentoCard>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                     <i className="ri-team-line text-xl" />
@@ -128,14 +212,14 @@ export const FeatureBento = () => {
                 <div className="mt-6 text-[11px] font-mono text-[#6e5d50] border-t border-white/[0.08] pt-3">
                   Compound index security: owner + name
                 </div>
-              </div>
+              </BentoCard>
             </Reveal>
           </div>
 
           {/* Card 5: Security by Default (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4 bento-scroll-card">
             <Reveal delay={300} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <BentoCard>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-white/20 text-[#c4b5a8] mb-4 shadow-[0_0_16px_rgba(255,255,255,0.05)]">
                     <i className="ri-shield-check-line text-xl" />
@@ -152,14 +236,14 @@ export const FeatureBento = () => {
                   <i className="ri-lock-line" />
                   <span>Redis blacklist validation</span>
                 </div>
-              </div>
+              </BentoCard>
             </Reveal>
           </div>
 
           {/* Card 6: Developer Utilities & Self-Hosting (Lg: 12 cols split) */}
           <div className="md:col-span-3 lg:col-span-6 bento-scroll-card">
             <Reveal delay={360} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <BentoCard>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                     <i className="ri-tools-line text-xl" />
@@ -176,13 +260,13 @@ export const FeatureBento = () => {
                   <span>/tools/generate-secret</span>
                   <span>/tools/validate-json</span>
                 </div>
-              </div>
+              </BentoCard>
             </Reveal>
           </div>
 
           <div className="md:col-span-3 lg:col-span-6 bento-scroll-card">
             <Reveal delay={420} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <BentoCard>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-white/20 text-white mb-4">
                     <i className="ri-server-line text-xl" />
@@ -200,7 +284,7 @@ export const FeatureBento = () => {
                   <span>·</span>
                   <span>Multi-stage builds</span>
                 </div>
-              </div>
+              </BentoCard>
             </Reveal>
           </div>
         </div>

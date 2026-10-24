@@ -251,16 +251,180 @@ select:focus-visible {
   }
 }
 
-/* Glass-tinted skeleton shimmer */
+/* Glass-tinted skeleton shimmer (transform-based overlay) */
 .skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 200, 150, 0.03);
+}
+.skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
   background: linear-gradient(
     90deg,
-    rgba(255, 200, 150, 0.02) 0%,
+    transparent 0%,
     rgba(255, 200, 150, 0.06) 50%,
-    rgba(255, 200, 150, 0.02) 100%
+    transparent 100%
   );
-  background-size: 200% 100%;
-  animation: shimmer 1.8s ease-in-out infinite;
+  animation: skeleton-shimmer-slide 1.8s infinite linear;
+  pointer-events: none;
+}
+@keyframes skeleton-shimmer-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Modal Panel In/Out animations (transform & opacity only) */
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modal-panel-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+}
+
+.animate-modal-in {
+  animation: modal-panel-in 260ms var(--ease-out) both;
+}
+
+.animate-modal-out {
+  animation: modal-panel-out 200ms var(--ease-out) both;
+}
+
+/* Toast Spring Slide-In & scaleX Progress */
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-slide-in {
+  animation: toast-slide-in 300ms var(--ease-spring) both;
+}
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.toast-progress-bar {
+  transform-origin: left center;
+  animation: toast-progress linear forwards;
+}
+
+/* Chat incoming bubble entrance (220ms --ease-out, translateY(8px) + opacity) */
+@keyframes chat-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-chat-bubble {
+  animation: chat-bubble-in 220ms var(--ease-out) both;
+}
+
+/* Typing Indicator Bouncing Dots (translateY -5px staggered) */
+@keyframes typing-dot-bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+}
+
+.typing-dot {
+  animation: typing-dot-bounce 1000ms infinite ease-in-out;
+}
+
+/* AI Thinking Shimmer Slide Overlay */
+@keyframes shimmer-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer-slide {
+  animation: shimmer-slide 1.8s infinite linear;
+}
+
+/* Presence indicator pulse ring */
+.presence-dot {
+  position: relative;
+}
+
+.presence-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: inherit;
+  animation: presence-ring 2s var(--ease-out) infinite;
+  pointer-events: none;
+}
+
+@keyframes presence-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* FilesPanel new file row entrance */
+@keyframes file-row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-file-row-in {
+  animation: file-row-in 250ms var(--ease-out) both;
 }
 
 /* Glass Modal & Popover Shadow with specular edge */

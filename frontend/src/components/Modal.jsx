@@ -44,7 +44,7 @@ export const Modal = ({
       if (previousFocusRef.current && typeof previousFocusRef.current.focus === 'function') {
         previousFocusRef.current.focus();
       }
-    }, 150);
+    }, 260);
     return () => clearTimeout(timer);
   }, [isClosing]);
 
@@ -103,25 +103,25 @@ export const Modal = ({
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 transition-opacity duration-150 ${
-        isClosing ? 'opacity-0' : 'opacity-100'
-      }`}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
     >
-      {/* Frosted Backdrop */}
+      {/* Frosted Backdrop (opacity animated directly on backdrop, not ancestor) */}
       <div
-        className="fixed inset-0 bg-[#0f0a07]/70 backdrop-blur-md transition-opacity duration-150"
+        className={`fixed inset-0 bg-[#0f0a07]/70 backdrop-blur-md transition-opacity duration-200 ease-out ${
+          isClosing ? 'opacity-0' : 'opacity-100'
+        }`}
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal Dialog Content */}
+      {/* Modal Dialog Content (scale 0.96 -> 1 + translateY 8px over 260ms) */}
       <div
         ref={modalRef}
-        className={`relative w-full ${maxWidth} glass-liquid p-5 sm:p-6 text-[#f3e6da] modal-shadow transition-all duration-150 ${
-          isClosing ? 'animate-scale-out' : 'animate-scale-in'
+        className={`relative w-full ${maxWidth} glass-liquid p-5 sm:p-6 text-[#f3e6da] modal-shadow ${
+          isClosing ? 'animate-modal-out' : 'animate-modal-in'
         } ${className}`}
       >
         {title && (

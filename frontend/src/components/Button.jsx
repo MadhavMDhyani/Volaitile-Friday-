@@ -12,12 +12,12 @@ export const Button = ({
   ...props
 }) => {
   const baseClasses =
-    'relative inline-flex items-center justify-center font-medium select-none rounded-lg transition-all duration-150 ease-out focus-ring active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer';
+    'group relative inline-flex items-center justify-center font-medium select-none rounded-lg transition-[transform,opacity,background-color,border-color,color] duration-150 ease-out focus-ring hover:-translate-y-px active:scale-[0.97] active:duration-[120ms] active:ease-spring disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 disabled:hover:translate-y-0 cursor-pointer overflow-hidden';
 
   const variantClasses = {
     // Primary: accent fill with dark text for contrast (WCAG AA ~6:1)
     primary:
-      'bg-accent text-[#140d09] border border-accent/40 hover:bg-accent-hover shadow-[0_4px_16px_rgba(217,138,90,0.25),inset_0_1px_0_rgba(255,200,150,0.25)] hover:shadow-[0_6px_20px_rgba(217,138,90,0.40),inset_0_1px_0_rgba(255,200,150,0.35)]',
+      'bg-accent text-[#140d09] border border-accent/40 hover:bg-accent-hover shadow-[0_4px_16px_rgba(217,138,90,0.25),inset_0_1px_0_rgba(255,200,150,0.25)]',
     // Secondary becomes glass with subtle specular line
     secondary:
       'bg-white/[0.04] text-[#f3e6da] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 backdrop-blur-[12px] shadow-[inset_0_1px_0_rgba(255,200,150,0.15),0_4px_12px_rgba(0,0,0,0.35)]',
@@ -46,6 +46,11 @@ export const Button = ({
       className={`${baseClasses} ${variantClasses[variant] || variantClasses.primary} ${sizeClasses[size] || sizeClasses.md} ${className}`}
       {...props}
     >
+      {/* Brightening opacity overlay */}
+      <span
+        className="pointer-events-none absolute inset-0 rounded-[inherit] bg-white opacity-0 transition-opacity duration-150 group-hover:opacity-[0.08]"
+        aria-hidden="true"
+      />
       {loading ? (
         <>
           <svg

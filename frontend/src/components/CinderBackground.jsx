@@ -4,35 +4,37 @@ import { useRef, useEffect } from 'react';
  *
  * EMBER_DENSITY     – embers per million pixels of screen area
  * MIN_COUNT / MAX_COUNT – hard bounds on ember count
- * SPEED_MIN / MAX   – upward drift in CSS-px per frame (~16 ms)
- * SWAY_AMPLITUDE    – horizontal sway magnitude (CSS-px per frame)
- * SWAY_FREQUENCY    – sine wave frequency for the sway
+ * SPEED_MIN / MAX   – upward drift in CSS-px per second
+ * SWAY_SPEED_MIN/MAX– horizontal sway rate in CSS-px per second
+ * SWAY_FREQ_MIN/MAX – sway angular frequency (rad/sec)
  * EMBER_MIN_R / MAX_R – radius range for normal embers (CSS-px)
  * LARGE_R           – max radius for soft "bokeh" embers
  * LARGE_CHANCE      – probability [0‑1] an ember spawns as large
  * FADE_IN_ZONE      – bottom fraction of screen where embers fade in
  * FADE_OUT_ZONE     – top fraction of screen where embers fade out
- * BG                – canvas clear colour (page base)
  * COLORS            – palette sampled for each ember
  * DPR_CAP           – max devicePixelRatio (perf guard)
+ * FIXED_STEP        – fixed physics timestep (60 updates/sec)
  *
  * ────────────────────────────────────────────────────────────── */
 const EMBER_DENSITY = 30;
 const MIN_COUNT = 25;
 const MAX_COUNT = 70;
-const SPEED_MIN = 0.15;
-const SPEED_MAX = 0.55;
-const SWAY_AMPLITUDE = 0.35;
-const SWAY_FREQUENCY = 0.006;
+const SPEED_MIN = 10;
+const SPEED_MAX = 35;
+const SWAY_SPEED_MIN = 12;
+const SWAY_SPEED_MAX = 24;
+const SWAY_FREQ_MIN = 0.5;
+const SWAY_FREQ_MAX = 0.9;
 const EMBER_MIN_R = 0.5;
 const EMBER_MAX_R = 2;
 const LARGE_R = 4;
 const LARGE_CHANCE = 0.12;
 const FADE_IN_ZONE = 0.08;
 const FADE_OUT_ZONE = 0.15;
-const BG = '#140d09';
 const COLORS = ['#d98a5a', '#e0975f', '#f0b088', '#c47a4a'];
 const DPR_CAP = 2;
+const FIXED_STEP = 1 / 60; // 60 updates/sec maximum
 
 /* Three depth layers: far objects are slower, smaller, dimmer */
 const LAYERS = [
@@ -51,8 +53,7 @@ function pick(arr) {
 }
 
 /** Pre-render a single ember as a tiny offscreen canvas with a radial
- *  gradient glow — much cheaper than calling createRadialGradient each
- *  frame, and avoids the heavy ctx.shadowBlur path. */
+ *  gradient glow — cached by bucketed radius, color, and dpr. */
 function createSprite(radius, color, dpr) {
   const pad = 2;
   const size = Math.ceil((radius * pad + pad) * 2 * dpr);
@@ -62,6 +63,7 @@ function createSprite(radius, color, dpr) {
   const cx = size / 2;
   const r = radius * dpr;
   const g = c.getContext('2d');
+  if (!g) return c;
   const grad = g.createRadialGradient(cx, cx, 0, cx, cx, r * pad);
   grad.addColorStop(0, color);
   grad.addColorStop(0.35, color);
@@ -69,6 +71,24 @@ function createSprite(radius, color, dpr) {
   g.fillStyle = grad;
   g.fillRect(0, 0, size, size);
   return c;
+}
+
+// Global sprite cache: Map<`${color}_${radiusBucket}_${dpr}`, HTMLCanvasElement>
+const spriteCache = new Map();
+
+function getRadiusBucket(radius) {
+  return (Math.round(radius * 2) / 2).toFixed(1);
+}
+
+function getCachedSprite(radius, color, dpr) {
+  const bucket = getRadiusBucket(radius);
+  const key = `${color}_${bucket}_${dpr}`;
+  let sprite = spriteCache.get(key);
+  if (!sprite) {
+    sprite = createSprite(parseFloat(bucket), color, dpr);
+    spriteCache.set(key, sprite);
+  }
+  return sprite;
 }
 
 function spawnEmber(w, h, spreadY) {
@@ -82,7 +102,8 @@ function spawnEmber(w, h, spreadY) {
     r: baseR * layer.size,
     speed: rand(SPEED_MIN, SPEED_MAX) * layer.speed,
     phase: rand(0, Math.PI * 2),
-    swayAmp: SWAY_AMPLITUDE * (0.5 + Math.random()),
+    swaySpeed: rand(SWAY_SPEED_MIN, SWAY_SPEED_MAX),
+    swayFreq: rand(SWAY_FREQ_MIN, SWAY_FREQ_MAX),
     opacity: (isLarge ? 0.45 : rand(0.55, 1)) * layer.opacity,
     color: pick(COLORS),
     isLarge,
@@ -91,56 +112,67 @@ function spawnEmber(w, h, spreadY) {
 }
 
 /* ── Component ─────────────────────────────────────────────── */
-export const CinderBackground = () => {
+export const CinderBackground = ({ intensity = 1 }) => {
   const canvasRef = useRef(null);
+  const intensityRef = useRef(intensity);
+  const redrawRef = useRef(null);
+
+  intensityRef.current = intensity;
+
+  useEffect(() => {
+    if (redrawRef.current) {
+      redrawRef.current();
+    }
+  }, [intensity]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
-    const prefersStill = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    let w, h, embers;
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    let lastW = w;
+    let lastH = h;
+    let embers = [];
     let animId = 0;
-    let tick = 0;
+    let lastTime = performance.now();
+    let accumulator = 0;
+    let elapsedTime = 0;
+    let resizeTimer = null;
 
-    function resize() {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const count = Math.min(
+    function buildEmbers() {
+      const baseCount = Math.min(
         MAX_COUNT,
         Math.max(MIN_COUNT, Math.round((w * h * EMBER_DENSITY) / 1_000_000)),
       );
+      const count = Math.max(10, Math.round(baseCount * intensityRef.current));
 
       embers = [];
       for (let i = 0; i < count; i++) {
         const e = spawnEmber(w, h, true);
-        e.sprite = createSprite(e.r, e.color, dpr);
+        e.sprite = getCachedSprite(e.r, e.color, dpr);
         embers.push(e);
       }
     }
 
+    function syncCanvasDimensions() {
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     function draw() {
-      /* Background fill */
-      ctx.fillStyle = BG;
-      ctx.fillRect(0, 0, w, h);
+      /* Clear canvas: body already has background color (#140d09) */
+      ctx.clearRect(0, 0, w, h);
 
-      /* Subtle warm vignette at the bottom edge */
-      const vigH = h * 0.22;
-      const vig = ctx.createLinearGradient(0, h - vigH, 0, h);
-      vig.addColorStop(0, 'transparent');
-      vig.addColorStop(1, 'rgba(217, 138, 90, 0.025)');
-      ctx.fillStyle = vig;
-      ctx.fillRect(0, h - vigH, w, vigH);
-
-      /* Embers */
+      /* Draw embers */
       for (let i = 0; i < embers.length; i++) {
         const e = embers[i];
         const normY = 1 - e.y / h; // 0 at bottom, 1 at top
@@ -149,8 +181,8 @@ export const CinderBackground = () => {
         else if (normY > 1 - FADE_OUT_ZONE) fade = (1 - normY) / FADE_OUT_ZONE;
         fade = Math.max(0, Math.min(1, fade));
 
-        const alpha = e.opacity * fade;
-        if (alpha < 0.01) continue;
+        const alpha = e.opacity * fade * intensityRef.current;
+        if (alpha < 0.008 || !e.sprite) continue;
 
         ctx.globalAlpha = alpha;
         const sz = e.sprite.width / dpr;
@@ -159,69 +191,143 @@ export const CinderBackground = () => {
       ctx.globalAlpha = 1;
     }
 
-    function step() {
-      tick++;
+    redrawRef.current = draw;
+
+    function step(dt) {
       for (let i = 0; i < embers.length; i++) {
         const e = embers[i];
-        e.y -= e.speed;
-        e.x += Math.sin(tick * SWAY_FREQUENCY + e.phase) * e.swayAmp;
+        e.y -= e.speed * dt;
+        e.x += Math.sin(elapsedTime * e.swayFreq + e.phase) * (e.swaySpeed * dt);
 
         if (e.y < -30) {
           const ne = spawnEmber(w, h, false);
-          ne.sprite = createSprite(ne.r, ne.color, dpr);
+          ne.sprite = getCachedSprite(ne.r, ne.color, dpr);
           embers[i] = ne;
         }
       }
     }
 
-    function loop() {
-      step();
+    function loop(now) {
+      let frameTime = (now - lastTime) / 1000;
+      lastTime = now;
+      if (frameTime > 0.1) frameTime = 0.1;
+      accumulator += frameTime;
+
+      let updates = 0;
+      while (accumulator >= FIXED_STEP && updates < 4) {
+        step(FIXED_STEP);
+        accumulator -= FIXED_STEP;
+        elapsedTime += FIXED_STEP;
+        updates++;
+      }
+      if (accumulator > FIXED_STEP) accumulator = 0;
+
       draw();
       animId = requestAnimationFrame(loop);
     }
 
-    /* Initial render */
-    resize();
-    draw();
+    /* Debounced resize (150ms): rebuild sprites/embers only if size changed > 10% */
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const newW = window.innerWidth;
+        const newH = window.innerHeight;
+        const dw = Math.abs(newW - lastW) / (lastW || 1);
+        const dh = Math.abs(newH - lastH) / (lastH || 1);
 
-    if (!prefersStill) {
-      animId = requestAnimationFrame(loop);
+        w = newW;
+        h = newH;
+        lastW = newW;
+        lastH = newH;
+
+        syncCanvasDimensions();
+
+        if (dw > 0.1 || dh > 0.1 || embers.length === 0) {
+          spriteCache.clear();
+          buildEmbers();
+        }
+        draw();
+      }, 150);
     }
 
-    /* Pause when tab is hidden */
+    /* Pause loop when tab is hidden or offscreen */
     function onVisibility() {
       if (document.hidden) {
-        cancelAnimationFrame(animId);
-        animId = 0;
-      } else if (!prefersStill) {
-        if (!animId) animId = requestAnimationFrame(loop);
+        if (animId) {
+          cancelAnimationFrame(animId);
+          animId = 0;
+        }
+      } else if (!mediaQuery.matches) {
+        lastTime = performance.now();
+        accumulator = 0;
+        if (!animId) {
+          animId = requestAnimationFrame(loop);
+        }
       }
     }
 
-    window.addEventListener('resize', resize);
+    function onMotionPrefChange(e) {
+      if (e.matches) {
+        if (animId) {
+          cancelAnimationFrame(animId);
+          animId = 0;
+        }
+        draw();
+      } else {
+        lastTime = performance.now();
+        accumulator = 0;
+        if (!animId) {
+          animId = requestAnimationFrame(loop);
+        }
+      }
+    }
+
+    /* Initialize */
+    syncCanvasDimensions();
+    buildEmbers();
+    draw();
+
+    if (!mediaQuery.matches) {
+      lastTime = performance.now();
+      animId = requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', onResize);
     document.addEventListener('visibilitychange', onVisibility);
+    mediaQuery.addEventListener('change', onMotionPrefChange);
 
     return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
+      if (animId) cancelAnimationFrame(animId);
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', onResize);
       document.removeEventListener('visibilitychange', onVisibility);
+      mediaQuery.removeEventListener('change', onMotionPrefChange);
+      redrawRef.current = null;
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: -1,
-        pointerEvents: 'none',
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: -1,
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Standalone CSS bottom vignette replacing canvas draw */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[rgb(var(--accent-rgb)/0.025)] to-transparent"
+        style={{ zIndex: -1 }}
+      />
+    </>
   );
 };
 

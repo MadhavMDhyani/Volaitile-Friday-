@@ -1,5 +1,5 @@
 import { lazy, Suspense, useContext } from 'react';
-import { BrowserRouter, Route, Routes, Navigate, Link, useLocation } from 'react-router-dom';
+import { Route, Routes, Navigate, Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import PageTransition from '../components/PageTransition';
 import Skeleton from '../components/Skeleton';
@@ -101,49 +101,47 @@ const RootRoute = () => {
 
 export const AppRoutes = () => {
   return (
-    <BrowserRouter>
-      <PageTransition>
-        <Suspense fallback={<ScreenFallback />}>
-          <Routes>
-            <Route path="/" element={<RootRoute />} />
-            <Route path="/welcome" element={<Landing />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <GuestRoute>
-                  <Login />
-                </GuestRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <GuestRoute>
-                  <Register />
-                </GuestRoute>
-              }
-            />
-            <Route
-              path="/project/:projectId"
-              element={
-                <ProtectedRoute>
-                  <Project />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
-      </PageTransition>
-    </BrowserRouter>
+    <PageTransition>
+      <Suspense fallback={<ScreenFallback />}>
+        <Routes>
+          <Route path="/" element={<RootRoute />} />
+          <Route path="/welcome" element={<Landing />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <GuestRoute>
+                <Login />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <GuestRoute>
+                <Register />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/project/:projectId"
+            element={
+              <ProtectedRoute>
+                <Project />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </PageTransition>
   );
 };
 

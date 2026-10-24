@@ -65,7 +65,7 @@ export const LandingNav = () => {
           </Link>
           <Link
             to="/register"
-            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgba(255,87,34,0.3)] hover:shadow-[0_0_26px_rgba(255,87,34,0.45)] focus-ring"
+            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
           >
             Get started
           </Link>

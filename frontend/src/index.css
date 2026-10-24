@@ -19,6 +19,7 @@
 
   /* Accent Color Tokens */
   --accent: #d98a5a;
+  --accent-rgb: 217 138 90;
   --accent-hover: #c47a4a;
   --accent-press: #a86840;
   --accent-deep: #7a4a30;

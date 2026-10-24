@@ -46,8 +46,8 @@ export const Hero = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         {/* Subtle Pill Tag */}
         <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full glass-pill px-3 py-1 text-[11px] sm:text-xs text-[#a89384] border border-white/15 mb-6 max-w-full animate-fade-in">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(255,87,34,0.8)] shrink-0" />
-          <span className="font-mono text-[#c4b5a8] font-medium whitespace-nowrap">Volaitile Friday v2.0</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
+          <span className="font-mono text-[#c4b5a8] font-medium whitespace-nowrap">Volaitile Friday</span>
           <span className="text-white/30 hidden sm:inline">·</span>
           <span className="truncate hidden sm:inline">Real-time developer workspaces</span>
         </div>
@@ -57,7 +57,7 @@ export const Hero = () => {
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#f3e6da] leading-[1.08] max-w-4xl mx-auto">
             Code together.{' '}
             <span className="block sm:inline">Ask Friday.{' '}</span>
-            <span className="text-accent font-extrabold drop-shadow-[0_0_24px_rgba(255,87,34,0.35)]">
+            <span className="text-accent font-extrabold drop-shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)]">
               Ship faster.
             </span>
           </h1>
@@ -74,7 +74,7 @@ export const Hero = () => {
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up" style={{ animationDelay: '180ms' }}>
           <Link
             to="/register"
-            className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_24px_rgba(255,87,34,0.35)] hover:shadow-[0_0_32px_rgba(255,87,34,0.5)] focus-ring"
+            className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)] hover:shadow-[0_0_32px_rgb(var(--accent-rgb)/0.5)] focus-ring"
           >
             Get started free
             <i className="ri-arrow-right-line ml-1.5 text-base" />

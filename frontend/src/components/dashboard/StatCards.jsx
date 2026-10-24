@@ -4,54 +4,49 @@ import Button from '../Button';
 
 const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
-const useCountUp = (target, duration = 700) => {
+export const CountUpValue = ({ value = 0, duration = 700 }) => {
   const [displayValue, setDisplayValue] = useState(() => {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return target;
+      return value;
     }
     return 0;
   });
-  const hasAnimatedRef = useRef(false);
+  const [isStarted, setIsStarted] = useState(false);
+  const animRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setDisplayValue(target);
       return;
     }
-    if (hasAnimatedRef.current) {
-      setDisplayValue(target);
-      return;
-    }
-    if (!target) {
-      setDisplayValue(0);
-      return;
-    }
+    if (animRef.current || !value) return;
+    animRef.current = true;
+    setIsStarted(true);
 
-    hasAnimatedRef.current = true;
     let startTime = null;
-    let animId = null;
+    let frameId = null;
 
     const step = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       const eased = easeOutExpo(progress);
-      setDisplayValue(Math.round(eased * target));
+      setDisplayValue(Math.round(eased * value));
 
       if (progress < 1) {
-        animId = requestAnimationFrame(step);
+        frameId = requestAnimationFrame(step);
       } else {
-        setDisplayValue(target);
+        setDisplayValue(value);
       }
     };
 
-    animId = requestAnimationFrame(step);
+    frameId = requestAnimationFrame(step);
     return () => {
-      if (animId) cancelAnimationFrame(animId);
+      if (frameId) cancelAnimationFrame(frameId);
     };
-  }, [target, duration]);
+  }, [value, duration]);
 
-  return displayValue;
+  const output = isStarted ? displayValue : value;
+  return <>{output.toLocaleString()}</>;
 };
 
 export const StatCards = ({
@@ -122,12 +117,6 @@ export const StatCards = ({
   const memberCount = Math.max(0, totalProjects - ownedCount);
   const ownedPercent = totalProjects > 0 ? Math.round((ownedCount / totalProjects) * 100) : 0;
 
-  const animatedTotalProjects = useCountUp(totalProjects);
-  const animatedOwnedCount = useCountUp(ownedCount);
-  const animatedTotalFiles = useCountUp(projectStats.totalFiles || 0);
-  const animatedTotalLines = useCountUp(projectStats.totalLines || 0);
-  const animatedCollaborators = useCountUp(uniqueCollaborators.size);
-
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {/* 1. Total Projects */}
@@ -140,7 +129,7 @@ export const StatCards = ({
         </div>
         <div className="mt-3">
           <div className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
-            {animatedTotalProjects}
+            <CountUpValue value={totalProjects} />
           </div>
           <p className="mt-1 text-[11px] text-[#6e5d50]">
             Active developer workspaces
@@ -159,7 +148,7 @@ export const StatCards = ({
         <div className="mt-3">
           <div className="flex items-baseline gap-2">
             <span className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
-              {animatedOwnedCount}
+              <CountUpValue value={ownedCount} />
             </span>
             <span className="text-xs font-mono text-[#6e5d50] tabular-nums">/ {totalProjects} owned</span>
           </div>
@@ -196,11 +185,11 @@ export const StatCards = ({
           ) : (
             <>
               <div className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
-                {animatedTotalFiles.toLocaleString()}{' '}
+                <CountUpValue value={projectStats.totalFiles} />{' '}
                 <span className="text-sm font-normal text-[#a89384]">files</span>
               </div>
               <p className="mt-1 font-mono text-[11px] text-[#6e5d50] tabular-nums">
-                {animatedTotalLines.toLocaleString()} lines of code
+                <CountUpValue value={projectStats.totalLines} /> lines of code
               </p>
             </>
           )}
@@ -217,7 +206,7 @@ export const StatCards = ({
         </div>
         <div className="mt-3">
           <div className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
-            {animatedCollaborators}
+            <CountUpValue value={uniqueCollaborators.size} />
           </div>
           <p className="mt-1 text-[11px] text-[#6e5d50] tabular-nums">
             {uniqueCollaborators.size === 1 ? 'Peer collaborator' : 'Peer collaborators across projects'}

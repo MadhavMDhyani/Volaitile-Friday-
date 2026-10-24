@@ -37,18 +37,24 @@ export const FilesPanel = ({ projectId }) => {
   const toast = useToast();
 
   useEffect(() => {
-    if (!activeFileId) {
-      setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
-      return;
-    }
-    const el = itemRefs.current.get(activeFileId);
-    if (el) {
-      setIndicatorStyle({
-        top: el.offsetTop,
-        height: el.offsetHeight,
-        opacity: 1,
-      });
-    }
+    let frameId;
+    frameId = requestAnimationFrame(() => {
+      if (!activeFileId) {
+        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
+        return;
+      }
+      const el = itemRefs.current.get(activeFileId);
+      if (el) {
+        setIndicatorStyle({
+          top: el.offsetTop,
+          height: el.offsetHeight,
+          opacity: 1,
+        });
+      }
+    });
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId);
+    };
   }, [activeFileId, files]);
 
 

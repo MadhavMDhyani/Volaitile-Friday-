@@ -132,7 +132,7 @@ export const ProductMockup = () => {
         className="absolute -top-3.5 right-6 z-20 hidden sm:flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-[11px] font-mono text-[#f3e6da] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)] animate-float-pill-1"
         style={floatingAnimStyle}
       >
-        <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+        <span className="presence-dot h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
         <span className="text-[#a89384]">Room:</span>
         <span className="text-white font-semibold tabular-nums">1 member online</span>
       </div>

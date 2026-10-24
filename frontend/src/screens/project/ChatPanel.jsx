@@ -509,7 +509,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         <div className="flex items-center gap-1.5 shrink-0 font-mono text-[10px] tabular-nums">
           <span
             className={`h-2 w-2 rounded-full shrink-0 transition-colors ${
-              connected ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]' : 'bg-accent animate-pulse'
+              connected ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)] presence-dot' : 'bg-accent animate-pulse'
             }`}
           />
           <span className={`whitespace-nowrap ${connected ? 'text-[#a89384]' : 'text-accent'}`}>
@@ -563,14 +563,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               <div
                 key={msg._id}
                 className={`flex flex-col ${isAi ? 'items-start' : isMe ? 'items-end' : 'items-start'} ${
-                  msg.isNew ? 'animate-pop' : ''
+                  msg.isNew ? 'animate-chat-bubble' : ''
                 }`}
               >
                 {/* Header label */}
                 <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#a89384] max-w-full">
                   {isAi ? (
                     <span className="inline-flex items-center gap-1.5 font-semibold text-[#f3e6da] min-w-0 flex-wrap">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
+                      <span className="presence-dot h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)]" />
                       <span className="text-accent font-bold shrink-0">Friday AI</span>
                       {(() => {
                         const isOffline =
@@ -676,13 +676,15 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         {isAiTyping && (
           <div className="flex flex-col items-start animate-fade-in">
             <span className="text-[11px] font-mono text-accent/80 mb-1 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+              <span className="presence-dot h-1.5 w-1.5 rounded-full bg-accent" />
               Friday AI is thinking…
             </span>
-            <div className="flex items-center gap-1.5 rounded-2xl border border-accent-deep bg-accent-tint/20 px-3.5 py-2 text-xs text-accent shadow-glass">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div className="relative overflow-hidden flex items-center gap-1.5 rounded-2xl border border-accent-deep bg-accent-tint/20 px-3.5 py-2 text-xs text-accent shadow-glass">
+              {/* Transform-based shimmer overlay */}
+              <div className="pointer-events-none absolute inset-0 -translate-x-full animate-shimmer-slide bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden="true" />
+              <span className="typing-dot h-1.5 w-1.5 rounded-full bg-accent" style={{ animationDelay: '0ms' }} />
+              <span className="typing-dot h-1.5 w-1.5 rounded-full bg-accent" style={{ animationDelay: '120ms' }} />
+              <span className="typing-dot h-1.5 w-1.5 rounded-full bg-accent" style={{ animationDelay: '240ms' }} />
             </div>
           </div>
         )}
@@ -694,9 +696,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       {otherTypingUsers.length > 0 && (
         <div className="flex items-center gap-2 border-t border-white/[0.08] bg-[#140d09]/80 px-3.5 py-1.5 text-[11px] font-mono text-[#a89384] animate-fade-in backdrop-blur-sm">
           <div className="flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '0ms' }} />
-            <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '150ms' }} />
-            <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '300ms' }} />
+            <span className="typing-dot h-1.5 w-1.5 rounded-full bg-white" style={{ animationDelay: '0ms' }} />
+            <span className="typing-dot h-1.5 w-1.5 rounded-full bg-white" style={{ animationDelay: '120ms' }} />
+            <span className="typing-dot h-1.5 w-1.5 rounded-full bg-white" style={{ animationDelay: '240ms' }} />
           </div>
           <span className="truncate">
             {otherTypingUsers.length === 1
@@ -729,13 +731,13 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         {availableModels.length > 0 && (
           <div className="flex items-center justify-between gap-2 mb-2 px-1 text-[10px] font-mono text-[#a89384]">
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
+              <span className="presence-dot h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
               <span className="text-white/50 text-[10px] shrink-0">Model:</span>
               <div className="relative inline-flex items-center">
                 <select
                   value={selectedModel}
                   onChange={handleModelChange}
-                  className="h-6 rounded-full glass-pill border border-white/[0.12] bg-raised/80 px-2 pr-5 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-all outline-none"
+                  className="h-6 rounded-full glass-pill border border-white/[0.12] bg-raised/80 px-2 pr-5 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-colors outline-none"
                   title="Select Friday AI model"
                   aria-label="Friday AI model selection"
                 >
@@ -762,7 +764,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               value={inputMessage}
               onChange={handleInputChange}
               placeholder="Type a message or @friday..."
-              className="w-full h-10 min-w-0 rounded-xl glass-input px-3.5 text-xs text-[#f3e6da] placeholder-white/40 transition-all"
+              className="w-full h-10 min-w-0 rounded-xl glass-input px-3.5 text-xs text-[#f3e6da] placeholder-white/40 transition-[border-color,background-color]"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />

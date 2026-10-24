@@ -2,37 +2,31 @@ import { useState, useEffect, useRef } from 'react';
 
 export const ToastItem = ({ toast, onDismiss }) => {
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(100);
   const duration = toast.duration || 4000;
   const startTimeRef = useRef(null);
   const remainingTimeRef = useRef(duration);
+  const timerRef = useRef(null);
 
   useEffect(() => {
-    if (isPaused) return;
-
-    if (startTimeRef.current === null) {
-      startTimeRef.current = Date.now();
-    }
-
-    const interval = 25; // 40fps progress tick
-
-    const timer = setInterval(() => {
-      const elapsed = Date.now() - (startTimeRef.current || Date.now());
-      const newRemaining = Math.max(0, remainingTimeRef.current - elapsed);
-      setProgress((newRemaining / duration) * 100);
-
-      if (newRemaining <= 0) {
-        clearInterval(timer);
-        onDismiss(toast.id);
+    if (isPaused) {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
       }
-    }, interval);
-
-    return () => {
-      clearInterval(timer);
       if (startTimeRef.current !== null) {
         const elapsed = Date.now() - startTimeRef.current;
         remainingTimeRef.current = Math.max(0, remainingTimeRef.current - elapsed);
       }
+      return;
+    }
+
+    startTimeRef.current = Date.now();
+    timerRef.current = setTimeout(() => {
+      onDismiss(toast.id);
+    }, remainingTimeRef.current);
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, [isPaused, duration, onDismiss, toast.id]);
 
@@ -60,7 +54,7 @@ export const ToastItem = ({ toast, onDismiss }) => {
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`group relative flex w-full max-w-sm overflow-hidden rounded-xl glass-strong p-3.5 text-sm text-[#f3e6da] modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
+      className="group relative flex w-full max-w-sm overflow-hidden rounded-xl glass-strong p-3.5 text-sm text-[#f3e6da] modal-shadow animate-toast-slide-in transition-transform duration-150 active:scale-[0.99] select-none"
       role="status"
       aria-live="polite"
     >
@@ -80,11 +74,14 @@ export const ToastItem = ({ toast, onDismiss }) => {
         </button>
       </div>
 
-      {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/8">
+      {/* Auto-dismiss progress bar via scaleX */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/8 overflow-hidden pointer-events-none">
         <div
-          className={`h-full ${config.bar} transition-[width] duration-75 ease-linear`}
-          style={{ width: `${progress}%` }}
+          className={`h-full w-full ${config.bar} toast-progress-bar`}
+          style={{
+            animationDuration: `${duration}ms`,
+            animationPlayState: isPaused ? 'paused' : 'running',
+          }}
         />
       </div>
     </div>

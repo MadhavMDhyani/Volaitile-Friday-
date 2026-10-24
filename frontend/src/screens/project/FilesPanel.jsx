@@ -25,13 +25,31 @@ export const FilesPanel = ({ projectId }) => {
   // Delete state
   const [deletingFile, setDeletingFile] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [fadingOutFileId, setFadingOutFileId] = useState(null);
 
   // Per-file draft contents and save statuses
   const [drafts, setDrafts] = useState({});
   const [saveStatuses, setSaveStatuses] = useState({}); // fileId -> 'saved' | 'saving' | 'unsaved' | 'error'
 
   const autosaveTimersRef = useRef({});
+  const itemRefs = useRef(new Map());
+  const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0, opacity: 0 });
   const toast = useToast();
+
+  useEffect(() => {
+    if (!activeFileId) {
+      setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
+      return;
+    }
+    const el = itemRefs.current.get(activeFileId);
+    if (el) {
+      setIndicatorStyle({
+        top: el.offsetTop,
+        height: el.offsetHeight,
+        opacity: 1,
+      });
+    }
+  }, [activeFileId, files]);
 
 
   useEffect(() => {
@@ -174,7 +192,7 @@ export const FilesPanel = ({ projectId }) => {
       });
 
       const newFile = res.data?.file;
-      setFiles((prev) => [...prev, newFile]);
+      setFiles((prev) => [...prev, { ...newFile, isNew: true }]);
       setDrafts((prev) => ({ ...prev, [newFile._id]: '' }));
       setSaveStatuses((prev) => ({ ...prev, [newFile._id]: 'saved' }));
       setActiveFileId(newFile._id);

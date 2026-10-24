@@ -170,7 +170,7 @@ export const MembersDrawer = ({
               return (
                 <div
                   key={mId}
-                  className="flex items-center justify-between rounded-xl glass border-glass-border/40 hover:border-glass-border/80 p-2.5 text-xs font-mono transition-all"
+                  className="flex items-center justify-between rounded-xl glass border-glass-border/40 hover:border-glass-border/80 p-2.5 text-xs font-mono transition-[border-color,background-color] duration-150"
                 >
                   <div className="flex items-center gap-2.5 truncate pr-2">
                     <div className="relative shrink-0">
@@ -179,7 +179,7 @@ export const MembersDrawer = ({
                       </div>
                       {onlineUserIds.includes(mId) && (
                         <span
-                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#140d09] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
+                          className="presence-dot absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#140d09] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
                           title="Online now"
                         />
                       )}

@@ -173,7 +173,7 @@ export const AddMemberModal = ({
                     alreadyMember
                       ? 'opacity-40 cursor-not-allowed bg-transparent'
                       : isSelected
-                      ? 'glass-strong border border-accent/40 text-[#f3e6da] cursor-pointer shadow-[0_0_8px_rgba(255,87,34,0.15)]'
+                      ? 'glass-strong border border-accent/40 text-[#f3e6da] cursor-pointer shadow-[0_0_8px_rgb(var(--accent-rgb)/0.15)]'
                       : 'hover:bg-white/[0.05] text-[#a89384] hover:text-[#f3e6da] cursor-pointer'
                   }`}
                 >

@@ -570,7 +570,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#a89384] max-w-full">
                   {isAi ? (
                     <span className="inline-flex items-center gap-1.5 font-semibold text-[#f3e6da] min-w-0 flex-wrap">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgba(255,87,34,0.8)] animate-pulse" />
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
                       <span className="text-accent font-bold shrink-0">Friday AI</span>
                       {(() => {
                         const isOffline =
@@ -729,7 +729,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         {availableModels.length > 0 && (
           <div className="flex items-center justify-between gap-2 mb-2 px-1 text-[10px] font-mono text-[#a89384]">
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgba(255,87,34,0.8)] shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
               <span className="text-white/50 text-[10px] shrink-0">Model:</span>
               <div className="relative inline-flex items-center">
                 <select

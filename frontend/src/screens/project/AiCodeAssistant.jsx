@@ -200,7 +200,7 @@ export const AiCodeAssistant = ({
       {/* Header */}
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-white/[0.08] px-4 bg-white/[0.02]">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent/15 text-accent border border-accent/30 shadow-[0_0_12px_rgba(255,87,34,0.3)]">
+          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent/15 text-accent border border-accent/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.3)]">
             <i className="ri-sparkling-fill text-xs" />
           </div>
           <div>
@@ -355,7 +355,7 @@ export const AiCodeAssistant = ({
             <Button
               variant="primary"
               size="sm"
-              className="w-full justify-center mt-2 shadow-[0_0_18px_rgba(255,87,34,0.25)]"
+              className="w-full justify-center mt-2 shadow-[0_0_18px_rgb(var(--accent-rgb)/0.25)]"
               onClick={handleGenerate}
               loading={isGenerating}
               icon={<i className="ri-sparkling-line text-sm" />}

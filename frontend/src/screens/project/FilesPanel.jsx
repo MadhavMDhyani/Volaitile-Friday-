@@ -304,14 +304,14 @@ export const FilesPanel = ({ projectId }) => {
                     onClick={() => setActiveFileId(file._id)}
                     className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-all duration-150 cursor-pointer ${
                       isActive
-                        ? 'glass-strong text-[#f3e6da] font-medium border border-accent/30 shadow-[0_0_12px_rgba(255,87,34,0.12)]'
+                        ? 'glass-strong text-[#f3e6da] font-medium border border-accent/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.12)]'
                         : 'text-[#a89384] hover:bg-white/[0.04] hover:text-[#f3e6da]'
                     }`}
                   >
                     {/* Active Bar indicator */}
                     {isActive && (
                       <span
-                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-press shadow-[0_0_8px_rgba(255,87,34,0.6)] transition-all duration-150"
+                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-press shadow-[0_0_8px_rgb(var(--accent-rgb)/0.6)] transition-all duration-150"
                         aria-hidden="true"
                       />
                     )}

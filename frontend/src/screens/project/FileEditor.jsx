@@ -213,7 +213,7 @@ export const FileEditor = ({
             icon={<i className="ri-sparkling-fill text-accent text-xs" />}
             title="Toggle Friday AI Assistant (Ctrl+I)"
             aria-label="Toggle Friday AI Assistant"
-            className={isAiAssistantOpen ? 'shadow-[0_0_12px_rgba(255,87,34,0.4)]' : ''}
+            className={isAiAssistantOpen ? 'shadow-[0_0_12px_rgb(var(--accent-rgb)/0.4)]' : ''}
           >
             <span className="hidden sm:inline">Friday AI</span>
           </Button>

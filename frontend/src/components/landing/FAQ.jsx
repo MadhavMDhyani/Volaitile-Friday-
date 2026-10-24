@@ -32,7 +32,7 @@ export const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-20 sm:py-28 relative">
+    <section id="faq" className="py-20 sm:py-28 relative landing-section-contain">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <Reveal delay={0}>

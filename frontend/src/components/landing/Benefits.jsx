@@ -35,7 +35,7 @@ export const Benefits = () => {
   ];
 
   return (
-    <section id="benefits" className="py-20 sm:py-28 relative">
+    <section id="benefits" className="py-20 sm:py-28 relative landing-section-contain">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Reveal delay={0}>

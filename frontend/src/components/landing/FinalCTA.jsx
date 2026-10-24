@@ -3,7 +3,7 @@ import Reveal from './Reveal';
 
 export const FinalCTA = () => {
   return (
-    <section className="py-20 sm:py-28 relative">
+    <section className="py-20 sm:py-28 relative landing-section-contain">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <Reveal delay={0} transformOnly={true}>
           <div className="relative rounded-3xl glass-strong border border-accent/30 p-8 sm:p-14 text-center overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9),0_0_40px_rgb(var(--accent-rgb)/0.08)]">

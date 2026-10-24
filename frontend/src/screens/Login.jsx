@@ -33,7 +33,7 @@ export const Login = () => {
       });
 
       login(response.data.token, response.data.user);
-      navigate(from, { replace: true });
+      navigate(from, { replace: true, viewTransition: true });
     } catch (error) {
       console.error('Login error:', error);
       setErrorMessage(getErrorMessage(error, 'Invalid email or password.'));
@@ -196,7 +196,7 @@ export const Login = () => {
 
             <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[#a89384]">
               Don&apos;t have an account?{' '}
-              <Link to="/register" className="font-medium text-accent underline hover:text-accent-hover focus-ring rounded transition-colors">
+              <Link to="/register" viewTransition className="font-medium text-accent underline hover:text-accent-hover focus-ring rounded transition-colors">
                 Create one now
               </Link>
             </div>

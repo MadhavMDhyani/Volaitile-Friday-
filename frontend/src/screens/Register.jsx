@@ -51,7 +51,7 @@ export const Register = () => {
       });
 
       login(response.data.token, response.data.user);
-      navigate('/dashboard');
+      navigate('/dashboard', { viewTransition: true });
     } catch (error) {
       console.error('Registration error:', error);
       setErrorMessage(getErrorMessage(error, 'Failed to create account. Please try again.'));
@@ -232,7 +232,7 @@ export const Register = () => {
 
             <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[#a89384]">
               Already have an account?{' '}
-              <Link to="/login" className="font-medium text-white underline hover:text-accent focus-ring rounded transition-colors">
+              <Link to="/login" viewTransition className="font-medium text-white underline hover:text-accent focus-ring rounded transition-colors">
                 Sign in here
               </Link>
             </div>

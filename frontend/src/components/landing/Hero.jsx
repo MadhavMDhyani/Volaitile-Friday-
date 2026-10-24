@@ -74,6 +74,7 @@ export const Hero = () => {
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up" style={{ animationDelay: '180ms' }}>
           <Link
             to="/register"
+            viewTransition
             className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)] hover:shadow-[0_0_32px_rgb(var(--accent-rgb)/0.5)] focus-ring"
           >
             Get started free

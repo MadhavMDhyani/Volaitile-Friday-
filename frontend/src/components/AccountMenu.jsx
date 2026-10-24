@@ -69,6 +69,7 @@ export const AccountMenu = () => {
             <div className="py-1">
               <Link
                 to="/dashboard"
+                viewTransition
                 onClick={() => setIsOpen(false)}
                 className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#a89384] transition-colors hover:bg-white/[0.06] hover:text-[#f3e6da] focus-ring"
                 role="menuitem"
@@ -79,6 +80,7 @@ export const AccountMenu = () => {
 
               <Link
                 to="/"
+                viewTransition
                 onClick={() => setIsOpen(false)}
                 className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#a89384] transition-colors hover:bg-white/[0.06] hover:text-[#f3e6da] focus-ring"
                 role="menuitem"

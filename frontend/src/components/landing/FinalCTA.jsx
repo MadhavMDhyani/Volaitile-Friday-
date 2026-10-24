@@ -32,6 +32,7 @@ export const FinalCTA = () => {
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Link
                 to="/register"
+                viewTransition
                 className="w-full sm:w-auto h-12 px-8 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_24px_rgb(var(--accent-rgb)/0.4)] hover:shadow-[0_0_36px_rgb(var(--accent-rgb)/0.55)] focus-ring"
               >
                 Create your account
@@ -40,6 +41,7 @@ export const FinalCTA = () => {
 
               <Link
                 to="/login"
+                viewTransition
                 className="w-full sm:w-auto h-12 px-7 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#f3e6da] glass hover:border-white/30 transition-all focus-ring"
               >
                 Sign in to workspace

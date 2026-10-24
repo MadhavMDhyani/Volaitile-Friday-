@@ -59,12 +59,14 @@ export const LandingNav = () => {
         <div className="hidden sm:flex items-center gap-3">
           <Link
             to="/login"
+            viewTransition
             className="h-9 px-3.5 inline-flex items-center justify-center rounded-xl text-xs font-medium text-[#f3e6da] hover:text-white glass hover:border-white/30 transition-all focus-ring"
           >
             Log in
           </Link>
           <Link
             to="/register"
+            viewTransition
             className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
           >
             Get started
@@ -75,6 +77,7 @@ export const LandingNav = () => {
         <div className="flex sm:hidden items-center gap-2">
           <Link
             to="/register"
+            viewTransition
             className="h-8 px-3 inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-accent text-[#140d09]"
           >
             Start
@@ -109,12 +112,14 @@ export const LandingNav = () => {
           <div className="pt-2 border-t border-white/10 flex items-center gap-2">
             <Link
               to="/login"
+              viewTransition
               className="flex-1 py-2 text-center text-xs font-medium glass rounded-xl text-[#f3e6da]"
             >
               Log in
             </Link>
             <Link
               to="/register"
+              viewTransition
               className="flex-1 py-2 text-center text-xs font-semibold bg-accent text-[#140d09] rounded-xl"
             >
               Get started

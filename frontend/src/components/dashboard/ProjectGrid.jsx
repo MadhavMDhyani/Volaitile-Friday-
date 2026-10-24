@@ -118,7 +118,7 @@ export const ProjectGrid = ({
             return (
               <div
                 key={proj._id}
-                onClick={() => navigate(`/project/${proj._id}`)}
+                onClick={() => navigate(`/project/${proj._id}`, { viewTransition: true })}
                 className="group relative flex flex-col justify-between rounded-2xl glass p-4.5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.45)] focus-ring animate-fade-up"
                 style={{
                   animationDelay: `${Math.min(idx, 6) * 35}ms`,
@@ -129,7 +129,7 @@ export const ProjectGrid = ({
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    navigate(`/project/${proj._id}`);
+                    navigate(`/project/${proj._id}`, { viewTransition: true });
                   }
                 }}
                 aria-label={`Open project ${proj.name}`}
@@ -222,7 +222,7 @@ export const ProjectGrid = ({
                     size="xs"
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/project/${proj._id}`);
+                      navigate(`/project/${proj._id}`, { viewTransition: true });
                     }}
                     iconRight={<i className="ri-arrow-right-line text-xs" />}
                     className="text-[#a89384] hover:text-[#f3e6da] font-mono"

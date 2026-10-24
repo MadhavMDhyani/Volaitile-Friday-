@@ -261,7 +261,7 @@ export const Home = () => {
               return (
                 <div
                   key={proj._id}
-                  onClick={() => navigate(`/project/${proj._id}`)}
+                  onClick={() => navigate(`/project/${proj._id}`, { viewTransition: true })}
                   style={{
                     animationDelay: `${Math.min(index, 8) * 40}ms`,
                     animationFillMode: 'both',
@@ -273,7 +273,7 @@ export const Home = () => {
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
-                      navigate(`/project/${proj._id}`);
+                      navigate(`/project/${proj._id}`, { viewTransition: true });
                     }
                   }}
                   aria-label={`Open project ${proj.name}`}

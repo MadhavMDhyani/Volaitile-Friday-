@@ -360,7 +360,6 @@ select:focus-visible {
   animation-delay: -2.3s;
 }
 
-<<<<<<< HEAD
 /* Below-the-fold content visibility containment */
 .landing-section-contain {
   content-visibility: auto;
@@ -410,9 +409,6 @@ select:focus-visible {
     }
   }
 }
-
-=======
->>>>>>> 64a77931baa360d258a1456ecf86a24ae5c38e20
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,

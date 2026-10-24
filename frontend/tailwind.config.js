@@ -88,6 +88,18 @@ export default {
         shimmer: 'shimmer 1.8s ease-in-out infinite',
         pop: 'pop 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
+      transitionTimingFunction: {
+        out: 'var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1))',
+        spring: 'var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1))',
+        'ease-out': 'var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1))',
+        'ease-spring': 'var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1))',
+      },
+      transitionDuration: {
+        150: '150ms',
+        250: '250ms',
+        450: '450ms',
+        700: '700ms',
+      },
     },
   },
   plugins: [],

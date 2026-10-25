@@ -44,7 +44,7 @@ export const Benefits = ({ asH1 = false, isPage = false }) => {
               THE WORKSPACE ADVANTAGE
             </span>
             <TitleTag className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
-              Why engineering teams build on Volaitile Friday
+              Why Volaitile Friday
             </TitleTag>
             <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               Designed to eliminate developer friction and keep your entire team aligned inside one high-speed workspace.
@@ -60,7 +60,7 @@ export const Benefits = ({ asH1 = false, isPage = false }) => {
               transformOnly={true}
               className={idx === 0 ? 'lg:col-span-2' : ''}
             >
-              <div className="h-full rounded-2xl glass p-7 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <div className="h-full rounded-2xl glass p-7 flex flex-col justify-start hover:border-white/30 transition-all duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-accent">
@@ -71,17 +71,12 @@ export const Benefits = ({ asH1 = false, isPage = false }) => {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#f3e6da]">
+                  <h3 className="text-lg font-bold text-[#f3e6da] min-h-[3.5rem] flex items-start">
                     {b.title}
                   </h3>
                   <p className="mt-2.5 text-xs sm:text-sm text-[#a89384] leading-relaxed">
                     {b.desc}
                   </p>
-                </div>
-
-                <div className="mt-6 border-t border-white/[0.08] pt-3 flex items-center text-[11px] font-mono text-accent">
-                  <span>Built for developers</span>
-                  <i className="ri-arrow-right-s-line text-sm ml-1" />
                 </div>
               </div>
             </Reveal>

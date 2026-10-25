@@ -192,7 +192,7 @@ export const FeatureBento = ({ asH1 = false, isPage = false }) => {
                     Docker Compose &amp; Self-Host Ready
                   </h3>
                   <p className="mt-2 text-xs sm:text-sm text-[#a89384] leading-relaxed">
-                    Deploy anywhere with a single <code className="font-mono text-[#c4b5a8]">docker-compose up -d</code> command. Complete stack includes MongoDB 7, Redis 7, Node 20 backend, and Nginx Alpine frontend.
+                    Deploy anywhere with a single <code className="font-mono text-[#c4b5a8]">docker compose up -d</code> command. Complete stack includes MongoDB, Redis, Node 20 backend, and Nginx Alpine frontend.
                   </p>
                 </div>
 

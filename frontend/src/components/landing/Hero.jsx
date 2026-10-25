@@ -36,8 +36,8 @@ export const Hero = () => {
   const techStack = [
     'React 19',
     'Node.js (ESM)',
-    'MongoDB 7',
-    'Redis 7',
+    'MongoDB',
+    'Redis (optional)',
     'Socket.IO',
     'Google Gemini AI',
   ];

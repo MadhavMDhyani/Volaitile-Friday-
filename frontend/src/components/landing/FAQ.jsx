@@ -8,7 +8,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'How does Friday AI work in the workspace?',
-    a: 'Friday AI is powered by Google Gemini 2.5 models (with options for Fast, Balanced, and Deep modes) and is integrated into your project chat rooms. You can mention @friday or use slash commands like /docker, /auth, /db, or /help. If an external AI connection is unavailable, it automatically falls back to a resilient offline assistance engine.',
+    a: 'Friday AI is powered by Google Gemini models (Fast, Balanced and Deep modes) and is integrated into your project chat rooms. You can mention @friday or use slash commands like /docker, /auth, /db, or /help. If an external AI connection is unavailable, it automatically falls back to a resilient offline assistance engine.',
   },
   {
     q: 'How is project data and source code secured?',
@@ -16,11 +16,11 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Can I self-host Volaitile Friday on my own server?',
-    a: 'Yes! Volaitile Friday includes a production-ready docker-compose.yml file orchestrating MongoDB 7, Redis 7, a Node 20 Express backend container, and a multi-stage Nginx Alpine frontend container. Database ports are kept on an isolated internal network for maximum security.',
+    a: 'Yes! Volaitile Friday includes a production-ready docker-compose.yml file orchestrating MongoDB, Redis, a Node 20 Express backend container, and a multi-stage Nginx Alpine frontend container. Database ports are kept on an isolated internal network for maximum security.',
   },
   {
     q: 'What limits exist for files, members, and API calls?',
-    a: 'Each workspace supports up to 25 members and 100 files, with a 200 KB per-file safety guard. Authentication and AI endpoints feature built-in rate limiters (20 AI requests/min, 30 chat messages/min) to prevent resource exhaustion and ensure high availability.',
+    a: 'Each workspace supports up to 25 members and 100 files, with a 200 KB per-file safety guard. Authentication and AI endpoints feature built-in rate limiters (20 AI requests/min, 30 chat messages/min, 15 login attempts/15 min in production) to prevent resource exhaustion and ensure high availability.',
   },
 ];
 

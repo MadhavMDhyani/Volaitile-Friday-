@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 import connect from './db/db.js';
+import { dbReady } from './middleware/dbReady.middleware.js';
 import userRoutes from './routes/user.routes.js';
 import projectRoutes from './routes/project.routes.js';
 import aiRoutes from './routes/ai.routes.js';
@@ -63,8 +64,13 @@ app.use(cookieParser());
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
-// Service API Routes
+// Health routes — always available (liveness + readiness), exempt from DB guard
 app.use('/health', healthRoutes);
+
+// DB readiness guard — mounted before all API routers and their rate limiters
+app.use(dbReady);
+
+// Service API Routes
 app.use('/projects', projectRoutes);
 app.use('/users', userRoutes);
 app.use('/ai', aiRoutes);

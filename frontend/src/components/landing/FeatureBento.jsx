@@ -52,10 +52,9 @@ export const FeatureBento = ({ asH1 = false, isPage = false }) => {
                       <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
                       POST /ai/chat
                     </span>
-                    <span className="text-[9px] uppercase">Latency: 280ms</span>
                   </div>
                   <div className="pt-2 text-[11px] text-[#f3e6da] flex items-center justify-between">
-                    <span className="text-[#a89384]">Models: Fast (2.5 Flash Lite) · Balanced · Deep</span>
+                    <span className="text-[#a89384]">Models: Fast · Balanced · Deep</span>
                     <span className="text-accent font-medium">Rate limit: 20 req/min</span>
                   </div>
                 </div>
@@ -81,7 +80,7 @@ export const FeatureBento = ({ asH1 = false, isPage = false }) => {
 
                 <div className="mt-6 flex items-center gap-2 font-mono text-[11px] text-[#a89384] border-t border-white/[0.08] pt-3">
                   <span className="h-2 w-2 rounded-full bg-white" />
-                  <span>Sub-millisecond room broadcasts</span>
+                  <span>Live room broadcasts over Socket.IO</span>
                 </div>
               </div>
             </Reveal>

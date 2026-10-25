@@ -94,7 +94,7 @@ export const ChatDemo = ({ isPage = false }) => {
                 <span className="font-semibold text-white">Friday AI Room Assistant</span>
               </div>
                 <span className="text-[10px] text-[#a89384] rounded border border-accent/30 bg-accent/10 px-2 py-0.5">
-                Gemini 2.5 Flash
+                Gemini
               </span>
             </div>
 
@@ -131,7 +131,7 @@ export const ChatDemo = ({ isPage = false }) => {
             {/* Sub-label */}
             <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-[#6e5d50]">
               <span>Type @friday or /help in any project chat</span>
-              <span className="text-accent">Responses stream in real-time</span>
+              <span className="text-accent">Replies are shared with the whole room</span>
             </div>
           </div>
         </Reveal>

@@ -10,6 +10,7 @@ import cors from 'cors';
 
 import connect from './db/db.js';
 import { dbReady } from './middleware/dbReady.middleware.js';
+import { requestId } from './middleware/requestId.middleware.js';
 import userRoutes from './routes/user.routes.js';
 import projectRoutes from './routes/project.routes.js';
 import aiRoutes from './routes/ai.routes.js';
@@ -46,8 +47,12 @@ app.use(
             return callback(corsError);
         },
         credentials: true,
+        exposedHeaders: ['x-request-id'],
     })
 );
+
+// Request ID — attach before morgan so it appears in logs
+app.use(requestId);
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
@@ -92,18 +97,39 @@ app.use((req, res) => {
 
 // Central error handler returning JSON
 app.use((err, req, res, next) => {
+    const rid = req.requestId;
+
     if (err.message && err.message.includes('not allowed by CORS')) {
-        return res.status(403).json({ error: err.message });
+        return res.status(403).json({ error: err.message, requestId: rid });
     }
-    console.error('Unhandled application error:', err);
+
+    // Map Mongo connectivity errors to 503 DB_UNAVAILABLE
+    const isDbError =
+        err.name === 'MongoServerSelectionError' ||
+        err.name === 'MongoNetworkError' ||
+        (err.message && err.message.includes('buffering timed out'));
+
+    if (isDbError) {
+        console.error(`[${rid}] DB connectivity error:`, err.message);
+        res.set('Retry-After', '5');
+        return res.status(503).json({
+            error: 'Service is starting, please retry',
+            code: 'DB_UNAVAILABLE',
+            requestId: rid,
+        });
+    }
+
+    console.error(`[${rid}] Unhandled application error:`, err);
     const status = err.status || err.statusCode || 500;
     if (status >= 500 && process.env.NODE_ENV === 'production') {
         return res.status(status).json({
             error: 'Internal server error',
+            requestId: rid,
         });
     }
     return res.status(status).json({
         error: err.message || 'Internal server error',
+        requestId: rid,
     });
 });
 

@@ -4,6 +4,7 @@ import { UserContext } from '../context/user.context';
 import PageTransition from '../components/PageTransition';
 import Skeleton from '../components/Skeleton';
 import Button from '../components/Button';
+import ScrollToTop from '../components/ScrollToTop';
 
 // Lazy-load all screens
 const Home = lazy(() => import('../screens/Home'));
@@ -12,6 +13,11 @@ const Login = lazy(() => import('../screens/Login'));
 const Register = lazy(() => import('../screens/Register'));
 const Project = lazy(() => import('../screens/project'));
 const Landing = lazy(() => import('../screens/Landing'));
+const About = lazy(() => import('../screens/About'));
+const Features = lazy(() => import('../screens/Features'));
+const HowItWorks = lazy(() => import('../screens/HowItWorks'));
+const WhyFriday = lazy(() => import('../screens/WhyFriday'));
+const Faq = lazy(() => import('../screens/Faq'));
 
 const ScreenFallback = () => (
   <div className="flex min-h-screen w-full flex-col bg-transparent p-6 text-[#f3e6da]">
@@ -102,11 +108,17 @@ const RootRoute = () => {
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <PageTransition>
         <Suspense fallback={<ScreenFallback />}>
           <Routes>
             <Route path="/" element={<RootRoute />} />
             <Route path="/welcome" element={<Landing />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/why-friday" element={<WhyFriday />} />
+            <Route path="/faq" element={<Faq />} />
             <Route
               path="/dashboard"
               element={

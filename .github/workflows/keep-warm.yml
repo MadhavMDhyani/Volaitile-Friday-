@@ -1,0 +1,32 @@
+name: Keep Warm
+
+# Pings the backend health endpoint every 10 minutes to prevent Render free-plan cold starts.
+# Also available as a manual trigger for immediate effect.
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Health ping
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Check BACKEND_URL is set
+        id: check-url
+        run: |
+          if [ -z "${{ vars.BACKEND_URL }}" ]; then
+            echo "BACKEND_URL variable is not set — skipping ping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ping /health/ping
+        if: steps.check-url.outputs.skip == 'false'
+        run: |
+          curl -fsS --max-time 60 "${{ vars.BACKEND_URL }}/health/ping"
+          echo "Ping succeeded at $(date -u)"

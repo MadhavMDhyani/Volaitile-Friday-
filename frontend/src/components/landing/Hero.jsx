@@ -69,8 +69,11 @@ export const Hero = () => {
 
         {/* One-sentence Subhead */}
         <div className="animate-fade-up" style={{ animationDelay: '120ms' }}>
-          <p className="mt-3 sm:mt-5 text-sm sm:text-base lg:text-lg text-[#a89384] max-w-2xl mx-auto leading-relaxed">
-            Real-time project workspaces with a cloud file editor, live team chat, and a context-aware AI assistant in one place.
+          <p
+            className="mt-3 sm:mt-5 text-sm sm:text-base lg:text-lg text-[#a89384] max-w-2xl mx-auto leading-relaxed [text-wrap:balance]"
+            style={{ textWrap: 'balance' }}
+          >
+            Real-time project workspaces with a cloud file editor, live team chat, and a context&#8209;aware AI assistant in one place.
           </p>
         </div>
 

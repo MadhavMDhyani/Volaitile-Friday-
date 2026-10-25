@@ -1,8 +1,10 @@
 import Reveal from './Reveal';
 
-export const FeatureBento = () => {
+export const FeatureBento = ({ asH1 = false, isPage = false }) => {
+  const TitleTag = asH1 ? 'h1' : 'h2';
+
   return (
-    <section id="features" className="py-20 sm:py-28 relative">
+    <section id="features" className={`${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -10,9 +12,9 @@ export const FeatureBento = () => {
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               ENGINEERED FOR TEAMS
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
+            <TitleTag className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
               A complete workspace without switching tabs
-            </h2>
+            </TitleTag>
             <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               Every tool your team needs to collaborate on code, discuss architectures, and build faster with Friday AI.
             </p>

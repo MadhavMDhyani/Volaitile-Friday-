@@ -1,6 +1,7 @@
 import Reveal from './Reveal';
 
-export const HowItWorks = () => {
+export const HowItWorks = ({ asH1 = false, isPage = false }) => {
+  const TitleTag = asH1 ? 'h1' : 'h2';
   const steps = [
     {
       num: '01',
@@ -23,16 +24,16 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 sm:py-28 relative">
+    <section id="how-it-works" className={`${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Reveal delay={0}>
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               SIMPLE WORKFLOW
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
+            <TitleTag className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
               From zero to shipping in 3 steps
-            </h2>
+            </TitleTag>
             <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               No complex pipeline setup or external plugins required. Everything is ready the moment you sign in.
             </p>

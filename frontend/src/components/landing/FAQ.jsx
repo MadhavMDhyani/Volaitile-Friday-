@@ -24,7 +24,8 @@ const FAQ_ITEMS = [
   },
 ];
 
-export const FAQ = () => {
+export const FAQ = ({ asH1 = false, isPage = false }) => {
+  const TitleTag = asH1 ? 'h1' : 'h2';
   const [openIdx, setOpenIdx] = useState(null);
 
   const toggle = (idx) => {
@@ -32,16 +33,16 @@ export const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-20 sm:py-28 relative">
+    <section id="faq" className={`${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <Reveal delay={0}>
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               GOT QUESTIONS?
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
+            <TitleTag className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
               Frequently Asked Questions
-            </h2>
+            </TitleTag>
             <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               Clear, honest answers about our tech stack, security, and hosting.
             </p>

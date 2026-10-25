@@ -77,3 +77,49 @@ Implement 7 maintenance and polish tasks for "Volaitile Friday" without introduc
   - Frontend: `npm run lint` clean (0 errors, 0 warnings).
   - Frontend: `npm run build` cleanly bundles.
 - Empirical proof captured for all changes: terminal command outputs and UI screenshots.
+
+---
+
+## Phase 3 — Landscape Hero
+
+### Overview & Goal
+Add ThreeUI's `<LandscapeScene variant="sunset" />` as the landing-page hero background using its EXACT registered source (source revision `e8aab488464bcd44471c390cf309597c6f3adb05`), themed to the site palette (page `#140d09`, accent `#d98a5a`, glow `#f0b088`, text `#f3e6da`), without compromising readability or performance.
+
+### Task 1 — Import the Exact Source
+- Fetch complete bundle from `https://threeui.com/source-code/landscape.json`.
+- Compare bundle files against registered list and SHA-256 hashes:
+  - `src/shaders/landscape/LandscapeScene.tsx` (`7d0bf43cc29a5c43df2a3f84d60c6ea9a86b64f538a96cbec274f0a8d531bf1c`) -> `/frontend/src/components/landing/landscape/LandscapeScene.tsx`
+  - `public/landscape.html` (`36673210dd79a53ce691c1633a21502a8df57307a7fe501d1305947ae191414a`) and referenced runtime assets -> `/frontend/public/`
+  - `src/shaders/threeui.css` (`efe4447139f1358dd8e9be68edf6fa46cbefbd1de423a4d6c439ca61d2c8eccf`) -> `/frontend/src/components/landing/landscape/threeui.css`
+  - `src/shaders/japanese-tower/Towers.html` (`7810e7163c027f654235032fb1eed48846b68bf80f5b1c1c4292e01694b71f3d`) -> `/frontend/third_party/threeui/Towers.html`
+  - `scripts/generate-landscape.mjs` (`cb8b941df15e87bb52c7ae89ee0e0c9804758bd3e8ef1f61f388538ea80adf73`) -> `/frontend/third_party/threeui/generate-landscape.mjs`
+  - Provenance README at `/frontend/third_party/threeui/README.md`.
+- Verify each file hash via `Get-FileHash -Algorithm SHA256`.
+- Add registered files to `.gitattributes` as `-text`.
+- Install dependencies ONLY if imported by registered files (`@designcodeio/threeui`, `three`).
+- Check `threeui.css` for global selectors; scope under `.shader-frame` if conflicts arise.
+
+### Task 2 — Hero Integration (`Hero.jsx` + `HeroScene.jsx`)
+- Create `HeroScene.jsx`: absolutely positioned layer behind hero content (`inset-x-0 top-0`, `min-h-[640px] h-[100svh]`, `aria-hidden`), sibling to (never ancestor of) any `backdrop-filter` elements like `ProductMockup`.
+- Poster-first loading: render static CSS poster gradient (`#140d09` -> `#2a1a11` -> `#7a4a30` -> `#d98a5a`/`#f0b088` glow).
+- Guard mounting: viewport >= 768px, no prefers-reduced-motion, no `saveData`, document visible, IntersectionObserver with 200px margin, mounted after first paint via `requestIdleCallback` (300ms fallback).
+- Unmount WebGL context when hero is >1 viewport away.
+- Pointer events handling between scene and interactive elements.
+- Soft center scrim and bottom 30% fade into `--page-rgb: 20 13 9` (`#140d09`). Contrast >= 4.5:1 at 1440px, 768px, and 390px.
+
+### Task 3 — Theme to Site Palette
+- Step A: Non-invasive overlay gradients, center scrim, and edge vignette in page color `#140d09`. No CSS filters or backdrop-filters over iframe.
+- Step B (conditional): If sunset sky retains non-palette hues, update color-valued constants of the `sunset` preset in `public/landscape.html` in a dedicated commit `style(landscape): theme sunset palette to site tokens`.
+
+### Task 4 — Production Headers
+- In `frontend/vercel.json`, update `X-Frame-Options` from `DENY` to `SAMEORIGIN`.
+- Build and run `npm run preview`, verify `Invoke-WebRequest http://localhost:4173/landscape.html` returns 200 and scene HTML.
+- Note SPA fallback behavior and CDN dependencies if any.
+
+### Task 5 — Performance and Verification
+- FPS probe testing at 1440x900 on hero and scroll: average FPS >= 55, no frame > 50ms.
+- Verify scene unmounting when scrolled away and remounting on return.
+- Emulate `prefers-reduced-motion` and 390px mobile viewport: verify poster-only fallback.
+- Clean console (no 404s, CORS, or frame errors).
+- Capture UI screenshots at 1440px, 768px, 390px.
+- Confirm all tests, lint, and build pass cleanly; report bundle size delta.

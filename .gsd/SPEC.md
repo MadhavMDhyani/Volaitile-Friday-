@@ -123,3 +123,71 @@ Add ThreeUI's `<LandscapeScene variant="sunset" />` as the landing-page hero bac
 - Clean console (no 404s, CORS, or frame errors).
 - Capture UI screenshots at 1440px, 768px, 390px.
 - Confirm all tests, lint, and build pass cleanly; report bundle size delta.
+
+---
+
+## Sign-in reliability
+
+**Status: FINALIZED**
+
+Branch: `fix/signin-reliability`
+
+### Root-cause summary
+| Cause | Evidence | Fix |
+|---|---|---|
+| `process.exit(1)` on first DB connect failure | `db.js:32` | Retry loop w/ exponential backoff |
+| `serverSelectionTimeoutMS: 5000` â€” too short for Atlas cold start | `db.js:27` | Raise to 15 000 ms, `maxPoolSize: 10` |
+| No DB readiness guard on API routes | `app.js` â€” no middleware before routers | `dbReady` middleware returning 503 + Retry-After |
+| No request ID tracing | `app.js`, controllers â€” no x-request-id | `requestId` middleware + expose header in CORS |
+| `loginController` catch returns generic 500 for all errors | `user.controller.js:105` | Map Mongo network/selection errors to 503 |
+| Rate limiter counts 5xx/503 against quota | `user.routes.js:12` `skipSuccessfulRequests` | `requestWasSuccessful: res.statusCode < 400 || res.statusCode >= 500` |
+| `CLIENT_URL` not normalized (trailing slash / path strips CORS match) | `env.js:32` | `new URL(entry).origin` normalization |
+| `validateEnv` exits on first error only | `env.js:7-20` | Collect all errors, report once |
+| No Axios timeout or retry | `axios.js:10-12` | 15 s timeout, opt-in `retryOnWake` for login/GET/ping |
+| No server pre-warm | `App.jsx` | Fire-and-forget GET /health/ping once per 10 min via sessionStorage |
+| Render free plan cold starts (~30 s) not surfaced to user | `Login.jsx` | "Waking up the serverâ€¦" banner during retries |
+| No keep-warm scheduled job | â€” | `.github/workflows/keep-warm.yml` every 10 min |
+
+### Task 1 â€” Diagnose (no code changes)
+Read db.js, env.js, app.js, user.controller.js, user.routes.js, axios.js, Login.jsx, user.context.jsx, health.routes.js. Produce root-cause table.
+
+### Task 2 â€” Resilient DB connection (db.js, app.js)
+- Replace `process.exit(1)` on failed connect with retry loop: exponential backoff 1 s doubling to 30 s cap. Log attempt number; never log URI.
+- Keep fail-fast for missing `MONGODB_URI`.
+- `serverSelectionTimeoutMS: 15000`, `maxPoolSize: 10`.
+- `/health/ping` remains pure liveness (Render healthCheckPath).
+- `/health/ready` returns 503 until `mongoose.connection.readyState === 1`.
+- Add `dbReady` middleware before all routers and rate limiters (except `/health`): 503 `{ error: "Service is starting, please retry", code: "DB_UNAVAILABLE" }` + `Retry-After: 5` header.
+
+### Task 3 â€” Request IDs and clear errors (app.js, user.controller.js)
+- `requestId` middleware: `crypto.randomUUID()`; accept incoming `x-request-id` only if safe (<=36 alphanumeric/hyphen chars); return as `x-request-id` response header.
+- Expose `x-request-id` in CORS `exposedHeaders`.
+- Map `MongoServerSelectionError`, `MongoNetworkError`, buffering-timeout to 503 `DB_UNAVAILABLE` + Retry-After in `loginController`, `registerController`, and global error handler.
+- Log real error + requestId server-side; never log passwords, tokens, or full emails.
+
+### Task 4 â€” Rate limiter fix (routes/user.routes.js + tests)
+- `loginLimiter` and `registerLimiter`: add `requestWasSuccessful: (req, res) => res.statusCode < 400 || res.statusCode >= 500` so 5xx/503 never consume attempts; 401/400 still do.
+- Keep `max`, `windowMs`, messages unchanged.
+- Add tests: 5x 503 responses do not trigger 429; wrong password still counts toward limit.
+
+### Task 5 â€” CORS origin normalization (config/env.js, app.js + tests)
+- Normalize each `CLIENT_URL` entry with `new URL(entry).origin`; skip invalid entries with a `console.warn`; log final allowed origins at startup.
+- `validateEnv`: collect all errors before exiting; warn (don't exit) when `TRUST_PROXY` unset in production.
+- Add tests: normalization, 403 CORS rejection.
+
+### Task 6 â€” Wake-aware frontend (axios.js, Login.jsx, utils/getErrorMessage.js, App.jsx)
+- Axios: 15 000 ms default timeout; opt-in `retryOnWake: true` for login, GET, /health/ping.
+- Retry only on no-response or 502/503/504; delays 2 s, 4 s, 8 s, 12 s, 12 s; honor Retry-After.
+- Never retry 4xx; cancel on unmount via AbortController.
+- Fast no-response while online (< 1 s): retry at most once, then show error.
+- Login screen: "Waking up the serverâ€¦ this can take up to a minute." banner with attempt count during retries.
+- Pre-warm: fire-and-forget GET /health/ping on first app load; at most once per 10 min via sessionStorage.
+- Extend `getErrorMessage.js`: 401 -> "Invalid email or password"; 429 -> "Too many attempts. Try again in N minutes" (Retry-After); 503/no-response -> "Can't reach the server right now"; 500 -> "Something went wrong (ref: <requestId>)". console.warn hint on fast no-response while online.
+
+### Task 7 â€” Keep-warm GitHub workflow
+- `.github/workflows/keep-warm.yml`: `schedule` every 10 min + `workflow_dispatch`.
+- `curl -fsS --max-time 60 "$BACKEND_URL/health/ping"` (read from vars.BACKEND_URL).
+- If `BACKEND_URL` unset, print notice and exit 0.
+
+### Task 8 â€” Verification
+Show: wake scenario, DB_UNAVAILABLE rate-limit proof, wrong-password 401, CLIENT_URL trailing-slash CORS, new test count, lint+build pass.

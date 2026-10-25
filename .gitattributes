@@ -1,1 +1,6 @@
 * text=auto eol=lf
+frontend/src/components/landing/landscape/LandscapeScene.tsx -text
+frontend/src/components/landing/landscape/threeui.css -text
+frontend/public/landscape.html -text
+frontend/third_party/threeui/Towers.html -text
+frontend/third_party/threeui/generate-landscape.mjs -text

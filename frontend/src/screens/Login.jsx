@@ -53,7 +53,7 @@ export const Login = () => {
         {
           retryOnWake: true,
           signal: controller.signal,
-          onRetry: (attempt, total, delayMs) => {
+          onRetry: (attempt) => {
             setWakeAttempt(attempt);
           },
         }

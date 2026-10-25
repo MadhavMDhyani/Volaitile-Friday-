@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ProductMockup from './ProductMockup';
 import Reveal from './Reveal';
+import HeroScene from './HeroScene';
 
 export const Hero = () => {
   const mockupWrapperRef = useRef(null);
@@ -43,9 +44,12 @@ export const Hero = () => {
 
   return (
     <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      {/* ThreeUI Landscape Scene Background */}
+      <HeroScene />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center pointer-events-none">
         {/* Subtle Pill Tag */}
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full glass-pill px-3 py-1 text-[11px] sm:text-xs text-[#a89384] border border-white/15 mb-6 max-w-full animate-fade-in">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full glass-pill px-3 py-1 text-[11px] sm:text-xs text-[#a89384] border border-white/15 mb-6 max-w-full animate-fade-in pointer-events-auto">
           <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
           <span className="font-mono text-[#c4b5a8] font-medium whitespace-nowrap">Volaitile Friday</span>
           <span className="text-white/30 hidden sm:inline">·</span>
@@ -71,7 +75,7 @@ export const Hero = () => {
         </div>
 
         {/* CTAs */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up" style={{ animationDelay: '180ms' }}>
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up pointer-events-auto" style={{ animationDelay: '180ms' }}>
           <Link
             to="/register"
             className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)] hover:shadow-[0_0_32px_rgb(var(--accent-rgb)/0.5)] focus-ring"
@@ -89,7 +93,7 @@ export const Hero = () => {
         </div>
 
         {/* Tech Stack Chips (Plain Text) */}
-        <div className="mt-10 sm:mt-12 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] font-mono text-[#6e5d50] animate-fade-in" style={{ animationDelay: '240ms' }}>
+        <div className="mt-10 sm:mt-12 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] font-mono text-[#6e5d50] animate-fade-in pointer-events-auto" style={{ animationDelay: '240ms' }}>
           <span className="text-[#a89384] uppercase tracking-wider mr-1">Built with</span>
           {techStack.map((tech) => (
             <span
@@ -102,7 +106,7 @@ export const Hero = () => {
         </div>
 
         {/* Interactive HTML/CSS Mockup with Parallax */}
-        <div ref={mockupWrapperRef} className="mt-14 sm:mt-18 will-change-transform">
+        <div ref={mockupWrapperRef} className="mt-14 sm:mt-18 will-change-transform pointer-events-auto">
           <Reveal delay={200} transformOnly={true}>
             <ProductMockup />
           </Reveal>

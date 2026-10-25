@@ -33,10 +33,23 @@ export const createUserController = async (req, res) => {
         return res.status(201).json({ user: userObj, token });
     } catch (error) {
         if (error.code === 11000 || (error.message && error.message.includes('E11000'))) {
-            return res.status(409).json({ error: 'Email is already registered' });
+            return res.status(409).json({ error: 'Email is already registered', requestId: req.requestId });
         }
-        console.error('Registration error:', error);
-        return res.status(500).json({ error: 'Something went wrong' });
+        const isDbError =
+            error.name === 'MongoServerSelectionError' ||
+            error.name === 'MongoNetworkError' ||
+            (error.message && error.message.includes('buffering timed out'));
+        if (isDbError) {
+            console.error(`[${req.requestId}] Registration DB error:`, error.message);
+            res.set('Retry-After', '5');
+            return res.status(503).json({
+                error: 'Service is starting, please retry',
+                code: 'DB_UNAVAILABLE',
+                requestId: req.requestId,
+            });
+        }
+        console.error(`[${req.requestId}] Registration error:`, error.message);
+        return res.status(500).json({ error: 'Something went wrong', requestId: req.requestId });
     }
 };
 
@@ -101,8 +114,21 @@ export const loginController = async (req, res) => {
 
         return res.status(200).json({ user: userObj, token });
     } catch (err) {
-        console.error('Login error:', err);
-        return res.status(500).json({ error: 'Something went wrong' });
+        const isDbError =
+            err.name === 'MongoServerSelectionError' ||
+            err.name === 'MongoNetworkError' ||
+            (err.message && err.message.includes('buffering timed out'));
+        if (isDbError) {
+            console.error(`[${req.requestId}] Login DB error:`, err.message);
+            res.set('Retry-After', '5');
+            return res.status(503).json({
+                error: 'Service is starting, please retry',
+                code: 'DB_UNAVAILABLE',
+                requestId: req.requestId,
+            });
+        }
+        console.error(`[${req.requestId}] Login error:`, err.message);
+        return res.status(500).json({ error: 'Something went wrong', requestId: req.requestId });
     }
 };
 

@@ -10,6 +10,8 @@ const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: process.env.NODE_ENV === 'production' ? 15 : 100,
     skipSuccessfulRequests: true,
+    // 5xx/503 are server-side failures — never penalise the client for them
+    requestWasSuccessful: (req, res) => res.statusCode < 400 || res.statusCode >= 500,
     skip: () => process.env.NODE_ENV === 'test',
     message: { error: 'Too many login attempts from this IP, please try again after 15 minutes' },
     standardHeaders: true,
@@ -20,6 +22,8 @@ const registerLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour
     max: process.env.NODE_ENV === 'production' ? 10 : 100,
     skipSuccessfulRequests: true,
+    // 5xx/503 are server-side failures — never penalise the client for them
+    requestWasSuccessful: (req, res) => res.statusCode < 400 || res.statusCode >= 500,
     skip: () => process.env.NODE_ENV === 'test',
     message: { error: 'Too many registration attempts from this IP, please try again after 1 hour' },
     standardHeaders: true,

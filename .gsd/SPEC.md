@@ -123,3 +123,62 @@ Add ThreeUI's `<LandscapeScene variant="sunset" />` as the landing-page hero bac
 - Clean console (no 404s, CORS, or frame errors).
 - Capture UI screenshots at 1440px, 768px, 390px.
 - Confirm all tests, lint, and build pass cleanly; report bundle size delta.
+
+---
+
+## Phase 4 — Mobile, Pages and Content
+
+### Overview & Goal
+1. Landing page contains ONLY the hero (nav, headline, CTAs, "Built with" chips, product mockup hosting HeroScene), followed by a slim footer.
+2. Content sections move to separate public pages (`/about`, `/features`, `/how-it-works`, `/why-friday`, `/faq`), lazy-loaded in separate chunks.
+3. Fix ProductMockup styling, model pill alignment, and code preview.
+4. Verify and correct all claims against backend code (no invented metrics or unbacked claims).
+5. Comprehensive mobile responsiveness across all viewports (360px up to desktop), touch targets >= 44px, input font size >= 16px, bottom panel navigation on mobile project view.
+6. Rigorous verification: direct route loads, responsive screenshots, Lighthouse audits, zero lint/build regressions.
+
+### Task 1 — Routes and Shared Layout
+- Create `components/landing/InfoPageLayout.jsx`: `LandingNav` + `<main id="main-content">` + compact CTA band (reused FinalCTA, shorter) + `Footer`.
+- Create `usePageMeta({ title, description })` hook and `ScrollToTop` component mounted in `BrowserRouter`.
+- Create screens: `About.jsx`, `Features.jsx`, `HowItWorks.jsx`, `WhyFriday.jsx`, `Faq.jsx` (one `<h1>` per page).
+- Register lazy routes in `AppRoutes.jsx` outside ProtectedRoute and GuestRoute.
+- In `LandingNav`: replace `#anchor` links with `NavLink` to `/features`, `/how-it-works`, `/why-friday`, `/about`, `/faq` (active style, `aria-current="page"`). Logged-in users see "Open dashboard" instead of Log in / Get started. Full-screen mobile glass sheet navigation (hamburger, `aria-expanded`, `aria-controls`, >= 48px item height, closes on route change and Escape, scroll-lock).
+- Hero "Explore features" links to `/features`. Footer links all 5 pages + Log in / Register (<= 2 rows on mobile).
+- Ensure direct loads and refreshes work in preview and static host configuration.
+
+### Task 2 — Trim the Landing Page
+- `Landing.jsx` renders only `LandingNav`, `Hero` (with `HeroScene`, chips, `ProductMockup`), and slim `Footer`.
+- Tighten Hero spacing so at 1440x900 whole page is <= 2 viewport heights, ending right after mockup and footer on mobile.
+- Set `py-12 sm:py-16` section spacing on info pages without bottom dead space.
+- Measure and record `document.scrollHeight` before and after at 1440x900 and 390x844.
+
+### Task 3 — Mockup and Hero Fixes
+- Add `text-left` on mockup root in `ProductMockup.jsx` to prevent inheriting `text-center`. Fixed-width right-aligned `tabular-nums` line-number gutter.
+- Reposition "Room Presence" pill and model chip to prevent overlap at any width.
+- Model chip text: "Friday AI · Auto". Demo code snippet: excerpt from real `Backend/middleware/auth.middleware.js`.
+- Hero subhead: balance text wrapping and use non-breaking hyphen for "context-aware".
+- Mobile mockup: hide file explorer column below 768px, Code / Chat tab toggle, cap height at ~420px with internal scroll, keep floating pills in viewport.
+
+### Task 4 — Make Every Claim True
+- `FeatureBento.jsx`: remove "Latency: 280ms"; "Models: Fast · Balanced · Deep"; replace "Sub-millisecond room broadcasts" with "Live room broadcasts over Socket.IO"; retain "Rate limit: 20 req/min".
+- `ChatDemo.jsx`: "Gemini 2.5 Flash" -> "Gemini"; "Responses stream in real-time" -> "Replies are shared with the whole room".
+- `FAQ.jsx`: "Google Gemini 2.5 models" -> "Google Gemini models (Fast, Balanced and Deep modes)". Validate all room/chat/file limits against backend code (25 members, 100 files, 200 KB per file, rate limits) and align exactly.
+- `Hero.jsx`: "MongoDB 7" -> "MongoDB"; "Redis 7" -> "Redis (optional)".
+- `Benefits.jsx`: heading -> "Why Volaitile Friday"; remove "Built for developers >" faux link.
+- Align card headings and body text across rows (equal min-height or items-start). No invented numbers, customers, testimonials or metrics.
+
+### Task 5 — Mobile Responsiveness for the Whole App
+- Global: `index.html` viewport `width=device-width, initial-scale=1, viewport-fit=cover`, `100dvh`/`100svh`, safe area padding (`env(safe-area-inset-*)`).
+- No horizontal overflow at 360px. Touch targets >= 44px. Inputs/textareas/selects font-size >= 16px on mobile. `overscroll-behavior: contain` on scroll panels. Skip hover-only effects on `(hover: none)`.
+- `CinderBackground`: cap particles at ~40% below 768px, static on reduced-motion.
+- Login/Register: single column, collapsed header for info panel, keyboard-friendly.
+- Home/Dashboard: StatCards responsive grid (2 cols -> 1 col), ProjectGrid 1 col on mobile, truncate headers and AccountMenu cleanly.
+- Project page: below 1024px show ONE panel at a time with bottom tab bar (Files / Editor / Chat; safe-area aware, >= 48px, persistent tab). Horizontally scrollable editor. Pinned bottom chat composer fitting input, model picker, and send button on 360px without keyboard overlap. Full-width Members sheet and modals <= 90dvh. ProjectHeader responsive overflow menu.
+
+### Task 6 — Verification
+- Responsive screenshots at 360x640, 390x844, 768x1024, 1024x768, and 1440x900 for all specified pages and states.
+- Automated check: `document.documentElement.scrollWidth <= clientWidth`, tap targets >= 44px, computed input font-size >= 16px.
+- Refresh direct URL routes as guest and authenticated user.
+- Grep checks for removed claims ("280ms", "Sub-millisecond", "stream in real-time", "2.5", "7'").
+- Lighthouse mobile audit on `/` and `/faq` (Perf >= 85, A11y >= 95, CLS <= 0.1).
+- End-to-end user sanity: sign-in, project creation, file editing, chat. Clean lint and build; chunk sizes reported.
+

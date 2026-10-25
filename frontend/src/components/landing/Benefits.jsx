@@ -1,6 +1,7 @@
 import Reveal from './Reveal';
 
-export const Benefits = () => {
+export const Benefits = ({ asH1 = false, isPage = false }) => {
+  const TitleTag = asH1 ? 'h1' : 'h2';
   const benefits = [
     {
       title: 'Stop losing focus between tabs',
@@ -35,16 +36,16 @@ export const Benefits = () => {
   ];
 
   return (
-    <section id="benefits" className="py-20 sm:py-28 relative">
+    <section id="benefits" className={`${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Reveal delay={0}>
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               THE WORKSPACE ADVANTAGE
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
+            <TitleTag className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
               Why engineering teams build on Volaitile Friday
-            </h2>
+            </TitleTag>
             <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
               Designed to eliminate developer friction and keep your entire team aligned inside one high-speed workspace.
             </p>

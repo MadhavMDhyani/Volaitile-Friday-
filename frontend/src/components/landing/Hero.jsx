@@ -84,12 +84,12 @@ export const Hero = () => {
             <i className="ri-arrow-right-line ml-1.5 text-base" />
           </Link>
 
-          <a
-            href="#features"
+          <Link
+            to="/features"
             className="w-full sm:w-auto h-11 px-6 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#f3e6da] glass hover:border-white/30 transition-all focus-ring"
           >
             Explore features
-          </a>
+          </Link>
         </div>
 
         {/* Tech Stack Chips (Plain Text) */}

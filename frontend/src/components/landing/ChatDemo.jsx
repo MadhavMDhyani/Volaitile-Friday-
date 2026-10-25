@@ -12,7 +12,7 @@ const DEMO_CONVERSATIONS = [
   },
 ];
 
-export const ChatDemo = () => {
+export const ChatDemo = ({ isPage = false }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [typedChars, setTypedChars] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -69,7 +69,7 @@ export const ChatDemo = () => {
   }, [typedChars, activeIdx, isPaused, current.ai.length]);
 
   return (
-    <section className="py-16 sm:py-24 relative overflow-hidden">
+    <section className={`${isPage ? 'py-12 sm:py-16' : 'py-16 sm:py-24'} relative overflow-hidden`}>
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <Reveal delay={0}>
           <div className="text-center mb-10">

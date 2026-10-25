@@ -18,19 +18,22 @@ export const Footer = () => {
           </div>
 
           {/* Section Navigation */}
-          <nav className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#a89384]" aria-label="Footer Navigation">
-            <a href="#features" className="hover:text-white transition-colors">
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[#a89384] max-w-sm sm:max-w-none" aria-label="Footer Navigation">
+            <Link to="/features" className="hover:text-white transition-colors">
               Features
-            </a>
-            <a href="#how-it-works" className="hover:text-white transition-colors">
+            </Link>
+            <Link to="/how-it-works" className="hover:text-white transition-colors">
               How it works
-            </a>
-            <a href="#benefits" className="hover:text-white transition-colors">
+            </Link>
+            <Link to="/why-friday" className="hover:text-white transition-colors">
               Why Friday
-            </a>
-            <a href="#faq" className="hover:text-white transition-colors">
+            </Link>
+            <Link to="/about" className="hover:text-white transition-colors">
+              About
+            </Link>
+            <Link to="/faq" className="hover:text-white transition-colors">
               FAQ
-            </a>
+            </Link>
             <Link to="/login" className="hover:text-white transition-colors">
               Log in
             </Link>

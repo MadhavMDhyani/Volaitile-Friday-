@@ -52,14 +52,20 @@ async function run() {
     // Measure 1440x900
     await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
     await new Promise(r => setTimeout(r, 500));
-    const res1440 = await send('Runtime.evaluate', { expression: 'document.documentElement.scrollHeight' });
-    const height1440 = res1440.result.value;
+    const expr = `JSON.stringify({
+      doc: document.documentElement.scrollHeight,
+      body: document.body.scrollHeight,
+      root: document.getElementById('root')?.scrollHeight,
+      main: document.getElementById('main-content')?.scrollHeight
+    })`;
+    const res1440 = await send('Runtime.evaluate', { expression: expr });
+    const height1440 = JSON.parse(res1440.result.value);
 
     // Measure 390x844
     await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
     await new Promise(r => setTimeout(r, 500));
-    const res390 = await send('Runtime.evaluate', { expression: 'document.documentElement.scrollHeight' });
-    const height390 = res390.result.value;
+    const res390 = await send('Runtime.evaluate', { expression: expr });
+    const height390 = JSON.parse(res390.result.value);
 
     console.log(JSON.stringify({ height1440, height390 }));
     ws.close();

@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import axios from '../config/axios';
 import { UserContext } from '../context/user.context';
+import { requestWithRetry } from '../config/axios';
 import getErrorMessage from '../utils/getErrorMessage';
 import Button from '../components/Button';
 import Logo from '../components/Logo';
@@ -12,6 +12,10 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // Wake state: null = idle, number = attempt count (1-indexed, shown during retry)
+  const [wakeAttempt, setWakeAttempt] = useState(null);
+
+  const abortRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,28 +23,57 @@ export const Login = () => {
 
   const from = location.state?.from?.pathname || '/dashboard';
 
+  // Cancel in-flight retries when the component unmounts
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort();
+    };
+  }, []);
+
   async function submitHandler(e) {
     e.preventDefault();
     if (!email.trim() || !password) return;
 
+    // Cancel any previous in-flight request
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     setErrorMessage('');
+    setWakeAttempt(null);
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/users/login', {
-        email: email.trim(),
-        password,
-      });
+      const response = await requestWithRetry(
+        {
+          method: 'post',
+          url: '/users/login',
+          data: { email: email.trim(), password },
+        },
+        {
+          retryOnWake: true,
+          signal: controller.signal,
+          onRetry: (attempt, total, delayMs) => {
+            setWakeAttempt(attempt);
+          },
+        }
+      );
 
+      setWakeAttempt(null);
       login(response.data.token, response.data.user);
       navigate(from, { replace: true });
     } catch (error) {
+      setWakeAttempt(null);
+      if (error.name === 'AbortError' || error.name === 'CanceledError') return;
       console.error('Login error:', error);
-      setErrorMessage(getErrorMessage(error, 'Invalid email or password.'));
+      const rid = error.response?.headers?.['x-request-id'];
+      setErrorMessage(getErrorMessage(error, 'An unexpected error occurred. Please try again.', { requestId: rid }));
     } finally {
       setIsSubmitting(false);
     }
   }
+
+  const isWaking = wakeAttempt !== null;
 
   return (
     <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-[#f3e6da] flex items-center justify-center font-sans">
@@ -111,6 +144,23 @@ export const Login = () => {
               </p>
             </div>
 
+            {/* Wake-up banner — shown during server cold-start retries */}
+            {isWaking && (
+              <div
+                role="status"
+                aria-live="polite"
+                className="mb-5 flex items-start gap-2.5 rounded-lg border border-white/20 bg-white/[0.06] p-3 text-xs text-[#a89384] animate-fade-in"
+              >
+                <i className="ri-loader-4-line text-base leading-none mt-0.5 animate-spin" />
+                <div className="flex-1">
+                  <p className="font-semibold text-[#f3e6da]">Waking up the server…</p>
+                  <p className="mt-0.5">
+                    This can take up to a minute on first load. Attempt {wakeAttempt}&nbsp;of {5}.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Error Banner */}
             {errorMessage && (
               <div
@@ -123,14 +173,26 @@ export const Login = () => {
                   <p className="font-semibold">Sign in error</p>
                   <p className="mt-0.5 text-[#a89384]">{errorMessage}</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setErrorMessage('')}
-                  className="text-accent hover:text-white p-0.5 focus-ring rounded"
-                  aria-label="Dismiss error"
-                >
-                  <i className="ri-close-line text-sm" />
-                </button>
+                <div className="flex flex-col gap-1.5 items-end">
+                  {/* Retry button for no-server errors */}
+                  {(errorMessage.includes("Can't reach") || errorMessage.includes("reach the server")) && (
+                    <button
+                      type="button"
+                      onClick={submitHandler}
+                      className="text-accent text-[11px] font-semibold hover:text-white transition-colors focus-ring rounded px-1"
+                    >
+                      Retry
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setErrorMessage('')}
+                    className="text-accent hover:text-white p-0.5 focus-ring rounded"
+                    aria-label="Dismiss error"
+                  >
+                    <i className="ri-close-line text-sm" />
+                  </button>
+                </div>
               </div>
             )}
 
@@ -188,8 +250,9 @@ export const Login = () => {
                   size="md"
                   className="w-full"
                   loading={isSubmitting}
+                  disabled={isSubmitting}
                 >
-                  Sign in
+                  {isSubmitting ? (isWaking ? 'Connecting…' : 'Signing in…') : 'Sign in'}
                 </Button>
               </div>
             </form>

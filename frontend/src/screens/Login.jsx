@@ -97,9 +97,12 @@ export const Login = () => {
 
           {/* Form Panel - Fades in */}
           <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10 animate-fade-in">
-            {/* Mobile Brand Header */}
-            <div className="mb-6 flex items-center justify-between lg:hidden">
+            {/* Mobile Collapsed Header */}
+            <div className="mb-5 pb-3.5 border-b border-white/10 flex items-center justify-between lg:hidden">
               <Logo size="sm" to={null} />
+              <span className="text-[11px] font-mono text-[#a89384]">
+                Engineering Workspace
+              </span>
             </div>
 
             <div className="mb-6">

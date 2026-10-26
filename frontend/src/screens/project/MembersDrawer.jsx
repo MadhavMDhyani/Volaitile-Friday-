@@ -119,7 +119,7 @@ export const MembersDrawer = ({
 
         {/* Drawer Panel */}
         <aside
-          className={`fixed inset-y-0 right-0 flex w-full max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#f3e6da] shadow-2xl transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 right-0 flex w-full max-w-full sm:max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#f3e6da] shadow-2xl transition-transform duration-300 ease-out ${
             isClosing ? 'animate-slide-out-right' : 'animate-slide-in-right'
           }`}
           role="dialog"

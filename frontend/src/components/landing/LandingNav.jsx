@@ -25,9 +25,11 @@ export const LandingNav = () => {
   }, []);
 
   // Close mobile menu on route change
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(location.pathname);
+  if (location.pathname !== prevPathname) {
+    setPrevPathname(location.pathname);
     setMobileMenuOpen(false);
-  }, [location.pathname]);
+  }
 
   // Close mobile menu on Escape key
   useEffect(() => {

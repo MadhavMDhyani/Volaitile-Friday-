@@ -724,50 +724,44 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       )}
 
       {/* Input Box Area - Liquid Glass Composer */}
-      <form onSubmit={handleSendMessage} className="glass-liquid border-t border-white/[0.08] p-2.5 sm:p-3">
-        {/* Model pill / bar if models available */}
-        {availableModels.length > 0 && (
-          <div className="flex items-center justify-between gap-2 mb-2 px-1 text-[10px] font-mono text-[#a89384]">
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
-              <span className="text-white/50 text-[10px] shrink-0">Model:</span>
-              <div className="relative inline-flex items-center">
-                <select
-                  value={selectedModel}
-                  onChange={handleModelChange}
-                  className="h-6 rounded-full glass-pill border border-white/[0.12] bg-raised/80 px-2 pr-5 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-all outline-none"
-                  title="Select Friday AI model"
-                  aria-label="Friday AI model selection"
-                >
-                  <option value="auto" className="bg-[#111] text-white">Auto (Best match)</option>
-                  {availableModels.map((m) => (
-                    <option key={m.id} value={m.id} className="bg-[#111] text-white">
-                      {m.label} ({m.speed})
-                    </option>
-                  ))}
-                </select>
-                <i className="ri-arrow-down-s-line pointer-events-none absolute right-1.5 text-[10px] text-accent/70" />
-              </div>
+      {/* Input Box Area - Liquid Glass Composer pinned to bottom */}
+      <form onSubmit={handleSendMessage} className="glass-liquid border-t border-white/[0.08] p-2 sm:p-2.5 shrink-0 sticky bottom-0 z-20 safe-pb">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+          {/* Model picker - fits on one row at 360px */}
+          {availableModels.length > 0 && (
+            <div className="relative inline-flex items-center shrink-0">
+              <select
+                value={selectedModel}
+                onChange={handleModelChange}
+                className="h-10 rounded-xl glass-pill border border-white/[0.12] bg-raised/90 pl-2.5 pr-6 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-all outline-none max-w-[80px] sm:max-w-none truncate"
+                title="Select Friday AI model"
+                aria-label="Friday AI model selection"
+              >
+                <option value="auto" className="bg-[#111] text-white">Auto</option>
+                {availableModels.map((m) => (
+                  <option key={m.id} value={m.id} className="bg-[#111] text-white">
+                    {m.label.replace('Gemini ', '')}
+                  </option>
+                ))}
+              </select>
+              <i className="ri-arrow-down-s-line pointer-events-none absolute right-2 text-[10px] text-accent/70" />
             </div>
-            <span className="text-[10px] text-white/40 hidden sm:inline tabular-nums">
-              {inputMessage.length}/{MAX_MESSAGE_LENGTH}
-            </span>
-          </div>
-        )}
+          )}
 
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="relative flex-1 min-w-0 flex items-center">
+          {/* Text Input */}
+          <div className="relative flex-1 min-w-0">
             <input
               type="text"
               value={inputMessage}
               onChange={handleInputChange}
-              placeholder="Type a message or @friday..."
-              className="w-full h-10 min-w-0 rounded-xl glass-input px-3.5 text-xs text-[#f3e6da] placeholder-white/40 transition-all"
+              placeholder="Message or @friday..."
+              className="w-full h-10 min-w-0 rounded-xl glass-input px-3 text-xs text-[#f3e6da] placeholder-white/40 transition-all"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />
           </div>
 
+          {/* Send Button */}
           <Button
             type="submit"
             variant="primary"
@@ -775,7 +769,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
             disabled={!inputMessage.trim() || isSending}
             loading={isSending}
             icon={<i className="ri-send-plane-2-fill text-sm" />}
-            className="h-10 w-10 shrink-0 p-0 flex items-center justify-center rounded-xl"
+            className="h-10 w-10 min-w-[40px] shrink-0 p-0 flex items-center justify-center rounded-xl"
             title="Send message"
             aria-label="Send message"
           />

@@ -276,8 +276,8 @@ export const FileEditor = ({
             spellCheck={false}
             autoCapitalize="off"
             autoComplete="off"
-            autoCorrect="off"
-            className="h-full w-full resize-none border-0 bg-transparent py-3 px-3 font-mono text-xs leading-5 text-[#f3e6da] placeholder-white/20 outline-none focus:ring-0 focus:outline-none"
+            wrap="off"
+            className="h-full w-full resize-none border-0 bg-transparent py-3 px-3 font-mono text-xs leading-5 text-[#f3e6da] placeholder-white/20 outline-none focus:ring-0 focus:outline-none overflow-x-auto whitespace-pre"
             aria-label={`Code editor for ${activeFile.name}`}
           />
         </div>

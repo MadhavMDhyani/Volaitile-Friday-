@@ -7,7 +7,7 @@ import FileEditor from './FileEditor';
 import { useToast } from '../../context/useToast';
 import getErrorMessage from '../../utils/getErrorMessage';
 
-export const FilesPanel = ({ projectId }) => {
+export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => {
   const [files, setFiles] = useState([]);
   const [activeFileId, setActiveFileId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -260,7 +260,7 @@ export const FilesPanel = ({ projectId }) => {
   return (
     <div className="flex h-full w-full overflow-hidden bg-[#0f0a07]/95">
       {/* Sidebar: File Explorer */}
-      <aside className="w-56 sm:w-64 shrink-0 border-r border-white/[0.08] bg-[#0f0a07]/85 backdrop-blur-md flex flex-col">
+      <aside className={`${mobileView === 'editor' ? 'hidden lg:flex' : 'flex'} w-full lg:w-64 shrink-0 border-r border-white/[0.08] bg-[#0f0a07]/85 backdrop-blur-md flex-col`}>
         {/* Files Header & Add Button */}
         <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] px-3.5">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[#a89384] font-semibold flex items-center gap-1.5">
@@ -301,7 +301,10 @@ export const FilesPanel = ({ projectId }) => {
                 return (
                   <li
                     key={file._id}
-                    onClick={() => setActiveFileId(file._id)}
+                    onClick={() => {
+                      setActiveFileId(file._id);
+                      if (typeof onSelectFile === 'function') onSelectFile(file);
+                    }}
                     className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-all duration-150 cursor-pointer ${
                       isActive
                         ? 'glass-strong text-[#f3e6da] font-medium border border-accent/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.12)]'
@@ -404,7 +407,7 @@ export const FilesPanel = ({ projectId }) => {
       </aside>
 
       {/* Main Workspace Area: File Editor */}
-      <main className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
+      <main className={`${mobileView === 'files' ? 'hidden lg:flex' : 'flex'} flex-1 flex-col h-full min-w-0 overflow-hidden`}>
         <FileEditor
           activeFile={activeFile}
           draftContent={activeFile ? drafts[activeFile._id] ?? activeFile.content : ''}

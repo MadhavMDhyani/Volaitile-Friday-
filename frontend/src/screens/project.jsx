@@ -19,7 +19,20 @@ export const Project = () => {
   const [fetchStatus, setFetchStatus] = useState('loading'); // 'loading' | 'success' | 'forbidden' | 'notfound' | 'error'
   const [fetchErrorMsg, setFetchErrorMsg] = useState('');
   const [isMembersDrawerOpen, setIsMembersDrawerOpen] = useState(false);
-  const [mobileTab, setMobileTab] = useState('files'); // 'files' | 'chat' | 'members'
+  const [mobileTab, setMobileTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('vf_project_tab');
+      if (saved === 'files' || saved === 'editor' || saved === 'chat') return saved;
+    }
+    return 'editor';
+  });
+
+  const handleTabChange = useCallback((tab) => {
+    setMobileTab(tab);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('vf_project_tab', tab);
+    }
+  }, []);
 
   // Connect socket only once project has loaded successfully
   const socketControls = useProjectSocket(fetchStatus === 'success' ? projectId : null);
@@ -211,32 +224,28 @@ export const Project = () => {
         project={project}
         isOwner={isOwner}
         onOpenMembers={() => setIsMembersDrawerOpen(true)}
-        mobileTab={mobileTab}
-        onSelectMobileTab={(tab) => {
-          setMobileTab(tab);
-          if (tab === 'members') {
-            setIsMembersDrawerOpen(true);
-          }
-        }}
       />
 
       {/* Main Workspace Split Panels */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Desktop Layout: Split Files & Chat */}
-        {/* Files Panel (File tree + code editor) */}
+        {/* Files & Editor section */}
         <section
           className={`flex-1 flex flex-col min-w-0 border-r border-white/[0.08] ${
-            mobileTab === 'files' ? 'flex' : 'hidden md:flex'
+            mobileTab === 'chat' ? 'hidden lg:flex' : 'flex'
           }`}
           aria-label="File management and code editor"
         >
-          <FilesPanel projectId={projectId} />
+          <FilesPanel
+            projectId={projectId}
+            mobileView={mobileTab}
+            onSelectFile={() => handleTabChange('editor')}
+          />
         </section>
 
         {/* Chat & AI Panel */}
         <section
-          className={`w-full md:w-[380px] lg:w-[440px] shrink-0 flex flex-col border-l border-white/[0.08] bg-[#140d09]/50 backdrop-blur-xl ${
-            mobileTab === 'chat' ? 'flex' : 'hidden md:flex'
+          className={`w-full lg:w-[440px] shrink-0 flex flex-col border-l border-white/[0.08] bg-[#140d09]/50 backdrop-blur-xl ${
+            mobileTab === 'chat' ? 'flex' : 'hidden lg:flex'
           }`}
           aria-label="Team chat and Friday AI assistant"
         >
@@ -247,6 +256,51 @@ export const Project = () => {
           />
         </section>
       </div>
+
+      {/* Bottom Tab Bar (below 1024px, >= 48px height, safe-area aware) */}
+      <nav
+        className="lg:hidden flex items-center justify-around border-t border-white/[0.08] bg-[#140d09]/95 backdrop-blur-xl shrink-0 min-h-[48px] h-14 pb-[env(safe-area-inset-bottom,0px)] z-30 select-none"
+        aria-label="Project view navigation"
+      >
+        <button
+          type="button"
+          onClick={() => handleTabChange('files')}
+          className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
+            mobileTab === 'files'
+              ? 'text-accent font-semibold'
+              : 'text-[#a89384] hover:text-[#f3e6da]'
+          }`}
+        >
+          <i className="ri-folder-line text-lg" />
+          <span className="text-[10px] font-mono">Files</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => handleTabChange('editor')}
+          className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
+            mobileTab === 'editor'
+              ? 'text-accent font-semibold'
+              : 'text-[#a89384] hover:text-[#f3e6da]'
+          }`}
+        >
+          <i className="ri-code-s-slash-line text-lg" />
+          <span className="text-[10px] font-mono">Editor</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => handleTabChange('chat')}
+          className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
+            mobileTab === 'chat'
+              ? 'text-accent font-semibold'
+              : 'text-[#a89384] hover:text-[#f3e6da]'
+          }`}
+        >
+          <i className="ri-chat-3-line text-lg" />
+          <span className="text-[10px] font-mono">Chat</span>
+        </button>
+      </nav>
 
       {/* Members Drawer */}
       <MembersDrawer

@@ -170,7 +170,7 @@ export const Dashboard = () => {
       {/* Top Navigation Header */}
       <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0f0a07]/75 backdrop-blur-[var(--blur)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 min-w-0">
             <Logo size="md" to="/dashboard" />
             <nav className="hidden sm:flex items-center gap-4 text-xs font-medium" aria-label="Main Navigation">
               <Link
@@ -189,7 +189,7 @@ export const Dashboard = () => {
             </nav>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <SystemStatusChip />
             <AccountMenu />
           </div>

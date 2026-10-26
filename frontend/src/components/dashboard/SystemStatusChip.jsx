@@ -44,7 +44,8 @@ export const SystemStatusChip = () => {
         aria-label="System status: All systems normal"
       >
         <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)]" />
-        All systems normal
+        <span className="hidden sm:inline">All systems normal</span>
+        <span className="sm:hidden">Normal</span>
       </div>
     );
   }

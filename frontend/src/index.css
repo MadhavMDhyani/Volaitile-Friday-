@@ -352,3 +352,53 @@ select:focus-visible {
 .shader-frame .landscape-scene__frame.is-ready {
   opacity: 1 !important;
 }
+
+/* Mobile Optimizations, Safe Areas & Touch Guards */
+@supports (height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+  .h-screen {
+    height: 100dvh;
+  }
+}
+
+/* Contain overscroll on inner scroll panels */
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-auto {
+  overscroll-behavior: contain;
+}
+
+/* Prevent iOS auto-zoom on input focus by keeping font-size >= 16px on mobile */
+@media (max-width: 767px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Skip hover-only effects on touch screens */
+@media (hover: none) {
+  .glass:hover,
+  .glass-strong:hover,
+  .glass-pill:hover,
+  .glass-liquid:hover {
+    background: inherit;
+    border-color: inherit;
+    box-shadow: inherit;
+    transform: none !important;
+  }
+}
+
+/* Safe area utility classes */
+.safe-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-pt {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-mb {
+  margin-bottom: env(safe-area-inset-bottom, 0px);
+}

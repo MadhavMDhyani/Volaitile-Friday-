@@ -1,0 +1,545 @@
+import { useEffect, useRef, useState, useContext, useId } from 'react';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../../context/user.context';
+import AboutSection from './AboutSection';
+import FeatureBento from './FeatureBento';
+import HowItWorks from './HowItWorks';
+import ChatDemo from './ChatDemo';
+import Benefits from './Benefits';
+import FAQ from './FAQ';
+import Logo from '../Logo';
+
+export const TABS = [
+  { id: 'about', label: 'About', path: '/about', icon: 'ri-information-line' },
+  { id: 'features', label: 'Features', path: '/features', icon: 'ri-sparkling-2-line' },
+  { id: 'how-it-works', label: 'How it works', path: '/how-it-works', icon: 'ri-terminal-box-line' },
+  { id: 'why-friday', label: 'Why Friday', path: '/why-friday', icon: 'ri-shield-check-line' },
+  { id: 'faq', label: 'FAQ', path: '/faq', icon: 'ri-question-line' },
+];
+
+export const MenuSheet = ({
+  isOpen = false,
+  activeTab = 'about',
+  onTabChange,
+  onClose,
+  triggerRef,
+}) => {
+  const { user } = useContext(UserContext);
+  const [isRendered, setIsRendered] = useState(isOpen);
+  const [isClosing, setIsClosing] = useState(false);
+  const [tabContentKey, setTabContentKey] = useState(activeTab);
+  const [tabSwitching, setTabSwitching] = useState(false);
+
+  const dialogRef = useRef(null);
+  const tabListDesktopRef = useRef(null);
+  const tabListMobileRef = useRef(null);
+  const closeButtonDesktopRef = useRef(null);
+  const closeButtonMobileRef = useRef(null);
+  const previousActiveElement = useRef(null);
+  const contentAreaRef = useRef(null);
+
+  const titleId = useId();
+
+  // Reduced motion preference
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Sync mounted lifecycle with entry/exit animations
+  useEffect(() => {
+    if (isOpen) {
+      previousActiveElement.current = document.activeElement;
+      setIsRendered(true);
+      setIsClosing(false);
+    } else if (isRendered) {
+      if (prefersReducedMotion) {
+        setIsRendered(false);
+        setIsClosing(false);
+      } else {
+        setIsClosing(true);
+        const timer = setTimeout(() => {
+          setIsRendered(false);
+          setIsClosing(false);
+        }, 260);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isOpen, isRendered, prefersReducedMotion]);
+
+  // Tab content transition on tab change
+  useEffect(() => {
+    if (activeTab !== tabContentKey) {
+      if (prefersReducedMotion) {
+        setTabContentKey(activeTab);
+      } else {
+        setTabSwitching(true);
+        const timer = setTimeout(() => {
+          setTabContentKey(activeTab);
+          setTabSwitching(false);
+          if (contentAreaRef.current) {
+            contentAreaRef.current.scrollTop = 0;
+          }
+        }, 150);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [activeTab, tabContentKey, prefersReducedMotion]);
+
+  // Scroll active tab into view in horizontal mobile tab strip
+  useEffect(() => {
+    if (isRendered && tabListMobileRef.current) {
+      const activeBtn = tabListMobileRef.current.querySelector(
+        `#tab-mobile-${activeTab}`
+      );
+      if (activeBtn) {
+        activeBtn.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'nearest',
+          inline: 'center',
+        });
+      }
+    }
+  }, [activeTab, isRendered, prefersReducedMotion]);
+
+  // Lock body scroll and set background inert/aria-hidden while open
+  useEffect(() => {
+    if (!isRendered) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    // Mark main page content as inert / aria-hidden
+    const mainEl = document.getElementById('main-content');
+    const headerEl = document.querySelector('header');
+    const footerEl = document.querySelector('footer');
+
+    if (mainEl) {
+      mainEl.setAttribute('aria-hidden', 'true');
+      if ('inert' in mainEl) mainEl.setAttribute('inert', '');
+    }
+    if (headerEl) {
+      headerEl.setAttribute('aria-hidden', 'true');
+      if ('inert' in headerEl) headerEl.setAttribute('inert', '');
+    }
+    if (footerEl) {
+      footerEl.setAttribute('aria-hidden', 'true');
+      if ('inert' in footerEl) footerEl.setAttribute('inert', '');
+    }
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      if (mainEl) {
+        mainEl.removeAttribute('aria-hidden');
+        mainEl.removeAttribute('inert');
+      }
+      if (headerEl) {
+        headerEl.removeAttribute('aria-hidden');
+        headerEl.removeAttribute('inert');
+      }
+      if (footerEl) {
+        footerEl.removeAttribute('aria-hidden');
+        footerEl.removeAttribute('inert');
+      }
+    };
+  }, [isRendered]);
+
+  // Focus management: focus on open, return focus on close
+  useEffect(() => {
+    if (isRendered && !isClosing) {
+      // Focus the active tab or the close button
+      const timer = setTimeout(() => {
+        const isDesktop = window.innerWidth >= 768;
+        const targetTab = isDesktop
+          ? tabListDesktopRef.current?.querySelector(`#tab-desktop-${activeTab}`)
+          : tabListMobileRef.current?.querySelector(`#tab-mobile-${activeTab}`);
+
+        if (targetTab) {
+          targetTab.focus();
+        } else if (closeButtonDesktopRef.current) {
+          closeButtonDesktopRef.current.focus();
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    } else if (!isRendered && previousActiveElement.current) {
+      // Return focus to trigger button or previous element
+      const target = triggerRef?.current || previousActiveElement.current;
+      if (target && typeof target.focus === 'function') {
+        target.focus();
+      }
+    }
+  }, [isRendered, isClosing, activeTab, triggerRef]);
+
+  // Keyboard trap and Escape listener
+  useEffect(() => {
+    if (!isRendered) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+
+        const focusables = dialog.querySelectorAll(
+          'button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        const visibleFocusables = Array.from(focusables).filter(
+          (el) => el.offsetParent !== null && !el.hasAttribute('disabled')
+        );
+
+        if (visibleFocusables.length === 0) return;
+
+        const firstEl = visibleFocusables[0];
+        const lastEl = visibleFocusables[visibleFocusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstEl) {
+            e.preventDefault();
+            lastEl.focus();
+          }
+        } else {
+          if (document.activeElement === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isRendered, onClose]);
+
+  // Roving tabindex and Arrow / Home / End navigation for tabs
+  const handleTabKeyDown = (e, currentIndex, isDesktop) => {
+    let targetIndex = null;
+    const count = TABS.length;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      targetIndex = (currentIndex + 1) % count;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      targetIndex = (currentIndex - 1 + count) % count;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      targetIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      targetIndex = count - 1;
+    }
+
+    if (targetIndex !== null) {
+      const nextTab = TABS[targetIndex];
+      onTabChange(nextTab.id);
+
+      const tablist = isDesktop
+        ? tabListDesktopRef.current
+        : tabListMobileRef.current;
+      const prefix = isDesktop ? 'tab-desktop-' : 'tab-mobile-';
+      const nextBtn = tablist?.querySelector(`#${prefix}${nextTab.id}`);
+      if (nextBtn) {
+        nextBtn.focus();
+      }
+    }
+  };
+
+  if (!isRendered) return null;
+
+  // Motion animation classes
+  const backdropTransition = prefersReducedMotion
+    ? 'opacity-100'
+    : isClosing
+    ? 'opacity-0 transition-opacity duration-200 ease-out'
+    : 'opacity-100 transition-opacity duration-200 ease-out';
+
+  const desktopPanelTransform = prefersReducedMotion
+    ? 'transform-none'
+    : isClosing
+    ? 'scale-[0.98] translate-y-3 transition-transform duration-200 ease-in'
+    : 'scale-100 translate-y-0 transition-transform duration-[260ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]';
+
+  const mobilePanelTransform = prefersReducedMotion
+    ? 'transform-none'
+    : isClosing
+    ? 'translate-y-full transition-transform duration-200 ease-in'
+    : 'translate-y-0 transition-transform duration-[260ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]';
+
+  const contentFadeStyle = prefersReducedMotion
+    ? ''
+    : tabSwitching
+    ? 'opacity-0 translate-y-2 transition-all duration-150 ease-out'
+    : 'opacity-100 translate-y-0 transition-all duration-150 ease-out';
+
+  const activeTabMeta = TABS.find((t) => t.id === tabContentKey) || TABS[0];
+
+  return (
+    <div
+      ref={dialogRef}
+      id="menu-sheet"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      className="fixed inset-0 z-50 flex items-center justify-center"
+    >
+      {/* Scrim Overlay (separate layer with opacity transition, no backdrop-filter over panel) */}
+      <div
+        className={`fixed inset-0 bg-black/70 backdrop-blur-sm ${backdropTransition}`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Desktop Centered Glass Panel (>= 768px) */}
+      <div
+        className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl glass-strong border border-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.85),0_0_60px_rgba(217,138,90,0.12)] overflow-hidden ${desktopPanelTransform}`}
+        style={{ willChange: isClosing ? 'transform' : 'auto' }}
+      >
+        {/* Left Column: Vertical ARIA Tabs */}
+        <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-page/70 backdrop-blur-xl">
+          <div>
+            {/* Header Brand */}
+            <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-5">
+              <Logo size="sm" to="/" onClick={onClose} />
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-accent/30 bg-accent/10 text-accent font-semibold">
+                MENU
+              </span>
+            </div>
+
+            {/* Accessible Tablist */}
+            <div
+              ref={tabListDesktopRef}
+              role="tablist"
+              aria-orientation="vertical"
+              aria-label="Navigation sections"
+              className="flex flex-col space-y-1.5"
+            >
+              {TABS.map((tab, idx) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    id={`tab-desktop-${tab.id}`}
+                    role="tab"
+                    type="button"
+                    aria-selected={isActive}
+                    aria-controls={`panel-desktop-${tab.id}`}
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => onTabChange(tab.id)}
+                    onKeyDown={(e) => handleTabKeyDown(e, idx, true)}
+                    className={`min-h-[44px] w-full px-3.5 py-2.5 rounded-xl text-xs font-medium flex items-center justify-between transition-all focus-ring text-left cursor-pointer ${
+                      isActive
+                        ? 'bg-accent/15 text-accent border border-accent/40 font-semibold shadow-[0_0_16px_rgb(var(--accent-rgb)/0.18)]'
+                        : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04] border border-transparent'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <i className={`${tab.icon} text-base ${isActive ? 'text-accent' : 'text-[#a89384]'}`} />
+                      <span>{tab.label}</span>
+                    </span>
+                    {isActive && (
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)]" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bottom Controls / Auth */}
+          <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
+            {user ? (
+              <Link
+                to="/dashboard"
+                onClick={onClose}
+                className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+              >
+                Open dashboard
+              </Link>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login"
+                  onClick={onClose}
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium glass text-[#f3e6da] hover:border-white/30 transition-all focus-ring"
+                >
+                  Log in
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={onClose}
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+                >
+                  Get started
+                </Link>
+              </div>
+            )}
+            <div className="text-[10px] font-mono text-[#6e5d50] text-center pt-1">
+              Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-[#a89384]">Esc</kbd> to close
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Tab Content Area */}
+        <div className="flex-1 flex flex-col min-w-0 bg-transparent overflow-hidden">
+          {/* Top Bar with Title and Close Button */}
+          <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-page/40 backdrop-blur-md">
+            <h2
+              id={titleId}
+              className="text-sm font-semibold text-[#f3e6da] flex items-center gap-2"
+            >
+              <i className={`${activeTabMeta.icon} text-accent text-base`} />
+              <span>{activeTabMeta.label}</span>
+            </h2>
+
+            <button
+              ref={closeButtonDesktopRef}
+              type="button"
+              onClick={onClose}
+              aria-label="Close menu"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#a89384] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
+            >
+              <i className="ri-close-line text-lg" />
+            </button>
+          </div>
+
+          {/* Scrolling Tab Panel Content */}
+          <div
+            ref={contentAreaRef}
+            id={`panel-desktop-${activeTab}`}
+            role="tabpanel"
+            aria-labelledby={`tab-desktop-${activeTab}`}
+            tabIndex={0}
+            className="flex-1 overflow-y-auto overscroll-contain p-6 sm:p-8 custom-scrollbar focus-ring"
+          >
+            <div className={contentFadeStyle}>
+              {tabContentKey === 'about' && <AboutSection compact={true} />}
+              {tabContentKey === 'features' && <FeatureBento compact={true} />}
+              {tabContentKey === 'how-it-works' && (
+                <div className="space-y-6">
+                  <HowItWorks compact={true} />
+                  <ChatDemo compact={true} />
+                </div>
+              )}
+              {tabContentKey === 'why-friday' && <Benefits compact={true} />}
+              {tabContentKey === 'faq' && <FAQ compact={true} />}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Full-Screen Sheet (< 768px) */}
+      <div
+        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col bg-[#140d09]/95 backdrop-blur-2xl text-[#f3e6da] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
+        style={{ willChange: isClosing ? 'transform' : 'auto' }}
+      >
+        {/* Mobile Header Bar */}
+        <div className="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
+          <Logo size="sm" to="/" onClick={onClose} />
+
+          <button
+            ref={closeButtonMobileRef}
+            type="button"
+            onClick={onClose}
+            aria-label="Close menu"
+            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#a89384] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
+          >
+            <i className="ri-close-line text-xl" />
+          </button>
+        </div>
+
+        {/* Mobile Horizontal Snap-Scrolling Tab Strip */}
+        <div
+          ref={tabListMobileRef}
+          role="tablist"
+          aria-orientation="horizontal"
+          aria-label="Navigation sections"
+          className="flex items-center gap-2 px-4 py-2 border-b border-white/10 overflow-x-auto snap-x snap-mandatory shrink-0 no-scrollbar"
+        >
+          {TABS.map((tab, idx) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                id={`tab-mobile-${tab.id}`}
+                role="tab"
+                type="button"
+                aria-selected={isActive}
+                aria-controls={`panel-mobile-${tab.id}`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => onTabChange(tab.id)}
+                onKeyDown={(e) => handleTabKeyDown(e, idx, false)}
+                className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap snap-start shrink-0 flex items-center gap-2 transition-all focus-ring cursor-pointer ${
+                  isActive
+                    ? 'bg-accent/15 text-accent border border-accent/40 font-semibold shadow-[0_0_12px_rgb(var(--accent-rgb)/0.2)]'
+                    : 'text-[#a89384] hover:text-[#f3e6da] glass border border-white/10'
+                }`}
+              >
+                <i className={`${tab.icon} text-sm ${isActive ? 'text-accent' : 'text-[#a89384]'}`} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Mobile Content Area */}
+        <div
+          id={`panel-mobile-${activeTab}`}
+          role="tabpanel"
+          aria-labelledby={`tab-mobile-${activeTab}`}
+          tabIndex={0}
+          className="flex-1 overflow-y-auto overscroll-contain p-4 custom-scrollbar focus-ring"
+        >
+          <div className={contentFadeStyle}>
+            {tabContentKey === 'about' && <AboutSection compact={true} />}
+            {tabContentKey === 'features' && <FeatureBento compact={true} />}
+            {tabContentKey === 'how-it-works' && (
+              <div className="space-y-6">
+                <HowItWorks compact={true} />
+                <ChatDemo compact={true} />
+              </div>
+            )}
+            {tabContentKey === 'why-friday' && <Benefits compact={true} />}
+            {tabContentKey === 'faq' && <FAQ compact={true} />}
+          </div>
+        </div>
+
+        {/* Mobile Bottom Auth CTAs */}
+        <div className="shrink-0 p-4 border-t border-white/10 bg-page/90 backdrop-blur-md">
+          {user ? (
+            <Link
+              to="/dashboard"
+              onClick={onClose}
+              className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+            >
+              Open dashboard
+            </Link>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link
+                to="/login"
+                onClick={onClose}
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium glass text-[#f3e6da] hover:border-white/30 transition-all focus-ring"
+              >
+                Log in
+              </Link>
+              <Link
+                to="/register"
+                onClick={onClose}
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+              >
+                Get started
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MenuSheet;

@@ -1,6 +1,6 @@
 import Reveal from './Reveal';
 
-export const Benefits = ({ asH1 = false, isPage = false }) => {
+export const Benefits = ({ asH1 = false, isPage = false, compact = false }) => {
   const TitleTag = asH1 ? 'h1' : 'h2';
   const benefits = [
     {
@@ -36,45 +36,46 @@ export const Benefits = ({ asH1 = false, isPage = false }) => {
   ];
 
   return (
-    <section id="benefits" className={`${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <Reveal delay={0}>
+    <section id="benefits" className={compact ? 'space-y-6' : `${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
+      <div className={compact ? 'w-full' : 'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'}>
+        <div className={compact ? 'mb-6 text-left' : 'text-center max-w-3xl mx-auto mb-16'}>
+          <Reveal delay={0} immediate={compact}>
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               THE WORKSPACE ADVANTAGE
             </span>
-            <TitleTag className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
+            <TitleTag className={`mt-2 font-bold tracking-tight text-[#f3e6da] leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
               Why Volaitile Friday
             </TitleTag>
-            <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-[#a89384] leading-relaxed">
               Designed to eliminate developer friction and keep your entire team aligned inside one high-speed workspace.
             </p>
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 ${compact ? 'sm:grid-cols-2 gap-3.5' : 'md:grid-cols-2 lg:grid-cols-3 gap-6'}`}>
           {benefits.map((b, idx) => (
             <Reveal
               key={b.title}
               delay={idx * 80}
+              immediate={compact}
               transformOnly={true}
-              className={idx === 0 ? 'lg:col-span-2' : ''}
+              className={!compact && idx === 0 ? 'lg:col-span-2' : ''}
             >
-              <div className="h-full rounded-2xl glass p-7 flex flex-col justify-start hover:border-white/30 transition-all duration-200">
+              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-start hover:border-white/30 transition-all duration-200`}>
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-white/10 text-accent">
-                      <i className={`${b.icon} text-lg`} />
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl glass border-white/10 text-accent">
+                      <i className={`${b.icon} text-base`} />
                     </div>
                     <span className="text-[10px] font-mono text-[#a89384] border border-white/10 rounded-full px-2.5 py-0.5 bg-white/[0.04]">
                       {b.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#f3e6da] min-h-[3.5rem] flex items-start">
+                  <h3 className={`font-bold text-[#f3e6da] flex items-start ${compact ? 'text-base min-h-0' : 'text-lg min-h-[3.5rem]'}`}>
                     {b.title}
                   </h3>
-                  <p className="mt-2.5 text-xs sm:text-sm text-[#a89384] leading-relaxed">
+                  <p className="mt-2 text-xs sm:text-sm text-[#a89384] leading-relaxed">
                     {b.desc}
                   </p>
                 </div>

@@ -32,16 +32,19 @@ export const Reveal = ({
   className = '',
   as: Component = 'div',
   transformOnly = false, // When true, animates only transform (critical for backdrop-filter containers)
+  immediate = false, // When true, immediately visible without scroll-reveal delay
   ...rest
 }) => {
   const domRef = useRef(null);
   const [isVisible, setIsVisible] = useState(() => {
+    if (immediate) return true;
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return true;
     }
     return false;
   });
   const [isDone, setIsDone] = useState(() => {
+    if (immediate) return true;
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return true;
     }
@@ -49,6 +52,7 @@ export const Reveal = ({
   });
 
   useEffect(() => {
+    if (immediate) return;
     const el = domRef.current;
     if (!el || isVisible) return;
 

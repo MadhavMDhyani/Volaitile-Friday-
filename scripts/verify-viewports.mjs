@@ -180,7 +180,7 @@ async function run() {
   } finally {
     try {
       browser.kill();
-    } catch {}
+    } catch { }
   }
 }
 

@@ -64,8 +64,8 @@ export const FeatureBento = ({ asH1 = false, isPage = false, compact = false }) 
 
           {/* Card 2: Real-time Room Chat (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4">
-            <Reveal delay={120} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+            <Reveal delay={120} immediate={compact} transformOnly={true}>
+              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-6 sm:p-8'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-white/20 text-[#c4b5a8] mb-4 shadow-[0_0_16px_rgba(255,255,255,0.06)]">
                     <i className="ri-chat-3-line text-xl" />
@@ -88,8 +88,8 @@ export const FeatureBento = ({ asH1 = false, isPage = false, compact = false }) 
 
           {/* Card 3: Cloud File Workspace (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4">
-            <Reveal delay={180} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+            <Reveal delay={180} immediate={compact} transformOnly={true}>
+              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-6 sm:p-8'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent-hover/30 text-accent-hover mb-4 shadow-[0_0_16px_rgba(207,78,36,0.2)]">
                     <i className="ri-file-code-line text-xl" />
@@ -112,8 +112,8 @@ export const FeatureBento = ({ asH1 = false, isPage = false, compact = false }) 
 
           {/* Card 4: Team Management & Roles (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4">
-            <Reveal delay={240} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+            <Reveal delay={240} immediate={compact} transformOnly={true}>
+              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-6 sm:p-8'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                     <i className="ri-team-line text-xl" />
@@ -135,8 +135,8 @@ export const FeatureBento = ({ asH1 = false, isPage = false, compact = false }) 
 
           {/* Card 5: Security by Default (Lg: 4 cols) */}
           <div className="md:col-span-3 lg:col-span-4">
-            <Reveal delay={300} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+            <Reveal delay={300} immediate={compact} transformOnly={true}>
+              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-6 sm:p-8'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-white/20 text-[#c4b5a8] mb-4 shadow-[0_0_16px_rgba(255,255,255,0.05)]">
                     <i className="ri-shield-check-line text-xl" />
@@ -159,8 +159,8 @@ export const FeatureBento = ({ asH1 = false, isPage = false, compact = false }) 
 
           {/* Card 6: Developer Utilities & Self-Hosting (Lg: 12 cols split) */}
           <div className="md:col-span-3 lg:col-span-6">
-            <Reveal delay={360} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+            <Reveal delay={360} immediate={compact} transformOnly={true}>
+              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-6 sm:p-8'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-accent/30 text-accent mb-4 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                     <i className="ri-tools-line text-xl" />
@@ -182,8 +182,8 @@ export const FeatureBento = ({ asH1 = false, isPage = false, compact = false }) 
           </div>
 
           <div className="md:col-span-3 lg:col-span-6">
-            <Reveal delay={420} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-6 sm:p-8 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+            <Reveal delay={420} immediate={compact} transformOnly={true}>
+              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-6 sm:p-8'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl glass border-white/20 text-white mb-4">
                     <i className="ri-server-line text-xl" />

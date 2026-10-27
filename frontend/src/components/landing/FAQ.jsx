@@ -24,7 +24,7 @@ const FAQ_ITEMS = [
   },
 ];
 
-export const FAQ = ({ asH1 = false, isPage = false }) => {
+export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
   const TitleTag = asH1 ? 'h1' : 'h2';
   const [openIdx, setOpenIdx] = useState(null);
 
@@ -33,30 +33,30 @@ export const FAQ = ({ asH1 = false, isPage = false }) => {
   };
 
   return (
-    <section id="faq" className={`${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <Reveal delay={0}>
+    <section id="faq" className={compact ? 'space-y-4' : `${isPage ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
+      <div className={compact ? 'w-full' : 'mx-auto max-w-4xl px-4 sm:px-6 lg:px-8'}>
+        <div className={compact ? 'mb-4 text-left' : 'text-center mb-16'}>
+          <Reveal delay={0} immediate={compact}>
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               GOT QUESTIONS?
             </span>
-            <TitleTag className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-[#f3e6da] leading-tight">
+            <TitleTag className={`mt-2 font-bold tracking-tight text-[#f3e6da] leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
               Frequently Asked Questions
             </TitleTag>
-            <p className="mt-4 text-sm sm:text-base text-[#a89384] leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-[#a89384] leading-relaxed">
               Clear, honest answers about our tech stack, security, and hosting.
             </p>
           </Reveal>
         </div>
 
-        <div className="space-y-3.5">
+        <div className={compact ? 'space-y-2.5' : 'space-y-3.5'}>
           {FAQ_ITEMS.map((item, idx) => {
             const isOpen = openIdx === idx;
             const contentId = `faq-content-${idx}`;
             const headerId = `faq-header-${idx}`;
 
             return (
-              <Reveal key={item.q} delay={idx * 60} transformOnly={true}>
+              <Reveal key={item.q} delay={idx * 60} immediate={compact} transformOnly={true}>
                 <div className="rounded-2xl glass border border-white/10 overflow-hidden transition-all duration-200">
                   <button
                     id={headerId}
@@ -64,7 +64,7 @@ export const FAQ = ({ asH1 = false, isPage = false }) => {
                     onClick={() => toggle(idx)}
                     aria-expanded={isOpen}
                     aria-controls={contentId}
-                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left text-sm sm:text-base font-semibold text-[#f3e6da] hover:text-white transition-colors focus-ring cursor-pointer"
+                    className={`w-full flex items-center justify-between ${compact ? 'p-3.5 sm:p-4 text-xs sm:text-sm' : 'p-5 sm:p-6 text-sm sm:text-base'} text-left font-semibold text-[#f3e6da] hover:text-white transition-colors focus-ring cursor-pointer`}
                   >
                     <span>{item.q}</span>
                     <span
@@ -82,7 +82,7 @@ export const FAQ = ({ asH1 = false, isPage = false }) => {
                       id={contentId}
                       role="region"
                       aria-labelledby={headerId}
-                      className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-[#a89384] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in"
+                      className={`${compact ? 'px-4 pb-4 pt-2 text-xs' : 'px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm'} text-[#a89384] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in`}
                     >
                       <p>{item.a}</p>
                     </div>

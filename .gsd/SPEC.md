@@ -182,3 +182,89 @@ Add ThreeUI's `<LandscapeScene variant="sunset" />` as the landing-page hero bac
 - Lighthouse mobile audit on `/` and `/faq` (Perf >= 85, A11y >= 95, CLS <= 0.1).
 - End-to-end user sanity: sign-in, project creation, file editing, chat. Clean lint and build; chunk sizes reported.
 
+---
+
+## Phase 5 — Menu Sheet
+
+### Overview & Goal
+Transform the landing page into a clean, minimalist hero (navigation, headline, CTAs, "Built with" chips, product mockup) plus a slim footer with minimal vertical scrolling (~1.25x viewport height at 1440x900, ~2x at 390x844). All informational content (About, Features, How it works, Why Friday, FAQ) is consolidated inside an accessible, high-performance translucent glass MenuSheet opened by a single three-bars (hamburger) button in the navigation or links in the footer. The sheet's open state and active tab are synchronized with the URL routes (`/`, `/about`, `/features`, `/how-it-works`, `/why-friday`, `/faq`) as the single source of truth.
+
+### Task 1 — Menu Sheet Component (`components/landing/MenuSheet.jsx`)
+- Dialog pattern (`role="dialog"`, `aria-modal="true"`, `aria-labelledby`).
+- Tab navigation following ARIA tabs pattern:
+  - `role="tablist"`
+  - `role="tab"`, `id="tab-<key>"`, `aria-controls="panel-<key>"`, `aria-selected`, roving `tabIndex`
+  - `role="tabpanel"`, `id="panel-<key>"`, `aria-labelledby="tab-<key>"`, `tabIndex={0}`
+  - Keyboard navigation: Left/Right/Up/Down/Home/End keys for roving tabindex and tab switching.
+- Five tabs: About, Features, How it works, Why Friday, FAQ.
+- Reuse existing section content:
+  - About (Pillars, Who it's for, Tech stack)
+  - Features (`FeatureBento`)
+  - How it works (`HowItWorks` + `ChatDemo`)
+  - Why Friday (`Benefits`)
+  - FAQ (`FAQ` accordion)
+  - Wrapped in compact layouts without duplicating copy.
+- Full accessibility:
+  - Focus trap keeping focus within the dialog while active.
+  - Escape closes sheet and returns focus to the three-bars button.
+  - Main content inert / aria-hidden when open.
+  - Body scroll locked when open.
+- Responsive layout:
+  - Desktop (>= 768px): Centered glass panel, max-width ~960px, max-height 82dvh, vertical tabs on left, compact content on right (tight spacing, 2-column grids) with internal scrolling (`overflow-y: auto; overscroll-behavior: contain`).
+  - Mobile (< 768px): Full-screen sheet (100dvh, safe-area insets), top horizontal snap-scrolling tab strip (items >= 44px tall), content area scrolling below, close button >= 44px, bottom auth CTAs ("Log in" & "Get started" or "Open dashboard").
+- Visual design: Translucent glass tokens (`glass`, `glass-strong`, `bg-page/80`, etc.), accent color for active tab, no new hardcoded colors.
+
+### Task 2 — Nav and URL Sync (`LandingNav.jsx`, `AppRoutes.jsx`, `Landing.jsx`)
+- Replace inline desktop navigation links with one three-bars button across all viewports (`aria-label="Open menu"`, `aria-expanded`, `aria-controls`).
+  - Nav layout: Logo left; Right: "Log in", "Get started", and three-bars button (on mobile: "Get started" and three-bars button).
+  - Animate three bars into an X using CSS transforms only.
+- URL as single source of truth:
+  - `/` = sheet closed.
+  - `/about`, `/features`, `/how-it-works`, `/why-friday`, `/faq` = sheet open on corresponding tab.
+  - All routes (plus `/welcome`) render lazy-loaded `Landing`.
+  - Tab switching navigates to URL; closing navigates back to `/`. Browser back button closes sheet.
+  - Direct loads and refreshes work without 404 (covered by SPA rewrites).
+  - Retain `RootRoute` behavior (authenticated users see `Home` at `/`).
+- Update document title and meta description per tab using `usePageMeta` hook; revert to default when closed.
+- Delete separate page screens (`About.jsx`, `Features.jsx`, `HowItWorks.jsx`, `WhyFriday.jsx`, `Faq.jsx`) and `InfoPageLayout.jsx`, pruning dead imports and routes in `AppRoutes.jsx`. Keep section components.
+- Slim footer: single row on desktop, max 2 rows on mobile; Features / FAQ / About links navigate to sheet URLs.
+
+### Task 3 — Shrink Landing Page Spacing
+- `Landing.jsx` renders only `LandingNav`, `Hero` (with `HeroScene` if supported), and slim `Footer`.
+- Tighten spacing and dimensions:
+  - 1440x900: total page height <= 1.25 viewport heights (~1125px).
+  - 390x844: total page height <= 2 viewport heights (~1688px).
+  - Cap mockup height (~360px on desktop, ~300px on mobile with internal scroll).
+  - Reduce headline and vertical padding as needed.
+  - Record and report `document.scrollHeight` before and after.
+- Retain mockup fixes: `text-left` on mockup root, tabular-nums line-number gutter, non-overlapping presence pill and model chip, chip text "Friday AI · Auto".
+
+### Task 4 — Smooth 60 FPS Motion
+- Animate only `transform` and `opacity`.
+- Separate scrim backdrop for 200ms opacity fade (never animate backdrop-filter opacity on the panel).
+- Animate panel with transform: `scale(0.98)` -> `scale(1)` and `translateY(12px)` -> `0` over 260ms with `cubic-bezier(0.22, 1, 0.36, 1)`; on mobile slide up from bottom (`translateY(100%)` -> `0`).
+- Fade inner content separately; play exit animation before unmounting.
+- Tab switching: 150ms fade/translate of content and sliding active tab indicator.
+- Honor `prefers-reduced-motion` with instant transitions and zero transforms.
+
+### Task 5 — Enforce Accurate Claims
+- Verify absence of unbacked claims: "280ms", "Sub-millisecond", "stream in real-time", "Gemini 2.5", "2.5 Flash", "MongoDB 7", "Redis 7".
+- Ensure accurate copy across all components:
+  - "Live room broadcasts over Socket.IO"
+  - "Replies are shared with the whole room"
+  - "Google Gemini models (Fast, Balanced and Deep modes)"
+  - Tech chips: "MongoDB", "Redis (optional)"
+  - FAQ limits: 25 members, 100 files, 200 KB per file, 20 AI requests/min.
+  - Zero invented metrics, customer logos, or fake testimonials.
+
+### Task 6 — Verification & Evidence
+- Visual verification across viewports: 360x640, 390x844, 768x1024, 1024x768, 1440x900 (closed landing, each of 5 tabs, open mobile sheet).
+- Overflow check: `document.documentElement.scrollWidth <= clientWidth` across all widths.
+- Touch targets >= 44px.
+- Keyboard navigation: Tab navigation, Enter to open, trapped focus, arrow keys switch tabs, Escape closes and restores focus, browser Back closes.
+- Direct route loading tests as guest and authenticated user.
+- Performance profiling: 60fps animations without frames > 33ms; CPU throttling and reduced-motion tests.
+- Lighthouse mobile audit on `/`: Performance >= 85, Accessibility >= 95, CLS <= 0.1.
+- Sanity tests: user authentication, project creation, file editing, chat. Clean `npm run lint` and `npm run build`.
+
+

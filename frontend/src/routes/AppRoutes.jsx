@@ -4,6 +4,7 @@ import { UserContext } from '../context/user.context';
 import PageTransition from '../components/PageTransition';
 import Skeleton from '../components/Skeleton';
 import Button from '../components/Button';
+import ScrollToTop from '../components/ScrollToTop';
 
 // Lazy-load all screens
 const Home = lazy(() => import('../screens/Home'));
@@ -102,11 +103,17 @@ const RootRoute = () => {
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <PageTransition>
         <Suspense fallback={<ScreenFallback />}>
           <Routes>
             <Route path="/" element={<RootRoute />} />
             <Route path="/welcome" element={<Landing />} />
+            <Route path="/about" element={<Landing />} />
+            <Route path="/features" element={<Landing />} />
+            <Route path="/how-it-works" element={<Landing />} />
+            <Route path="/why-friday" element={<Landing />} />
+            <Route path="/faq" element={<Landing />} />
             <Route
               path="/dashboard"
               element={

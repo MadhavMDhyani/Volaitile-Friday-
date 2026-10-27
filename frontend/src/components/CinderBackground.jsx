@@ -114,10 +114,13 @@ export const CinderBackground = () => {
       canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.min(
+      let count = Math.min(
         MAX_COUNT,
         Math.max(MIN_COUNT, Math.round((w * h * EMBER_DENSITY) / 1_000_000)),
       );
+      if (w < 768) {
+        count = Math.max(10, Math.round(count * 0.4));
+      }
 
       embers = [];
       for (let i = 0; i < count; i++) {

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { describe, it, expect } from 'vitest';
 import { spawn } from 'child_process';
 import path from 'path';

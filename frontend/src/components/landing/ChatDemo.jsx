@@ -12,7 +12,7 @@ const DEMO_CONVERSATIONS = [
   },
 ];
 
-export const ChatDemo = ({ isPage = false }) => {
+export const ChatDemo = ({ isPage = false, compact = false }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [typedChars, setTypedChars] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -69,20 +69,20 @@ export const ChatDemo = ({ isPage = false }) => {
   }, [typedChars, activeIdx, isPaused, current.ai.length]);
 
   return (
-    <section className={`${isPage ? 'py-12 sm:py-16' : 'py-16 sm:py-24'} relative overflow-hidden`}>
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <Reveal delay={0}>
-          <div className="text-center mb-10">
+    <section className={compact ? 'mt-6 w-full' : `${isPage ? 'py-12 sm:py-16' : 'py-16 sm:py-24'} relative overflow-hidden`}>
+      <div className={compact ? 'w-full' : 'mx-auto max-w-4xl px-4 sm:px-6 lg:px-8'}>
+        <Reveal delay={0} immediate={compact}>
+          <div className={compact ? 'mb-4 text-left' : 'text-center mb-10'}>
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               LIVE PREVIEW
             </span>
-            <h2 className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-[#f3e6da]">
+            <h3 className={`mt-1 font-bold tracking-tight text-[#f3e6da] ${compact ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`}>
               Ask Friday anything about your codebase
-            </h2>
+            </h3>
           </div>
         </Reveal>
 
-        <Reveal delay={100} transformOnly={true}>
+        <Reveal delay={100} immediate={compact} transformOnly={true}>
           <div
             ref={containerRef}
             className="rounded-2xl glass-strong border border-white/[0.22] p-5 sm:p-7 shadow-[0_24px_48px_rgba(0,0,0,0.8)]"
@@ -94,7 +94,7 @@ export const ChatDemo = ({ isPage = false }) => {
                 <span className="font-semibold text-white">Friday AI Room Assistant</span>
               </div>
                 <span className="text-[10px] text-[#a89384] rounded border border-accent/30 bg-accent/10 px-2 py-0.5">
-                Gemini 2.5 Flash
+                Gemini
               </span>
             </div>
 
@@ -131,7 +131,7 @@ export const ChatDemo = ({ isPage = false }) => {
             {/* Sub-label */}
             <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-[#6e5d50]">
               <span>Type @friday or /help in any project chat</span>
-              <span className="text-accent">Responses stream in real-time</span>
+              <span className="text-accent">Replies are shared with the whole room</span>
             </div>
           </div>
         </Reveal>

@@ -1,10 +1,33 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../Logo';
+import { UserContext } from '../../context/user.context';
 
-export const LandingNav = () => {
+export const LandingNav = ({
+  isOpen: propIsOpen,
+  onToggleMenu: propOnToggleMenu,
+  triggerRef,
+}) => {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useContext(UserContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // If props aren't provided, derive from URL single source of truth
+  const validTabs = ['about', 'features', 'how-it-works', 'why-friday', 'faq'];
+  const currentTab = location.pathname.replace(/^\//, '');
+  const isSheetOpenFromUrl = validTabs.includes(currentTab);
+  const isOpen = propIsOpen !== undefined ? propIsOpen : isSheetOpenFromUrl;
+
+  const handleToggle = () => {
+    if (propOnToggleMenu) {
+      propOnToggleMenu();
+    } else if (isOpen) {
+      navigate('/');
+    } else {
+      navigate('/about');
+    }
+  };
 
   useEffect(() => {
     let ticking = false;
@@ -21,16 +44,10 @@ export const LandingNav = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: 'Features', href: '#features' },
-    { label: 'How it works', href: '#how-it-works' },
-    { label: 'Why Friday', href: '#benefits' },
-    { label: 'FAQ', href: '#faq' },
-  ];
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      id="landing-nav-header"
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
         scrolled
           ? 'bg-page/80 backdrop-blur-xl border-b border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
           : 'bg-transparent border-b border-transparent'
@@ -38,90 +55,67 @@ export const LandingNav = () => {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left: Brand Logo */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center">
           <Logo size="md" to="/" />
+        </div>
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-6" aria-label="Main Navigation">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-xs font-medium text-[#a89384] hover:text-[#f3e6da] transition-colors focus-ring rounded py-1 px-1.5"
+        {/* Right: Auth Buttons & Three-Bars Menu Button */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {user ? (
+            <Link
+              to="/dashboard"
+              className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
+            >
+              <span className="hidden sm:inline">Open dashboard</span>
+              <span className="sm:hidden">Dashboard</span>
+            </Link>
+          ) : (
+            <>
+              {/* Log in button hidden on phones */}
+              <Link
+                to="/login"
+                className="hidden sm:inline-flex min-h-[44px] px-3.5 items-center justify-center rounded-xl text-xs font-medium text-[#f3e6da] hover:text-white glass hover:border-white/30 transition-all focus-ring"
               >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        </div>
+                Log in
+              </Link>
+              <Link
+                to="/register"
+                className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
+              >
+                Get started
+              </Link>
+            </>
+          )}
 
-        {/* Right: Auth CTAs */}
-        <div className="hidden sm:flex items-center gap-3">
-          <Link
-            to="/login"
-            className="h-9 px-3.5 inline-flex items-center justify-center rounded-xl text-xs font-medium text-[#f3e6da] hover:text-white glass hover:border-white/30 transition-all focus-ring"
-          >
-            Log in
-          </Link>
-          <Link
-            to="/register"
-            className="h-9 px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
-          >
-            Get started
-          </Link>
-        </div>
-
-        {/* Mobile menu button */}
-        <div className="flex sm:hidden items-center gap-2">
-          <Link
-            to="/register"
-            className="h-8 px-3 inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-accent text-[#140d09]"
-          >
-            Start
-          </Link>
+          {/* Single Three-Bars Hamburger Button on all screen sizes */}
           <button
+            ref={triggerRef}
             type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="h-8 w-8 inline-flex items-center justify-center rounded-lg glass text-[#a89384] hover:text-white focus-ring"
-            aria-label="Toggle menu"
-            aria-expanded={mobileMenuOpen}
+            onClick={handleToggle}
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isOpen}
+            aria-controls="menu-sheet"
+            className="min-h-[44px] min-w-[44px] h-11 w-11 inline-flex flex-col items-center justify-center gap-1.5 rounded-xl glass text-[#a89384] hover:text-[#f3e6da] hover:border-white/30 transition-all focus-ring cursor-pointer"
           >
-            <i className={mobileMenuOpen ? 'ri-close-line text-lg' : 'ri-menu-line text-lg'} />
+            {/* Animated three bars using CSS transforms only */}
+            <span
+              className={`h-0.5 w-5 bg-current rounded-full transition-transform duration-200 ease-out origin-center ${
+                isOpen ? 'translate-y-2 rotate-45' : 'translate-y-0 rotate-0'
+              }`}
+            />
+            <span
+              className={`h-0.5 w-5 bg-current rounded-full transition-all duration-200 ease-out ${
+                isOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'
+              }`}
+            />
+            <span
+              className={`h-0.5 w-5 bg-current rounded-full transition-transform duration-200 ease-out origin-center ${
+                isOpen ? '-translate-y-2 -rotate-45' : 'translate-y-0 rotate-0'
+              }`}
+            />
           </button>
         </div>
       </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="sm:hidden border-b border-white/[0.12] bg-page/95 backdrop-blur-2xl px-4 py-4 space-y-3 animate-fade-in">
-          <nav className="flex flex-col space-y-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-2 text-sm text-[#a89384] hover:text-white"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-          <div className="pt-2 border-t border-white/10 flex items-center gap-2">
-            <Link
-              to="/login"
-              className="flex-1 py-2 text-center text-xs font-medium glass rounded-xl text-[#f3e6da]"
-            >
-              Log in
-            </Link>
-            <Link
-              to="/register"
-              className="flex-1 py-2 text-center text-xs font-semibold bg-accent text-[#140d09] rounded-xl"
-            >
-              Get started
-            </Link>
-          </div>
-        </div>
-      )}
     </header>
   );
 };

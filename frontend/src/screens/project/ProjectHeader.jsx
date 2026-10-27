@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AccountMenu from '../../components/AccountMenu';
 import Button from '../../components/Button';
@@ -6,18 +7,30 @@ export const ProjectHeader = ({
   project,
   isOwner,
   onOpenMembers,
-  mobileTab,
-  onSelectMobileTab,
 }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMenuOpen]);
+
   return (
     <header className="border-b border-white/[0.08] bg-page/75 backdrop-blur-xl sticky top-0 z-30">
-      {/* Top Navbar */}
       <div className="flex h-12 items-center justify-between px-3 sm:px-4">
         {/* Left: Back Link & Project Name */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <Link
             to="/dashboard"
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >
@@ -39,8 +52,8 @@ export const ProjectHeader = ({
           </div>
         </div>
 
-        {/* Right: Members & Account Menu */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* Right: Desktop Actions (>= 1024px) */}
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
           <Button
             variant="secondary"
             size="xs"
@@ -50,7 +63,7 @@ export const ProjectHeader = ({
             aria-label="View project members"
             className="h-8"
           >
-            <span className="hidden sm:inline">Members</span>
+            <span>Members</span>
             <span className="font-mono text-[10px] tabular-nums bg-white/[0.08] px-1.5 py-0.5 rounded-full text-white/80">
               {project?.users?.length || 1}
             </span>
@@ -58,48 +71,42 @@ export const ProjectHeader = ({
 
           <AccountMenu />
         </div>
-      </div>
 
-      {/* Mobile Tab Switcher (< md screens) */}
-      <div className="flex md:hidden border-t border-white/[0.08] bg-raised/80 backdrop-blur-md px-2 text-xs">
-        <button
-          type="button"
-          onClick={() => onSelectMobileTab('files')}
-          className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
-            mobileTab === 'files'
-              ? 'border-accent text-accent font-semibold'
-              : 'border-transparent text-[#6e5d50] hover:text-[#a89384]'
-          }`}
-        >
-          <i className="ri-file-code-line mr-1 text-xs" />
-          Files
-        </button>
+        {/* Right: Mobile / Tablet Actions (< 1024px) - Secondary actions in menu */}
+        <div className="flex lg:hidden items-center gap-1.5 shrink-0 relative" ref={menuRef}>
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="flex h-8 w-8 items-center justify-center rounded-lg glass text-[#a89384] hover:text-[#f3e6da] focus-ring"
+            aria-label="Workspace secondary actions"
+            aria-expanded={isMenuOpen}
+          >
+            <i className="ri-more-2-fill text-base" />
+          </button>
 
-        <button
-          type="button"
-          onClick={() => onSelectMobileTab('chat')}
-          className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
-            mobileTab === 'chat'
-              ? 'border-accent text-accent font-semibold'
-              : 'border-transparent text-[#6e5d50] hover:text-[#a89384]'
-          }`}
-        >
-          <i className="ri-chat-3-line mr-1 text-xs" />
-          Chat & AI
-        </button>
+          {isMenuOpen && (
+            <div className="absolute right-8 top-10 w-48 rounded-xl glass-strong border border-white/10 p-1.5 shadow-2xl z-50 animate-scale-in text-xs font-mono">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  onOpenMembers();
+                }}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-[#f3e6da] hover:bg-white/[0.06] text-left transition-colors"
+              >
+                <span className="flex items-center gap-2">
+                  <i className="ri-group-line text-accent" />
+                  Members
+                </span>
+                <span className="text-[10px] tabular-nums bg-white/10 px-1.5 py-0.5 rounded-full text-white/80">
+                  {project?.users?.length || 1}
+                </span>
+              </button>
+            </div>
+          )}
 
-        <button
-          type="button"
-          onClick={() => onSelectMobileTab('members')}
-          className={`flex-1 py-2 font-medium text-center border-b-2 transition-colors duration-150 focus-ring ${
-            mobileTab === 'members'
-              ? 'border-accent text-accent font-semibold'
-              : 'border-transparent text-[#6e5d50] hover:text-[#a89384]'
-          }`}
-        >
-          <i className="ri-group-line mr-1 text-xs" />
-          Members
-        </button>
+          <AccountMenu />
+        </div>
       </div>
     </header>
   );

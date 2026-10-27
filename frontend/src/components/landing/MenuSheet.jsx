@@ -26,9 +26,13 @@ export const MenuSheet = ({
 }) => {
   const { user } = useContext(UserContext);
   const [isRendered, setIsRendered] = useState(isOpen);
+  const [isOpening, setIsOpening] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [tabContentKey, setTabContentKey] = useState(activeTab);
   const [tabSwitching, setTabSwitching] = useState(false);
+
+  const [desktopIndicator, setDesktopIndicator] = useState({ top: 0, height: 44, ready: false });
+  const [mobileIndicator, setMobileIndicator] = useState({ left: 0, width: 80, ready: false });
 
   const dialogRef = useRef(null);
   const tabListDesktopRef = useRef(null);
@@ -45,18 +49,31 @@ export const MenuSheet = ({
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Sync mounted lifecycle with entry/exit animations
+  // Sync mounted lifecycle with smooth entry/exit animations
   useEffect(() => {
     if (isOpen) {
       previousActiveElement.current = document.activeElement;
-      setIsRendered(true);
-      setIsClosing(false);
+      if (prefersReducedMotion) {
+        setIsRendered(true);
+        setIsOpening(false);
+        setIsClosing(false);
+      } else {
+        setIsRendered(true);
+        setIsOpening(true);
+        setIsClosing(false);
+        const raf = requestAnimationFrame(() => {
+          setIsOpening(false);
+        });
+        return () => cancelAnimationFrame(raf);
+      }
     } else if (isRendered) {
       if (prefersReducedMotion) {
         setIsRendered(false);
+        setIsOpening(false);
         setIsClosing(false);
       } else {
         setIsClosing(true);
+        setIsOpening(false);
         const timer = setTimeout(() => {
           setIsRendered(false);
           setIsClosing(false);
@@ -64,9 +81,9 @@ export const MenuSheet = ({
         return () => clearTimeout(timer);
       }
     }
-  }, [isOpen, isRendered, prefersReducedMotion]);
+  }, [isOpen, prefersReducedMotion]); // removed isRendered from deps to prevent loop
 
-  // Tab content transition on tab change
+  // Tab content transition on tab change (150ms fade/translate)
   useEffect(() => {
     if (activeTab !== tabContentKey) {
       if (prefersReducedMotion) {
@@ -85,20 +102,46 @@ export const MenuSheet = ({
     }
   }, [activeTab, tabContentKey, prefersReducedMotion]);
 
-  // Scroll active tab into view in horizontal mobile tab strip
+  // Sliding active-tab indicator position calculation (transform only)
   useEffect(() => {
-    if (isRendered && tabListMobileRef.current) {
-      const activeBtn = tabListMobileRef.current.querySelector(
-        `#tab-mobile-${activeTab}`
-      );
-      if (activeBtn) {
-        activeBtn.scrollIntoView({
-          behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'nearest',
-          inline: 'center',
-        });
+    if (!isRendered) return;
+
+    const updateIndicators = () => {
+      if (tabListDesktopRef.current) {
+        const activeBtn = tabListDesktopRef.current.querySelector(
+          `#tab-desktop-${activeTab}`
+        );
+        if (activeBtn) {
+          setDesktopIndicator({
+            top: activeBtn.offsetTop,
+            height: activeBtn.offsetHeight,
+            ready: true,
+          });
+        }
       }
-    }
+
+      if (tabListMobileRef.current) {
+        const activeBtn = tabListMobileRef.current.querySelector(
+          `#tab-mobile-${activeTab}`
+        );
+        if (activeBtn) {
+          setMobileIndicator({
+            left: activeBtn.offsetLeft,
+            width: activeBtn.offsetWidth,
+            ready: true,
+          });
+          activeBtn.scrollIntoView({
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            block: 'nearest',
+            inline: 'center',
+          });
+        }
+      }
+    };
+
+    updateIndicators();
+    const timer = setTimeout(updateIndicators, 20);
+    return () => clearTimeout(timer);
   }, [activeTab, isRendered, prefersReducedMotion]);
 
   // Lock body scroll and set background inert/aria-hidden while open
@@ -108,7 +151,6 @@ export const MenuSheet = ({
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    // Mark main page content as inert / aria-hidden
     const mainEl = document.getElementById('main-content');
     const headerEl = document.querySelector('header');
     const footerEl = document.querySelector('footer');
@@ -145,8 +187,7 @@ export const MenuSheet = ({
 
   // Focus management: focus on open, return focus on close
   useEffect(() => {
-    if (isRendered && !isClosing) {
-      // Focus the active tab or the close button
+    if (isRendered && !isClosing && !isOpening) {
       const timer = setTimeout(() => {
         const isDesktop = window.innerWidth >= 768;
         const targetTab = isDesktop
@@ -161,13 +202,12 @@ export const MenuSheet = ({
       }, 50);
       return () => clearTimeout(timer);
     } else if (!isRendered && previousActiveElement.current) {
-      // Return focus to trigger button or previous element
       const target = triggerRef?.current || previousActiveElement.current;
       if (target && typeof target.focus === 'function') {
         target.focus();
       }
     }
-  }, [isRendered, isClosing, activeTab, triggerRef]);
+  }, [isRendered, isClosing, isOpening, activeTab, triggerRef]);
 
   // Keyboard trap and Escape listener
   useEffect(() => {
@@ -251,25 +291,30 @@ export const MenuSheet = ({
 
   if (!isRendered) return null;
 
-  // Motion animation classes
+  // 60fps Motion: Animate ONLY transform and opacity (no backdrop-filter animation on panel)
+  const isEnteringOrClosing = isOpening || isClosing;
+
   const backdropTransition = prefersReducedMotion
     ? 'opacity-100'
-    : isClosing
+    : isEnteringOrClosing
     ? 'opacity-0 transition-opacity duration-200 ease-out'
     : 'opacity-100 transition-opacity duration-200 ease-out';
 
+  // Desktop panel: scale 0.98 -> 1 and translateY 12px -> 0 over 260ms cubic-bezier(0.22,1,0.36,1)
   const desktopPanelTransform = prefersReducedMotion
     ? 'transform-none'
-    : isClosing
+    : isEnteringOrClosing
     ? 'scale-[0.98] translate-y-3 transition-transform duration-200 ease-in'
     : 'scale-100 translate-y-0 transition-transform duration-[260ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]';
 
+  // Mobile panel: slide up from bottom translateY(100%) -> translateY(0)
   const mobilePanelTransform = prefersReducedMotion
     ? 'transform-none'
-    : isClosing
+    : isEnteringOrClosing
     ? 'translate-y-full transition-transform duration-200 ease-in'
     : 'translate-y-0 transition-transform duration-[260ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]';
 
+  // Inner content fade/translate (150ms)
   const contentFadeStyle = prefersReducedMotion
     ? ''
     : tabSwitching
@@ -287,7 +332,7 @@ export const MenuSheet = ({
       aria-labelledby={titleId}
       className="fixed inset-0 z-50 flex items-center justify-center"
     >
-      {/* Scrim Overlay (separate layer with opacity transition, no backdrop-filter over panel) */}
+      {/* Scrim Overlay (separate opacity layer, panel backdrop-filter never animates opacity) */}
       <div
         className={`fixed inset-0 bg-black/70 backdrop-blur-sm ${backdropTransition}`}
         onClick={onClose}
@@ -297,9 +342,9 @@ export const MenuSheet = ({
       {/* Desktop Centered Glass Panel (>= 768px) */}
       <div
         className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl glass-strong border border-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.85),0_0_60px_rgba(217,138,90,0.12)] overflow-hidden ${desktopPanelTransform}`}
-        style={{ willChange: isClosing ? 'transform' : 'auto' }}
+        style={{ willChange: 'transform' }}
       >
-        {/* Left Column: Vertical ARIA Tabs */}
+        {/* Left Column: Vertical ARIA Tabs with Sliding Active Indicator */}
         <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-page/70 backdrop-blur-xl">
           <div>
             {/* Header Brand */}
@@ -310,14 +355,31 @@ export const MenuSheet = ({
               </span>
             </div>
 
-            {/* Accessible Tablist */}
+            {/* Accessible Tablist with Sliding Indicator */}
             <div
               ref={tabListDesktopRef}
               role="tablist"
               aria-orientation="vertical"
               aria-label="Navigation sections"
-              className="flex flex-col space-y-1.5"
+              className="relative flex flex-col space-y-1.5"
             >
+              {/* Sliding Active Tab Indicator (pure transform) */}
+              <div
+                aria-hidden="true"
+                className={`absolute left-0 right-0 rounded-xl bg-accent/15 border border-accent/40 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.18)] pointer-events-none ${
+                  prefersReducedMotion
+                    ? ''
+                    : 'transition-transform duration-200 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]'
+                }`}
+                style={{
+                  top: 0,
+                  height: `${desktopIndicator.height}px`,
+                  transform: `translate3d(0, ${desktopIndicator.top}px, 0)`,
+                  opacity: desktopIndicator.ready ? 1 : 0,
+                  willChange: 'transform',
+                }}
+              />
+
               {TABS.map((tab, idx) => {
                 const isActive = activeTab === tab.id;
                 return (
@@ -331,10 +393,10 @@ export const MenuSheet = ({
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => onTabChange(tab.id)}
                     onKeyDown={(e) => handleTabKeyDown(e, idx, true)}
-                    className={`min-h-[44px] w-full px-3.5 py-2.5 rounded-xl text-xs font-medium flex items-center justify-between transition-all focus-ring text-left cursor-pointer ${
+                    className={`relative z-10 min-h-[44px] w-full px-3.5 py-2.5 rounded-xl text-xs font-medium flex items-center justify-between transition-colors focus-ring text-left cursor-pointer ${
                       isActive
-                        ? 'bg-accent/15 text-accent border border-accent/40 font-semibold shadow-[0_0_16px_rgb(var(--accent-rgb)/0.18)]'
-                        : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04] border border-transparent'
+                        ? 'text-accent font-semibold'
+                        : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
                     }`}
                   >
                     <span className="flex items-center gap-2.5">
@@ -432,10 +494,10 @@ export const MenuSheet = ({
         </div>
       </div>
 
-      {/* Mobile Full-Screen Sheet (< 768px) */}
+      {/* Mobile Full-Screen Sheet (< 768px) with Sliding Indicator and Slide-Up Motion */}
       <div
         className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col bg-[#140d09]/95 backdrop-blur-2xl text-[#f3e6da] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
-        style={{ willChange: isClosing ? 'transform' : 'auto' }}
+        style={{ willChange: 'transform' }}
       >
         {/* Mobile Header Bar */}
         <div className="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
@@ -452,14 +514,31 @@ export const MenuSheet = ({
           </button>
         </div>
 
-        {/* Mobile Horizontal Snap-Scrolling Tab Strip */}
+        {/* Mobile Horizontal Snap-Scrolling Tab Strip with Sliding Indicator */}
         <div
           ref={tabListMobileRef}
           role="tablist"
           aria-orientation="horizontal"
           aria-label="Navigation sections"
-          className="flex items-center gap-2 px-4 py-2 border-b border-white/10 overflow-x-auto snap-x snap-mandatory shrink-0 no-scrollbar"
+          className="relative flex items-center gap-2 px-4 py-2 border-b border-white/10 overflow-x-auto snap-x snap-mandatory shrink-0 no-scrollbar"
         >
+          {/* Mobile Sliding Active Indicator (transform only) */}
+          <div
+            aria-hidden="true"
+            className={`absolute top-2 bottom-2 rounded-xl bg-accent/15 border border-accent/40 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.2)] pointer-events-none ${
+              prefersReducedMotion
+                ? ''
+                : 'transition-transform duration-200 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]'
+            }`}
+            style={{
+              left: 0,
+              width: `${mobileIndicator.width}px`,
+              transform: `translate3d(${mobileIndicator.left}px, 0, 0)`,
+              opacity: mobileIndicator.ready ? 1 : 0,
+              willChange: 'transform',
+            }}
+          />
+
           {TABS.map((tab, idx) => {
             const isActive = activeTab === tab.id;
             return (
@@ -473,9 +552,9 @@ export const MenuSheet = ({
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => onTabChange(tab.id)}
                 onKeyDown={(e) => handleTabKeyDown(e, idx, false)}
-                className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap snap-start shrink-0 flex items-center gap-2 transition-all focus-ring cursor-pointer ${
+                className={`relative z-10 min-h-[44px] px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap snap-start shrink-0 flex items-center gap-2 transition-colors focus-ring cursor-pointer ${
                   isActive
-                    ? 'bg-accent/15 text-accent border border-accent/40 font-semibold shadow-[0_0_12px_rgb(var(--accent-rgb)/0.2)]'
+                    ? 'text-accent font-semibold'
                     : 'text-[#a89384] hover:text-[#f3e6da] glass border border-white/10'
                 }`}
               >

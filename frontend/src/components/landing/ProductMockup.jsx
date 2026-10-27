@@ -136,8 +136,8 @@ export const ProductMockup = () => {
           </button>
         </div>
 
-        {/* Window Content: 3-Column IDE Layout capped on mobile with internal scroll */}
-        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[420px] md:max-h-none min-h-[360px] md:min-h-[380px] bg-page/95 text-xs overflow-y-auto md:overflow-visible">
+        {/* Window Content: 3-Column IDE Layout capped at ~360px desktop and ~300px mobile with internal scroll */}
+        <div className="grid grid-cols-1 md:grid-cols-12 h-[220px] max-h-[220px] md:h-[316px] md:max-h-[316px] bg-page/95 text-xs overflow-hidden">
           {/* Column 1: File Tree (hidden below 768px, 3 cols on md) */}
           <div className="hidden md:flex md:col-span-3 flex-col border-r border-white/[0.08] bg-page/85 p-3 select-none">
             <div className="text-[10px] font-mono uppercase tracking-wider text-[#6e5d50] mb-2 px-1 flex items-center justify-between">

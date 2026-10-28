@@ -51,55 +51,77 @@ export const MenuSheet = ({
 
   // Sync mounted lifecycle with smooth entry/exit animations
   useEffect(() => {
+    let timerId;
+    let rafId;
+
     if (isOpen) {
       previousActiveElement.current = document.activeElement;
       if (prefersReducedMotion) {
-        setIsRendered(true);
-        setIsOpening(false);
-        setIsClosing(false);
+        timerId = setTimeout(() => {
+          setIsRendered(true);
+          setIsOpening(false);
+          setIsClosing(false);
+        }, 0);
       } else {
-        setIsRendered(true);
-        setIsOpening(true);
-        setIsClosing(false);
-        const raf = requestAnimationFrame(() => {
+        timerId = setTimeout(() => {
+          setIsRendered(true);
+          setIsOpening(true);
+          setIsClosing(false);
+        }, 0);
+        rafId = requestAnimationFrame(() => {
           setIsOpening(false);
         });
-        return () => cancelAnimationFrame(raf);
       }
     } else if (isRendered) {
       if (prefersReducedMotion) {
-        setIsRendered(false);
-        setIsOpening(false);
-        setIsClosing(false);
-      } else {
-        setIsClosing(true);
-        setIsOpening(false);
-        const timer = setTimeout(() => {
+        timerId = setTimeout(() => {
           setIsRendered(false);
+          setIsOpening(false);
           setIsClosing(false);
-        }, 260);
-        return () => clearTimeout(timer);
+        }, 0);
+      } else {
+        timerId = setTimeout(() => {
+          setIsClosing(true);
+          setIsOpening(false);
+          timerId = setTimeout(() => {
+            setIsRendered(false);
+            setIsClosing(false);
+          }, 260);
+        }, 0);
       }
     }
-  }, [isOpen, prefersReducedMotion]); // removed isRendered from deps to prevent loop
+
+    return () => {
+      if (timerId) clearTimeout(timerId);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [isOpen, prefersReducedMotion, isRendered]);
 
   // Tab content transition on tab change (150ms fade/translate)
   useEffect(() => {
+    let timerId;
     if (activeTab !== tabContentKey) {
       if (prefersReducedMotion) {
-        setTabContentKey(activeTab);
-      } else {
-        setTabSwitching(true);
-        const timer = setTimeout(() => {
+        timerId = setTimeout(() => {
           setTabContentKey(activeTab);
-          setTabSwitching(false);
-          if (contentAreaRef.current) {
-            contentAreaRef.current.scrollTop = 0;
-          }
-        }, 150);
-        return () => clearTimeout(timer);
+        }, 0);
+      } else {
+        timerId = setTimeout(() => {
+          setIsClosing(false);
+          setTabSwitching(true);
+          timerId = setTimeout(() => {
+            setTabContentKey(activeTab);
+            setTabSwitching(false);
+            if (contentAreaRef.current) {
+              contentAreaRef.current.scrollTop = 0;
+            }
+          }, 150);
+        }, 0);
       }
     }
+    return () => {
+      if (timerId) clearTimeout(timerId);
+    };
   }, [activeTab, tabContentKey, prefersReducedMotion]);
 
   // Sliding active-tab indicator position calculation (transform only)

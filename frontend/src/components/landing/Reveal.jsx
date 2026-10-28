@@ -68,7 +68,7 @@ export const Reveal = ({
       observerCallbacks.delete(el);
       observer?.unobserve(el);
     };
-  }, [isVisible]);
+  }, [isVisible, immediate]);
 
   const handleTransitionEnd = (e) => {
     if (e.target === domRef.current) {

@@ -120,7 +120,7 @@ export const Modal = ({
       {/* Modal Dialog Content */}
       <div
         ref={modalRef}
-        className={`relative w-full ${maxWidth} max-h-[90dvh] overflow-y-auto glass-liquid p-5 sm:p-6 text-[#F5F3FF] modal-shadow transition-all duration-150 ${
+        className={`relative w-full ${maxWidth} max-h-[90dvh] overflow-y-auto menu-glass p-5 sm:p-6 text-[#F5F3FF] modal-shadow transition-all duration-150 ${
           isClosing ? 'animate-scale-out' : 'animate-scale-in'
         } ${className}`}
       >

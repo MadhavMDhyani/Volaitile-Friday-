@@ -70,6 +70,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Page-blur when menu is open — blurs page content behind the overlay.
+   Applied via body.menu-open class toggled by MenuSheet.jsx. */
+main, footer, header {
+  transition: filter 220ms ease, opacity 220ms ease;
+}
+body.menu-open main,
+body.menu-open footer,
+body.menu-open header {
+  filter: blur(18px) saturate(0.85);
+  opacity: 0.55;
+}
+@media (prefers-reduced-motion: reduce) {
+  main, footer, header { transition: none; }
+}
+
 /* Global Selection */
 ::selection {
   background-color: #834DFB;
@@ -222,6 +237,19 @@ select:focus-visible {
     border-radius: 18px;
   }
 
+  /* Frosted-glass panel for the menu overlay.
+     Relies on page-blur (body.menu-open) so backdrop-filter works cleanly
+     without competing with nested blur children. */
+  .menu-glass {
+    position: relative;
+    background: rgba(24, 16, 43, 0.62);
+    backdrop-filter: blur(36px) saturate(150%);
+    -webkit-backdrop-filter: blur(36px) saturate(150%);
+    border: 1px solid rgba(245, 243, 255, 0.14);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6), 0 0 60px rgba(131, 77, 251, 0.15), inset 0 1px 0 rgba(245, 243, 255, 0.12);
+    border-radius: 24px;
+  }
+
   /* Chromium Refraction SVG Filter - desktop only on supported browsers */
   @media (min-width: 768px) {
     .liquid-supported .glass-liquid {
@@ -237,8 +265,9 @@ select:focus-visible {
   .glass-strong,
   .glass-input,
   .glass-pill,
-  .glass-liquid {
-    background: rgba(24, 16, 43, 0.94) !important;
+  .glass-liquid,
+  .menu-glass {
+    background: rgba(24, 16, 43, 0.96) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -250,7 +279,8 @@ select:focus-visible {
   .glass-strong,
   .glass-input,
   .glass-pill,
-  .glass-liquid {
+  .glass-liquid,
+  .menu-glass {
     background: rgba(24, 16, 43, 0.96) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;

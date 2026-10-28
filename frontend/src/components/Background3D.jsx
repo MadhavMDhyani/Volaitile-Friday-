@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -16,27 +16,30 @@ function checkWebGLSupport() {
   }
 }
 
+// Deterministic PRNG to generate starfield positions purely without Math.random during render
+function generateParticlePositions(count, seed = 12345) {
+  const pos = new Float32Array(count * 3);
+  let s = seed;
+  const nextFloat = () => {
+    s = (1103515245 * s + 12345) & 0x7fffffff;
+    return s / 0x7fffffff;
+  };
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3;
+    pos[i3] = (nextFloat() - 0.5) * 35;
+    pos[i3 + 1] = (nextFloat() - 0.5) * 35;
+    pos[i3 + 2] = (nextFloat() - 0.5) * 25;
+  }
+  return pos;
+}
+
+const DESKTOP_PARTICLES = generateParticlePositions(1000, 42);
+const MOBILE_PARTICLES = generateParticlePositions(350, 99);
+
 // Particle field (Starfield layer)
-function ParticleField({ count = 1000, opacity = 0.35, speed = 0.05 }) {
+function ParticleField({ count = 1000, opacity = 0.35, speed = 0.05, isMobile = false }) {
   const pointsRef = useRef();
-  
-  const [positions, initialPositions] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const init = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-      const x = (Math.random() - 0.5) * 35;
-      const y = (Math.random() - 0.5) * 35;
-      const z = (Math.random() - 0.5) * 25;
-      pos[i3] = x;
-      pos[i3 + 1] = y;
-      pos[i3 + 2] = z;
-      init[i3] = x;
-      init[i3 + 1] = y;
-      init[i3 + 2] = z;
-    }
-    return [pos, init];
-  }, [count]);
+  const positions = isMobile ? MOBILE_PARTICLES : DESKTOP_PARTICLES;
 
   useFrame((state, delta) => {
     if (!pointsRef.current) return;
@@ -247,7 +250,12 @@ function SceneContainer({ isLanding, isMobile, isTabHidden }) {
 
       {/* Shapes and Starfield */}
       <FloatingShapes isLanding={isLanding} isMobile={isMobile} />
-      <ParticleField count={particleCount} opacity={particleOpacity} speed={isLanding ? 0.05 : 0.02} />
+      <ParticleField
+        count={particleCount}
+        opacity={particleOpacity}
+        speed={isLanding ? 0.05 : 0.02}
+        isMobile={isMobile}
+      />
     </Canvas>
   );
 }
@@ -265,34 +273,38 @@ export const StaticGradientBackground = () => (
 );
 
 export const Background3D = () => {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [webglSupported, setWebglSupported] = useState(true);
-  const [isTabHidden, setIsTabHidden] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [pathname, setPathname] = useState('/');
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false
+  );
+  const [webglSupported] = useState(() => checkWebGLSupport());
+  const [isTabHidden, setIsTabHidden] = useState(() =>
+    typeof document !== 'undefined' ? document.hidden : false
+  );
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+  const [pathname, setPathname] = useState(() =>
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  );
 
   useEffect(() => {
-    // 1. Accessibility: reduced motion query
+    // 1. Accessibility: reduced motion query listener
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(motionQuery.matches);
     const onMotionChange = (e) => setPrefersReducedMotion(e.matches);
     motionQuery.addEventListener('change', onMotionChange);
 
-    // 2. WebGL support check
-    setWebglSupported(checkWebGLSupport());
-
-    // 3. Viewport width check (mobile < 768px)
+    // 2. Viewport width listener
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // 4. Tab visibility listener to pause rendering when hidden
+    // 3. Tab visibility listener
     const onVisibility = () => setIsTabHidden(document.hidden);
     document.addEventListener('visibilitychange', onVisibility);
 
-    // 5. Track route pathname for Landing vs App page intensity
+    // 4. Track route pathname for Landing vs App page intensity
     const updatePath = () => setPathname(window.location.pathname);
-    updatePath();
     window.addEventListener('popstate', updatePath);
     const interval = setInterval(updatePath, 300);
 

@@ -9,7 +9,7 @@ import Benefits from './Benefits';
 import FAQ from './FAQ';
 import Logo from '../Logo';
 
-export const TABS = [
+const TABS = [
   { id: 'about', label: 'About', path: '/about', icon: 'ri-information-line' },
   { id: 'features', label: 'Features', path: '/features', icon: 'ri-sparkling-2-line' },
   { id: 'how-it-works', label: 'How it works', path: '/how-it-works', icon: 'ri-terminal-box-line' },

@@ -356,18 +356,18 @@ export const MenuSheet = ({
     >
       {/* Scrim Overlay (separate opacity layer, panel backdrop-filter never animates opacity) */}
       <div
-        className={`fixed inset-0 bg-black/70 backdrop-blur-sm ${backdropTransition}`}
+        className={`fixed inset-0 bg-[#0B0716]/80 backdrop-blur-md ${backdropTransition}`}
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Desktop Centered Glass Panel (>= 768px) */}
       <div
-        className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl glass-strong border border-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.85),0_0_60px_rgba(131, 77, 251, 0.12)] overflow-hidden ${desktopPanelTransform}`}
+        className={`hidden md:flex isolate relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl surface-overlay overflow-hidden ${desktopPanelTransform}`}
         style={{ willChange: 'transform' }}
       >
         {/* Left Column: Vertical ARIA Tabs with Sliding Active Indicator */}
-        <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-page/70 backdrop-blur-xl">
+        <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-[#18102B]/95">
           <div>
             {/* Header Brand */}
             <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-5">
@@ -469,9 +469,9 @@ export const MenuSheet = ({
         </div>
 
         {/* Right Column: Tab Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 bg-transparent overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 bg-[#211737] overflow-hidden">
           {/* Top Bar with Title and Close Button */}
-          <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-page/40 backdrop-blur-md">
+          <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-[#18102B]/95">
             <h2
               id={titleId}
               className="text-sm font-semibold text-[#F5F3FF] flex items-center gap-2"

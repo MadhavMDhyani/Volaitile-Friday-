@@ -27,28 +27,28 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       aria-hidden="true"
     >
       <defs>
-        {/* Near-black warm glass squircle tile gradient */}
+        {/* Haiti glass squircle tile gradient */}
         <linearGradient id={tileId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2a1a11" />
-          <stop offset="60%" stopColor="#1e130d" />
-          <stop offset="100%" stopColor="#140d09" />
+          <stop offset="0%" stopColor="#2C2048" />
+          <stop offset="60%" stopColor="#211737" />
+          <stop offset="100%" stopColor="#18102B" />
         </linearGradient>
 
-        {/* Luminous copper monogram gradient */}
+        {/* Luminous Electric Violet monogram gradient */}
         <linearGradient id={gradId} x1="15%" y1="90%" x2="90%" y2="10%">
-          <stop offset="0%" stopColor="#d98a5a" />
-          <stop offset="100%" stopColor="#c47a4a" />
+          <stop offset="0%" stopColor="#834DFB" />
+          <stop offset="100%" stopColor="#6F3BE6" />
         </linearGradient>
 
-        {/* Thin copper-tinted edge highlight for top-left edge */}
+        {/* Thin violet-tinted edge highlight for top-left edge */}
         <linearGradient id={highlightId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(217, 138, 90, 0.45)" />
-          <stop offset="45%" stopColor="rgba(255, 200, 150, 0.20)" />
-          <stop offset="100%" stopColor="rgba(217, 138, 90, 0)" />
+          <stop offset="0%" stopColor="rgba(131, 77, 251, 0.45)" />
+          <stop offset="45%" stopColor="rgba(245, 243, 255, 0.20)" />
+          <stop offset="100%" stopColor="rgba(131, 77, 251, 0)" />
         </linearGradient>
       </defs>
 
-      {/* Near-black Squircle Glass Tile */}
+      {/* Haiti Squircle Glass Tile */}
       <rect
         x="3"
         y="3"
@@ -56,7 +56,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
         height="58"
         rx="16"
         fill={`url(#${tileId})`}
-        stroke="rgba(217, 138, 90, 0.24)"
+        stroke="rgba(131, 77, 251, 0.35)"
         strokeWidth="1.2"
       />
 
@@ -92,20 +92,20 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
         strokeLinecap="round"
       />
 
-      {/* Inner specular line highlight on the stroke in warm white */}
+      {/* Inner specular line highlight on the stroke in Blue Chalk */}
       <path
         d="M 18 22 L 27.5 45 L 43 17"
         fill="none"
-        stroke="#f3e6da"
+        stroke="#F5F3FF"
         strokeWidth="1"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.85"
       />
 
-      {/* Small droplet highlight at V's vertex */}
-      <circle cx="28" cy="48" r="2.2" fill="#f3e6da" />
-      <circle cx="28" cy="47.6" r="1" fill="#f3e6da" opacity="0.9" />
+      {/* Small Turbo highlight droplet at V's vertex */}
+      <circle cx="28" cy="48" r="2.2" fill="#F0E100" />
+      <circle cx="28" cy="47.6" r="1" fill="#F5F3FF" opacity="0.9" />
     </svg>
   );
 
@@ -114,7 +114,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       {icon}
       {showWordmark && (
         <span
-          className={`font-title font-normal tracking-wide text-[#f3e6da] leading-none transition-colors duration-150 group-hover:text-[#f3e6da] ${
+          className={`font-title font-normal tracking-wide text-text-primary leading-none transition-colors duration-150 group-hover:text-text-primary ${
             wordmarkSizes[size] || wordmarkSizes.md
           }`}
         >

@@ -67,7 +67,7 @@ export const Landing = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-transparent text-[#f3e6da] selection:bg-[#f3e6da] selection:text-[#0f0a07] overflow-x-hidden flex flex-col justify-between">
+    <div className="relative min-h-screen w-full bg-transparent text-[#F5F3FF] selection:bg-[#F5F3FF] selection:text-[#110B20] overflow-x-hidden flex flex-col justify-between">
       {/* Sticky Translucent Glass Header with Three-Bars Button */}
       <LandingNav
         isOpen={isSheetOpen}

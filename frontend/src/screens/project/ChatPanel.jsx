@@ -19,7 +19,7 @@ const SafeMarkdownBlock = ({ text }) => {
     return tokens.map((token, idx) => {
       if (token.startsWith('**') && token.endsWith('**') && token.length >= 4) {
         return (
-          <strong key={idx} className="font-semibold text-[#f3e6da]">
+          <strong key={idx} className="font-semibold text-[#F5F3FF]">
             {token.slice(2, -2)}
           </strong>
         );
@@ -28,7 +28,7 @@ const SafeMarkdownBlock = ({ text }) => {
         return (
           <code
             key={idx}
-            className="rounded-md border border-white/[0.1] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-[#c4b5a8]"
+            className="rounded-md border border-white/[0.1] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-[#C9C6D5]"
           >
             {token.slice(1, -1)}
           </code>
@@ -44,13 +44,13 @@ const SafeMarkdownBlock = ({ text }) => {
     };
 
     return (
-      <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#07090e]/95 text-xs font-mono overflow-hidden shadow-glass">
-        <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[10px] text-[#a89384]">
+      <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#110B20]/95 text-xs font-mono overflow-hidden shadow-glass">
+        <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[10px] text-[#9D98AA]">
           <span className="uppercase text-accent font-semibold">{lang || 'CODE'}</span>
           <button
             type="button"
             onClick={handleCopy}
-            className="text-[#a89384] hover:text-[#f3e6da] flex items-center gap-1 focus-ring rounded px-1.5 py-0.5 transition-colors"
+            className="text-[#9D98AA] hover:text-[#F5F3FF] flex items-center gap-1 focus-ring rounded px-1.5 py-0.5 transition-colors"
             title="Copy code"
             aria-label="Copy code block"
           >
@@ -58,7 +58,7 @@ const SafeMarkdownBlock = ({ text }) => {
             <span>Copy</span>
           </button>
         </div>
-        <pre className="p-3.5 overflow-x-auto text-[#f3e6da] leading-relaxed">
+        <pre className="p-3.5 overflow-x-auto text-[#F5F3FF] leading-relaxed">
           <code>{code}</code>
         </pre>
       </div>
@@ -89,7 +89,7 @@ const SafeMarkdownBlock = ({ text }) => {
     if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
       parts.push(
         <div key={`li-${index}`} className="flex items-start gap-2 ml-1 my-0.5">
-          <span className="text-[#6e5d50] select-none">•</span>
+          <span className="text-[#6C667C] select-none">•</span>
           <span className="flex-1">{renderInline(line.trim().slice(2))}</span>
         </div>
       );
@@ -497,12 +497,12 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const otherTypingUsers = (typingUsers || []).filter((u) => u.userId !== currentUserId);
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#07090e]/85 backdrop-blur-xl text-[#f3e6da] overflow-hidden select-none">
+    <div className="flex h-full w-full flex-col bg-[#110B20]/85 backdrop-blur-xl text-[#F5F3FF] overflow-hidden select-none">
       {/* Chat Header */}
-      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#0a0c12]/90 backdrop-blur-md px-3.5 text-xs">
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#110B20]/90 backdrop-blur-md px-3.5 text-xs">
         <div className="flex items-center gap-2 min-w-0">
           <i className="ri-chat-3-line text-accent shrink-0" />
-          <span className="font-semibold text-xs text-[#f3e6da] truncate">Room Chat & Friday AI</span>
+          <span className="font-semibold text-xs text-[#F5F3FF] truncate">Room Chat & Friday AI</span>
         </div>
 
         {/* Live presence indicator */}
@@ -512,7 +512,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               connected ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]' : 'bg-accent animate-pulse'
             }`}
           />
-          <span className={`whitespace-nowrap ${connected ? 'text-[#a89384]' : 'text-accent'}`}>
+          <span className={`whitespace-nowrap ${connected ? 'text-[#9D98AA]' : 'text-accent'}`}>
             {connected
               ? `${onlineUserIds.length} ${onlineUserIds.length === 1 ? 'member' : 'members'} online`
               : 'Connecting...'}
@@ -538,12 +538,12 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         className="flex-1 overflow-y-auto p-3.5 space-y-3 relative select-text"
       >
         {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[#6e5d50]">
+          <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[#6C667C]">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass border-glass-border/40 text-accent/50 mb-3 shadow-glass">
               <i className="ri-chat-smile-2-line text-2xl" />
             </div>
-            <p className="text-xs font-medium text-[#f3e6da]">No messages in this workspace yet</p>
-            <p className="text-[11px] text-[#a89384] mt-1 max-w-xs leading-relaxed">
+            <p className="text-xs font-medium text-[#F5F3FF]">No messages in this workspace yet</p>
+            <p className="text-[11px] text-[#9D98AA] mt-1 max-w-xs leading-relaxed">
               Chat live with collaborators or mention <span className="font-mono text-accent font-semibold">@friday</span> for AI
               assistance.
             </p>
@@ -567,9 +567,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 }`}
               >
                 {/* Header label */}
-                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#a89384] max-w-full">
+                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#9D98AA] max-w-full">
                   {isAi ? (
-                    <span className="inline-flex items-center gap-1.5 font-semibold text-[#f3e6da] min-w-0 flex-wrap">
+                    <span className="inline-flex items-center gap-1.5 font-semibold text-[#F5F3FF] min-w-0 flex-wrap">
                       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
                       <span className="text-accent font-bold shrink-0">Friday AI</span>
                       {(() => {
@@ -590,7 +590,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                           return (
                             <span className="inline-flex items-center gap-1">
                               <span
-                                className="text-[9px] rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.2 text-[#a89384] uppercase cursor-default font-mono"
+                                className="text-[9px] rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.2 text-[#9D98AA] uppercase cursor-default font-mono"
                                 title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
                               >
                                 Offline
@@ -655,9 +655,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 <div
                   className={`max-w-[88%] sm:max-w-[82%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${
                     isAi
-                      ? 'border border-accent-deep bg-accent-tint/20 text-[#c4b5a8] shadow-glass'
+                      ? 'border border-accent-deep bg-accent-tint/20 text-[#C9C6D5] shadow-glass'
                       : isMe
-                      ? `border border-accent-press/30 bg-accent-tint/25 text-[#f3e6da] shadow-glass ${isOptimistic ? 'opacity-70' : ''}`
+                      ? `border border-accent-press/30 bg-accent-tint/25 text-[#F5F3FF] shadow-glass ${isOptimistic ? 'opacity-70' : ''}`
                       : 'border border-white/[0.08] bg-white/[0.04] text-[#e5e5e5]'
                   }`}
                 >
@@ -692,7 +692,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Typing indicator for other members */}
       {otherTypingUsers.length > 0 && (
-        <div className="flex items-center gap-2 border-t border-white/[0.08] bg-[#140d09]/80 px-3.5 py-1.5 text-[11px] font-mono text-[#a89384] animate-fade-in backdrop-blur-sm">
+        <div className="flex items-center gap-2 border-t border-white/[0.08] bg-[#18102B]/80 px-3.5 py-1.5 text-[11px] font-mono text-[#9D98AA] animate-fade-in backdrop-blur-sm">
           <div className="flex items-center gap-1">
             <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '0ms' }} />
             <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -737,9 +737,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 title="Select Friday AI model"
                 aria-label="Friday AI model selection"
               >
-                <option value="auto" className="bg-[#111] text-white">Auto</option>
+                <option value="auto" className="bg-[#18102B] text-white">Auto</option>
                 {availableModels.map((m) => (
-                  <option key={m.id} value={m.id} className="bg-[#111] text-white">
+                  <option key={m.id} value={m.id} className="bg-[#18102B] text-white">
                     {m.label.replace('Gemini ', '')}
                   </option>
                 ))}
@@ -755,7 +755,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               value={inputMessage}
               onChange={handleInputChange}
               placeholder="Message or @friday..."
-              className="w-full h-10 min-w-0 rounded-xl glass-input px-3 text-xs text-[#f3e6da] placeholder-white/40 transition-all"
+              className="w-full h-10 min-w-0 rounded-xl glass-input px-3 text-xs text-[#F5F3FF] placeholder-white/40 transition-all"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />

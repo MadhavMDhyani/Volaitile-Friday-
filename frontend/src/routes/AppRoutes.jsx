@@ -15,7 +15,7 @@ const Project = lazy(() => import('../screens/project'));
 const Landing = lazy(() => import('../screens/Landing'));
 
 const ScreenFallback = () => (
-  <div className="flex min-h-screen w-full flex-col bg-transparent p-6 text-[#f3e6da]">
+  <div className="flex min-h-screen w-full flex-col bg-transparent p-6 text-[#F5F3FF]">
     <div className="flex h-12 items-center justify-between border-b border-white/10 pb-3">
       <Skeleton width="120px" height="20px" />
       <Skeleton width="32px" height="32px" rounded="rounded-lg" />
@@ -33,15 +33,15 @@ const ScreenFallback = () => (
 );
 
 const NotFoundPage = () => (
-  <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#f3e6da] font-sans">
+  <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#F5F3FF] font-sans">
     <div className="glass-liquid p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass mb-4 text-[#f3e6da]">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass mb-4 text-[#F5F3FF]">
         <i className="ri-compass-3-line text-2xl text-accent" />
       </div>
-      <h1 className="text-xl font-bold tracking-tight text-[#f3e6da] sm:text-2xl">
+      <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF] sm:text-2xl">
         Page Not Found
       </h1>
-      <p className="mt-2 max-w-xs text-xs text-[#a89384] leading-relaxed">
+      <p className="mt-2 max-w-xs text-xs text-[#9D98AA] leading-relaxed">
         The requested route or workspace view does not exist.
       </p>
       <Link to="/dashboard" className="mt-6">
@@ -61,13 +61,13 @@ const ProtectedRoute = ({ children }) => {
 
   if (serverError) {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#f3e6da] font-sans">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#F5F3FF] font-sans">
         <div className="glass-liquid p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4">
             <i className="ri-wifi-off-line text-2xl" />
           </div>
-          <h2 className="text-lg font-bold text-[#f3e6da]">Server Unreachable</h2>
-          <p className="mt-2 max-w-xs text-xs text-[#a89384] leading-relaxed">{serverError}</p>
+          <h2 className="text-lg font-bold text-[#F5F3FF]">Server Unreachable</h2>
+          <p className="mt-2 max-w-xs text-xs text-[#9D98AA] leading-relaxed">{serverError}</p>
           <div className="mt-6">
             <Button variant="primary" size="sm" onClick={retryProfileFetch}>
               Retry Connection

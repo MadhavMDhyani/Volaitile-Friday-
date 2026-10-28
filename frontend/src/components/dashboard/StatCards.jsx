@@ -73,17 +73,17 @@ export const StatCards = ({
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {/* 1. Total Projects */}
       <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <div className="flex items-center justify-between text-xs text-[#a89384]">
+        <div className="flex items-center justify-between text-xs text-[#9D98AA]">
           <span className="font-medium">Total Projects</span>
           <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-accent shadow-sm">
             <i className="ri-folder-3-line text-sm" />
           </div>
         </div>
         <div className="mt-3">
-          <div className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
+          <div className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">
             {totalProjects}
           </div>
-          <p className="mt-1 text-[11px] text-[#6e5d50]">
+          <p className="mt-1 text-[11px] text-[#6C667C]">
             Active developer workspaces
           </p>
         </div>
@@ -91,18 +91,18 @@ export const StatCards = ({
 
       {/* 2. Projects Ownership (Owned vs Shared) */}
       <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <div className="flex items-center justify-between text-xs text-[#a89384]">
+        <div className="flex items-center justify-between text-xs text-[#9D98AA]">
           <span className="font-medium">Ownership</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#c4b5a8] shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#C9C6D5] shadow-sm">
             <i className="ri-shield-user-line text-sm" />
           </div>
         </div>
         <div className="mt-3">
           <div className="flex items-baseline gap-2">
-            <span className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
+            <span className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">
               {ownedCount}
             </span>
-            <span className="text-xs font-mono text-[#6e5d50] tabular-nums">/ {totalProjects} owned</span>
+            <span className="text-xs font-mono text-[#6C667C] tabular-nums">/ {totalProjects} owned</span>
           </div>
 
           {/* Liquid ownership ratio bar */}
@@ -114,7 +114,7 @@ export const StatCards = ({
             />
           </div>
 
-          <p className="mt-1.5 text-[11px] text-[#6e5d50] tabular-nums">
+          <p className="mt-1.5 text-[11px] text-[#6C667C] tabular-nums">
             {ownedCount} owned · {memberCount} shared
           </p>
         </div>
@@ -122,9 +122,9 @@ export const StatCards = ({
 
       {/* 3. Files & Lines of Code */}
       <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <div className="flex items-center justify-between text-xs text-[#a89384]">
+        <div className="flex items-center justify-between text-xs text-[#9D98AA]">
           <span className="font-medium">Total Codebase</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#f3e6da] shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-[#F5F3FF] shadow-sm">
             <i className="ri-code-box-line text-sm" />
           </div>
         </div>
@@ -136,11 +136,11 @@ export const StatCards = ({
             </div>
           ) : (
             <>
-              <div className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
+              <div className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">
                 {projectStats.totalFiles.toLocaleString()}{' '}
-                <span className="text-sm font-normal text-[#a89384]">files</span>
+                <span className="text-sm font-normal text-[#9D98AA]">files</span>
               </div>
-              <p className="mt-1 font-mono text-[11px] text-[#6e5d50] tabular-nums">
+              <p className="mt-1 font-mono text-[11px] text-[#6C667C] tabular-nums">
                 {projectStats.totalLines.toLocaleString()} lines of code
               </p>
             </>
@@ -150,17 +150,17 @@ export const StatCards = ({
 
       {/* 4. Collaborators */}
       <div className="flex flex-col justify-between rounded-2xl glass p-4.5 transition-all duration-180 hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <div className="flex items-center justify-between text-xs text-[#a89384]">
+        <div className="flex items-center justify-between text-xs text-[#9D98AA]">
           <span className="font-medium">Collaborators</span>
           <div className="flex h-8 w-8 items-center justify-center rounded-xl glass text-accent-hover shadow-sm">
             <i className="ri-team-line text-sm" />
           </div>
         </div>
         <div className="mt-3">
-          <div className="font-mono text-2xl font-bold tracking-tight text-[#f3e6da] tabular-nums">
+          <div className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">
             {uniqueCollaborators.size}
           </div>
-          <p className="mt-1 text-[11px] text-[#6e5d50] tabular-nums">
+          <p className="mt-1 text-[11px] text-[#6C667C] tabular-nums">
             {uniqueCollaborators.size === 1 ? 'Peer collaborator' : 'Peer collaborators across projects'}
           </p>
         </div>

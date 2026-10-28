@@ -114,9 +114,9 @@ export const Project = () => {
   // Loading State with Skeletons
   if (fetchStatus === 'loading') {
     return (
-      <div className="flex h-screen w-full flex-col bg-[#0f0a07]/85 backdrop-blur-sm text-[#f3e6da] font-sans">
+      <div className="flex h-screen w-full flex-col bg-[#110B20]/85 backdrop-blur-sm text-[#F5F3FF] font-sans">
         {/* Header Skeleton */}
-        <div className="flex h-12 items-center justify-between border-b border-white/[0.08] bg-[#0f0a07]/80 backdrop-blur-md px-4">
+        <div className="flex h-12 items-center justify-between border-b border-white/[0.08] bg-[#110B20]/80 backdrop-blur-md px-4">
           <div className="flex items-center gap-3">
             <Skeleton width="28px" height="28px" rounded="rounded-lg" />
             <Skeleton width="150px" height="18px" />
@@ -126,13 +126,13 @@ export const Project = () => {
 
         {/* Content Skeleton */}
         <div className="flex flex-1 overflow-hidden">
-          <div className="w-64 border-r border-white/[0.08] bg-[#0f0a07]/70 backdrop-blur-md p-3 space-y-2">
+          <div className="w-64 border-r border-white/[0.08] bg-[#110B20]/70 backdrop-blur-md p-3 space-y-2">
             <Skeleton width="60%" height="16px" />
             <Skeleton width="100%" height="28px" rounded="rounded-lg" />
             <Skeleton width="100%" height="28px" rounded="rounded-lg" />
             <Skeleton width="100%" height="28px" rounded="rounded-lg" />
           </div>
-          <div className="flex-1 bg-[#0f0a07]/80 p-4">
+          <div className="flex-1 bg-[#110B20]/80 p-4">
             <Skeleton width="100%" height="100%" rounded="rounded-2xl" />
           </div>
         </div>
@@ -143,15 +143,15 @@ export const Project = () => {
   // 403 Forbidden State: User does not have access
   if (fetchStatus === 'forbidden') {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0f0a07]/85 backdrop-blur-sm px-4 text-center text-[#f3e6da] font-sans">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#110B20]/85 backdrop-blur-sm px-4 text-center text-[#F5F3FF] font-sans">
         <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgb(var(--accent-rgb)/0.25)]">
             <i className="ri-lock-line text-2xl" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#f3e6da]">
+          <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF]">
             Access Denied
           </h1>
-          <p className="mt-2 text-xs text-[#a89384] leading-relaxed">
+          <p className="mt-2 text-xs text-[#9D98AA] leading-relaxed">
             You do not have access to this project. Ask the project owner to add you as a collaborator.
           </p>
           <Link to="/" className="mt-6">
@@ -167,15 +167,15 @@ export const Project = () => {
   // 404 Not Found State
   if (fetchStatus === 'notfound') {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0f0a07]/85 backdrop-blur-sm px-4 text-center text-[#f3e6da] font-sans">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#110B20]/85 backdrop-blur-sm px-4 text-center text-[#F5F3FF] font-sans">
         <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-[#a89384] mb-4 shadow-glass">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-[#9D98AA] mb-4 shadow-glass">
             <i className="ri-folder-warning-line text-2xl text-accent" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#f3e6da]">
+          <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF]">
             Project Not Found
           </h1>
-          <p className="mt-2 text-xs text-[#a89384] leading-relaxed">
+          <p className="mt-2 text-xs text-[#9D98AA] leading-relaxed">
             The requested project workspace does not exist or may have been deleted.
           </p>
           <Link to="/" className="mt-6">
@@ -191,15 +191,15 @@ export const Project = () => {
   // Error State with Retry
   if (fetchStatus === 'error') {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#0f0a07]/85 backdrop-blur-sm px-4 text-center text-[#f3e6da] font-sans">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#110B20]/85 backdrop-blur-sm px-4 text-center text-[#F5F3FF] font-sans">
         <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgb(var(--accent-rgb)/0.25)]">
             <i className="ri-error-warning-line text-2xl" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#f3e6da]">
+          <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF]">
             Unable to Load Workspace
           </h1>
-          <p className="mt-2 text-xs text-[#a89384] leading-relaxed">
+          <p className="mt-2 text-xs text-[#9D98AA] leading-relaxed">
             {fetchErrorMsg || 'A network error occurred while retrieving project details.'}
           </p>
           <div className="mt-6 flex gap-3">
@@ -218,7 +218,7 @@ export const Project = () => {
   }
 
   return (
-    <div className="flex h-screen w-full flex-col bg-[#0f0a07]/80 text-[#f3e6da] font-sans overflow-hidden">
+    <div className="flex h-screen w-full flex-col bg-[#110B20]/80 text-[#F5F3FF] font-sans overflow-hidden">
       {/* Top Navigation */}
       <ProjectHeader
         project={project}
@@ -244,7 +244,7 @@ export const Project = () => {
 
         {/* Chat & AI Panel */}
         <section
-          className={`w-full lg:w-[440px] shrink-0 flex flex-col border-l border-white/[0.08] bg-[#140d09]/50 backdrop-blur-xl ${
+          className={`w-full lg:w-[440px] shrink-0 flex flex-col border-l border-white/[0.08] bg-[#18102B]/50 backdrop-blur-xl ${
             mobileTab === 'chat' ? 'flex' : 'hidden lg:flex'
           }`}
           aria-label="Team chat and Friday AI assistant"
@@ -259,7 +259,7 @@ export const Project = () => {
 
       {/* Bottom Tab Bar (below 1024px, >= 48px height, safe-area aware) */}
       <nav
-        className="lg:hidden flex items-center justify-around border-t border-white/[0.08] bg-[#140d09]/95 backdrop-blur-xl shrink-0 min-h-[48px] h-14 pb-[env(safe-area-inset-bottom,0px)] z-30 select-none"
+        className="lg:hidden flex items-center justify-around border-t border-white/[0.08] bg-[#18102B]/95 backdrop-blur-xl shrink-0 min-h-[48px] h-14 pb-[env(safe-area-inset-bottom,0px)] z-30 select-none"
         aria-label="Project view navigation"
       >
         <button
@@ -268,7 +268,7 @@ export const Project = () => {
           className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
             mobileTab === 'files'
               ? 'text-accent font-semibold'
-              : 'text-[#a89384] hover:text-[#f3e6da]'
+              : 'text-[#9D98AA] hover:text-[#F5F3FF]'
           }`}
         >
           <i className="ri-folder-line text-lg" />
@@ -281,7 +281,7 @@ export const Project = () => {
           className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
             mobileTab === 'editor'
               ? 'text-accent font-semibold'
-              : 'text-[#a89384] hover:text-[#f3e6da]'
+              : 'text-[#9D98AA] hover:text-[#F5F3FF]'
           }`}
         >
           <i className="ri-code-s-slash-line text-lg" />
@@ -294,7 +294,7 @@ export const Project = () => {
           className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
             mobileTab === 'chat'
               ? 'text-accent font-semibold'
-              : 'text-[#a89384] hover:text-[#f3e6da]'
+              : 'text-[#9D98AA] hover:text-[#F5F3FF]'
           }`}
         >
           <i className="ri-chat-3-line text-lg" />

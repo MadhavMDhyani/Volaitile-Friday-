@@ -38,9 +38,9 @@ export const ToastItem = ({ toast, onDismiss }) => {
 
   const typeConfig = {
     success: {
-      icon: 'ri-check-line text-[#c4b5a8]',
+      icon: 'ri-check-line text-[#C9C6D5]',
       border: 'border-white/10',
-      bar: 'bg-[#c4b5a8]/60',
+      bar: 'bg-[#C9C6D5]/60',
     },
     error: {
       icon: 'ri-error-warning-line text-accent',
@@ -48,9 +48,9 @@ export const ToastItem = ({ toast, onDismiss }) => {
       bar: 'bg-accent/80',
     },
     info: {
-      icon: 'ri-information-line text-[#a89384]',
+      icon: 'ri-information-line text-[#9D98AA]',
       border: 'border-white/10',
-      bar: 'bg-[#a89384]/80',
+      bar: 'bg-[#9D98AA]/80',
     },
   };
 
@@ -60,20 +60,20 @@ export const ToastItem = ({ toast, onDismiss }) => {
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`group relative flex w-full max-w-sm overflow-hidden rounded-xl glass-strong p-3.5 text-sm text-[#f3e6da] modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
+      className={`group relative flex w-full max-w-sm overflow-hidden rounded-xl glass-strong p-3.5 text-sm text-[#F5F3FF] modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
       role="status"
       aria-live="polite"
     >
       <div className="flex w-full items-start gap-3">
         <i className={`${config.icon} text-lg leading-tight mt-0.5`} />
         <div className="flex-1 pr-2">
-          {toast.title && <div className="font-semibold text-xs text-[#f3e6da] mb-0.5">{toast.title}</div>}
-          <div className="text-xs text-[#a89384] leading-snug break-words">{toast.message}</div>
+          {toast.title && <div className="font-semibold text-xs text-[#F5F3FF] mb-0.5">{toast.title}</div>}
+          <div className="text-xs text-[#9D98AA] leading-snug break-words">{toast.message}</div>
         </div>
         <button
           type="button"
           onClick={() => onDismiss(toast.id)}
-          className="text-[#a89384] hover:text-[#f3e6da] p-1 rounded-md hover:bg-white/8 transition-colors focus-ring"
+          className="text-[#9D98AA] hover:text-[#F5F3FF] p-1 rounded-md hover:bg-white/8 transition-colors focus-ring"
           aria-label="Dismiss notification"
         >
           <i className="ri-close-line text-sm" />

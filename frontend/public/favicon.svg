@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
-  <!-- Near-black background tile -->
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0A0A0A" stroke="#FFD60A" stroke-width="2" stroke-opacity="0.35" />
-  <!-- Solid yellow VF monogram -->
+  <!-- Haiti background tile with violet border -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#18102B" stroke="#834DFB" stroke-width="2" stroke-opacity="0.5" />
+  <!-- Turbo yellow VF monogram -->
   <path
     d="M 15 20 L 28 49 L 45 15 L 54 15"
     fill="none"
-    stroke="#FFD60A"
+    stroke="#F0E100"
     stroke-width="6"
     stroke-linecap="round"
     stroke-linejoin="round"
@@ -13,10 +13,10 @@
   <path
     d="M 37 30 L 49 30"
     fill="none"
-    stroke="#FFD60A"
+    stroke="#F0E100"
     stroke-width="6"
     stroke-linecap="round"
   />
-  <!-- Pale yellow droplet at vertex -->
-  <circle cx="28" cy="49" r="3" fill="#FFF3B0" />
+  <!-- Electric Violet accent droplet at vertex -->
+  <circle cx="28" cy="49" r="3" fill="#834DFB" />
 </svg>

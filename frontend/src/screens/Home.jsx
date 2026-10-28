@@ -144,22 +144,22 @@ export const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-[#f3e6da] flex flex-col font-sans selection:bg-[#f3e6da] selection:text-[#0f0a07]">
+    <div className="min-h-screen bg-transparent text-[#F5F3FF] flex flex-col font-sans selection:bg-[#F5F3FF] selection:text-[#110B20]">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0f0a07]/75 backdrop-blur-[var(--blur)]">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#110B20]/75 backdrop-blur-[var(--blur)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6 min-w-0">
             <Logo size="md" to="/dashboard" />
             <nav className="hidden sm:flex items-center gap-4 text-xs font-medium" aria-label="Main Navigation">
               <Link
                 to="/dashboard"
-                className="text-[#a89384] hover:text-[#f3e6da] transition-colors"
+                className="text-[#9D98AA] hover:text-[#F5F3FF] transition-colors"
               >
                 Dashboard
               </Link>
               <Link
                 to="/"
-                className="text-[#f3e6da] border-b-2 border-white pb-0.5 transition-colors"
+                className="text-[#F5F3FF] border-b-2 border-white pb-0.5 transition-colors"
                 aria-current="page"
               >
                 Projects
@@ -177,10 +177,10 @@ export const Home = () => {
         {/* Title & Actions Bar */}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-5">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#f3e6da]">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F5F3FF]">
               Projects
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#a89384]">
+            <p className="mt-1 text-xs sm:text-sm text-[#9D98AA]">
               Cloud developer workspaces with collaborative editing and Friday AI.
             </p>
           </div>
@@ -202,20 +202,20 @@ export const Home = () => {
         {/* Filters and Controls */}
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative flex-1 max-w-md">
-            <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#6e5d50]" />
+            <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#6C667C]" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search projects..."
-              className="w-full glass-input pl-9 pr-8 py-2 text-xs text-[#f3e6da] placeholder-[#6e5d50] focus-ring transition-colors"
+              className="w-full glass-input pl-9 pr-8 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
               aria-label="Search projects by name"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#6e5d50] hover:text-[#f3e6da] p-0.5"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#6C667C] hover:text-[#F5F3FF] p-0.5"
                 aria-label="Clear search"
               >
                 <i className="ri-close-line text-xs" />
@@ -224,15 +224,15 @@ export const Home = () => {
           </div>
 
           <div className="flex items-center gap-2 self-end sm:self-auto">
-            <span className="text-xs text-[#6e5d50]">Sort:</span>
+            <span className="text-xs text-[#6C667C]">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="glass-input px-3 py-2 text-xs text-[#f3e6da] focus-ring cursor-pointer"
+              className="glass-input px-3 py-2 text-xs text-[#F5F3FF] focus-ring cursor-pointer"
               aria-label="Sort projects"
             >
-              <option value="newest" className="bg-[#0f0a07]">Newest first</option>
-              <option value="name" className="bg-[#0f0a07]">Name (A-Z)</option>
+              <option value="newest" className="bg-[#110B20]">Newest first</option>
+              <option value="name" className="bg-[#110B20]">Name (A-Z)</option>
             </select>
           </div>
         </div>
@@ -283,20 +283,20 @@ export const Home = () => {
                   <div>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2 max-w-[80%]">
-                        <i className="ri-folder-line text-[#a89384] text-base group-hover:text-accent transition-colors" />
-                        <h2 className="font-semibold text-sm tracking-tight text-[#f3e6da] truncate font-mono">
+                        <i className="ri-folder-line text-[#9D98AA] text-base group-hover:text-accent transition-colors" />
+                        <h2 className="font-semibold text-sm tracking-tight text-[#F5F3FF] truncate font-mono">
                           {proj.name}
                         </h2>
                       </div>
 
                       {isProjOwner && (
-                        <span className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.06] px-2 py-0.5 text-[10px] font-mono text-[#a89384]">
+                        <span className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.06] px-2 py-0.5 text-[10px] font-mono text-[#9D98AA]">
                           Owner
                         </span>
                       )}
                     </div>
 
-                    <div className="mt-4 flex items-center gap-4 text-xs text-[#6e5d50]">
+                    <div className="mt-4 flex items-center gap-4 text-xs text-[#6C667C]">
                       <span className="flex items-center gap-1.5">
                         <i className="ri-group-line text-xs" />
                         <span>{proj.users?.length || 1} member{proj.users?.length !== 1 ? 's' : ''}</span>
@@ -315,7 +315,7 @@ export const Home = () => {
 
                   {/* Card Footer */}
                   <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-3 text-xs">
-                    <span className="inline-flex items-center gap-1 text-[#a89384] group-hover:text-[#f3e6da] transition-colors">
+                    <span className="inline-flex items-center gap-1 text-[#9D98AA] group-hover:text-[#F5F3FF] transition-colors">
                       Open workspace
                       <i className="ri-arrow-right-line text-xs transition-transform duration-150 group-hover:translate-x-0.5" />
                     </span>
@@ -327,7 +327,7 @@ export const Home = () => {
                           e.stopPropagation();
                           setDeletingProjectId(proj._id);
                         }}
-                        className="text-[#6e5d50] hover:text-accent p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
+                        className="text-[#6C667C] hover:text-accent p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
                         title="Delete project"
                         aria-label={`Delete project ${proj.name}`}
                       >
@@ -341,13 +341,13 @@ export const Home = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-16 px-4 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass text-[#a89384] mb-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass text-[#9D98AA] mb-4">
               <i className="ri-folder-add-line text-2xl text-accent" />
             </div>
-            <h3 className="text-sm font-semibold text-[#f3e6da]">
+            <h3 className="text-sm font-semibold text-[#F5F3FF]">
               {searchQuery ? 'No matching projects' : 'No projects yet'}
             </h3>
-            <p className="mt-1 text-xs text-[#a89384] max-w-sm">
+            <p className="mt-1 text-xs text-[#9D98AA] max-w-sm">
               {searchQuery
                 ? `No projects matched "${searchQuery}". Try a different search query.`
                 : 'Get started by creating your first project workspace with automatic seed files.'}
@@ -384,7 +384,7 @@ export const Home = () => {
           )}
 
           <div>
-            <label className="block text-xs font-medium text-[#a89384] mb-1.5" htmlFor="new-proj-name">
+            <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="new-proj-name">
               Project Name
             </label>
             <input
@@ -396,11 +396,11 @@ export const Home = () => {
                 setCreateError('');
               }}
               placeholder="e.g. backend-api or auth-service"
-              className="w-full glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] focus-ring transition-colors font-mono"
+              className="w-full glass-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors font-mono"
               autoFocus
               required
             />
-            <p className="mt-1.5 text-[11px] text-[#6e5d50]">
+            <p className="mt-1.5 text-[11px] text-[#6C667C]">
               Starter files (README.md, index.js, package.json) will be seeded automatically.
             </p>
           </div>

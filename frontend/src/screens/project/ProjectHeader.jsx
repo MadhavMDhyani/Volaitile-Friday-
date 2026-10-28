@@ -30,7 +30,7 @@ export const ProjectHeader = ({
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <Link
             to="/dashboard"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >
@@ -40,7 +40,7 @@ export const ProjectHeader = ({
           <div className="h-4 w-[1px] bg-white/[0.1] shrink-0" />
 
           <div className="flex items-center gap-2 min-w-0">
-            <span className="font-mono font-semibold text-xs sm:text-sm text-[#f3e6da] tracking-wide truncate">
+            <span className="font-mono font-semibold text-xs sm:text-sm text-[#F5F3FF] tracking-wide truncate">
               {project?.name || 'Project Workspace'}
             </span>
 
@@ -77,7 +77,7 @@ export const ProjectHeader = ({
           <button
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg glass text-[#a89384] hover:text-[#f3e6da] focus-ring"
+            className="flex h-8 w-8 items-center justify-center rounded-lg glass text-[#9D98AA] hover:text-[#F5F3FF] focus-ring"
             aria-label="Workspace secondary actions"
             aria-expanded={isMenuOpen}
           >
@@ -92,7 +92,7 @@ export const ProjectHeader = ({
                   setIsMenuOpen(false);
                   onOpenMembers();
                 }}
-                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-[#f3e6da] hover:bg-white/[0.06] text-left transition-colors"
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-[#F5F3FF] hover:bg-white/[0.06] text-left transition-colors"
               >
                 <span className="flex items-center gap-2">
                   <i className="ri-group-line text-accent" />

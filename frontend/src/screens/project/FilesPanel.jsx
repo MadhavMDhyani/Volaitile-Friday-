@@ -258,12 +258,12 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
   };
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-[#0f0a07]/95">
+    <div className="flex h-full w-full overflow-hidden bg-[#110B20]/95">
       {/* Sidebar: File Explorer */}
-      <aside className={`${mobileView === 'editor' ? 'hidden lg:flex' : 'flex'} w-full lg:w-64 shrink-0 border-r border-white/[0.08] bg-[#0f0a07]/85 backdrop-blur-md flex-col`}>
+      <aside className={`${mobileView === 'editor' ? 'hidden lg:flex' : 'flex'} w-full lg:w-64 shrink-0 border-r border-white/[0.08] bg-[#110B20]/85 backdrop-blur-md flex-col`}>
         {/* Files Header & Add Button */}
         <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] px-3.5">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#a89384] font-semibold flex items-center gap-1.5">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9D98AA] font-semibold flex items-center gap-1.5">
             <i className="ri-folder-open-line text-xs text-accent" />
             Files ({files.length})
           </span>
@@ -275,7 +275,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
               setNewFilePath('');
               setIsNewFileModalOpen(true);
             }}
-            className="flex h-6 w-6 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-6 w-6 items-center justify-center rounded-lg glass border-glass-border/40 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
             title="Create new file"
             aria-label="Create new file"
           >
@@ -307,8 +307,8 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                     }}
                     className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-all duration-150 cursor-pointer ${
                       isActive
-                        ? 'glass-strong text-[#f3e6da] font-medium border border-accent/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.12)]'
-                        : 'text-[#a89384] hover:bg-white/[0.04] hover:text-[#f3e6da]'
+                        ? 'glass-strong text-[#F5F3FF] font-medium border border-accent/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.12)]'
+                        : 'text-[#9D98AA] hover:bg-white/[0.04] hover:text-[#F5F3FF]'
                     }`}
                   >
                     {/* Active Bar indicator */}
@@ -323,7 +323,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                       <i
                         className={`text-sm ${
                           file.name.endsWith('.json')
-                            ? 'ri-braces-line text-[#c4b5a8]/80'
+                            ? 'ri-braces-line text-[#C9C6D5]/80'
                             : file.name.endsWith('.md')
                             ? 'ri-markdown-line text-accent/80'
                             : 'ri-file-code-line text-accent/80'
@@ -342,7 +342,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                             if (e.key === 'Escape') setRenamingFileId(null);
                           }}
                           onBlur={() => handleConfirmRename(file._id)}
-                          className="w-full glass-input border-accent/50 px-1.5 py-0.5 text-xs text-[#f3e6da] rounded-md outline-none"
+                          className="w-full glass-input border-accent/50 px-1.5 py-0.5 text-xs text-[#F5F3FF] rounded-md outline-none"
                         />
                       ) : (
                         <span className="truncate">{file.path || file.name}</span>
@@ -356,7 +356,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                           <button
                             type="button"
                             onClick={(e) => handleStartRename(file, e)}
-                            className="p-1 text-[#6e5d50] hover:text-[#f3e6da] rounded focus-ring"
+                            className="p-1 text-[#6C667C] hover:text-[#F5F3FF] rounded focus-ring"
                             title="Rename file"
                             aria-label={`Rename ${file.name}`}
                           >
@@ -368,7 +368,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                               e.stopPropagation();
                               setDeletingFile(file);
                             }}
-                            className="p-1 text-[#6e5d50] hover:text-accent rounded focus-ring"
+                            className="p-1 text-[#6C667C] hover:text-accent rounded focus-ring"
                             title="Delete file"
                             aria-label={`Delete ${file.name}`}
                           >
@@ -387,7 +387,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
               })}
             </ul>
           ) : (
-            <div className="p-4 text-center text-xs text-[#6e5d50]">
+            <div className="p-4 text-center text-xs text-[#6C667C]">
               <p className="mb-2">No files yet</p>
               <Button
                 variant="secondary"
@@ -434,7 +434,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
           )}
 
           <div>
-            <label className="block text-xs font-medium text-[#a89384] mb-1.5" htmlFor="new-file-name">
+            <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="new-file-name">
               File Name
             </label>
             <input
@@ -446,14 +446,14 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                 setNewFileError('');
               }}
               placeholder="e.g. server.js or utils/helper.js"
-              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-all font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all font-mono"
               autoFocus
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#a89384] mb-1.5" htmlFor="new-file-path">
+            <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="new-file-path">
               Path (Optional folder override)
             </label>
             <input
@@ -462,9 +462,9 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
               value={newFilePath}
               onChange={(e) => setNewFilePath(e.target.value)}
               placeholder="Defaults to file name (no leading slash)"
-              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#f3e6da] placeholder-[#6e5d50] transition-all font-mono"
+              className="w-full rounded-xl glass-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all font-mono"
             />
-            <p className="mt-1 text-[11px] text-[#6e5d50]">
+            <p className="mt-1 text-[11px] text-[#6C667C]">
               No &apos;..&apos;, no leading slashes, max 200 characters.
             </p>
           </div>

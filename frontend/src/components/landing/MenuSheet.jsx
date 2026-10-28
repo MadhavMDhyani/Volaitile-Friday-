@@ -9,7 +9,7 @@ import Benefits from './Benefits';
 import FAQ from './FAQ';
 import Logo from '../Logo';
 
-export const TABS = [
+const TABS = [
   { id: 'about', label: 'About', path: '/about', icon: 'ri-information-line' },
   { id: 'features', label: 'Features', path: '/features', icon: 'ri-sparkling-2-line' },
   { id: 'how-it-works', label: 'How it works', path: '/how-it-works', icon: 'ri-terminal-box-line' },
@@ -51,55 +51,77 @@ export const MenuSheet = ({
 
   // Sync mounted lifecycle with smooth entry/exit animations
   useEffect(() => {
+    let timerId;
+    let rafId;
+
     if (isOpen) {
       previousActiveElement.current = document.activeElement;
       if (prefersReducedMotion) {
-        setIsRendered(true);
-        setIsOpening(false);
-        setIsClosing(false);
+        timerId = setTimeout(() => {
+          setIsRendered(true);
+          setIsOpening(false);
+          setIsClosing(false);
+        }, 0);
       } else {
-        setIsRendered(true);
-        setIsOpening(true);
-        setIsClosing(false);
-        const raf = requestAnimationFrame(() => {
+        timerId = setTimeout(() => {
+          setIsRendered(true);
+          setIsOpening(true);
+          setIsClosing(false);
+        }, 0);
+        rafId = requestAnimationFrame(() => {
           setIsOpening(false);
         });
-        return () => cancelAnimationFrame(raf);
       }
     } else if (isRendered) {
       if (prefersReducedMotion) {
-        setIsRendered(false);
-        setIsOpening(false);
-        setIsClosing(false);
-      } else {
-        setIsClosing(true);
-        setIsOpening(false);
-        const timer = setTimeout(() => {
+        timerId = setTimeout(() => {
           setIsRendered(false);
+          setIsOpening(false);
           setIsClosing(false);
-        }, 260);
-        return () => clearTimeout(timer);
+        }, 0);
+      } else {
+        timerId = setTimeout(() => {
+          setIsClosing(true);
+          setIsOpening(false);
+          timerId = setTimeout(() => {
+            setIsRendered(false);
+            setIsClosing(false);
+          }, 260);
+        }, 0);
       }
     }
-  }, [isOpen, prefersReducedMotion]); // removed isRendered from deps to prevent loop
+
+    return () => {
+      if (timerId) clearTimeout(timerId);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [isOpen, prefersReducedMotion, isRendered]);
 
   // Tab content transition on tab change (150ms fade/translate)
   useEffect(() => {
+    let timerId;
     if (activeTab !== tabContentKey) {
       if (prefersReducedMotion) {
-        setTabContentKey(activeTab);
-      } else {
-        setTabSwitching(true);
-        const timer = setTimeout(() => {
+        timerId = setTimeout(() => {
           setTabContentKey(activeTab);
-          setTabSwitching(false);
-          if (contentAreaRef.current) {
-            contentAreaRef.current.scrollTop = 0;
-          }
-        }, 150);
-        return () => clearTimeout(timer);
+        }, 0);
+      } else {
+        timerId = setTimeout(() => {
+          setIsClosing(false);
+          setTabSwitching(true);
+          timerId = setTimeout(() => {
+            setTabContentKey(activeTab);
+            setTabSwitching(false);
+            if (contentAreaRef.current) {
+              contentAreaRef.current.scrollTop = 0;
+            }
+          }, 150);
+        }, 0);
       }
     }
+    return () => {
+      if (timerId) clearTimeout(timerId);
+    };
   }, [activeTab, tabContentKey, prefersReducedMotion]);
 
   // Sliding active-tab indicator position calculation (transform only)
@@ -341,7 +363,7 @@ export const MenuSheet = ({
 
       {/* Desktop Centered Glass Panel (>= 768px) */}
       <div
-        className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl glass-strong border border-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.85),0_0_60px_rgba(217,138,90,0.12)] overflow-hidden ${desktopPanelTransform}`}
+        className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl glass-strong border border-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.85),0_0_60px_rgba(131, 77, 251, 0.12)] overflow-hidden ${desktopPanelTransform}`}
         style={{ willChange: 'transform' }}
       >
         {/* Left Column: Vertical ARIA Tabs with Sliding Active Indicator */}
@@ -396,11 +418,11 @@ export const MenuSheet = ({
                     className={`relative z-10 min-h-[44px] w-full px-3.5 py-2.5 rounded-xl text-xs font-medium flex items-center justify-between transition-colors focus-ring text-left cursor-pointer ${
                       isActive
                         ? 'text-accent font-semibold'
-                        : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
+                        : 'text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.04]'
                     }`}
                   >
                     <span className="flex items-center gap-2.5">
-                      <i className={`${tab.icon} text-base ${isActive ? 'text-accent' : 'text-[#a89384]'}`} />
+                      <i className={`${tab.icon} text-base ${isActive ? 'text-accent' : 'text-[#9D98AA]'}`} />
                       <span>{tab.label}</span>
                     </span>
                     {isActive && (
@@ -418,7 +440,7 @@ export const MenuSheet = ({
               <Link
                 to="/dashboard"
                 onClick={onClose}
-                className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+                className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
               >
                 Open dashboard
               </Link>
@@ -427,21 +449,21 @@ export const MenuSheet = ({
                 <Link
                   to="/login"
                   onClick={onClose}
-                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium glass text-[#f3e6da] hover:border-white/30 transition-all focus-ring"
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium glass text-[#F5F3FF] hover:border-white/30 transition-all focus-ring"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/register"
                   onClick={onClose}
-                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
                 >
                   Get started
                 </Link>
               </div>
             )}
-            <div className="text-[10px] font-mono text-[#6e5d50] text-center pt-1">
-              Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-[#a89384]">Esc</kbd> to close
+            <div className="text-[10px] font-mono text-[#6C667C] text-center pt-1">
+              Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-[#9D98AA]">Esc</kbd> to close
             </div>
           </div>
         </div>
@@ -452,7 +474,7 @@ export const MenuSheet = ({
           <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-page/40 backdrop-blur-md">
             <h2
               id={titleId}
-              className="text-sm font-semibold text-[#f3e6da] flex items-center gap-2"
+              className="text-sm font-semibold text-[#F5F3FF] flex items-center gap-2"
             >
               <i className={`${activeTabMeta.icon} text-accent text-base`} />
               <span>{activeTabMeta.label}</span>
@@ -463,7 +485,7 @@ export const MenuSheet = ({
               type="button"
               onClick={onClose}
               aria-label="Close menu"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#a89384] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#9D98AA] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
             >
               <i className="ri-close-line text-lg" />
             </button>
@@ -496,7 +518,7 @@ export const MenuSheet = ({
 
       {/* Mobile Full-Screen Sheet (< 768px) with Sliding Indicator and Slide-Up Motion */}
       <div
-        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col bg-[#140d09]/95 backdrop-blur-2xl text-[#f3e6da] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
+        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col bg-[#18102B]/95 backdrop-blur-2xl text-[#F5F3FF] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
         style={{ willChange: 'transform' }}
       >
         {/* Mobile Header Bar */}
@@ -508,7 +530,7 @@ export const MenuSheet = ({
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#a89384] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
+            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#9D98AA] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
           >
             <i className="ri-close-line text-xl" />
           </button>
@@ -555,10 +577,10 @@ export const MenuSheet = ({
                 className={`relative z-10 min-h-[44px] px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap snap-start shrink-0 flex items-center gap-2 transition-colors focus-ring cursor-pointer ${
                   isActive
                     ? 'text-accent font-semibold'
-                    : 'text-[#a89384] hover:text-[#f3e6da] glass border border-white/10'
+                    : 'text-[#9D98AA] hover:text-[#F5F3FF] glass border border-white/10'
                 }`}
               >
-                <i className={`${tab.icon} text-sm ${isActive ? 'text-accent' : 'text-[#a89384]'}`} />
+                <i className={`${tab.icon} text-sm ${isActive ? 'text-accent' : 'text-[#9D98AA]'}`} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -593,7 +615,7 @@ export const MenuSheet = ({
             <Link
               to="/dashboard"
               onClick={onClose}
-              className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+              className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
             >
               Open dashboard
             </Link>
@@ -602,14 +624,14 @@ export const MenuSheet = ({
               <Link
                 to="/login"
                 onClick={onClose}
-                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium glass text-[#f3e6da] hover:border-white/30 transition-all focus-ring"
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium glass text-[#F5F3FF] hover:border-white/30 transition-all focus-ring"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
                 onClick={onClose}
-                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
               >
                 Get started
               </Link>

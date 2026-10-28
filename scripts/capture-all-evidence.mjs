@@ -1,15 +1,20 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const outDir = path.resolve(__dirname, '..', 'screenshots');
+
+if (!fs.existsSync(outDir)) {
+  fs.mkdirSync(outDir, { recursive: true });
+}
+console.log(`Target screenshots directory: ${outDir}`);
 
 const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const browserPath = fs.existsSync(chromePath) ? chromePath : edgePath;
-
-const outDir = path.resolve('screenshots');
-if (!fs.existsSync(outDir)) {
-  fs.mkdirSync(outDir, { recursive: true });
-}
 
 const VIEWPORTS = [
   { name: '1440px', width: 1440, height: 900, mobile: false },
@@ -26,7 +31,7 @@ const TARGETS = [
 
 async function capture() {
   console.log(`Starting headless browser from ${browserPath}...`);
-  const userDataDir = path.resolve('scratch/browser-evidence-profile');
+  const userDataDir = path.resolve(__dirname, '..', 'scratch', 'browser-evidence-profile');
   if (!fs.existsSync(userDataDir)) {
     fs.mkdirSync(userDataDir, { recursive: true });
   }
@@ -34,7 +39,7 @@ async function capture() {
   const browser = spawn(browserPath, [
     '--headless=new',
     '--no-sandbox',
-    '--remote-debugging-port=9223',
+    '--remote-debugging-port=9225',
     `--user-data-dir=${userDataDir}`,
     'about:blank'
   ]);
@@ -42,7 +47,7 @@ async function capture() {
   await new Promise(r => setTimeout(r, 2500));
 
   try {
-    const listResp = await fetch('http://127.0.0.1:9223/json/list');
+    const listResp = await fetch('http://127.0.0.1:9225/json/list');
     const tabs = await listResp.json();
     const tab = tabs[0];
     const ws = new WebSocket(tab.webSocketDebuggerUrl);
@@ -50,25 +55,12 @@ async function capture() {
     let msgId = 1;
     const pending = new Map();
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (pending.has(data.id)) {
-        const resolve = pending.get(data.id);
-        pending.delete(data.id);
-        resolve(data.result);
-      }
-    };
-
-    await new Promise((resolve, reject) => {
-      ws.onopen = resolve;
-      ws.onerror = reject;
-    });
-
     function send(method, params = {}, timeoutMs = 12000) {
       return new Promise((resolve) => {
         const id = msgId++;
         const timer = setTimeout(() => {
           pending.delete(id);
+          console.warn(`CDP method ${method} timed out.`);
           resolve({ error: 'timeout' });
         }, timeoutMs);
         pending.set(id, (val) => {
@@ -79,15 +71,14 @@ async function capture() {
       });
     }
 
-    await send('Page.enable');
-    await send('DOM.enable');
-    await send('Fetch.enable', {
-      patterns: [{ urlPattern: '*/users/profile*' }, { urlPattern: '*/projects/all*' }, { urlPattern: '*/projects/get-project/*' }]
-    });
-
-    // Listen to network fetch interception
-    ws.addEventListener('message', async (event) => {
+    ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      if (data.id && pending.has(data.id)) {
+        const resolve = pending.get(data.id);
+        pending.delete(data.id);
+        resolve(data.result);
+      }
+
       if (data.method === 'Fetch.requestPaused') {
         const { requestId, request } = data.params;
         let body = '{}';
@@ -124,6 +115,17 @@ async function capture() {
           body: base64Body
         });
       }
+    };
+
+    await new Promise((resolve, reject) => {
+      ws.onopen = resolve;
+      ws.onerror = reject;
+    });
+
+    await send('Page.enable');
+    await send('DOM.enable');
+    await send('Fetch.enable', {
+      patterns: [{ urlPattern: '*/users/profile*' }, { urlPattern: '*/projects/all*' }, { urlPattern: '*/projects/get-project/*' }]
     });
 
     const screenshotFiles = [];
@@ -141,10 +143,9 @@ async function capture() {
       });
 
       for (const target of TARGETS) {
-        // Set mock token in localStorage if target requires auth
         if (target.auth) {
           await send('Page.navigate', { url: 'http://localhost:5173/' });
-          await new Promise(r => setTimeout(r, 600));
+          await new Promise(r => setTimeout(r, 400));
           await send('Runtime.evaluate', {
             expression: `localStorage.setItem('token', 'mock-jwt-token-quantus-2025');`
           });
@@ -157,36 +158,35 @@ async function capture() {
         const url = `http://localhost:5173${target.route}`;
         console.log(`Navigating to ${url}...`);
         await send('Page.navigate', { url });
-        await new Promise(r => setTimeout(r, 1600));
+        await new Promise(r => setTimeout(r, 1800));
 
-        // Evaluate page check (ensure canvas is mounted, no orange inline styles)
         const evalRes = await send('Runtime.evaluate', {
           expression: `(() => {
             const canvas = document.querySelector('canvas');
-            const hasCanvas = !!canvas;
-            const title = document.title;
             const bgEl = document.querySelector('body');
             const bodyBg = window.getComputedStyle(bgEl).backgroundColor;
-            return { hasCanvas, title, bodyBg };
+            return { hasCanvas: !!canvas, title: document.title, bodyBg };
           })()`,
           returnByValue: true
         });
 
         console.log(`  State:`, evalRes?.value || evalRes?.result?.value);
 
-        // Take Screenshot
         const ss = await send('Page.captureScreenshot', { format: 'png' });
         if (ss && ss.data) {
           const fileName = `${target.label}-${vp.name}.png`;
           const filePath = path.join(outDir, fileName);
           fs.writeFileSync(filePath, Buffer.from(ss.data, 'base64'));
-          console.log(`  ✓ Saved screenshot: ${fileName}`);
+          const sz = fs.statSync(filePath).size;
+          console.log(`  ✓ Saved screenshot (${sz} bytes): ${fileName}`);
           screenshotFiles.push(fileName);
+        } else {
+          console.error(`  ✗ Failed to capture screenshot for ${target.label} ${vp.name}:`, ss);
         }
       }
     }
 
-    // Now test Reduced-Motion Fallback on '/' at 1440px
+    // Reduced Motion Test
     console.log(`\n========================================`);
     console.log(`Testing Reduced Motion Fallback on /`);
     console.log(`========================================`);
@@ -216,13 +216,14 @@ async function capture() {
     const rmSs = await send('Page.captureScreenshot', { format: 'png' });
     if (rmSs && rmSs.data) {
       const fileName = 'landing-reduced-motion-1440px.png';
-      fs.writeFileSync(path.join(outDir, fileName), Buffer.from(rmSs.data, 'base64'));
-      console.log(`  ✓ Saved screenshot: ${fileName}`);
+      const filePath = path.join(outDir, fileName);
+      fs.writeFileSync(filePath, Buffer.from(rmSs.data, 'base64'));
+      const sz = fs.statSync(filePath).size;
+      console.log(`  ✓ Saved screenshot (${sz} bytes): ${fileName}`);
       screenshotFiles.push(fileName);
     }
 
-    console.log(`\nAll screenshots successfully captured:`, screenshotFiles);
-
+    console.log(`\nAll screenshots successfully saved to ${outDir}:`, screenshotFiles);
     ws.close();
     return true;
   } finally {

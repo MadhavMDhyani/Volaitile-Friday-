@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useContext, useId } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/user.context';
 import AboutSection from './AboutSection';
@@ -172,6 +173,7 @@ export const MenuSheet = ({
 
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('menu-open');
 
     const mainEl = document.getElementById('main-content');
     const headerEl = document.querySelector('header');
@@ -192,6 +194,7 @@ export const MenuSheet = ({
 
     return () => {
       document.body.style.overflow = prevOverflow;
+      document.body.classList.remove('menu-open');
       if (mainEl) {
         mainEl.removeAttribute('aria-hidden');
         mainEl.removeAttribute('inert');
@@ -345,29 +348,28 @@ export const MenuSheet = ({
 
   const activeTabMeta = TABS.find((t) => t.id === tabContentKey) || TABS[0];
 
-  return (
+  return createPortal(
     <div
       ref={dialogRef}
       id="menu-sheet"
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-[100] flex items-center justify-center"
     >
-      {/* Scrim Overlay (separate opacity layer, panel backdrop-filter never animates opacity) */}
+      {/* Scrim — tints page (page itself is blurred by body.menu-open) */}
       <div
-        className={`fixed inset-0 bg-[#0B0716]/80 backdrop-blur-md ${backdropTransition}`}
+        className={`fixed inset-0 bg-[#0B0716]/60 backdrop-blur-lg ${backdropTransition}`}
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Desktop Centered Glass Panel (>= 768px) */}
       <div
-        className={`hidden md:flex isolate relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl surface-overlay overflow-hidden ${desktopPanelTransform}`}
-        style={{ willChange: 'transform' }}
+        className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl menu-glass overflow-hidden ${desktopPanelTransform}`}
       >
         {/* Left Column: Vertical ARIA Tabs with Sliding Active Indicator */}
-        <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-[#18102B]/95">
+        <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-[#18102B]/35">
           <div>
             {/* Header Brand */}
             <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-5">
@@ -469,9 +471,9 @@ export const MenuSheet = ({
         </div>
 
         {/* Right Column: Tab Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 bg-[#211737] overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 bg-[#18102B]/20 overflow-hidden">
           {/* Top Bar with Title and Close Button */}
-          <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-[#18102B]/95">
+          <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-[#18102B]/30">
             <h2
               id={titleId}
               className="text-sm font-semibold text-[#F5F3FF] flex items-center gap-2"
@@ -516,10 +518,9 @@ export const MenuSheet = ({
         </div>
       </div>
 
-      {/* Mobile Full-Screen Sheet (< 768px) with Sliding Indicator and Slide-Up Motion */}
+      {/* Mobile Full-Screen Sheet (< 768px) */}
       <div
-        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col bg-[#18102B]/95 backdrop-blur-2xl text-[#F5F3FF] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
-        style={{ willChange: 'transform' }}
+        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col menu-glass text-[#F5F3FF] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
       >
         {/* Mobile Header Bar */}
         <div className="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
@@ -610,7 +611,7 @@ export const MenuSheet = ({
         </div>
 
         {/* Mobile Bottom Auth CTAs */}
-        <div className="shrink-0 p-4 border-t border-white/10 bg-page/90 backdrop-blur-md">
+        <div className="shrink-0 p-4 border-t border-white/10 bg-[#18102B]/30">
           {user ? (
             <Link
               to="/dashboard"

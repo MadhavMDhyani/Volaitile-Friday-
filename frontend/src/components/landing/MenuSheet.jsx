@@ -640,7 +640,8 @@ export const MenuSheet = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

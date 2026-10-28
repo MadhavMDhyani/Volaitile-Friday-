@@ -194,7 +194,7 @@ export const AiCodeAssistant = ({
 
   return (
     <aside
-      className="flex h-full w-full flex-col border-l border-white/[0.12] bg-[#090b10]/95 backdrop-blur-2xl text-[#f3e6da] shadow-2xl animate-fade-in overflow-hidden z-20"
+      className="flex h-full w-full flex-col border-l border-white/[0.12] bg-[#110B20]/95 backdrop-blur-2xl text-[#F5F3FF] shadow-2xl animate-fade-in overflow-hidden z-20"
       aria-label="Friday AI Code Assistant"
     >
       {/* Header */}
@@ -204,9 +204,9 @@ export const AiCodeAssistant = ({
             <i className="ri-sparkling-fill text-xs" />
           </div>
           <div>
-            <span className="font-mono text-xs font-semibold text-[#f3e6da] flex items-center gap-1.5">
+            <span className="font-mono text-xs font-semibold text-[#F5F3FF] flex items-center gap-1.5">
               Friday AI
-              <span className="text-[10px] font-sans font-normal text-[#c4b5a8] rounded px-1.5 py-0.2 bg-raised/40 border border-white/10">
+              <span className="text-[10px] font-sans font-normal text-[#C9C6D5] rounded px-1.5 py-0.2 bg-raised/40 border border-white/10">
                 v2.0
               </span>
             </span>
@@ -218,14 +218,14 @@ export const AiCodeAssistant = ({
           <select
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
-            className="rounded-lg border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-mono text-[11px] text-[#f3e6da] outline-none hover:border-white/25 focus:border-accent transition-all"
+            className="rounded-lg border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-mono text-[11px] text-[#F5F3FF] outline-none hover:border-white/25 focus:border-accent transition-all"
             aria-label="Select AI Model"
           >
-            <option value="auto" className="bg-[#090b10] text-[#f3e6da]">
+            <option value="auto" className="bg-[#110B20] text-[#F5F3FF]">
               ⚡ Auto (Optimized)
             </option>
             {availableModels.map((m) => (
-              <option key={m.id} value={m.id} className="bg-[#090b10] text-[#f3e6da]">
+              <option key={m.id} value={m.id} className="bg-[#110B20] text-[#F5F3FF]">
                 {m.label} ({m.speed})
               </option>
             ))}
@@ -234,7 +234,7 @@ export const AiCodeAssistant = ({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.08] transition-colors focus-ring"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.08] transition-colors focus-ring"
             title="Close AI Assistant"
             aria-label="Close AI Assistant"
           >
@@ -251,7 +251,7 @@ export const AiCodeAssistant = ({
           className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-all ${
             mode === 'generate'
               ? 'bg-white/[0.1] text-accent border border-white/[0.12] shadow-sm'
-              : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
+              : 'text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.04]'
           }`}
         >
           <i className="ri-flashlight-line text-xs" />
@@ -264,7 +264,7 @@ export const AiCodeAssistant = ({
           className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-all ${
             mode === 'review'
               ? 'bg-white/[0.1] text-accent border border-white/[0.12] shadow-sm'
-              : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
+              : 'text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.04]'
           }`}
         >
           <i className="ri-shield-check-line text-xs" />
@@ -276,8 +276,8 @@ export const AiCodeAssistant = ({
           onClick={() => setMode('explain')}
           className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition-all ${
             mode === 'explain'
-              ? 'bg-white/[0.1] text-[#c4b5a8] border border-white/[0.12] shadow-sm'
-              : 'text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.04]'
+              ? 'bg-white/[0.1] text-[#C9C6D5] border border-white/[0.12] shadow-sm'
+              : 'text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.04]'
           }`}
         >
           <i className="ri-question-line text-xs" />
@@ -290,12 +290,12 @@ export const AiCodeAssistant = ({
         {/* ================= MODE: GENERATE ================= */}
         {mode === 'generate' && (
           <div className="space-y-3 animate-fade-in">
-            <div className="flex items-center justify-between text-xs text-[#a89384]">
-              <span className="font-medium text-[#f3e6da] flex items-center gap-1.5">
+            <div className="flex items-center justify-between text-xs text-[#9D98AA]">
+              <span className="font-medium text-[#F5F3FF] flex items-center gap-1.5">
                 <i className="ri-magic-line text-accent" />
                 Prompt
               </span>
-              <span className="text-[11px] font-mono text-[#6e5d50]">
+              <span className="text-[11px] font-mono text-[#6C667C]">
                 Ctrl+Enter to generate
               </span>
             </div>
@@ -311,43 +311,43 @@ export const AiCodeAssistant = ({
               }}
               placeholder="e.g. Create an Express router with JWT middleware, error handling, and MongoDB CRUD queries..."
               rows={4}
-              className="w-full rounded-xl border border-white/[0.12] bg-[#0f0a07]/95 p-3 font-sans text-xs text-[#f3e6da] placeholder-white/25 outline-none focus:border-accent transition-all resize-none"
+              className="w-full rounded-xl border border-white/[0.12] bg-[#110B20]/95 p-3 font-sans text-xs text-[#F5F3FF] placeholder-white/25 outline-none focus:border-accent transition-all resize-none"
             />
 
             {/* Language & Framework Selectors */}
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block text-[11px] font-medium text-[#a89384] mb-1">
+                <label className="block text-[11px] font-medium text-[#9D98AA] mb-1">
                   Language
                 </label>
                 <select
                   value={language}
                   onChange={(e) => setUserLanguage(e.target.value)}
-                  className="w-full rounded-lg border border-white/[0.1] bg-white/[0.04] p-1.5 font-mono text-xs text-[#f3e6da] outline-none hover:border-white/20 focus:border-accent"
+                  className="w-full rounded-lg border border-white/[0.1] bg-white/[0.04] p-1.5 font-mono text-xs text-[#F5F3FF] outline-none hover:border-white/20 focus:border-accent"
                 >
-                  <option value="javascript" className="bg-[#090b10]">JavaScript</option>
-                  <option value="typescript" className="bg-[#090b10]">TypeScript</option>
-                  <option value="python" className="bg-[#090b10]">Python</option>
-                  <option value="html" className="bg-[#090b10]">HTML</option>
-                  <option value="css" className="bg-[#090b10]">CSS / Tailwind</option>
-                  <option value="sql" className="bg-[#090b10]">SQL</option>
-                  <option value="json" className="bg-[#090b10]">JSON</option>
+                  <option value="javascript" className="bg-[#110B20]">JavaScript</option>
+                  <option value="typescript" className="bg-[#110B20]">TypeScript</option>
+                  <option value="python" className="bg-[#110B20]">Python</option>
+                  <option value="html" className="bg-[#110B20]">HTML</option>
+                  <option value="css" className="bg-[#110B20]">CSS / Tailwind</option>
+                  <option value="sql" className="bg-[#110B20]">SQL</option>
+                  <option value="json" className="bg-[#110B20]">JSON</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[11px] font-medium text-[#a89384] mb-1">
+                <label className="block text-[11px] font-medium text-[#9D98AA] mb-1">
                   Framework
                 </label>
                 <select
                   value={framework}
                   onChange={(e) => setUserFramework(e.target.value)}
-                  className="w-full rounded-lg border border-white/[0.1] bg-white/[0.04] p-1.5 font-mono text-xs text-[#f3e6da] outline-none hover:border-white/20 focus:border-accent"
+                  className="w-full rounded-lg border border-white/[0.1] bg-white/[0.04] p-1.5 font-mono text-xs text-[#F5F3FF] outline-none hover:border-white/20 focus:border-accent"
                 >
-                  <option value="express" className="bg-[#090b10]">Express</option>
-                  <option value="react" className="bg-[#090b10]">React</option>
-                  <option value="node" className="bg-[#090b10]">Node.js Native</option>
-                  <option value="none" className="bg-[#090b10]">Vanilla / None</option>
+                  <option value="express" className="bg-[#110B20]">Express</option>
+                  <option value="react" className="bg-[#110B20]">React</option>
+                  <option value="node" className="bg-[#110B20]">Node.js Native</option>
+                  <option value="none" className="bg-[#110B20]">Vanilla / None</option>
                 </select>
               </div>
             </div>
@@ -372,14 +372,14 @@ export const AiCodeAssistant = ({
 
             {/* Generated Output Card */}
             {generatedResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#0f0a07]/95 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-glass animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-                    <span className="text-[#c4b5a8]">{generatedResult.model}</span>
-                    <span className="text-[#6e5d50]">·</span>
-                    <span className="text-[#a89384]">{generatedResult.latencyMs}ms</span>
-                    <span className="text-[#6e5d50]">·</span>
+                    <span className="text-[#C9C6D5]">{generatedResult.model}</span>
+                    <span className="text-[#6C667C]">·</span>
+                    <span className="text-[#9D98AA]">{generatedResult.latencyMs}ms</span>
+                    <span className="text-[#6C667C]">·</span>
                     <span className="text-[10px] uppercase text-accent">
                       {generatedResult.source}
                     </span>
@@ -389,7 +389,7 @@ export const AiCodeAssistant = ({
                     <button
                       type="button"
                       onClick={() => copyToClipboard(generatedResult.code, 1)}
-                      className="px-2 py-0.5 rounded text-[11px] text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.08] transition-colors"
+                      className="px-2 py-0.5 rounded text-[11px] text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.08] transition-colors"
                       title="Copy Code"
                     >
                       {copiedIndex === 1 ? 'Copied!' : 'Copy'}
@@ -397,7 +397,7 @@ export const AiCodeAssistant = ({
                   </div>
                 </div>
 
-                <div className="p-3 max-h-64 overflow-y-auto font-mono text-[11px] text-[#f3e6da] whitespace-pre-wrap leading-relaxed select-text bg-[#030407]">
+                <div className="p-3 max-h-64 overflow-y-auto font-mono text-[11px] text-[#F5F3FF] whitespace-pre-wrap leading-relaxed select-text bg-[#110B20]">
                   {generatedResult.code}
                 </div>
 
@@ -435,8 +435,8 @@ export const AiCodeAssistant = ({
         {/* ================= MODE: SECURITY REVIEW ================= */}
         {mode === 'review' && (
           <div className="space-y-4 animate-fade-in">
-            <div className="rounded-xl border border-white/[0.1] bg-white/[0.03] p-3 text-xs leading-relaxed text-[#a89384]">
-              <div className="flex items-center gap-2 text-[#f3e6da] font-medium mb-1">
+            <div className="rounded-xl border border-white/[0.1] bg-white/[0.03] p-3 text-xs leading-relaxed text-[#9D98AA]">
+              <div className="flex items-center gap-2 text-[#F5F3FF] font-medium mb-1">
                 <i className="ri-shield-keyhole-line text-accent" />
                 Active Target: <span className="font-mono text-accent">{activeFile?.name || 'Current file'}</span>
               </div>
@@ -462,14 +462,14 @@ export const AiCodeAssistant = ({
             )}
 
             {reviewResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#0f0a07]/95 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-glass animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    <span className="text-[#c4b5a8]">{reviewResult.model}</span>
-                    <span className="text-[#6e5d50]">·</span>
-                    <span className="text-[#a89384]">{reviewResult.latencyMs}ms</span>
-                    <span className="text-[#6e5d50]">·</span>
+                    <span className="text-[#C9C6D5]">{reviewResult.model}</span>
+                    <span className="text-[#6C667C]">·</span>
+                    <span className="text-[#9D98AA]">{reviewResult.latencyMs}ms</span>
+                    <span className="text-[#6C667C]">·</span>
                     <span className="text-[10px] uppercase text-accent">
                       {reviewResult.source}
                     </span>
@@ -478,13 +478,13 @@ export const AiCodeAssistant = ({
                   <button
                     type="button"
                     onClick={() => copyToClipboard(reviewResult.review, 2)}
-                    className="px-2 py-0.5 rounded text-[11px] text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.08]"
+                    className="px-2 py-0.5 rounded text-[11px] text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.08]"
                   >
                     {copiedIndex === 2 ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
 
-                <div className="p-3.5 max-h-80 overflow-y-auto text-xs text-[#f3e6da] leading-relaxed whitespace-pre-wrap select-text bg-[#0f0a07] font-mono">
+                <div className="p-3.5 max-h-80 overflow-y-auto text-xs text-[#F5F3FF] leading-relaxed whitespace-pre-wrap select-text bg-[#110B20] font-mono">
                   {reviewResult.review}
                 </div>
               </div>
@@ -495,8 +495,8 @@ export const AiCodeAssistant = ({
         {/* ================= MODE: EXPLAIN ================= */}
         {mode === 'explain' && (
           <div className="space-y-4 animate-fade-in">
-            <div className="rounded-xl border border-white/[0.1] bg-white/[0.03] p-3 text-xs leading-relaxed text-[#a89384]">
-              <div className="flex items-center gap-2 text-[#f3e6da] font-medium mb-1">
+            <div className="rounded-xl border border-white/[0.1] bg-white/[0.03] p-3 text-xs leading-relaxed text-[#9D98AA]">
+              <div className="flex items-center gap-2 text-[#F5F3FF] font-medium mb-1">
                 <i className="ri-lightbulb-line text-accent" />
                 Code Intelligence & Documentation
               </div>
@@ -522,14 +522,14 @@ export const AiCodeAssistant = ({
             )}
 
             {explainResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#0f0a07]/95 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-glass animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    <span className="text-[#c4b5a8]">{explainResult.model}</span>
-                    <span className="text-[#6e5d50]">·</span>
-                    <span className="text-[#a89384]">{explainResult.latencyMs}ms</span>
-                    <span className="text-[#6e5d50]">·</span>
+                    <span className="text-[#C9C6D5]">{explainResult.model}</span>
+                    <span className="text-[#6C667C]">·</span>
+                    <span className="text-[#9D98AA]">{explainResult.latencyMs}ms</span>
+                    <span className="text-[#6C667C]">·</span>
                     <span className="text-[10px] uppercase text-accent">
                       {explainResult.source}
                     </span>
@@ -538,13 +538,13 @@ export const AiCodeAssistant = ({
                   <button
                     type="button"
                     onClick={() => copyToClipboard(explainResult.reply, 3)}
-                    className="px-2 py-0.5 rounded text-[11px] text-[#a89384] hover:text-[#f3e6da] hover:bg-white/[0.08]"
+                    className="px-2 py-0.5 rounded text-[11px] text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.08]"
                   >
                     {copiedIndex === 3 ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
 
-                <div className="p-3.5 max-h-80 overflow-y-auto text-xs text-[#f3e6da] leading-relaxed whitespace-pre-wrap select-text bg-[#030407] font-sans">
+                <div className="p-3.5 max-h-80 overflow-y-auto text-xs text-[#F5F3FF] leading-relaxed whitespace-pre-wrap select-text bg-[#110B20] font-sans">
                   {explainResult.reply}
                 </div>
               </div>
@@ -554,8 +554,8 @@ export const AiCodeAssistant = ({
       </div>
 
       {/* Footer Info */}
-      <div className="shrink-0 border-t border-white/[0.08] bg-white/[0.02] px-4 py-2 text-[10px] font-mono text-[#6e5d50] flex items-center justify-between">
-        <span>Press <kbd className="rounded border border-white/20 bg-white/10 px-1 text-[9px] text-[#a89384]">Ctrl+I</kbd> to toggle</span>
+      <div className="shrink-0 border-t border-white/[0.08] bg-white/[0.02] px-4 py-2 text-[10px] font-mono text-[#6C667C] flex items-center justify-between">
+        <span>Press <kbd className="rounded border border-white/20 bg-white/10 px-1 text-[9px] text-[#9D98AA]">Ctrl+I</kbd> to toggle</span>
         <span className="flex items-center gap-1 text-accent/80">
           <i className="ri-lock-line text-[10px]" /> Private Workspace
         </span>

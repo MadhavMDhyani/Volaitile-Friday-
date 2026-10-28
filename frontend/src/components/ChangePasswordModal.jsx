@@ -89,7 +89,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
         )}
 
         <div>
-          <label className="block text-xs font-medium text-[#a89384] mb-1.5" htmlFor="current-pwd">
+          <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="current-pwd">
             Current Password
           </label>
           <input
@@ -97,14 +97,14 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full glass-input px-3.5 py-2 text-xs text-[#f3e6da] placeholder-[#6e5d50] focus-ring transition-colors"
+            className="w-full glass-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
             placeholder="••••••••"
             required
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-[#a89384] mb-1.5" htmlFor="new-pwd">
+          <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="new-pwd">
             New Password (8-72 characters)
           </label>
           <input
@@ -112,7 +112,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full glass-input px-3.5 py-2 text-xs text-[#f3e6da] placeholder-[#6e5d50] focus-ring transition-colors"
+            className="w-full glass-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
             placeholder="••••••••"
             minLength={8}
             maxLength={72}
@@ -120,9 +120,9 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
           />
           {newPassword && (
             <div className="mt-2 space-y-1">
-              <div className="flex justify-between text-[11px] text-[#6e5d50]">
+              <div className="flex justify-between text-[11px] text-[#6C667C]">
                 <span>Strength:</span>
-                <span className="font-mono text-[#f3e6da]">{strength.label}</span>
+                <span className="font-mono text-[#F5F3FF]">{strength.label}</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-white/8 overflow-hidden">
                 <div
@@ -135,7 +135,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-[#a89384] mb-1.5" htmlFor="confirm-pwd">
+          <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="confirm-pwd">
             Confirm New Password
           </label>
           <input
@@ -143,7 +143,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full glass-input px-3.5 py-2 text-xs text-[#f3e6da] placeholder-[#6e5d50] focus-ring transition-colors"
+            className="w-full glass-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
             placeholder="••••••••"
             required
           />

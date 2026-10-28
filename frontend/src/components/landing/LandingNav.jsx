@@ -64,7 +64,7 @@ export const LandingNav = ({
           {user ? (
             <Link
               to="/dashboard"
-              className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
+              className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
             >
               <span className="hidden sm:inline">Open dashboard</span>
               <span className="sm:hidden">Dashboard</span>
@@ -74,13 +74,13 @@ export const LandingNav = ({
               {/* Log in button hidden on phones */}
               <Link
                 to="/login"
-                className="hidden sm:inline-flex min-h-[44px] px-3.5 items-center justify-center rounded-xl text-xs font-medium text-[#f3e6da] hover:text-white glass hover:border-white/30 transition-all focus-ring"
+                className="hidden sm:inline-flex min-h-[44px] px-3.5 items-center justify-center rounded-xl text-xs font-medium text-[#F5F3FF] hover:text-white glass hover:border-white/30 transition-all focus-ring"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
-                className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#140d09] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
+                className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
               >
                 Get started
               </Link>
@@ -95,7 +95,7 @@ export const LandingNav = ({
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
             aria-controls="menu-sheet"
-            className="min-h-[44px] min-w-[44px] h-11 w-11 inline-flex flex-col items-center justify-center gap-1.5 rounded-xl glass text-[#a89384] hover:text-[#f3e6da] hover:border-white/30 transition-all focus-ring cursor-pointer"
+            className="min-h-[44px] min-w-[44px] h-11 w-11 inline-flex flex-col items-center justify-center gap-1.5 rounded-xl glass text-[#9D98AA] hover:text-[#F5F3FF] hover:border-white/30 transition-all focus-ring cursor-pointer"
           >
             {/* Animated three bars using CSS transforms only */}
             <span

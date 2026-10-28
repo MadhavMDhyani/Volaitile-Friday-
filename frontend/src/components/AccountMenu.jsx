@@ -37,40 +37,40 @@ export const AccountMenu = () => {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-xs text-[#f3e6da] transition-all hover:border-white/18 hover:bg-white/[0.08] backdrop-blur-md focus-ring shadow-[inset_0_1px_0_rgba(255,200,150,0.12)]"
+          className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-xs text-[#F5F3FF] transition-all hover:border-white/18 hover:bg-white/[0.08] backdrop-blur-md focus-ring shadow-[inset_0_1px_0_rgba(245, 243, 255, 0.12)]"
           aria-expanded={isOpen}
           aria-haspopup="true"
           aria-label="Account options"
         >
-          <div className="flex h-5 w-5 items-center justify-center rounded bg-accent font-mono text-[10px] font-bold text-[#140d09]">
+          <div className="flex h-5 w-5 items-center justify-center rounded bg-accent font-mono text-[10px] font-bold text-[#18102B]">
             {initial}
           </div>
           <span className="hidden sm:inline font-mono font-medium max-w-[150px] truncate text-left">
             {user?.email || 'Account'}
           </span>
           <i
-            className={`ri-arrow-down-s-line text-[#a89384] text-sm transition-transform duration-150 ${
-              isOpen ? 'rotate-180 text-[#f3e6da]' : ''
+            className={`ri-arrow-down-s-line text-[#9D98AA] text-sm transition-transform duration-150 ${
+              isOpen ? 'rotate-180 text-[#F5F3FF]' : ''
             }`}
           />
         </button>
 
         {isOpen && (
           <div
-            className="absolute right-0 mt-2 w-56 rounded-xl glass-strong py-1.5 text-xs text-[#f3e6da] modal-shadow animate-scale-in z-40"
+            className="absolute right-0 mt-2 w-56 rounded-xl glass-strong py-1.5 text-xs text-[#F5F3FF] modal-shadow animate-scale-in z-40"
             role="menu"
             aria-orientation="vertical"
           >
             <div className="border-b border-white/8 px-3 py-2">
-              <span className="block text-[10px] uppercase tracking-wider text-[#6e5d50]">Signed in as</span>
-              <span className="block font-mono text-xs font-medium truncate text-[#f3e6da] mt-0.5">{user?.email}</span>
+              <span className="block text-[10px] uppercase tracking-wider text-[#6C667C]">Signed in as</span>
+              <span className="block font-mono text-xs font-medium truncate text-[#F5F3FF] mt-0.5">{user?.email}</span>
             </div>
 
             <div className="py-1">
               <Link
                 to="/dashboard"
                 onClick={() => setIsOpen(false)}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#a89384] transition-colors hover:bg-white/[0.06] hover:text-[#f3e6da] focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#9D98AA] transition-colors hover:bg-white/[0.06] hover:text-[#F5F3FF] focus-ring"
                 role="menuitem"
               >
                 <i className="ri-dashboard-line text-sm" />
@@ -80,7 +80,7 @@ export const AccountMenu = () => {
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#a89384] transition-colors hover:bg-white/[0.06] hover:text-[#f3e6da] focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#9D98AA] transition-colors hover:bg-white/[0.06] hover:text-[#F5F3FF] focus-ring"
                 role="menuitem"
               >
                 <i className="ri-folder-3-line text-sm" />
@@ -95,7 +95,7 @@ export const AccountMenu = () => {
                   setIsOpen(false);
                   setIsPasswordModalOpen(true);
                 }}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#a89384] transition-colors hover:bg-white/[0.06] hover:text-[#f3e6da] focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#9D98AA] transition-colors hover:bg-white/[0.06] hover:text-[#F5F3FF] focus-ring"
                 role="menuitem"
               >
                 <i className="ri-lock-password-line text-sm" />

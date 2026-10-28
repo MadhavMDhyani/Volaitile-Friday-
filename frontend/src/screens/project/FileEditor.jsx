@@ -122,12 +122,12 @@ export const FileEditor = ({
 
   if (!activeFile) {
     return (
-      <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center text-[#6e5d50] bg-[#0f0a07]/95">
+      <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center text-[#6C667C] bg-[#110B20]/95">
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass border-glass-border/50 text-accent/60 mb-3 shadow-glass">
           <i className="ri-code-box-line text-3xl" />
         </div>
-        <p className="text-sm font-medium text-[#f3e6da]">No file selected</p>
-        <p className="text-xs text-[#a89384] mt-1 max-w-xs leading-relaxed">
+        <p className="text-sm font-medium text-[#F5F3FF]">No file selected</p>
+        <p className="text-xs text-[#9D98AA] mt-1 max-w-xs leading-relaxed">
           Select a file from the explorer on the left or create a new one to begin editing.
         </p>
       </div>
@@ -138,7 +138,7 @@ export const FileEditor = ({
     switch (saveStatus) {
       case 'saving':
         return (
-          <span className="flex items-center gap-1.5 text-[#a89384] font-mono text-[11px] animate-fade-in">
+          <span className="flex items-center gap-1.5 text-[#9D98AA] font-mono text-[11px] animate-fade-in">
             <svg
               className="animate-spin h-3 w-3 text-current"
               xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +153,7 @@ export const FileEditor = ({
         );
       case 'unsaved':
         return (
-          <span className="flex items-center gap-1.5 text-[#a89384] font-mono text-[11px] animate-fade-in">
+          <span className="flex items-center gap-1.5 text-[#9D98AA] font-mono text-[11px] animate-fade-in">
             <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
             <span>Unsaved changes</span>
           </span>
@@ -177,7 +177,7 @@ export const FileEditor = ({
       case 'saved':
       default:
         return (
-          <span className="flex items-center gap-1.5 text-[#c4b5a8] font-mono text-[11px] animate-fade-in">
+          <span className="flex items-center gap-1.5 text-[#C9C6D5] font-mono text-[11px] animate-fade-in">
             <i className="ri-check-line text-xs" />
             <span>Saved</span>
           </span>
@@ -186,16 +186,16 @@ export const FileEditor = ({
   };
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#0f0a07]/95 text-[#f3e6da] overflow-hidden select-none">
+    <div className="flex h-full w-full flex-col bg-[#110B20]/95 text-[#F5F3FF] overflow-hidden select-none">
       {/* Editor Top Bar */}
-      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#0f0a07]/90 backdrop-blur-md px-3.5 text-xs">
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#110B20]/90 backdrop-blur-md px-3.5 text-xs">
         {/* File Path & Language */}
         <div className="flex items-center gap-2 min-w-0">
           <i className="ri-file-text-line text-accent text-sm" />
-          <span className="font-mono text-xs text-[#f3e6da] truncate font-medium">
+          <span className="font-mono text-xs text-[#F5F3FF] truncate font-medium">
             {activeFile.path || activeFile.name}
           </span>
-          <span className="rounded-md border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 text-[10px] font-mono text-[#c4b5a8] uppercase">
+          <span className="rounded-md border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 text-[10px] font-mono text-[#C9C6D5] uppercase">
             {activeFile.language || 'text'}
           </span>
         </div>
@@ -224,7 +224,7 @@ export const FileEditor = ({
             onClick={handleCopyContent}
             icon={
               copied ? (
-                <i className="ri-check-line text-[#c4b5a8] text-xs" />
+                <i className="ri-check-line text-[#C9C6D5] text-xs" />
               ) : (
                 <i className="ri-file-copy-line text-xs" />
               )
@@ -254,7 +254,7 @@ export const FileEditor = ({
         {/* Line Numbers Gutter */}
         <div
           ref={gutterRef}
-          className="w-12 shrink-0 overflow-hidden select-none border-r border-white/[0.08] bg-[#0f0a07]/95 py-3 text-right text-white/30 font-mono text-xs select-none"
+          className="w-12 shrink-0 overflow-hidden select-none border-r border-white/[0.08] bg-[#110B20]/95 py-3 text-right text-white/30 font-mono text-xs select-none"
           aria-hidden="true"
         >
           {lineNumbers.map((num) => (
@@ -265,7 +265,7 @@ export const FileEditor = ({
         </div>
 
         {/* Synchronized Textarea */}
-        <div className="relative flex-1 overflow-hidden bg-[#0f0a07]/95">
+        <div className="relative flex-1 overflow-hidden bg-[#110B20]/95">
           <textarea
             ref={textareaRef}
             value={draftContent}
@@ -277,7 +277,7 @@ export const FileEditor = ({
             autoCapitalize="off"
             autoComplete="off"
             wrap="off"
-            className="h-full w-full resize-none border-0 bg-transparent py-3 px-3 font-mono text-xs leading-5 text-[#f3e6da] placeholder-white/20 outline-none focus:ring-0 focus:outline-none overflow-x-auto whitespace-pre"
+            className="h-full w-full resize-none border-0 bg-transparent py-3 px-3 font-mono text-xs leading-5 text-[#F5F3FF] placeholder-white/20 outline-none focus:ring-0 focus:outline-none overflow-x-auto whitespace-pre"
             aria-label={`Code editor for ${activeFile.name}`}
           />
         </div>

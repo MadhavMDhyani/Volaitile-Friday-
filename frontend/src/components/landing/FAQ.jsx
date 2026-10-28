@@ -40,10 +40,10 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               GOT QUESTIONS?
             </span>
-            <TitleTag className={`mt-2 font-bold tracking-tight text-[#f3e6da] leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
+            <TitleTag className={`mt-2 font-bold tracking-tight text-[#F5F3FF] leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
               Frequently Asked Questions
             </TitleTag>
-            <p className="mt-3 text-xs sm:text-sm text-[#a89384] leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-[#9D98AA] leading-relaxed">
               Clear, honest answers about our tech stack, security, and hosting.
             </p>
           </Reveal>
@@ -64,11 +64,11 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
                     onClick={() => toggle(idx)}
                     aria-expanded={isOpen}
                     aria-controls={contentId}
-                    className={`w-full flex items-center justify-between ${compact ? 'p-3.5 sm:p-4 text-xs sm:text-sm' : 'p-5 sm:p-6 text-sm sm:text-base'} text-left font-semibold text-[#f3e6da] hover:text-white transition-colors focus-ring cursor-pointer`}
+                    className={`w-full flex items-center justify-between ${compact ? 'p-3.5 sm:p-4 text-xs sm:text-sm' : 'p-5 sm:p-6 text-sm sm:text-base'} text-left font-semibold text-[#F5F3FF] hover:text-white transition-colors focus-ring cursor-pointer`}
                   >
                     <span>{item.q}</span>
                     <span
-                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass text-xs text-[#a89384] transition-transform duration-200 ${
+                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass text-xs text-[#9D98AA] transition-transform duration-200 ${
                         isOpen ? 'rotate-180 text-accent' : ''
                       }`}
                       aria-hidden="true"
@@ -82,7 +82,7 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
                       id={contentId}
                       role="region"
                       aria-labelledby={headerId}
-                      className={`${compact ? 'px-4 pb-4 pt-2 text-xs' : 'px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm'} text-[#a89384] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in`}
+                      className={`${compact ? 'px-4 pb-4 pt-2 text-xs' : 'px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm'} text-[#9D98AA] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in`}
                     >
                       <p>{item.a}</p>
                     </div>

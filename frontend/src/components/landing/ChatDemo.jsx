@@ -76,7 +76,7 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
             <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
               LIVE PREVIEW
             </span>
-            <h3 className={`mt-1 font-bold tracking-tight text-[#f3e6da] ${compact ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`}>
+            <h3 className={`mt-1 font-bold tracking-tight text-[#F5F3FF] ${compact ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`}>
               Ask Friday anything about your codebase
             </h3>
           </div>
@@ -93,7 +93,7 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
                 <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
                 <span className="font-semibold text-white">Friday AI Room Assistant</span>
               </div>
-                <span className="text-[10px] text-[#a89384] rounded border border-accent/30 bg-accent/10 px-2 py-0.5">
+                <span className="text-[10px] text-[#9D98AA] rounded border border-accent/30 bg-accent/10 px-2 py-0.5">
                 Gemini
               </span>
             </div>
@@ -102,8 +102,8 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
             <div className="space-y-4">
               {/* User question */}
               <div className="flex flex-col items-end">
-                <span className="text-[10px] font-mono text-[#a89384] mb-1">lead-dev@company.com</span>
-                <div className="rounded-2xl border border-accent-press/30 bg-accent-tint/25 px-4 py-2.5 text-xs text-[#f3e6da] max-w-[90%] sm:max-w-[80%] shadow-glass">
+                <span className="text-[10px] font-mono text-[#9D98AA] mb-1">lead-dev@company.com</span>
+                <div className="rounded-2xl border border-accent-press/30 bg-accent-tint/25 px-4 py-2.5 text-xs text-[#F5F3FF] max-w-[90%] sm:max-w-[80%] shadow-glass">
                   {current.user}
                 </div>
               </div>
@@ -115,7 +115,7 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
                   Friday AI
                 </span>
                 <div
-                  className="rounded-2xl border border-accent-deep bg-accent-tint/20 px-4 py-3 text-xs text-[#c4b5a8] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-glass min-h-[72px]"
+                  className="rounded-2xl border border-accent-deep bg-accent-tint/20 px-4 py-3 text-xs text-[#C9C6D5] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-glass min-h-[72px]"
                   style={{ contain: 'layout paint' }}
                 >
                   <p className="whitespace-pre-wrap">
@@ -129,7 +129,7 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
             </div>
 
             {/* Sub-label */}
-            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-[#6e5d50]">
+            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-[#6C667C]">
               <span>Type @friday or /help in any project chat</span>
               <span className="text-accent">Replies are shared with the whole room</span>
             </div>

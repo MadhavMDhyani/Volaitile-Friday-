@@ -119,7 +119,7 @@ export const MembersDrawer = ({
 
         {/* Drawer Panel */}
         <aside
-          className={`fixed inset-y-0 right-0 flex w-full max-w-full sm:max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#f3e6da] shadow-2xl transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 right-0 flex w-full max-w-full sm:max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#F5F3FF] shadow-2xl transition-transform duration-300 ease-out ${
             isClosing ? 'animate-slide-out-right' : 'animate-slide-in-right'
           }`}
           role="dialog"
@@ -128,10 +128,10 @@ export const MembersDrawer = ({
           {/* Header */}
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
             <div>
-              <h2 className="text-sm font-semibold tracking-tight text-[#f3e6da]">
+              <h2 className="text-sm font-semibold tracking-tight text-[#F5F3FF]">
                 Project Members
               </h2>
-              <p className="text-[11px] text-[#a89384]">
+              <p className="text-[11px] text-[#9D98AA]">
                 {members.length} / 25 collaborators
               </p>
             </div>
@@ -139,7 +139,7 @@ export const MembersDrawer = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#a89384] hover:text-[#f3e6da] hover:border-accent/40 transition-colors focus-ring"
+              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-colors focus-ring"
               aria-label="Close members drawer"
             >
               <i className="ri-close-line text-lg" />
@@ -174,24 +174,24 @@ export const MembersDrawer = ({
                 >
                   <div className="flex items-center gap-2.5 truncate pr-2">
                     <div className="relative shrink-0">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-[#f3e6da] border border-white/[0.1] shadow-glass">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-[#F5F3FF] border border-white/[0.1] shadow-glass">
                         {email.charAt(0).toUpperCase()}
                       </div>
                       {onlineUserIds.includes(mId) && (
                         <span
-                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#140d09] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
+                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#18102B] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
                           title="Online now"
                         />
                       )}
                     </div>
                     <div className="truncate">
                       <div className="flex items-center gap-1.5 truncate">
-                        <span className="truncate block text-[#f3e6da] font-medium">
+                        <span className="truncate block text-[#F5F3FF] font-medium">
                           {email}
-                          {isCurrentUser && <span className="text-[#a89384] ml-1 font-normal">(you)</span>}
+                          {isCurrentUser && <span className="text-[#9D98AA] ml-1 font-normal">(you)</span>}
                         </span>
                         {onlineUserIds.includes(mId) && (
-                          <span className="text-[9px] font-mono text-[#c4b5a8]">online</span>
+                          <span className="text-[9px] font-mono text-[#C9C6D5]">online</span>
                         )}
                       </div>
                     </div>
@@ -206,7 +206,7 @@ export const MembersDrawer = ({
                       <button
                         type="button"
                         onClick={() => setMemberToRemove(member)}
-                        className="p-1 text-[#6e5d50] hover:text-accent rounded focus-ring transition-colors"
+                        className="p-1 text-[#6C667C] hover:text-accent rounded focus-ring transition-colors"
                         title="Remove member"
                         aria-label={`Remove ${email}`}
                       >

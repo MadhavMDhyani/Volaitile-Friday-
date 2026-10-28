@@ -67,10 +67,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
           <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
             ABOUT VOLAITILE FRIDAY
           </span>
-          <TitleTag className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-[#f3e6da] leading-tight">
+          <TitleTag className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-[#F5F3FF] leading-tight">
             An engineering workspace built for flow
           </TitleTag>
-          <p className="mt-3 text-xs sm:text-sm text-[#a89384] leading-relaxed">
+          <p className="mt-3 text-xs sm:text-sm text-[#9D98AA] leading-relaxed">
             Volaitile Friday eliminates the constant context-switching between separate code editors, external team chat windows, and AI browser tabs. We bring live code, real-time teammates, and project-aware AI together on a single canvas.
           </p>
         </Reveal>
@@ -83,7 +83,7 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
             <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
               CORE ARCHITECTURE
             </span>
-            <h3 className="text-lg font-bold tracking-tight text-[#f3e6da]">
+            <h3 className="text-lg font-bold tracking-tight text-[#F5F3FF]">
               The Three Pillars
             </h3>
           </div>
@@ -98,12 +98,12 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl glass border-accent/30 text-accent shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                       <i className={`${pillar.icon} text-lg`} />
                     </div>
-                    <span className="text-[10px] font-mono rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[#a89384]">
+                    <span className="text-[10px] font-mono rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[#9D98AA]">
                       {pillar.badge}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-[#f3e6da]">{pillar.title}</h4>
-                  <p className="mt-1.5 text-xs text-[#a89384] leading-relaxed">
+                  <h4 className="text-sm font-bold text-[#F5F3FF]">{pillar.title}</h4>
+                  <p className="mt-1.5 text-xs text-[#9D98AA] leading-relaxed">
                     {pillar.desc}
                   </p>
                 </div>
@@ -120,17 +120,17 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
             <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
               AUDIENCE &amp; FIT
             </span>
-            <h3 className="mt-1 text-lg font-bold tracking-tight text-[#f3e6da]">
+            <h3 className="mt-1 text-lg font-bold tracking-tight text-[#F5F3FF]">
               Who is Volaitile Friday for?
             </h3>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#a89384] leading-relaxed">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#9D98AA] leading-relaxed">
               {AUDIENCE_ITEMS.map((item) => (
                 <div key={item.title} className="flex items-start gap-3">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg glass text-accent shrink-0 mt-0.5">
                     <i className={`${item.icon} text-sm`} />
                   </div>
                   <div>
-                    <strong className="text-[#f3e6da] block mb-0.5">{item.title}</strong>
+                    <strong className="text-[#F5F3FF] block mb-0.5">{item.title}</strong>
                     {item.desc}
                   </div>
                 </div>
@@ -147,7 +147,7 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
             <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
               TECH STACK
             </span>
-            <h3 className="text-lg font-bold tracking-tight text-[#f3e6da]">
+            <h3 className="text-lg font-bold tracking-tight text-[#F5F3FF]">
               Built with modern, open standards
             </h3>
           </div>
@@ -157,10 +157,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
                 key={tech.name}
                 className="rounded-xl glass border border-white/[0.08] p-3 text-left flex flex-col justify-center"
               >
-                <span className="font-mono text-xs font-semibold text-[#f3e6da]">
+                <span className="font-mono text-xs font-semibold text-[#F5F3FF]">
                   {tech.name}
                 </span>
-                <span className="text-[10px] text-[#a89384] mt-0.5">{tech.role}</span>
+                <span className="text-[10px] text-[#9D98AA] mt-0.5">{tech.role}</span>
               </div>
             ))}
           </div>

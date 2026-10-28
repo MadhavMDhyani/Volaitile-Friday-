@@ -61,7 +61,7 @@ export const Register = () => {
   }
 
   return (
-    <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-[#f3e6da] flex items-center justify-center font-sans">
+    <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-[#F5F3FF] flex items-center justify-center font-sans">
       <div className="w-full max-w-4xl">
         <div className="grid w-full overflow-hidden rounded-2xl glass-liquid lg:grid-cols-[1.1fr_0.9fr] modal-shadow">
           {/* Brand Info Panel (Desktop) - 60ms stagger entrance */}
@@ -73,13 +73,13 @@ export const Register = () => {
 
               <div className="mt-8">
                 <h1
-                  className="text-2xl font-bold leading-snug tracking-tight text-[#f3e6da] animate-fade-up"
+                  className="text-2xl font-bold leading-snug tracking-tight text-[#F5F3FF] animate-fade-up"
                   style={{ animationDelay: '60ms' }}
                 >
                   Create an account to start collaborating.
                 </h1>
                 <p
-                  className="mt-3 text-sm leading-relaxed text-[#a89384] animate-fade-up"
+                  className="mt-3 text-sm leading-relaxed text-[#9D98AA] animate-fade-up"
                   style={{ animationDelay: '120ms' }}
                 >
                   Set up your developer profile to create repositories, invite teammates, and run code reviews.
@@ -87,7 +87,7 @@ export const Register = () => {
               </div>
 
               <ul
-                className="mt-8 space-y-2.5 text-xs text-[#a89384] animate-fade-up"
+                className="mt-8 space-y-2.5 text-xs text-[#9D98AA] animate-fade-up"
                 style={{ animationDelay: '180ms' }}
               >
                 <li className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export const Register = () => {
             </div>
 
             <div
-              className="mt-8 rounded-xl glass-input p-3 text-xs text-[#a89384] font-mono animate-fade-up"
+              className="mt-8 rounded-xl glass-input p-3 text-xs text-[#9D98AA] font-mono animate-fade-up"
               style={{ animationDelay: '240ms' }}
             >
               Passwords are encrypted with bcrypt before saving.
@@ -118,16 +118,16 @@ export const Register = () => {
             {/* Mobile Collapsed Header */}
             <div className="mb-5 pb-3.5 border-b border-white/10 flex items-center justify-between lg:hidden">
               <Logo size="sm" to={null} />
-              <span className="text-[11px] font-mono text-[#a89384]">
+              <span className="text-[11px] font-mono text-[#9D98AA]">
                 Engineering Workspace
               </span>
             </div>
 
             <div className="mb-6">
-              <h2 className="text-xl font-bold tracking-tight text-[#f3e6da] sm:text-2xl">
+              <h2 className="text-xl font-bold tracking-tight text-[#F5F3FF] sm:text-2xl">
                 Create your account
               </h2>
-              <p className="mt-1 text-xs text-[#a89384]">
+              <p className="mt-1 text-xs text-[#9D98AA]">
                 Enter your details to initialize your workspace.
               </p>
             </div>
@@ -142,7 +142,7 @@ export const Register = () => {
                 <i className="ri-error-warning-line text-base leading-none mt-0.5 text-accent" />
                 <div className="flex-1">
                   <p className="font-semibold text-accent">Registration error</p>
-                  <p className="mt-0.5 text-[#c4b5a8]">{errorMessage}</p>
+                  <p className="mt-0.5 text-[#C9C6D5]">{errorMessage}</p>
                 </div>
                 <button
                   type="button"
@@ -157,7 +157,7 @@ export const Register = () => {
 
             <form onSubmit={submitHandler} className="space-y-4" noValidate>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#a89384]" htmlFor="email">
+                <label className="mb-1.5 block text-xs font-medium text-[#9D98AA]" htmlFor="email">
                   Email address
                 </label>
                 <input
@@ -169,16 +169,16 @@ export const Register = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="developer@company.com"
-                  className="w-full glass-input px-3.5 py-2.5 text-sm text-[#f3e6da] placeholder-[#6e5d50] transition-colors duration-150 focus-ring"
+                  className="w-full glass-input px-3.5 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
                 />
               </div>
 
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="block text-xs font-medium text-[#a89384]" htmlFor="password">
+                  <label className="block text-xs font-medium text-[#9D98AA]" htmlFor="password">
                     Password
                   </label>
-                  <span className="text-[11px] text-[#6e5d50]">8–72 characters</span>
+                  <span className="text-[11px] text-[#6C667C]">8–72 characters</span>
                 </div>
                 <div className="relative">
                   <input
@@ -192,12 +192,12 @@ export const Register = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Choose a strong password"
-                    className="w-full glass-input pl-3.5 pr-10 py-2.5 text-sm text-[#f3e6da] placeholder-[#6e5d50] transition-colors duration-150 focus-ring"
+                    className="w-full glass-input pl-3.5 pr-10 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#a89384] hover:text-[#f3e6da] transition-colors focus:outline-none"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#9D98AA] hover:text-[#F5F3FF] transition-colors focus:outline-none"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     <i className={showPassword ? 'ri-eye-off-line text-base' : 'ri-eye-line text-base'} />
@@ -206,9 +206,9 @@ export const Register = () => {
 
                 {password && (
                   <div className="mt-2 space-y-1">
-                    <div className="flex justify-between text-[11px] text-[#6e5d50]">
+                    <div className="flex justify-between text-[11px] text-[#6C667C]">
                       <span>Strength:</span>
-                      <span className="font-mono text-[#f3e6da]">{strength.label}</span>
+                      <span className="font-mono text-[#F5F3FF]">{strength.label}</span>
                     </div>
                     <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                       <div
@@ -233,7 +233,7 @@ export const Register = () => {
               </div>
             </form>
 
-            <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[#a89384]">
+            <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[#9D98AA]">
               Already have an account?{' '}
               <Link to="/login" className="font-medium text-white underline hover:text-accent focus-ring rounded transition-colors">
                 Sign in here

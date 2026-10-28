@@ -1,22 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
-  <!-- Haiti background tile with violet border -->
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="#18102B" stroke="#834DFB" stroke-width="2" stroke-opacity="0.5" />
-  <!-- Turbo yellow VF monogram -->
+  <!-- Electric Violet rounded square tile -->
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="#834DFB" />
+  <!-- Blue Chalk V stroke -->
   <path
-    d="M 15 20 L 28 49 L 45 15 L 54 15"
+    d="M20 22 L32 44 L44 22"
     fill="none"
-    stroke="#F0E100"
+    stroke="#F5F3FF"
     stroke-width="6"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
-  <path
-    d="M 37 30 L 49 30"
-    fill="none"
-    stroke="#F0E100"
-    stroke-width="6"
-    stroke-linecap="round"
-  />
-  <!-- Electric Violet accent droplet at vertex -->
-  <circle cx="28" cy="49" r="3" fill="#834DFB" />
 </svg>

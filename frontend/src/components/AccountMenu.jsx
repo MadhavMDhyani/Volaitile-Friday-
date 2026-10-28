@@ -57,7 +57,7 @@ export const AccountMenu = () => {
 
         {isOpen && (
           <div
-            className="absolute right-0 mt-2 w-56 rounded-xl glass-strong py-1.5 text-xs text-[#F5F3FF] modal-shadow animate-scale-in z-40"
+            className="absolute right-0 mt-2 w-56 rounded-xl bg-[#211737] border border-white/15 py-1.5 text-xs text-[#F5F3FF] modal-shadow animate-scale-in z-40"
             role="menu"
             aria-orientation="vertical"
           >

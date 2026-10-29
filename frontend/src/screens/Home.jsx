@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
+﻿import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
@@ -146,7 +146,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen bg-transparent text-[#F5F3FF] flex flex-col font-sans selection:bg-[#F5F3FF] selection:text-[#110B20]">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#110B20]/75 backdrop-blur-[var(--blur)]">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-tile-deep">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6 min-w-0">
             <Logo size="md" to="/dashboard" />
@@ -208,7 +208,7 @@ export const Home = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search projects..."
-              className="w-full glass-input pl-9 pr-8 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
+              className="w-full tile-input pl-9 pr-8 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
               aria-label="Search projects by name"
             />
             {searchQuery && (
@@ -228,7 +228,7 @@ export const Home = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="glass-input px-3 py-2 text-xs text-[#F5F3FF] focus-ring cursor-pointer"
+              className="tile-input px-3 py-2 text-xs text-[#F5F3FF] focus-ring cursor-pointer"
               aria-label="Sort projects"
             >
               <option value="newest" className="bg-[#110B20]">Newest first</option>
@@ -268,7 +268,7 @@ export const Home = () => {
                     animationDelay: `${Math.min(index, 8) * 40}ms`,
                     animationFillMode: 'both',
                   }}
-                  className={`group relative flex flex-col justify-between rounded-2xl glass p-5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.45)] animate-fade-up ${
+                  className={`group relative flex flex-col justify-between rounded-2xl tile p-5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.45)] animate-fade-up ${
                     isRemoving ? 'opacity-0 scale-95 transition-all duration-150' : ''
                   }`}
                   role="button"
@@ -340,8 +340,8 @@ export const Home = () => {
             })}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-16 px-4 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass text-[#9D98AA] mb-4">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 tile py-16 px-4 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile text-[#9D98AA] mb-4">
               <i className="ri-folder-add-line text-2xl text-accent" />
             </div>
             <h3 className="text-sm font-semibold text-[#F5F3FF]">
@@ -396,7 +396,7 @@ export const Home = () => {
                 setCreateError('');
               }}
               placeholder="e.g. backend-api or auth-service"
-              className="w-full glass-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors font-mono"
+              className="w-full tile-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors font-mono"
               autoFocus
               required
             />
@@ -442,3 +442,5 @@ export const Home = () => {
 };
 
 export default Home;
+
+

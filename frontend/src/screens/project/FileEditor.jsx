@@ -123,7 +123,7 @@ export const FileEditor = ({
   if (!activeFile) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center text-[#6C667C] bg-[#110B20]/95">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass border-glass-border/50 text-accent/60 mb-3 shadow-glass">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl tile border-border/50 text-accent/60 mb-3 shadow-tile">
           <i className="ri-code-box-line text-3xl" />
         </div>
         <p className="text-sm font-medium text-[#F5F3FF]">No file selected</p>
@@ -188,7 +188,7 @@ export const FileEditor = ({
   return (
     <div className="flex h-full w-full flex-col bg-[#110B20]/95 text-[#F5F3FF] overflow-hidden select-none">
       {/* Editor Top Bar */}
-      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#110B20]/90 backdrop-blur-md px-3.5 text-xs">
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-tile-deep px-3.5 text-xs">
         {/* File Path & Language */}
         <div className="flex items-center gap-2 min-w-0">
           <i className="ri-file-text-line text-accent text-sm" />
@@ -302,3 +302,5 @@ export const FileEditor = ({
 };
 
 export default FileEditor;
+
+

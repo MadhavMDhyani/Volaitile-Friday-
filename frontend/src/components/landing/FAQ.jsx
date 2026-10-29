@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Reveal from './Reveal';
 
 const FAQ_ITEMS = [
@@ -57,7 +57,7 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
 
             return (
               <Reveal key={item.q} delay={idx * 60} immediate={compact} transformOnly={true}>
-                <div className="rounded-2xl glass border border-white/10 overflow-hidden transition-all duration-200">
+                <div className="rounded-2xl tile border border-white/10 overflow-hidden transition-all duration-200">
                   <button
                     id={headerId}
                     type="button"
@@ -68,7 +68,7 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
                   >
                     <span>{item.q}</span>
                     <span
-                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg glass text-xs text-[#9D98AA] transition-transform duration-200 ${
+                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg tile text-xs text-[#9D98AA] transition-transform duration-200 ${
                         isOpen ? 'rotate-180 text-accent' : ''
                       }`}
                       aria-hidden="true"
@@ -98,3 +98,4 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
 };
 
 export default FAQ;
+

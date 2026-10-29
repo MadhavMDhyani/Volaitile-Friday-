@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 import Reveal from './Reveal';
 
 const DEMO_CONVERSATIONS = [
@@ -85,7 +85,7 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
         <Reveal delay={100} immediate={compact} transformOnly={true}>
           <div
             ref={containerRef}
-            className="rounded-2xl glass-strong border border-white/[0.22] p-5 sm:p-7 shadow-[0_24px_48px_rgba(0,0,0,0.8)]"
+            className="rounded-2xl tile border border-white/[0.22] p-5 sm:p-7 shadow-[0_24px_48px_rgba(0,0,0,0.8)]"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4 text-xs font-mono">
@@ -103,7 +103,7 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
               {/* User question */}
               <div className="flex flex-col items-end">
                 <span className="text-[10px] font-mono text-[#9D98AA] mb-1">lead-dev@company.com</span>
-                <div className="rounded-2xl border border-accent-press/30 bg-accent-tint/25 px-4 py-2.5 text-xs text-[#F5F3FF] max-w-[90%] sm:max-w-[80%] shadow-glass">
+                <div className="rounded-2xl border border-accent-press/30 bg-accent-tint/25 px-4 py-2.5 text-xs text-[#F5F3FF] max-w-[90%] sm:max-w-[80%] shadow-tile">
                   {current.user}
                 </div>
               </div>
@@ -115,7 +115,7 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
                   Friday AI
                 </span>
                 <div
-                  className="rounded-2xl border border-accent-deep bg-accent-tint/20 px-4 py-3 text-xs text-[#C9C6D5] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-glass min-h-[72px]"
+                  className="rounded-2xl border border-accent-deep bg-accent-tint/20 px-4 py-3 text-xs text-[#C9C6D5] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-tile min-h-[72px]"
                   style={{ contain: 'layout paint' }}
                 >
                   <p className="whitespace-pre-wrap">
@@ -141,3 +141,4 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
 };
 
 export default ChatDemo;
+

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import { ProjectCardSkeleton } from '../Skeleton';
@@ -9,12 +9,12 @@ export const ProjectGrid = ({
   error = '',
   currentUserId,
   statsMap = {},
-  onlinePresenceMap = {}, // Map of projectId -> onlineCount
+  onlinePresenceMap = {},
   onNewProject,
   onRetry,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('updated'); // 'updated' | 'name'
+  const [sortBy, setSortBy] = useState('updated');
 
   const navigate = useNavigate();
 
@@ -26,23 +26,19 @@ export const ProjectGrid = ({
 
   const filteredProjects = useMemo(() => {
     let result = [...projects];
-
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       result = result.filter((p) => p.name?.toLowerCase().includes(q));
     }
-
     if (sortBy === 'name') {
       result.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
     } else {
-      // Default: recently updated or created
       result.sort((a, b) => {
         const dateA = new Date(a.updatedAt || a.createdAt || 0).getTime();
         const dateB = new Date(b.updatedAt || b.createdAt || 0).getTime();
         return dateB - dateA;
       });
     }
-
     return result;
   }, [projects, searchQuery, sortBy]);
 
@@ -57,7 +53,7 @@ export const ProjectGrid = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects..."
-            className="w-full glass-input pl-8 pr-8 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
+            className="w-full tile-input rounded-xl pl-8 pr-8 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring"
             aria-label="Search projects by name"
           />
           {searchQuery && (
@@ -77,11 +73,11 @@ export const ProjectGrid = ({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="glass-input px-3 py-2 text-xs text-[#F5F3FF] focus-ring cursor-pointer"
+            className="tile-input rounded-xl px-3 py-2 text-xs text-[#F5F3FF] focus-ring cursor-pointer"
             aria-label="Sort projects"
           >
-            <option value="updated" className="bg-[#110B20]">Recently updated</option>
-            <option value="name" className="bg-[#110B20]">Name (A-Z)</option>
+            <option value="updated" className="bg-tile-deep">Recently updated</option>
+            <option value="name" className="bg-tile-deep">Name (A-Z)</option>
           </select>
         </div>
       </div>
@@ -91,22 +87,20 @@ export const ProjectGrid = ({
         <div className="flex items-center justify-between rounded-xl border border-accent-deep bg-accent-tint/40 p-4 text-xs text-accent">
           <span>{error}</span>
           {onRetry && (
-            <Button variant="secondary" size="xs" onClick={onRetry}>
-              Retry
-            </Button>
+            <Button variant="secondary" size="xs" onClick={onRetry}>Retry</Button>
           )}
         </div>
       )}
 
       {/* Loading state */}
       {loading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <ProjectCardSkeleton key={i} />
           ))}
         </div>
       ) : filteredProjects.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
           {filteredProjects.map((proj, idx) => {
             const isProjOwner = isOwner(proj);
             const stats = statsMap[proj._id];
@@ -119,7 +113,7 @@ export const ProjectGrid = ({
               <div
                 key={proj._id}
                 onClick={() => navigate(`/project/${proj._id}`)}
-                className="group relative flex flex-col justify-between rounded-2xl glass p-4.5 cursor-pointer transition-all duration-180 ease-out hover:border-white/25 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.45)] focus-ring animate-fade-up"
+                className="tile group relative flex flex-col justify-between rounded-2xl p-5 cursor-pointer animate-fade-up"
                 style={{
                   animationDelay: `${Math.min(idx, 6) * 35}ms`,
                   animationFillMode: 'both',
@@ -135,10 +129,10 @@ export const ProjectGrid = ({
                 aria-label={`Open project ${proj.name}`}
               >
                 <div>
-                  {/* Card Header: Title & Badges */}
+                  {/* Card Header */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0 max-w-[70%]">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl glass text-[#9D98AA] group-hover:text-accent transition-colors">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-tile-raised text-[#9D98AA] group-hover:text-accent transition-colors">
                         <i className="ri-folder-line text-sm" />
                       </div>
                       <h3 className="font-mono font-semibold text-xs sm:text-sm text-[#F5F3FF] truncate tracking-tight">
@@ -147,27 +141,22 @@ export const ProjectGrid = ({
                     </div>
 
                     <div className="flex items-center gap-1.5 shrink-0">
-                      {/* Online dot indicator if active */}
                       {onlineCount > 0 && (
                         <span
                           className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-[9px] font-mono text-[#C9C6D5]"
                           title={`${onlineCount} collaborator online now`}
                         >
-                          <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
                           {onlineCount} online
                         </span>
                       )}
-
-                      {/* Owner vs Member Badge */}
-                      <span
-                        className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-mono border-white/15 bg-white/[0.06] text-[#9D98AA]"
-                      >
+                      <span className="inline-flex items-center rounded-full border border-white/15 bg-tile-raised px-2 py-0.5 text-[10px] font-mono text-[#9D98AA]">
                         {isProjOwner ? 'Owner' : 'Member'}
                       </span>
                     </div>
                   </div>
 
-                  {/* Metadata Row: Files & Lines */}
+                  {/* Metadata */}
                   <div className="mt-3 flex items-center gap-3 text-xs text-[#6C667C] font-mono">
                     <span className="flex items-center gap-1">
                       <i className="ri-file-code-line text-xs" />
@@ -189,7 +178,7 @@ export const ProjectGrid = ({
                         return (
                           <div
                             key={member?._id || mIdx}
-                            className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-white/[0.1] font-mono text-[9px] font-bold text-[#F5F3FF]"
+                            className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-tile-raised font-mono text-[9px] font-bold text-[#F5F3FF]"
                             title={email}
                           >
                             {initial}
@@ -197,33 +186,25 @@ export const ProjectGrid = ({
                         );
                       })}
                     </div>
-
                     {extraCount > 0 && (
-                      <span className="rounded-full bg-white/[0.06] border border-white/10 px-1.5 py-0.2 text-[10px] font-mono text-[#6C667C]">
+                      <span className="rounded-full bg-tile-raised border border-white/10 px-1.5 text-[10px] font-mono text-[#6C667C]">
                         +{extraCount}
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Card Footer: Open Button */}
-                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-2.5 text-xs">
+                {/* Card Footer */}
+                <div className="mt-4 flex items-center justify-between border-t border-white/[0.08] pt-2.5 text-xs">
                   <span className="text-[11px] font-mono text-[#6C667C]">
                     {proj.createdAt
-                      ? new Date(proj.createdAt).toLocaleDateString([], {
-                          month: 'short',
-                          day: 'numeric',
-                        })
+                      ? new Date(proj.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })
                       : 'Active'}
                   </span>
-
                   <Button
                     variant="ghost"
                     size="xs"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/project/${proj._id}`);
-                    }}
+                    onClick={(e) => { e.stopPropagation(); navigate(`/project/${proj._id}`); }}
                     iconRight={<i className="ri-arrow-right-line text-xs" />}
                     className="text-[#9D98AA] hover:text-[#F5F3FF] font-mono"
                   >
@@ -233,33 +214,39 @@ export const ProjectGrid = ({
               </div>
             );
           })}
+
+          {/* New Project ghost tile */}
+          <button
+            type="button"
+            onClick={onNewProject}
+            className="tile-ghost rounded-2xl p-5 flex flex-col items-center justify-center gap-2 min-h-[120px] cursor-pointer focus-ring"
+            aria-label="Create new project"
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-dashed border-white/20 text-[#6C667C]">
+              <i className="ri-add-line text-lg" />
+            </div>
+            <span className="text-xs font-mono text-[#6C667C]">New project</span>
+          </button>
         </div>
       ) : (
         /* Empty State */
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 glass py-12 px-4 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl glass text-[#9D98AA] mb-3">
-            <i className="ri-folder-add-line text-xl text-accent" />
+        <div className="tile-ghost rounded-2xl flex flex-col items-center justify-center py-12 px-4 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-tile-raised text-accent mb-3">
+            <i className="ri-folder-add-line text-xl" />
           </div>
           <h4 className="text-sm font-semibold text-[#F5F3FF]">
             {searchQuery ? 'No matching projects found' : 'No projects yet'}
           </h4>
           <p className="mt-1 text-xs text-[#9D98AA] max-w-sm">
             {searchQuery
-              ? `No project matches "${searchQuery}". Clear your search query to view all workspaces.`
+              ? `No project matches "${searchQuery}". Clear your search to view all workspaces.`
               : 'Create your first collaborative developer project to start coding and chatting.'}
           </p>
           <div className="mt-4">
             {searchQuery ? (
-              <Button variant="secondary" size="xs" onClick={() => setSearchQuery('')}>
-                Clear search
-              </Button>
+              <Button variant="secondary" size="xs" onClick={() => setSearchQuery('')}>Clear search</Button>
             ) : (
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={onNewProject}
-                icon={<i className="ri-add-line text-sm" />}
-              >
+              <Button variant="primary" size="sm" onClick={onNewProject} icon={<i className="ri-add-line text-sm" />}>
                 Create your first project
               </Button>
             )}

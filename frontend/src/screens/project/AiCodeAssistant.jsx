@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import { useToast } from '../../context/useToast';
@@ -194,7 +194,7 @@ export const AiCodeAssistant = ({
 
   return (
     <aside
-      className="flex h-full w-full flex-col border-l border-white/[0.12] bg-[#110B20]/95 backdrop-blur-2xl text-[#F5F3FF] shadow-2xl animate-fade-in overflow-hidden z-20"
+      className="flex h-full w-full flex-col border-l border-white/[0.12] bg-tile-deep text-[#F5F3FF] shadow-2xl animate-fade-in overflow-hidden z-20"
       aria-label="Friday AI Code Assistant"
     >
       {/* Header */}
@@ -372,7 +372,7 @@ export const AiCodeAssistant = ({
 
             {/* Generated Output Card */}
             {generatedResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-tile animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
@@ -462,7 +462,7 @@ export const AiCodeAssistant = ({
             )}
 
             {reviewResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-tile animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -522,7 +522,7 @@ export const AiCodeAssistant = ({
             )}
 
             {explainResult && (
-              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-glass animate-fade-up">
+              <div className="rounded-xl border border-white/[0.12] bg-[#110B20]/95 overflow-hidden shadow-tile animate-fade-up">
                 <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-mono">
                   <div className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -565,3 +565,5 @@ export const AiCodeAssistant = ({
 };
 
 export default AiCodeAssistant;
+
+

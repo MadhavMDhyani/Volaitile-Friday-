@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ProductMockup from './ProductMockup';
 import Reveal from './Reveal';
@@ -49,7 +49,7 @@ export const Hero = () => {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center pointer-events-none">
         {/* Subtle Pill Tag */}
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full glass-pill px-3 py-1 text-[11px] sm:text-xs text-[#9D98AA] border border-white/15 mb-2 sm:mb-3 max-w-full animate-fade-in pointer-events-auto">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full tile-pill px-3 py-1 text-[11px] sm:text-xs text-[#9D98AA] border border-white/15 mb-2 sm:mb-3 max-w-full animate-fade-in pointer-events-auto">
           <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
           <span className="font-mono text-[#C9C6D5] font-medium whitespace-nowrap">Volaitile Friday</span>
           <span className="text-white/30 hidden sm:inline">·</span>
@@ -89,7 +89,7 @@ export const Hero = () => {
 
           <Link
             to="/features"
-            className="w-full sm:w-auto h-11 px-6 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#F5F3FF] glass hover:border-white/30 transition-all focus-ring"
+            className="w-full sm:w-auto h-11 px-6 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#F5F3FF] tile hover:border-white/30 transition-all focus-ring"
           >
             Explore features
           </Link>
@@ -120,3 +120,4 @@ export const Hero = () => {
 };
 
 export default Hero;
+

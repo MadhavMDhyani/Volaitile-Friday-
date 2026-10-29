@@ -24,13 +24,13 @@ export const ProjectHeader = ({
   }, [isMenuOpen]);
 
   return (
-    <header className="border-b border-white/[0.08] bg-page/75 backdrop-blur-xl sticky top-0 z-30">
+    <header className="border-b border-white/[0.08] bg-tile-deep sticky top-0 z-30">
       <div className="flex h-12 items-center justify-between px-3 sm:px-4">
         {/* Left: Back Link & Project Name */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <Link
             to="/dashboard"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg glass border-glass-border/50 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg tile-raised border-border/50 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >
@@ -77,7 +77,7 @@ export const ProjectHeader = ({
           <button
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg glass text-[#9D98AA] hover:text-[#F5F3FF] focus-ring"
+            className="flex h-8 w-8 items-center justify-center rounded-lg tile-raised text-[#9D98AA] hover:text-[#F5F3FF] focus-ring"
             aria-label="Workspace secondary actions"
             aria-expanded={isMenuOpen}
           >
@@ -85,7 +85,7 @@ export const ProjectHeader = ({
           </button>
 
           {isMenuOpen && (
-            <div className="absolute right-8 top-10 w-48 rounded-xl glass-strong border border-white/10 p-1.5 shadow-2xl z-50 animate-scale-in text-xs font-mono">
+            <div className="absolute right-8 top-10 w-48 rounded-xl tile border border-white/10 p-1.5 shadow-2xl z-50 animate-scale-in text-xs font-mono">
               <button
                 type="button"
                 onClick={() => {
@@ -113,3 +113,4 @@ export const ProjectHeader = ({
 };
 
 export default ProjectHeader;
+

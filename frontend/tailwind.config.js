@@ -21,7 +21,7 @@ export default {
         surface: '#211737',
         raised: '#2C2048',
         border: 'rgba(245, 243, 255, 0.08)',
-        'border-strong': 'rgba(245, 243, 255, 0.15)',
+        'border-strong': 'rgba(245, 243, 255, 0.16)',
         'text-primary': '#F5F3FF',
         'text-secondary': '#C9C6D5',
         'text-muted': '#9D98AA',
@@ -37,10 +37,15 @@ export default {
         },
         highlight: '#F0E100',
         turbo: '#F0E100',
-        'glass-border': 'rgba(245, 243, 255, 0.10)',
-        'glass-border-strong': 'rgba(245, 243, 255, 0.18)',
-        'glass-fill': 'rgba(24, 16, 43, 0.03)',
-        'glass-strong': 'rgba(24, 16, 43, 0.75)',
+        /* Bento tile fills */
+        tile: {
+          DEFAULT: '#211737',
+          raised: '#2C2048',
+          deep: '#110B20',
+          accent: '#834DFB',
+          highlight: '#F0E100',
+        },
+
       },
       keyframes: {
         'fade-in': {
@@ -90,6 +95,9 @@ export default {
         'slide-in-up': 'slide-in-up 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
         shimmer: 'shimmer 1.8s ease-in-out infinite',
         pop: 'pop 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+      },
+      boxShadow: {
+        tile: '0 1px 0 rgba(0, 0, 0, 0.3)',
       },
     },
   },

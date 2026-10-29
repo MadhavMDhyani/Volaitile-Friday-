@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+﻿import { useState, useRef, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import ChangePasswordModal from './ChangePasswordModal';
@@ -37,7 +37,7 @@ export const AccountMenu = () => {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-xs text-[#F5F3FF] transition-all hover:border-white/18 hover:bg-white/[0.08] backdrop-blur-md focus-ring shadow-[inset_0_1px_0_rgba(245, 243, 255, 0.12)]"
+          className="flex items-center gap-2 rounded-lg border border-white/10 bg-tile-raised px-2.5 py-1.5 text-xs text-[#F5F3FF] transition-all hover:border-white/18 hover:bg-[#3A3355] focus-ring shadow-[inset_0_1px_0_rgba(245, 243, 255, 0.12)]"
           aria-expanded={isOpen}
           aria-haspopup="true"
           aria-label="Account options"
@@ -57,7 +57,7 @@ export const AccountMenu = () => {
 
         {isOpen && (
           <div
-            className="absolute right-0 mt-2 w-56 rounded-xl glass-strong py-1.5 text-xs text-[#F5F3FF] modal-shadow animate-scale-in z-40"
+            className="absolute right-0 mt-2 w-56 rounded-xl bg-[#211737] border border-white/15 py-1.5 text-xs text-[#F5F3FF] modal-shadow animate-scale-in z-40"
             role="menu"
             aria-orientation="vertical"
           >
@@ -128,3 +128,4 @@ export const AccountMenu = () => {
 };
 
 export default AccountMenu;
+

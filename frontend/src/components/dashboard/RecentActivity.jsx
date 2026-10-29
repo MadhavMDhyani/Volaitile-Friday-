@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+﻿import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../config/axios';
 import getErrorMessage from '../../utils/getErrorMessage';
@@ -55,11 +55,11 @@ export const RecentActivity = () => {
   }, []);
 
   return (
-    <div className="flex flex-col rounded-2xl glass p-4 sm:p-5 text-xs font-sans">
+    <div className="flex flex-col rounded-2xl tile p-4 sm:p-5 text-xs font-sans">
       {/* Panel Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg glass text-accent">
+          <div className="flex h-6 w-6 items-center justify-center rounded-lg tile text-accent">
             <i className="ri-history-line text-xs" />
           </div>
           <h3 className="font-semibold text-sm text-[#F5F3FF] tracking-tight">
@@ -159,7 +159,7 @@ export const RecentActivity = () => {
       ) : (
         /* Empty State */
         <div className="flex flex-col items-center justify-center py-8 text-center text-[#6C667C]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl glass mb-2 text-[#9D98AA]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl tile mb-2 text-[#9D98AA]">
             <i className="ri-chat-voice-line text-lg text-accent" />
           </div>
           <p className="text-xs text-[#9D98AA] font-medium">No recent activity yet</p>
@@ -173,3 +173,4 @@ export const RecentActivity = () => {
 };
 
 export default RecentActivity;
+

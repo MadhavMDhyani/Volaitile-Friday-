@@ -1,4 +1,4 @@
-import Reveal from './Reveal';
+﻿import Reveal from './Reveal';
 
 export const HowItWorks = ({ asH1 = false, isPage = false, compact = false }) => {
   const TitleTag = asH1 ? 'h1' : 'h2';
@@ -43,13 +43,13 @@ export const HowItWorks = ({ asH1 = false, isPage = false, compact = false }) =>
         <div className={`grid grid-cols-1 md:grid-cols-3 ${compact ? 'gap-3.5' : 'gap-6'}`}>
           {steps.map((step, idx) => (
             <Reveal key={step.num} delay={idx * 100} immediate={compact} transformOnly={true}>
-              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
+              <div className={`h-full rounded-2xl tile ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className={`flex items-center justify-between ${compact ? 'mb-4' : 'mb-6'}`}>
                     <span className="font-mono text-2xl font-bold text-accent/90 tabular-nums">
                       {step.num}
                     </span>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl glass border-white/10 text-[#F5F3FF]">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-white/10 text-[#F5F3FF]">
                       <i className={`${step.icon} text-base`} />
                     </div>
                   </div>
@@ -75,3 +75,4 @@ export const HowItWorks = ({ asH1 = false, isPage = false, compact = false }) =>
 };
 
 export default HowItWorks;
+

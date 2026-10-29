@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 
 export const ToastItem = ({ toast, onDismiss }) => {
   const [isPaused, setIsPaused] = useState(false);
@@ -60,7 +60,7 @@ export const ToastItem = ({ toast, onDismiss }) => {
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`group relative flex w-full max-w-sm overflow-hidden rounded-xl glass-strong p-3.5 text-sm text-[#F5F3FF] modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
+      className={`group relative flex w-full max-w-sm overflow-hidden rounded-xl tile p-3.5 text-sm text-[#F5F3FF] modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
       role="status"
       aria-live="polite"
     >
@@ -92,3 +92,4 @@ export const ToastItem = ({ toast, onDismiss }) => {
 };
 
 export default ToastItem;
+

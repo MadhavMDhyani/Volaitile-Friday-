@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+﻿import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
@@ -63,7 +63,7 @@ export const Register = () => {
   return (
     <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-[#F5F3FF] flex items-center justify-center font-sans">
       <div className="w-full max-w-4xl">
-        <div className="grid w-full overflow-hidden rounded-2xl glass-liquid lg:grid-cols-[1.1fr_0.9fr] modal-shadow">
+        <div className="grid w-full overflow-hidden rounded-3xl tile lg:grid-cols-[1.1fr_0.9fr]">
           {/* Brand Info Panel (Desktop) - 60ms stagger entrance */}
           <div className="hidden p-8 sm:p-10 lg:flex lg:flex-col lg:justify-between border-r border-white/10 bg-white/[0.02]">
             <div>
@@ -106,7 +106,7 @@ export const Register = () => {
             </div>
 
             <div
-              className="mt-8 rounded-xl glass-input p-3 text-xs text-[#9D98AA] font-mono animate-fade-up"
+              className="mt-8 rounded-xl tile-deep p-3 text-xs text-[#9D98AA] font-mono animate-fade-up"
               style={{ animationDelay: '240ms' }}
             >
               Passwords are encrypted with bcrypt before saving.
@@ -169,7 +169,7 @@ export const Register = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="developer@company.com"
-                  className="w-full glass-input px-3.5 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                  className="w-full tile-input px-3.5 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
                 />
               </div>
 
@@ -192,7 +192,7 @@ export const Register = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Choose a strong password"
-                    className="w-full glass-input pl-3.5 pr-10 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                    className="w-full tile-input pl-3.5 pr-10 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
                   />
                   <button
                     type="button"
@@ -247,3 +247,4 @@ export const Register = () => {
 };
 
 export default Register;
+

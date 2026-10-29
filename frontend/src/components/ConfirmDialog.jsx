@@ -1,4 +1,4 @@
-import Modal from './Modal';
+﻿import Modal from './Modal';
 import Button from './Button';
 
 export const ConfirmDialog = ({
@@ -18,7 +18,7 @@ export const ConfirmDialog = ({
       <div className="space-y-4">
         <p className="text-sm text-[#9D98AA] leading-relaxed">{message}</p>
         {description && (
-          <div className="rounded-lg glass-input p-3 text-xs text-[#9D98AA] font-mono">
+          <div className="rounded-lg tile-input p-3 text-xs text-[#9D98AA] font-mono">
             {description}
           </div>
         )}
@@ -42,3 +42,4 @@ export const ConfirmDialog = ({
 };
 
 export default ConfirmDialog;
+

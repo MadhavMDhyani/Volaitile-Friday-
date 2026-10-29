@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+﻿import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useContext, useCallback } from 'react';
 import axios from '../config/axios';
 import { UserContext } from '../context/user.context';
@@ -144,7 +144,7 @@ export const Project = () => {
   if (fetchStatus === 'forbidden') {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#110B20]/85 backdrop-blur-sm px-4 text-center text-[#F5F3FF] font-sans">
-        <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
+        <div className="tile max-w-md w-full p-8 rounded-3xl/60 shadow-glass flex flex-col items-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgb(var(--accent-rgb)/0.25)]">
             <i className="ri-lock-line text-2xl" />
           </div>
@@ -168,7 +168,7 @@ export const Project = () => {
   if (fetchStatus === 'notfound') {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#110B20]/85 backdrop-blur-sm px-4 text-center text-[#F5F3FF] font-sans">
-        <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
+        <div className="tile max-w-md w-full p-8 rounded-3xl/60 shadow-glass flex flex-col items-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-[#9D98AA] mb-4 shadow-glass">
             <i className="ri-folder-warning-line text-2xl text-accent" />
           </div>
@@ -192,7 +192,7 @@ export const Project = () => {
   if (fetchStatus === 'error') {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#110B20]/85 backdrop-blur-sm px-4 text-center text-[#F5F3FF] font-sans">
-        <div className="glass-liquid max-w-md w-full p-8 rounded-3xl border-glass-border/60 shadow-glass flex flex-col items-center">
+        <div className="tile max-w-md w-full p-8 rounded-3xl/60 shadow-glass flex flex-col items-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgb(var(--accent-rgb)/0.25)]">
             <i className="ri-error-warning-line text-2xl" />
           </div>
@@ -319,3 +319,4 @@ export const Project = () => {
 };
 
 export default Project;
+

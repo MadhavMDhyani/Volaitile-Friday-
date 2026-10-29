@@ -194,7 +194,7 @@ export const AiCodeAssistant = ({
 
   return (
     <aside
-      className="flex h-full w-full flex-col border-l border-white/[0.12] bg-[#110B20]/95 backdrop-blur-2xl text-[#F5F3FF] shadow-2xl animate-fade-in overflow-hidden z-20"
+      className="flex h-full w-full flex-col border-l border-white/[0.12] bg-tile-deep text-[#F5F3FF] shadow-2xl animate-fade-in overflow-hidden z-20"
       aria-label="Friday AI Code Assistant"
     >
       {/* Header */}
@@ -565,4 +565,5 @@ export const AiCodeAssistant = ({
 };
 
 export default AiCodeAssistant;
+
 

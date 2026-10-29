@@ -497,9 +497,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const otherTypingUsers = (typingUsers || []).filter((u) => u.userId !== currentUserId);
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#110B20]/85 backdrop-blur-xl text-[#F5F3FF] overflow-hidden select-none">
+    <div className="flex h-full w-full flex-col bg-tile-deep text-[#F5F3FF] overflow-hidden select-none">
       {/* Chat Header */}
-      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#110B20]/90 backdrop-blur-md px-3.5 text-xs">
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-tile-deep px-3.5 text-xs">
         <div className="flex items-center gap-2 min-w-0">
           <i className="ri-chat-3-line text-accent shrink-0" />
           <span className="font-semibold text-xs text-[#F5F3FF] truncate">Room Chat & Friday AI</span>
@@ -522,7 +522,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Disconnected / Reconnecting banner */}
       {isReconnecting && (
-        <div className="flex items-center justify-between bg-accent-tint/30 border-b border-accent-deep px-3 py-1.5 text-[11px] text-accent font-mono animate-fade-in backdrop-blur-sm">
+        <div className="flex items-center justify-between bg-accent-tint/30">
           <div className="flex items-center gap-2">
             <i className="ri-loader-4-line animate-spin text-xs" />
             <span>Reconnecting to real-time chat...</span>
@@ -692,7 +692,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Typing indicator for other members */}
       {otherTypingUsers.length > 0 && (
-        <div className="flex items-center gap-2 border-t border-white/[0.08] bg-[#18102B]/80 px-3.5 py-1.5 text-[11px] font-mono text-[#9D98AA] animate-fade-in backdrop-blur-sm">
+        <div className="flex items-center gap-2 border-t border-white/[0.08] bg-tile px-3.5 py-1.5">
           <div className="flex items-center gap-1">
             <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '0ms' }} />
             <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -780,4 +780,5 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 };
 
 export default ChatPanel;
+
 

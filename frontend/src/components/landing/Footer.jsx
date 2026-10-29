@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/[0.08] bg-page/95 backdrop-blur-xl py-4 sm:py-5 relative z-10">
+    <footer className="border-t border-white/[0.08] bg-tile-deep py-4 sm:py-5 relative z-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           {/* Logo & Tagline / Copyright (Row 1 on desktop, Row 2 on mobile) */}
@@ -60,3 +60,4 @@ export const Footer = () => {
 };
 
 export default Footer;
+

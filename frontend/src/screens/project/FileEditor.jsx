@@ -188,7 +188,7 @@ export const FileEditor = ({
   return (
     <div className="flex h-full w-full flex-col bg-[#110B20]/95 text-[#F5F3FF] overflow-hidden select-none">
       {/* Editor Top Bar */}
-      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#110B20]/90 backdrop-blur-md px-3.5 text-xs">
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-tile-deep px-3.5 text-xs">
         {/* File Path & Language */}
         <div className="flex items-center gap-2 min-w-0">
           <i className="ri-file-text-line text-accent text-sm" />
@@ -302,4 +302,5 @@ export const FileEditor = ({
 };
 
 export default FileEditor;
+
 

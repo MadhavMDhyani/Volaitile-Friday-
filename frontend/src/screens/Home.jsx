@@ -146,7 +146,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen bg-transparent text-[#F5F3FF] flex flex-col font-sans selection:bg-[#F5F3FF] selection:text-[#110B20]">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#110B20]/75 backdrop-blur-[var(--blur)]">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-tile-deep">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6 min-w-0">
             <Logo size="md" to="/dashboard" />
@@ -442,4 +442,5 @@ export const Home = () => {
 };
 
 export default Home;
+
 

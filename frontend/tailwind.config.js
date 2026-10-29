@@ -21,7 +21,7 @@ export default {
         surface: '#211737',
         raised: '#2C2048',
         border: 'rgba(245, 243, 255, 0.08)',
-        'border-strong': 'rgba(245, 243, 255, 0.15)',
+        'border-strong': 'rgba(245, 243, 255, 0.16)',
         'text-primary': '#F5F3FF',
         'text-secondary': '#C9C6D5',
         'text-muted': '#9D98AA',
@@ -37,10 +37,19 @@ export default {
         },
         highlight: '#F0E100',
         turbo: '#F0E100',
+        /* Bento tile fills */
+        tile: {
+          DEFAULT: '#211737',
+          raised: '#2C2048',
+          deep: '#110B20',
+          accent: '#834DFB',
+          highlight: '#F0E100',
+        },
+        /* Legacy glass tokens kept for backward compat in Tailwind JIT */
         'glass-border': 'rgba(245, 243, 255, 0.10)',
         'glass-border-strong': 'rgba(245, 243, 255, 0.18)',
         'glass-fill': 'rgba(24, 16, 43, 0.03)',
-        'glass-strong': 'rgba(24, 16, 43, 0.75)',
+        'glass-strong-fill': 'rgba(24, 16, 43, 0.75)',
       },
       keyframes: {
         'fade-in': {

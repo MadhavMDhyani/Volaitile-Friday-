@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+﻿import { useState, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from '../config/axios';
 import { UserContext } from '../context/user.context';
@@ -45,9 +45,9 @@ export const Login = () => {
   return (
     <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-[#F5F3FF] flex items-center justify-center font-sans">
       <div className="w-full max-w-4xl">
-        <div className="grid w-full overflow-hidden rounded-2xl glass-liquid lg:grid-cols-[1.1fr_0.9fr] modal-shadow">
+        <div className="grid w-full overflow-hidden rounded-3xl tile lg:grid-cols-[1.1fr_0.9fr]">
           {/* Brand Info Panel (Desktop) - 60ms stagger entrance */}
-          <div className="hidden p-8 sm:p-10 lg:flex lg:flex-col lg:justify-between border-r border-white/10 bg-white/[0.02]">
+          <div className="hidden p-8 sm:p-10 lg:flex lg:flex-col lg:justify-between border-r border-white/[0.08] bg-tile-raised">
             <div>
               <div className="animate-fade-up" style={{ animationDelay: '0ms' }}>
                 <Logo size="md" to={null} />
@@ -88,7 +88,7 @@ export const Login = () => {
             </div>
 
             <div
-              className="mt-8 rounded-xl glass-input p-3 text-xs text-[#9D98AA] font-mono animate-fade-up"
+              className="mt-8 rounded-xl tile-deep p-3 text-xs text-[#9D98AA] font-mono animate-fade-up"
               style={{ animationDelay: '240ms' }}
             >
               Secured with JWT authentication and strict access policies.

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext, useId } from 'react';
+﻿import { useEffect, useRef, useState, useContext, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/user.context';
@@ -359,7 +359,7 @@ export const MenuSheet = ({
     >
       {/* Scrim — tints page (page itself is blurred by body.menu-open) */}
       <div
-        className={`fixed inset-0 bg-[#0B0716]/60 backdrop-blur-lg ${backdropTransition}`}
+        className={`fixed inset-0 bg-[#0B0716]/60 backdrop-blur-sm ${backdropTransition}`}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -369,7 +369,7 @@ export const MenuSheet = ({
         className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl menu-glass overflow-hidden ${desktopPanelTransform}`}
       >
         {/* Left Column: Vertical ARIA Tabs with Sliding Active Indicator */}
-        <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-[#18102B]/35">
+        <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-tile-raised">
           <div>
             {/* Header Brand */}
             <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-5">
@@ -451,7 +451,7 @@ export const MenuSheet = ({
                 <Link
                   to="/login"
                   onClick={onClose}
-                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium glass text-[#F5F3FF] hover:border-white/30 transition-all focus-ring"
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium tile text-[#F5F3FF] transition-all focus-ring"
                 >
                   Log in
                 </Link>
@@ -471,9 +471,9 @@ export const MenuSheet = ({
         </div>
 
         {/* Right Column: Tab Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 bg-[#18102B]/20 overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 bg-tile overflow-hidden">
           {/* Top Bar with Title and Close Button */}
-          <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-[#18102B]/30">
+          <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-tile-raised">
             <h2
               id={titleId}
               className="text-sm font-semibold text-[#F5F3FF] flex items-center gap-2"
@@ -487,8 +487,9 @@ export const MenuSheet = ({
               type="button"
               onClick={onClose}
               aria-label="Close menu"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#9D98AA] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[#9D98AA] hover:text-[#F5F3FF] transition-all focus-ring cursor-pointer"
             >
+              <i className="ri-close>
               <i className="ri-close-line text-lg" />
             </button>
           </div>
@@ -531,8 +532,9 @@ export const MenuSheet = ({
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl glass text-[#9D98AA] hover:text-white hover:border-white/30 transition-all focus-ring cursor-pointer"
+            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[#9D98AA] hover:text-[#F5F3FF] transition-all focus-ring cursor-pointer"
           >
+            <i className="ri-close>
             <i className="ri-close-line text-xl" />
           </button>
         </div>
@@ -611,7 +613,7 @@ export const MenuSheet = ({
         </div>
 
         {/* Mobile Bottom Auth CTAs */}
-        <div className="shrink-0 p-4 border-t border-white/10 bg-[#18102B]/30">
+        <div className="shrink-0 p-4 border-t border-white/10 bg-tile-raised">
           {user ? (
             <Link
               to="/dashboard"
@@ -625,7 +627,7 @@ export const MenuSheet = ({
               <Link
                 to="/login"
                 onClick={onClose}
-                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium glass text-[#F5F3FF] hover:border-white/30 transition-all focus-ring"
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium tile text-[#F5F3FF] transition-all focus-ring"
               >
                 Log in
               </Link>
@@ -646,3 +648,4 @@ export const MenuSheet = ({
 };
 
 export default MenuSheet;
+

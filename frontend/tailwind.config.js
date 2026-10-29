@@ -96,6 +96,9 @@ export default {
         shimmer: 'shimmer 1.8s ease-in-out infinite',
         pop: 'pop 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
+      boxShadow: {
+        tile: '0 1px 0 rgba(0, 0, 0, 0.3)',
+      },
     },
   },
   plugins: [],

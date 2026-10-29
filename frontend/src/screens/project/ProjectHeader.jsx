@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AccountMenu from '../../components/AccountMenu';
 import Button from '../../components/Button';
@@ -30,7 +30,7 @@ export const ProjectHeader = ({
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <Link
             to="/dashboard"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg tile-raised border-glass-border/50 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg tile-raised border-border/50 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >

@@ -45,11 +45,7 @@ export default {
           accent: '#834DFB',
           highlight: '#F0E100',
         },
-        /* Legacy glass tokens kept for backward compat in Tailwind JIT */
-        'glass-border': 'rgba(245, 243, 255, 0.10)',
-        'glass-border-strong': 'rgba(245, 243, 255, 0.18)',
-        'glass-fill': 'rgba(24, 16, 43, 0.03)',
-        'glass-strong-fill': 'rgba(24, 16, 43, 0.75)',
+
       },
       keyframes: {
         'fade-in': {

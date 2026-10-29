@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import { useToast } from '../../context/useToast';
@@ -539,7 +539,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       >
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[#6C667C]">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile border-glass-border/40 text-accent/50 mb-3 shadow-tile">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile border-border/40 text-accent/50 mb-3 shadow-tile">
               <i className="ri-chat-smile-2-line text-2xl" />
             </div>
             <p className="text-xs font-medium text-[#F5F3FF]">No messages in this workspace yet</p>

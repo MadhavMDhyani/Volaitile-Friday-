@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import axios from '../../config/axios';
 import Button from '../Button';
 import getErrorMessage from '../../utils/getErrorMessage';
@@ -51,7 +51,7 @@ export const AiQuickAsk = () => {
   };
 
   return (
-    <div className="flex flex-col rounded-2xl tile p-4 text-xs font-sans border-glass-border/60 shadow-tile">
+    <div className="flex flex-col rounded-2xl tile p-4 text-xs font-sans border-border/60 shadow-tile">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
         <div className="flex items-center gap-2.5">

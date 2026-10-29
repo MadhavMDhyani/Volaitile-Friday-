@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
@@ -275,7 +275,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
               setNewFilePath('');
               setIsNewFileModalOpen(true);
             }}
-            className="flex h-6 w-6 items-center justify-center rounded-lg tile border-glass-border/40 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-6 w-6 items-center justify-center rounded-lg tile border-border/40 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
             title="Create new file"
             aria-label="Create new file"
           >

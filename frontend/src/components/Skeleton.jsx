@@ -1,4 +1,4 @@
-export const Skeleton = ({
+﻿export const Skeleton = ({
   className = '',
   width,
   height,
@@ -17,7 +17,7 @@ export const Skeleton = ({
 };
 
 export const ProjectCardSkeleton = () => (
-  <div className="flex flex-col justify-between rounded-2xl glass p-5 h-44">
+  <div className="flex flex-col justify-between rounded-2xl tile p-5 h-44">
     <div>
       <div className="flex items-center justify-between">
         <Skeleton width="60%" height="20px" />
@@ -53,3 +53,4 @@ export const MessageSkeleton = () => (
 );
 
 export default Skeleton;
+

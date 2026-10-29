@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 
 export const FinalCTA = ({ compact = false }) => {
@@ -6,7 +6,7 @@ export const FinalCTA = ({ compact = false }) => {
     <section className={`${compact ? 'py-12 sm:py-16' : 'py-20 sm:py-28'} relative`}>
       <div className={`mx-auto ${compact ? 'max-w-4xl' : 'max-w-5xl'} px-4 sm:px-6 lg:px-8`}>
         <Reveal delay={0} transformOnly={true}>
-          <div className={`relative rounded-3xl glass-strong border border-accent/30 ${compact ? 'p-6 sm:p-10' : 'p-8 sm:p-14'} text-center overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9),0_0_40px_rgb(var(--accent-rgb)/0.08)]`}>
+          <div className={`relative rounded-3xl tile border border-accent/30 ${compact ? 'p-6 sm:p-10' : 'p-8 sm:p-14'} text-center overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9),0_0_40px_rgb(var(--accent-rgb)/0.08)]`}>
             {/* Luminous yellow radial flare in background */}
             <div
               className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none opacity-20 blur-[80px]"
@@ -40,7 +40,7 @@ export const FinalCTA = ({ compact = false }) => {
 
               <Link
                 to="/login"
-                className="w-full sm:w-auto h-12 px-7 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#F5F3FF] glass hover:border-white/30 transition-all focus-ring"
+                className="w-full sm:w-auto h-12 px-7 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#F5F3FF] tile hover:border-white/30 transition-all focus-ring"
               >
                 Sign in to workspace
               </Link>
@@ -53,3 +53,4 @@ export const FinalCTA = ({ compact = false }) => {
 };
 
 export default FinalCTA;
+

@@ -151,7 +151,7 @@ export const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className="w-full glass-input px-3.5 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                  className="w-full tile-input px-3.5 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
                 />
               </div>
 
@@ -171,7 +171,7 @@ export const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password"
-                    className="w-full glass-input pl-3.5 pr-10 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                    className="w-full tile-input pl-3.5 pr-10 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
                   />
                   <button
                     type="button"
@@ -211,3 +211,4 @@ export const Login = () => {
 };
 
 export default Login;
+

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 
 export const ProductMockup = () => {
   const [isPaused, setIsPaused] = useState(false);
@@ -61,7 +61,7 @@ export const ProductMockup = () => {
     <div ref={containerRef} className="relative mx-auto w-full max-w-5xl text-left">
       {/* Floating Pill: Online Presence (Top-left, non-overlapping with top-right chip) */}
       <div
-        className="absolute -top-3.5 left-4 sm:left-8 z-20 flex items-center gap-2 rounded-full glass px-3 py-1 text-[10px] sm:text-[11px] font-mono text-[#F5F3FF] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)] max-w-[calc(100%-2rem)]"
+        className="absolute -top-3.5 left-4 sm:left-8 z-20 flex items-center gap-2 rounded-full tile px-3 py-1 text-[10px] sm:text-[11px] font-mono text-[#F5F3FF] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)] max-w-[calc(100%-2rem)]"
         style={{
           transform: 'translateY(0)',
           ...floatingAnimStyle,
@@ -74,7 +74,7 @@ export const ProductMockup = () => {
 
       {/* Floating Pill: Cloud Sync Status (Bottom-right, stays within mobile viewport) */}
       <div
-        className="absolute -bottom-3.5 right-4 sm:right-8 z-20 flex items-center gap-2 rounded-full glass px-3 py-1 text-[10px] sm:text-[11px] font-mono text-[#F5F3FF] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)] max-w-[calc(100%-2rem)]"
+        className="absolute -bottom-3.5 right-4 sm:right-8 z-20 flex items-center gap-2 rounded-full tile px-3 py-1 text-[10px] sm:text-[11px] font-mono text-[#F5F3FF] border border-white/20 shadow-[0_12px_24px_rgba(0,0,0,0.6)] max-w-[calc(100%-2rem)]"
         style={{
           transform: 'translateY(0)',
           ...floatingAnimStyle,
@@ -85,8 +85,8 @@ export const ProductMockup = () => {
         <span className="text-[#C9C6D5] font-medium">Saved to Cloud</span>
       </div>
 
-      {/* Glass Window Container */}
-      <div className="relative rounded-2xl glass-strong border border-white/[0.22] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.04)]">
+      {/* tile Window Container */}
+      <div className="relative rounded-2xl tile border border-white/[0.22] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.04)]">
         {/* Window Title Bar */}
         <div className="flex h-11 items-center justify-between border-b border-white/[0.10] bg-raised/90 px-4">
           <div className="flex items-center gap-2 min-w-0">
@@ -153,7 +153,7 @@ export const ProductMockup = () => {
                 <i className="ri-file-code-line text-accent/90" />
                 <span>ai.routes.js</span>
               </li>
-              <li className="flex items-center justify-between px-2 py-1.5 rounded-lg glass text-accent font-semibold border-accent/40">
+              <li className="flex items-center justify-between px-2 py-1.5 rounded-lg tile text-accent font-semibold border-accent/40">
                 <div className="flex items-center gap-2 min-w-0">
                   <i className="ri-file-code-line text-accent" />
                   <span className="truncate">auth.middleware.js</span>
@@ -237,7 +237,7 @@ export const ProductMockup = () => {
 
             {/* Composer */}
             <div className="pt-2 border-t border-white/[0.08] mt-2">
-              <div className="flex items-center gap-2 rounded-xl glass-input px-3 py-1.5">
+              <div className="flex items-center gap-2 rounded-xl tile-input px-3 py-1.5">
                 <input
                   type="text"
                   readOnly
@@ -263,3 +263,4 @@ export const ProductMockup = () => {
 };
 
 export default ProductMockup;
+

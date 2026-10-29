@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+﻿import { useState, useContext } from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import axios from '../config/axios';
@@ -97,7 +97,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full glass-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
+            className="w-full tile-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
             placeholder="••••••••"
             required
           />
@@ -112,7 +112,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full glass-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
+            className="w-full tile-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
             placeholder="••••••••"
             minLength={8}
             maxLength={72}
@@ -143,7 +143,7 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full glass-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
+            className="w-full tile-input px-3.5 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors"
             placeholder="••••••••"
             required
           />
@@ -163,3 +163,4 @@ export const ChangePasswordModal = ({ isOpen, onClose }) => {
 };
 
 export default ChangePasswordModal;
+

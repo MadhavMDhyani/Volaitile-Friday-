@@ -316,7 +316,7 @@ export const Dashboard = () => {
                 setCreateError('');
               }}
               placeholder="e.g. backend-microservice, my-awesome-app"
-              className="w-full glass-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors font-mono"
+              className="w-full tile-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring transition-colors font-mono"
               maxLength={50}
               autoFocus
               disabled={isCreating}
@@ -357,4 +357,5 @@ export const Dashboard = () => {
 };
 
 export default Dashboard;
+
 

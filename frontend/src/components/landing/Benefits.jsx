@@ -1,4 +1,4 @@
-import Reveal from './Reveal';
+﻿import Reveal from './Reveal';
 
 export const Benefits = ({ asH1 = false, isPage = false, compact = false }) => {
   const TitleTag = asH1 ? 'h1' : 'h2';
@@ -61,10 +61,10 @@ export const Benefits = ({ asH1 = false, isPage = false, compact = false }) => {
               transformOnly={true}
               className={!compact && idx === 0 ? 'lg:col-span-2' : ''}
             >
-              <div className={`h-full rounded-2xl glass ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-start hover:border-white/30 transition-all duration-200`}>
+              <div className={`h-full rounded-2xl tile ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-start hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl glass border-white/10 text-accent">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-white/10 text-accent">
                       <i className={`${b.icon} text-base`} />
                     </div>
                     <span className="text-[10px] font-mono text-[#9D98AA] border border-white/10 rounded-full px-2.5 py-0.5 bg-white/[0.04]">
@@ -89,3 +89,4 @@ export const Benefits = ({ asH1 = false, isPage = false, compact = false }) => {
 };
 
 export default Benefits;
+

@@ -364,9 +364,9 @@ export const MenuSheet = ({
         aria-hidden="true"
       />
 
-      {/* Desktop Centered Glass Panel (>= 768px) */}
+      {/* Desktop Centered tile Panel (>= 768px) */}
       <div
-        className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl menu-glass overflow-hidden ${desktopPanelTransform}`}
+        className={`hidden md:flex relative z-10 w-[92vw] max-w-[960px] h-[82dvh] max-h-[82dvh] rounded-3xl tile overflow-hidden ${desktopPanelTransform}`}
       >
         {/* Left Column: Vertical ARIA Tabs with Sliding Active Indicator */}
         <div className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col justify-between bg-tile-raised">
@@ -521,7 +521,7 @@ export const MenuSheet = ({
 
       {/* Mobile Full-Screen Sheet (< 768px) */}
       <div
-        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col menu-glass text-[#F5F3FF] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
+        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col tile text-[#F5F3FF] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
       >
         {/* Mobile Header Bar */}
         <div className="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
@@ -580,7 +580,7 @@ export const MenuSheet = ({
                 className={`relative z-10 min-h-[44px] px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap snap-start shrink-0 flex items-center gap-2 transition-colors focus-ring cursor-pointer ${
                   isActive
                     ? 'text-accent font-semibold'
-                    : 'text-[#9D98AA] hover:text-[#F5F3FF] glass border border-white/10'
+                    : 'text-[#9D98AA] hover:text-[#F5F3FF] tile border border-white/10'
                 }`}
               >
                 <i className={`${tab.icon} text-sm ${isActive ? 'text-accent' : 'text-[#9D98AA]'}`} />
@@ -648,4 +648,5 @@ export const MenuSheet = ({
 };
 
 export default MenuSheet;
+
 

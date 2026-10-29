@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
 import axios from '../../config/axios';
@@ -128,7 +128,7 @@ export const AddMemberModal = ({
                 }
               }}
               placeholder="Type at least 3 characters..."
-              className="w-full rounded-xl glass-input pl-9 pr-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all font-mono"
+              className="w-full rounded-xl tile-input pl-9 pr-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all font-mono"
               autoFocus
             />
             {isSearching && (
@@ -173,7 +173,7 @@ export const AddMemberModal = ({
                     alreadyMember
                       ? 'opacity-40 cursor-not-allowed bg-transparent'
                       : isSelected
-                      ? 'glass-strong border border-accent/40 text-[#F5F3FF] cursor-pointer shadow-[0_0_8px_rgb(var(--accent-rgb)/0.15)]'
+                      ? 'tile border border-accent/40 text-[#F5F3FF] cursor-pointer shadow-[0_0_8px_rgb(var(--accent-rgb)/0.15)]'
                       : 'hover:bg-white/[0.05] text-[#9D98AA] hover:text-[#F5F3FF] cursor-pointer'
                   }`}
                 >
@@ -234,3 +234,4 @@ export const AddMemberModal = ({
 };
 
 export default AddMemberModal;
+

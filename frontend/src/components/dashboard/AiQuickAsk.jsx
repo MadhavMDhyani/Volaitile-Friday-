@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import axios from '../../config/axios';
 import Button from '../Button';
 import getErrorMessage from '../../utils/getErrorMessage';
@@ -51,7 +51,7 @@ export const AiQuickAsk = () => {
   };
 
   return (
-    <div className="flex flex-col rounded-2xl glass p-4 text-xs font-sans border-glass-border/60 shadow-glass">
+    <div className="flex flex-col rounded-2xl tile p-4 text-xs font-sans border-glass-border/60 shadow-tile">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
         <div className="flex items-center gap-2.5">
@@ -75,7 +75,7 @@ export const AiQuickAsk = () => {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a technical question, debug snippet, or explain a concept..."
-          className="w-full rounded-xl glass-input pl-3.5 pr-20 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all"
+          className="w-full rounded-xl tile-input pl-3.5 pr-20 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all"
           maxLength={1000}
           disabled={isLoading}
           aria-label="Ask Friday AI"
@@ -110,7 +110,7 @@ export const AiQuickAsk = () => {
 
       {result && !isLoading && (
         <div
-          className={`mt-3 rounded-xl border p-3.5 animate-fade-in text-xs shadow-glass ${
+          className={`mt-3 rounded-xl border p-3.5 animate-fade-in text-xs shadow-tile ${
             result.isError
               ? result.isRateLimited
                 ? 'border-accent-hover/30 bg-accent-tint/30 text-[#C9C6D5]'
@@ -167,3 +167,4 @@ export const AiQuickAsk = () => {
 };
 
 export default AiQuickAsk;
+

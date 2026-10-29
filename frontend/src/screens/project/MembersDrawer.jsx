@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -119,7 +119,7 @@ export const MembersDrawer = ({
 
         {/* Drawer Panel */}
         <aside
-          className={`fixed inset-y-0 right-0 flex w-full max-w-full sm:max-w-sm flex-col glass-strong border-l border-glass-border/70 p-5 text-[#F5F3FF] shadow-2xl transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 right-0 flex w-full max-w-full sm:max-w-sm flex-col tile border-l border-glass-border/70 p-5 text-[#F5F3FF] shadow-2xl transition-transform duration-300 ease-out ${
             isClosing ? 'animate-slide-out-right' : 'animate-slide-in-right'
           }`}
           role="dialog"
@@ -139,7 +139,7 @@ export const MembersDrawer = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex h-7 w-7 items-center justify-center rounded-lg glass border-glass-border/40 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-colors focus-ring"
+              className="flex h-7 w-7 items-center justify-center rounded-lg tile border-glass-border/40 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-colors focus-ring"
               aria-label="Close members drawer"
             >
               <i className="ri-close-line text-lg" />
@@ -170,11 +170,11 @@ export const MembersDrawer = ({
               return (
                 <div
                   key={mId}
-                  className="flex items-center justify-between rounded-xl glass border-glass-border/40 hover:border-glass-border/80 p-2.5 text-xs font-mono transition-all"
+                  className="flex items-center justify-between rounded-xl tile border-glass-border/40 hover:border-glass-border/80 p-2.5 text-xs font-mono transition-all"
                 >
                   <div className="flex items-center gap-2.5 truncate pr-2">
                     <div className="relative shrink-0">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-[#F5F3FF] border border-white/[0.1] shadow-glass">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-[#F5F3FF] border border-white/[0.1] shadow-tile">
                         {email.charAt(0).toUpperCase()}
                       </div>
                       {onlineUserIds.includes(mId) && (
@@ -278,3 +278,4 @@ export const MembersDrawer = ({
 };
 
 export default MembersDrawer;
+

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+﻿import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import { useToast } from '../../context/useToast';
@@ -44,7 +44,7 @@ const SafeMarkdownBlock = ({ text }) => {
     };
 
     return (
-      <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#110B20]/95 text-xs font-mono overflow-hidden shadow-glass">
+      <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#110B20]/95 text-xs font-mono overflow-hidden shadow-tile">
         <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[10px] text-[#9D98AA]">
           <span className="uppercase text-accent font-semibold">{lang || 'CODE'}</span>
           <button
@@ -539,7 +539,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
       >
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[#6C667C]">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass border-glass-border/40 text-accent/50 mb-3 shadow-glass">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile border-glass-border/40 text-accent/50 mb-3 shadow-tile">
               <i className="ri-chat-smile-2-line text-2xl" />
             </div>
             <p className="text-xs font-medium text-[#F5F3FF]">No messages in this workspace yet</p>
@@ -655,9 +655,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 <div
                   className={`max-w-[88%] sm:max-w-[82%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${
                     isAi
-                      ? 'border border-accent-deep bg-accent-tint/20 text-[#C9C6D5] shadow-glass'
+                      ? 'border border-accent-deep bg-accent-tint/20 text-[#C9C6D5] shadow-tile'
                       : isMe
-                      ? `border border-accent-press/30 bg-accent-tint/25 text-[#F5F3FF] shadow-glass ${isOptimistic ? 'opacity-70' : ''}`
+                      ? `border border-accent-press/30 bg-accent-tint/25 text-[#F5F3FF] shadow-tile ${isOptimistic ? 'opacity-70' : ''}`
                       : 'border border-white/[0.08] bg-white/[0.04] text-[#e5e5e5]'
                   }`}
                 >
@@ -679,7 +679,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
               Friday AI is thinking…
             </span>
-            <div className="flex items-center gap-1.5 rounded-2xl border border-accent-deep bg-accent-tint/20 px-3.5 py-2 text-xs text-accent shadow-glass">
+            <div className="flex items-center gap-1.5 rounded-2xl border border-accent-deep bg-accent-tint/20 px-3.5 py-2 text-xs text-accent shadow-tile">
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -716,16 +716,16 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
             size="xs"
             onClick={() => scrollToBottom(true)}
             icon={<i className="ri-arrow-down-line text-xs" />}
-            className="shadow-glass"
+            className="shadow-tile"
           >
             New messages
           </Button>
         </div>
       )}
 
-      {/* Input Box Area - Liquid Glass Composer */}
-      {/* Input Box Area - Liquid Glass Composer pinned to bottom */}
-      <form onSubmit={handleSendMessage} className="glass-liquid border-t border-white/[0.08] p-2 sm:p-2.5 shrink-0 sticky bottom-0 z-20 safe-pb">
+      {/* Input Box Area - Liquid tile Composer */}
+      {/* Input Box Area - Liquid tile Composer pinned to bottom */}
+      <form onSubmit={handleSendMessage} className="tile border-t border-white/[0.08] p-2 sm:p-2.5 shrink-0 sticky bottom-0 z-20 safe-pb">
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           {/* Model picker - fits on one row at 360px */}
           {availableModels.length > 0 && (
@@ -733,7 +733,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               <select
                 value={selectedModel}
                 onChange={handleModelChange}
-                className="h-10 rounded-xl glass-pill border border-white/[0.12] bg-raised/90 pl-2.5 pr-6 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-all outline-none max-w-[80px] sm:max-w-none truncate"
+                className="h-10 rounded-xl tile-pill border border-white/[0.12] bg-raised/90 pl-2.5 pr-6 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-all outline-none max-w-[80px] sm:max-w-none truncate"
                 title="Select Friday AI model"
                 aria-label="Friday AI model selection"
               >
@@ -755,7 +755,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               value={inputMessage}
               onChange={handleInputChange}
               placeholder="Message or @friday..."
-              className="w-full h-10 min-w-0 rounded-xl glass-input px-3 text-xs text-[#F5F3FF] placeholder-white/40 transition-all"
+              className="w-full h-10 min-w-0 rounded-xl tile-input px-3 text-xs text-[#F5F3FF] placeholder-white/40 transition-all"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />
@@ -780,3 +780,4 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 };
 
 export default ChatPanel;
+

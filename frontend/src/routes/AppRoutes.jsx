@@ -1,4 +1,4 @@
-import { lazy, Suspense, useContext } from 'react';
+﻿import { lazy, Suspense, useContext } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import PageTransition from '../components/PageTransition';
@@ -34,8 +34,8 @@ const ScreenFallback = () => (
 
 const NotFoundPage = () => (
   <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#F5F3FF] font-sans">
-    <div className="glass-liquid p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl glass mb-4 text-[#F5F3FF]">
+    <div className="tile p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile mb-4 text-[#F5F3FF]">
         <i className="ri-compass-3-line text-2xl text-accent" />
       </div>
       <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF] sm:text-2xl">
@@ -62,7 +62,7 @@ const ProtectedRoute = ({ children }) => {
   if (serverError) {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-[#F5F3FF] font-sans">
-        <div className="glass-liquid p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
+        <div className="tile p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4">
             <i className="ri-wifi-off-line text-2xl" />
           </div>
@@ -155,3 +155,4 @@ export const AppRoutes = () => {
 };
 
 export default AppRoutes;
+

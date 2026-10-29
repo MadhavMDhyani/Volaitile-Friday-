@@ -1,4 +1,4 @@
-import Reveal from './Reveal';
+﻿import Reveal from './Reveal';
 
 const PILLARS = [
   {
@@ -92,10 +92,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
           {PILLARS.map((pillar, idx) => (
             <Reveal key={pillar.title} delay={idx * 60} immediate={compact} transformOnly={true}>
-              <div className="h-full rounded-2xl glass p-4 sm:p-5 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <div className="h-full rounded-2xl tile p-4 sm:p-5 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl glass border-accent/30 text-accent shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-accent/30 text-accent shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                       <i className={`${pillar.icon} text-lg`} />
                     </div>
                     <span className="text-[10px] font-mono rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[#9D98AA]">
@@ -116,7 +116,7 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       {/* Audience & Fit */}
       <div>
         <Reveal delay={80} immediate={compact}>
-          <div className="rounded-2xl glass-strong border border-white/10 p-5 sm:p-6">
+          <div className="rounded-2xl tile border border-white/10 p-5 sm:p-6">
             <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
               AUDIENCE &amp; FIT
             </span>
@@ -126,7 +126,7 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#9D98AA] leading-relaxed">
               {AUDIENCE_ITEMS.map((item) => (
                 <div key={item.title} className="flex items-start gap-3">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg glass text-accent shrink-0 mt-0.5">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg tile text-accent shrink-0 mt-0.5">
                     <i className={`${item.icon} text-sm`} />
                   </div>
                   <div>
@@ -155,7 +155,7 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
             {TECH_STACK.map((tech) => (
               <div
                 key={tech.name}
-                className="rounded-xl glass border border-white/[0.08] p-3 text-left flex flex-col justify-center"
+                className="rounded-xl tile border border-white/[0.08] p-3 text-left flex flex-col justify-center"
               >
                 <span className="font-mono text-xs font-semibold text-[#F5F3FF]">
                   {tech.name}
@@ -171,3 +171,4 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
 };
 
 export default AboutSection;
+

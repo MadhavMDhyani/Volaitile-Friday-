@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, useContext, useId } from 'react';
+import { useEffect, useRef, useState, useContext, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/user.context';
@@ -489,7 +489,6 @@ export const MenuSheet = ({
               aria-label="Close menu"
               className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[#9D98AA] hover:text-[#F5F3FF] transition-all focus-ring cursor-pointer"
             >
-              <i className="ri-close>
               <i className="ri-close-line text-lg" />
             </button>
           </div>
@@ -534,7 +533,6 @@ export const MenuSheet = ({
             aria-label="Close menu"
             className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[#9D98AA] hover:text-[#F5F3FF] transition-all focus-ring cursor-pointer"
           >
-            <i className="ri-close>
             <i className="ri-close-line text-xl" />
           </button>
         </div>

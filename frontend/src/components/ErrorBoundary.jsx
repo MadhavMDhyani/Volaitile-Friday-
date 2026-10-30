@@ -1,4 +1,4 @@
-﻿import { Component } from 'react';
+import { Component } from 'react';
 import Button from './Button';
 
 export class ErrorBoundary extends Component {
@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component {
       return (
         <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#070707] px-4 text-white font-sans">
           <div className="w-full max-w-md rounded-2xl border border-white/[0.18] bg-white/[0.06] backdrop-blur-md p-6 text-center modal-shadow">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-[#6C667C] bg-[#211737] text-white mb-4">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-white/[0.18] bg-white/[0.06] text-white mb-4">
               <i
                 className={`text-2xl ${
                   isConfigError ? 'ri-settings-5-line' : 'ri-error-warning-line text-primary'

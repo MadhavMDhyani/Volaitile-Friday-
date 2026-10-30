@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export const ProductMockup = () => {
   const [isPaused, setIsPaused] = useState(false);
@@ -248,7 +248,7 @@ export const ProductMockup = () => {
                 <button
                   type="button"
                   tabIndex={-1}
-                  className="h-6 w-6 rounded-lg bg-accent text-[#18102B] flex items-center justify-center text-xs"
+                  className="h-6 w-6 rounded-lg bg-primary text-[#070707] flex items-center justify-center text-xs"
                   aria-label="Mock send"
                 >
                   <i className="ri-send-plane-2-fill text-[10px]" />

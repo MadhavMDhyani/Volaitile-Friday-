@@ -59,7 +59,7 @@ function ParticleField({ count = 1000, opacity = 0.35, speed = 0.05, isMobile = 
       </bufferGeometry>
       <pointsMaterial
         size={0.06}
-        color="#F5F3FF"
+        color="#5DFFD9"
         transparent
         opacity={opacity}
         depthWrite={false}
@@ -145,11 +145,11 @@ function FloatingShapes({ isLanding, isMobile }) {
 
   return (
     <group ref={groupRef}>
-      {/* 1. Large Icosahedron (Electric Violet Wireframe) */}
+      {/* 1. Large Icosahedron (Primary Green Wireframe) */}
       <mesh ref={shape1Ref} position={[-3.2, 2.2, -4]}>
         <icosahedronGeometry args={[1.8, 1]} />
         <meshStandardMaterial
-          color="#834DFB"
+          color="#33BC65"
           wireframe
           transparent
           opacity={violetOpacity}
@@ -158,11 +158,11 @@ function FloatingShapes({ isLanding, isMobile }) {
         />
       </mesh>
 
-      {/* 2. Torus Knot (Electric Violet Wireframe) */}
+      {/* 2. Torus Knot (Accent Mint Wireframe) */}
       <mesh ref={shape2Ref} position={[3.6, -2.0, -3.5]}>
         <torusKnotGeometry args={[1.2, 0.35, 64, 16]} />
         <meshStandardMaterial
-          color="#834DFB"
+          color="#12DCEF"
           wireframe
           transparent
           opacity={violetOpacity * 0.9}
@@ -171,12 +171,12 @@ function FloatingShapes({ isLanding, isMobile }) {
         />
       </mesh>
 
-      {/* 3. Octahedron (Electric Violet Wireframe) - desktop only if small screen */}
+      {/* 3. Octahedron (Glow Wireframe) - desktop only if small screen */}
       {!isMobile && (
         <mesh ref={shape3Ref} position={[-2.5, -1.8, -2]}>
           <octahedronGeometry args={[1.1, 0]} />
           <meshStandardMaterial
-            color="#A98BFF"
+            color="#5DFFD9"
             wireframe
             transparent
             opacity={violetOpacity * 0.8}
@@ -186,15 +186,15 @@ function FloatingShapes({ isLanding, isMobile }) {
         </mesh>
       )}
 
-      {/* 4. Small Turbo Accent Shape */}
+      {/* 4. Small Glow Accent Shape */}
       <mesh ref={turboRef} position={[2.8, -0.6, -1.5]}>
         <octahedronGeometry args={[0.42, 0]} />
         <meshStandardMaterial
-          color="#F0E100"
+          color="#5DFFD9"
           wireframe
           transparent
           opacity={turboOpacity}
-          emissive="#F0E100"
+          emissive="#5DFFD9"
           emissiveIntensity={isLanding ? 0.4 : 0.2}
           roughness={0.1}
           metalness={0.9}
@@ -225,27 +225,27 @@ function SceneContainer({ isLanding, isMobile, isTabHidden }) {
         zIndex: 0,
       }}
     >
-      {/* Background fog in Haiti */}
-      <fog attach="fog" args={['#18102B', 6, 26]} />
+      {/* Background fog in near-black */}
+      <fog attach="fog" args={['#070707', 6, 26]} />
 
       {/* Lighting */}
-      <ambientLight color="#2A1B52" intensity={isLanding ? 0.7 : 0.3} />
+      <ambientLight color="#0a1a10" intensity={isLanding ? 0.7 : 0.3} />
       <pointLight
         position={[4, 5, 4]}
-        color="#834DFB"
-        intensity={isLanding ? 2.2 : 0.8}
+        color="#33BC65"
+        intensity={isLanding ? 1.8 : 0.6}
         distance={25}
       />
       <pointLight
         position={[-5, -4, -2]}
-        color="#F0E100"
-        intensity={isLanding ? 0.45 : 0.15}
+        color="#12DCEF"
+        intensity={isLanding ? 0.40 : 0.12}
         distance={20}
       />
       <directionalLight
         position={[0, 8, 5]}
-        color="#F5F3FF"
-        intensity={isLanding ? 0.3 : 0.1}
+        color="#FFFFFF"
+        intensity={isLanding ? 0.25 : 0.08}
       />
 
       {/* Shapes and Starfield */}
@@ -267,7 +267,7 @@ export const StaticGradientBackground = () => (
     className="fixed inset-0 pointer-events-none"
     style={{
       zIndex: 0,
-      background: 'radial-gradient(circle at 50% 35%, rgba(131, 77, 251, 0.12) 0%, rgba(24, 16, 43, 0.95) 70%, #18102B 100%)',
+      background: 'radial-gradient(ellipse 65% 55% at 90% 0%, rgba(51,188,101,0.18) 0%, rgba(18,220,239,0.06) 50%, #070707 80%)',
     }}
   />
 );

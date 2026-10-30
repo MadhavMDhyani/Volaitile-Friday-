@@ -21,10 +21,12 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       className={`${sizeClasses[size] || sizeClasses.md} shrink-0 transition-transform duration-200 group-hover:scale-105`}
       aria-hidden="true"
     >
-      <rect x="4" y="4" width="56" height="56" rx="16" fill="#834DFB" />
+      {/* Rounded square tile in primary green */}
+      <rect x="4" y="4" width="56" height="56" rx="16" fill="#33BC65" />
+      {/* White V chevron mark */}
       <path
         d="M20 22 L32 44 L44 22"
-        stroke="#F5F3FF"
+        stroke="#070707"
         strokeWidth="6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -37,7 +39,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       {icon}
       {showWordmark && (
         <span
-          className={`font-title font-normal tracking-wide text-text-primary leading-none transition-colors duration-150 group-hover:text-text-primary ${
+          className={`font-sans font-medium tracking-tight text-white leading-none transition-colors duration-150 group-hover:text-white ${
             wordmarkSizes[size] || wordmarkSizes.md
           }`}
         >

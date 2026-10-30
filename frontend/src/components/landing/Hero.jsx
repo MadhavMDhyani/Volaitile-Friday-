@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ProductMockup from './ProductMockup';
 import Reveal from './Reveal';
@@ -81,7 +81,7 @@ export const Hero = () => {
         <div className="mt-4 sm:mt-5 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up pointer-events-auto" style={{ animationDelay: '180ms' }}>
           <Link
             to="/register"
-            className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_24px_rgb(var(--accent-rgb)/0.35)] hover:shadow-[0_0_32px_rgb(var(--accent-rgb)/0.5)] focus-ring"
+            className="w-full sm:w-auto h-11 px-7 inline-flex items-center justify-center rounded-full text-sm font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_24px_rgba(51,188,101,0.35)] hover:shadow-[0_0_36px_rgba(51,188,101,0.55)] focus-ring"
           >
             Get started free
             <i className="ri-arrow-right-line ml-1.5 text-base" />

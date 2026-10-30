@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../Logo';
 import { UserContext } from '../../context/user.context';
@@ -49,7 +49,7 @@ export const LandingNav = ({
       id="landing-nav-header"
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
         scrolled
-          ? 'bg-[#18102B] border-b border-white/[0.08]'
+          ? 'bg-[#070707]/90 backdrop-blur-md border-b border-white/[0.10]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
@@ -64,7 +64,7 @@ export const LandingNav = ({
           {user ? (
             <Link
               to="/dashboard"
-              className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
+              className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] hover:shadow-[0_0_28px_rgba(51,188,101,0.5)] focus-ring"
             >
               <span className="hidden sm:inline">Open dashboard</span>
               <span className="sm:hidden">Dashboard</span>
@@ -80,7 +80,7 @@ export const LandingNav = ({
               </Link>
               <Link
                 to="/register"
-                className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] hover:shadow-[0_0_26px_rgb(var(--accent-rgb)/0.45)] focus-ring"
+                className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] hover:shadow-[0_0_28px_rgba(51,188,101,0.5)] focus-ring"
               >
                 Get started
               </Link>

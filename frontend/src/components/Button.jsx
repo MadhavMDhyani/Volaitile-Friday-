@@ -1,4 +1,4 @@
-﻿export const Button = ({
+export const Button = ({
   children,
   variant = 'primary',
   size = 'md',
@@ -15,18 +15,18 @@
     'relative inline-flex items-center justify-center font-medium select-none rounded-lg transition-all duration-150 ease-out focus-ring active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer';
 
   const variantClasses = {
-    // Primary: accent fill with dark text for contrast (WCAG AA ~6:1)
+    // Primary: solid green fill with dark text (WCAG AA) + mint glow on hover
     primary:
-      'bg-accent text-[#18102B] border border-accent/40 hover:bg-accent-hover shadow-[0_4px_16px_rgba(131, 77, 251, 0.25),inset_0_1px_0_rgba(245, 243, 255, 0.25)] hover:shadow-[0_6px_20px_rgba(131, 77, 251, 0.40),inset_0_1px_0_rgba(245, 243, 255, 0.35)]',
-    // Secondary becomes tile with subtle specular line
+      'bg-primary text-[#070707] border border-primary/40 hover:bg-[#2da858] shadow-[0_4px_16px_rgba(51,188,101,0.25),inset_0_1px_0_rgba(255,255,255,0.18)] hover:shadow-[0_6px_24px_rgba(51,188,101,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] rounded-full',
+    // Secondary: glass style, border turns --accent on hover
     secondary:
-      'bg-white/[0.04] text-[#F5F3FF] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 shadow-[0_1px_0_rgba(0,0,0,0.3)]',
-    // Danger becomes tinted accent tile (copper-on-dark, accessible)
+      'bg-white/[0.05] text-white border border-white/[0.18] hover:bg-white/[0.09] hover:border-[#12DCEF]/60 shadow-[0_1px_0_rgba(0,0,0,0.4)] rounded-full',
+    // Danger: accent-tint tinted glass with accent text
     danger:
-      'bg-accent-tint/40 text-accent border border-accent-deep hover:bg-accent-tint/60 hover:border-accent-press shadow-[0_1px_0_rgba(0,0,0,0.3)]',
-    // Ghost becomes transparent tile hover
+      'bg-[rgba(18,220,239,0.08)] text-[#12DCEF] border border-[rgba(18,220,239,0.25)] hover:bg-[rgba(18,220,239,0.14)] hover:border-[rgba(18,220,239,0.45)] shadow-[0_1px_0_rgba(0,0,0,0.4)] rounded-full',
+    // Ghost: transparent, subtle hover
     ghost:
-      'bg-transparent text-[#9D98AA] border border-transparent hover:bg-white/[0.06] hover:text-[#F5F3FF] hover:border-white/10',
+      'bg-transparent text-[rgba(255,255,255,0.55)] border border-transparent hover:bg-white/[0.06] hover:text-white hover:border-white/[0.12] rounded-full',
   };
 
   const sizeClasses = {

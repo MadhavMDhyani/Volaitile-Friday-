@@ -1,7 +1,7 @@
 
 /**
  * HeroScene component:
- * - Renders static CSS background with Haiti -> faint violet glow
+ * - Renders static CSS background with near-black → soft green radial glow
  * - Provides non-invasive readability scrim and bottom section fade
  */
 export const HeroScene = () => {
@@ -10,13 +10,14 @@ export const HeroScene = () => {
       aria-hidden="true"
       className="absolute inset-x-0 top-0 h-[100svh] min-h-[640px] pointer-events-none overflow-hidden select-none"
     >
-      {/* 1. Static CSS Gradient Poster: Haiti -> Faint Violet Glow */}
+      {/* 1. Static CSS Gradient Poster: near-black → green radial glow top-right */}
       <div
         className="absolute inset-0 w-full h-full"
         style={{
           background: `
-            radial-gradient(ellipse 90% 50% at 50% 52%, rgba(169, 139, 255, 0.18) 0%, rgba(131, 77, 251, 0.10) 38%, transparent 70%),
-            linear-gradient(to bottom, #18102B 0%, #211737 28%, #2C2048 48%, #3E2380 58%, rgba(131, 77, 251, 0.30) 64%, rgba(169, 139, 255, 0.15) 70%, #211737 82%, #18102B 100%)
+            radial-gradient(ellipse 80% 55% at 88% 5%, rgba(51, 188, 101, 0.24) 0%, rgba(93, 255, 217, 0.10) 38%, transparent 70%),
+            radial-gradient(ellipse 50% 35% at 50% 52%, rgba(18, 220, 239, 0.08) 0%, transparent 65%),
+            #070707
           `,
         }}
       />

@@ -442,7 +442,7 @@ export const MenuSheet = ({
               <Link
                 to="/dashboard"
                 onClick={onClose}
-                className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+                className="w-full min-h-[44px] inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
               >
                 Open dashboard
               </Link>
@@ -458,7 +458,7 @@ export const MenuSheet = ({
                 <Link
                   to="/register"
                   onClick={onClose}
-                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
                 >
                   Get started
                 </Link>
@@ -616,7 +616,7 @@ export const MenuSheet = ({
             <Link
               to="/dashboard"
               onClick={onClose}
-              className="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+              className="w-full min-h-[44px] inline-flex items-center justify-center rounded-full text-sm font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
             >
               Open dashboard
             </Link>
@@ -632,7 +632,7 @@ export const MenuSheet = ({
               <Link
                 to="/register"
                 onClick={onClose}
-                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-semibold bg-accent text-[#18102B] hover:bg-accent-hover transition-all shadow-[0_0_20px_rgb(var(--accent-rgb)/0.3)] focus-ring"
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-sm font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
               >
                 Get started
               </Link>

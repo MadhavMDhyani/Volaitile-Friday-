@@ -179,7 +179,7 @@ export const MembersDrawer = ({
                       </div>
                       {onlineUserIds.includes(mId) && (
                         <span
-                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-white border border-[#18102B] shadow-[0_0_6px_rgba(255,255,255,0.7)]"
+                          className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-primary border border-[#070707] shadow-[0_0_6px_rgba(51,188,101,0.8)]"
                           title="Online now"
                         />
                       )}

@@ -737,9 +737,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 title="Select Friday AI model"
                 aria-label="Friday AI model selection"
               >
-                <option value="auto" className="bg-[#18102B] text-white">Auto</option>
+                <option value="auto" className="bg-[#070707] text-white">Auto</option>
                 {availableModels.map((m) => (
-                  <option key={m.id} value={m.id} className="bg-[#18102B] text-white">
+                  <option key={m.id} value={m.id} className="bg-[#070707] text-white">
                     {m.label.replace('Gemini ', '')}
                   </option>
                 ))}

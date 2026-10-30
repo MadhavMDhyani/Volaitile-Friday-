@@ -8,11 +8,11 @@ services:
     healthCheckPath: /health/ping
     envVars:
       - key: NODE_ENV
-        sync: false
+        value: production
       - key: CLIENT_URL
         sync: false
       - key: TRUST_PROXY
-        sync: false
+        value: "1"
       - key: MONGODB_URI
         sync: false
       - key: JWT_SECRET
@@ -26,4 +26,4 @@ services:
       - key: GEMINI_MODEL
         sync: false
       - key: NODE_VERSION
-        sync: false
+        sync: falseS

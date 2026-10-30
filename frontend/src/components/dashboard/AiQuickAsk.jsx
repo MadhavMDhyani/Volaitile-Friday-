@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import axios from '../../config/axios';
 import Button from '../Button';
 import getErrorMessage from '../../utils/getErrorMessage';
@@ -58,7 +58,7 @@ export const AiQuickAsk = () => {
           <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-primary to-[#2da858] text-[#070707] font-mono font-bold text-[10px] shadow-[0_0_12px_rgba(51,188,101,0.35)]">
             AI
           </span>
-          <h3 className="font-semibold text-sm text-[#F5F3FF] tracking-tight">
+          <h3 className="font-semibold text-sm text-white tracking-tight">
             Friday AI Quick Ask
           </h3>
         </div>
@@ -75,7 +75,7 @@ export const AiQuickAsk = () => {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a technical question, debug snippet, or explain a concept..."
-          className="w-full rounded-xl tile-input pl-3.5 pr-20 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all"
+          className="w-full rounded-xl tile-input pl-3.5 pr-20 py-2.5 text-xs text-white placeholder-[#6C667C] transition-all"
           maxLength={1000}
           disabled={isLoading}
           aria-label="Ask Friday AI"
@@ -98,11 +98,11 @@ export const AiQuickAsk = () => {
 
       {/* Reply Container */}
       {isLoading && (
-        <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-accent/25 bg-accent-tint/25 p-3 text-xs text-[#C9C6D5]/90 animate-pulse">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '0ms' }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '150ms' }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '300ms' }} />
-          <span className="font-mono text-[11px] text-accent/80 ml-1">
+        <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-primary/25 bg-primary-tint/25 p-3 text-xs text-[rgba(255,255,255,0.70)]/90 animate-pulse">
+          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
+          <span className="font-mono text-[11px] text-primary/80 ml-1">
             Friday AI is thinking...
           </span>
         </div>
@@ -113,21 +113,21 @@ export const AiQuickAsk = () => {
           className={`mt-3 rounded-xl border p-3.5 animate-fade-in text-xs shadow-tile ${
             result.isError
               ? result.isRateLimited
-                ? 'border-accent-hover/30 bg-accent-tint/30 text-[#C9C6D5]'
-                : 'border-accent-deep bg-accent-tint/40 text-accent'
-              : 'border-white/[0.1] bg-white/[0.03] text-[#F5F3FF]'
+                ? 'border-[#0FC8D8]/30 bg-primary-tint/30 text-[rgba(255,255,255,0.70)]'
+                : 'border-accent/25 bg-primary-tint/40 text-primary'
+              : 'border-white/[0.1] bg-white/[0.03] text-white'
           }`}
         >
           {/* Header of reply */}
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-2 mb-2.5 font-mono text-[10px]">
-            <span className="truncate max-w-[200px] text-[#9D98AA] italic">
+            <span className="truncate max-w-[200px] text-[rgba(255,255,255,0.55)] italic">
               &quot;{result.question}&quot;
             </span>
 
             <div className="flex items-center gap-2 shrink-0">
               {result.source && (
                 <span
-                  className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[#C9C6D5] uppercase cursor-default font-mono text-[9px]"
+                  className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[rgba(255,255,255,0.70)] uppercase cursor-default font-mono text-[9px]"
                   title={result.latencyMs ? `Latency: ${result.latencyMs}ms` : undefined}
                 >
                   {result.source === 'gemini' ? (result.model || 'Gemini AI') : 'Offline Engine'}
@@ -137,7 +137,7 @@ export const AiQuickAsk = () => {
                 <button
                   type="button"
                   onClick={handleCopyReply}
-                  className="text-[#9D98AA] hover:text-[#F5F3FF] transition-colors focus-ring rounded p-1"
+                  className="text-[rgba(255,255,255,0.55)] hover:text-white transition-colors focus-ring rounded p-1"
                   title="Copy AI response"
                   aria-label="Copy AI response"
                 >
@@ -147,7 +147,7 @@ export const AiQuickAsk = () => {
               <button
                 type="button"
                 onClick={() => setResult(null)}
-                className="text-[#9D98AA] hover:text-[#F5F3FF] transition-colors focus-ring rounded p-1"
+                className="text-[rgba(255,255,255,0.55)] hover:text-white transition-colors focus-ring rounded p-1"
                 title="Dismiss response"
                 aria-label="Dismiss AI response"
               >
@@ -157,7 +157,7 @@ export const AiQuickAsk = () => {
           </div>
 
           {/* Reply Text */}
-          <p className="whitespace-pre-wrap leading-relaxed text-[#C9C6D5]">
+          <p className="whitespace-pre-wrap leading-relaxed text-[rgba(255,255,255,0.70)]">
             {result.reply}
           </p>
         </div>

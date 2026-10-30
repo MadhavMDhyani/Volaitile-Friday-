@@ -12,14 +12,14 @@ export const Footer = () => {
           <div className="flex items-center gap-3 order-2 sm:order-1 text-center sm:text-left">
             <Logo size="sm" to="/" />
             <span className="hidden sm:inline text-white/20">|</span>
-            <span className="text-[#9D98AA] text-[11px] sm:text-xs">
+            <span className="text-[rgba(255,255,255,0.55)] text-[11px] sm:text-xs">
               &copy; {currentYear} Volaitile Friday
             </span>
           </div>
 
           {/* Navigation Links (Row 1 on mobile, right side on desktop) */}
           <nav
-            className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-5 gap-y-1 text-xs text-[#9D98AA] order-1 sm:order-2"
+            className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-5 gap-y-1 text-xs text-[rgba(255,255,255,0.55)] order-1 sm:order-2"
             aria-label="Footer Navigation"
           >
             <Link
@@ -48,7 +48,7 @@ export const Footer = () => {
             </Link>
             <Link
               to="/register"
-              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center text-accent hover:underline font-medium"
+              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center text-primary hover:underline font-medium"
             >
               Register
             </Link>

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AccountMenu from '../../components/AccountMenu';
 import Button from '../../components/Button';
@@ -30,7 +30,7 @@ export const ProjectHeader = ({
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <Link
             to="/dashboard"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg tile-raised border-border/50 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg tile-raised border-border/50 text-[rgba(255,255,255,0.55)] hover:text-white hover:border-primary/40 transition-all focus-ring"
             title="Return to Dashboard"
             aria-label="Return to Dashboard"
           >
@@ -40,12 +40,12 @@ export const ProjectHeader = ({
           <div className="h-4 w-[1px] bg-white/[0.1] shrink-0" />
 
           <div className="flex items-center gap-2 min-w-0">
-            <span className="font-mono font-semibold text-xs sm:text-sm text-[#F5F3FF] tracking-wide truncate">
+            <span className="font-mono font-semibold text-xs sm:text-sm text-white tracking-wide truncate">
               {project?.name || 'Project Workspace'}
             </span>
 
             {isOwner && (
-              <span className="shrink-0 inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-mono text-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.2)]">
+              <span className="shrink-0 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-mono text-primary shadow-[0_0_8px_rgb(var(--accent-rgb)/0.2)]">
                 Owner
               </span>
             )}
@@ -77,7 +77,7 @@ export const ProjectHeader = ({
           <button
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg tile-raised text-[#9D98AA] hover:text-[#F5F3FF] focus-ring"
+            className="flex h-8 w-8 items-center justify-center rounded-lg tile-raised text-[rgba(255,255,255,0.55)] hover:text-white focus-ring"
             aria-label="Workspace secondary actions"
             aria-expanded={isMenuOpen}
           >
@@ -92,10 +92,10 @@ export const ProjectHeader = ({
                   setIsMenuOpen(false);
                   onOpenMembers();
                 }}
-                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-[#F5F3FF] hover:bg-white/[0.06] text-left transition-colors"
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-white hover:bg-white/[0.06] text-left transition-colors"
               >
                 <span className="flex items-center gap-2">
-                  <i className="ri-group-line text-accent" />
+                  <i className="ri-group-line text-primary" />
                   Members
                 </span>
                 <span className="text-[10px] tabular-nums bg-white/10 px-1.5 py-0.5 rounded-full text-white/80">

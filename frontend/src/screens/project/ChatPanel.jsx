@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+﻿import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import { useToast } from '../../context/useToast';
@@ -19,7 +19,7 @@ const SafeMarkdownBlock = ({ text }) => {
     return tokens.map((token, idx) => {
       if (token.startsWith('**') && token.endsWith('**') && token.length >= 4) {
         return (
-          <strong key={idx} className="font-semibold text-[#F5F3FF]">
+          <strong key={idx} className="font-semibold text-white">
             {token.slice(2, -2)}
           </strong>
         );
@@ -28,7 +28,7 @@ const SafeMarkdownBlock = ({ text }) => {
         return (
           <code
             key={idx}
-            className="rounded-md border border-white/[0.1] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-[#C9C6D5]"
+            className="rounded-md border border-white/[0.1] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-[rgba(255,255,255,0.70)]"
           >
             {token.slice(1, -1)}
           </code>
@@ -44,13 +44,13 @@ const SafeMarkdownBlock = ({ text }) => {
     };
 
     return (
-      <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#110B20]/95 text-xs font-mono overflow-hidden shadow-tile">
-        <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[10px] text-[#9D98AA]">
-          <span className="uppercase text-accent font-semibold">{lang || 'CODE'}</span>
+      <div key={key} className="my-2.5 rounded-xl border border-white/[0.1] bg-[#070707]/95 text-xs font-mono overflow-hidden shadow-tile">
+        <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[10px] text-[rgba(255,255,255,0.55)]">
+          <span className="uppercase text-primary font-semibold">{lang || 'CODE'}</span>
           <button
             type="button"
             onClick={handleCopy}
-            className="text-[#9D98AA] hover:text-[#F5F3FF] flex items-center gap-1 focus-ring rounded px-1.5 py-0.5 transition-colors"
+            className="text-[rgba(255,255,255,0.55)] hover:text-white flex items-center gap-1 focus-ring rounded px-1.5 py-0.5 transition-colors"
             title="Copy code"
             aria-label="Copy code block"
           >
@@ -58,7 +58,7 @@ const SafeMarkdownBlock = ({ text }) => {
             <span>Copy</span>
           </button>
         </div>
-        <pre className="p-3.5 overflow-x-auto text-[#F5F3FF] leading-relaxed">
+        <pre className="p-3.5 overflow-x-auto text-white leading-relaxed">
           <code>{code}</code>
         </pre>
       </div>
@@ -89,7 +89,7 @@ const SafeMarkdownBlock = ({ text }) => {
     if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
       parts.push(
         <div key={`li-${index}`} className="flex items-start gap-2 ml-1 my-0.5">
-          <span className="text-[#6C667C] select-none">•</span>
+          <span className="text-[rgba(255,255,255,0.35)] select-none">â€¢</span>
           <span className="flex-1">{renderInline(line.trim().slice(2))}</span>
         </div>
       );
@@ -497,22 +497,22 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
   const otherTypingUsers = (typingUsers || []).filter((u) => u.userId !== currentUserId);
 
   return (
-    <div className="flex h-full w-full flex-col bg-tile-deep text-[#F5F3FF] overflow-hidden select-none">
+    <div className="flex h-full w-full flex-col bg-tile-deep text-white overflow-hidden select-none">
       {/* Chat Header */}
       <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] bg-tile-deep px-3.5 text-xs">
         <div className="flex items-center gap-2 min-w-0">
-          <i className="ri-chat-3-line text-accent shrink-0" />
-          <span className="font-semibold text-xs text-[#F5F3FF] truncate">Room Chat & Friday AI</span>
+          <i className="ri-chat-3-line text-primary shrink-0" />
+          <span className="font-semibold text-xs text-white truncate">Room Chat & Friday AI</span>
         </div>
 
         {/* Live presence indicator */}
         <div className="flex items-center gap-1.5 shrink-0 font-mono text-[10px] tabular-nums">
           <span
             className={`h-2 w-2 rounded-full shrink-0 transition-colors ${
-              connected ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]' : 'bg-accent animate-pulse'
+              connected ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]' : 'bg-primary animate-pulse'
             }`}
           />
-          <span className={`whitespace-nowrap ${connected ? 'text-[#9D98AA]' : 'text-accent'}`}>
+          <span className={`whitespace-nowrap ${connected ? 'text-[rgba(255,255,255,0.55)]' : 'text-primary'}`}>
             {connected
               ? `${onlineUserIds.length} ${onlineUserIds.length === 1 ? 'member' : 'members'} online`
               : 'Connecting...'}
@@ -522,12 +522,12 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
 
       {/* Disconnected / Reconnecting banner */}
       {isReconnecting && (
-        <div className="flex items-center justify-between bg-accent-tint/30">
+        <div className="flex items-center justify-between bg-primary-tint/30">
           <div className="flex items-center gap-2">
             <i className="ri-loader-4-line animate-spin text-xs" />
             <span>Reconnecting to real-time chat...</span>
           </div>
-          <span className="text-[10px] text-accent/70">Syncing live events</span>
+          <span className="text-[10px] text-primary/70">Syncing live events</span>
         </div>
       )}
 
@@ -538,13 +538,13 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         className="flex-1 overflow-y-auto p-3.5 space-y-3 relative select-text"
       >
         {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[#6C667C]">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile border-border/40 text-accent/50 mb-3 shadow-tile">
+          <div className="flex h-full flex-col items-center justify-center text-center p-6 text-[rgba(255,255,255,0.35)]">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile border-border/40 text-primary/50 mb-3 shadow-tile">
               <i className="ri-chat-smile-2-line text-2xl" />
             </div>
-            <p className="text-xs font-medium text-[#F5F3FF]">No messages in this workspace yet</p>
-            <p className="text-[11px] text-[#9D98AA] mt-1 max-w-xs leading-relaxed">
-              Chat live with collaborators or mention <span className="font-mono text-accent font-semibold">@friday</span> for AI
+            <p className="text-xs font-medium text-white">No messages in this workspace yet</p>
+            <p className="text-[11px] text-[rgba(255,255,255,0.55)] mt-1 max-w-xs leading-relaxed">
+              Chat live with collaborators or mention <span className="font-mono text-primary font-semibold">@friday</span> for AI
               assistance.
             </p>
           </div>
@@ -567,11 +567,11 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 }`}
               >
                 {/* Header label */}
-                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[#9D98AA] max-w-full">
+                <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[rgba(255,255,255,0.55)] max-w-full">
                   {isAi ? (
-                    <span className="inline-flex items-center gap-1.5 font-semibold text-[#F5F3FF] min-w-0 flex-wrap">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
-                      <span className="text-accent font-bold shrink-0">Friday AI</span>
+                    <span className="inline-flex items-center gap-1.5 font-semibold text-white min-w-0 flex-wrap">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
+                      <span className="text-primary font-bold shrink-0">Friday AI</span>
                       {(() => {
                         const isOffline =
                           msg.source === 'offline' ||
@@ -590,14 +590,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                           return (
                             <span className="inline-flex items-center gap-1">
                               <span
-                                className="text-[9px] rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.2 text-[#9D98AA] uppercase cursor-default font-mono"
+                                className="text-[9px] rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.2 text-[rgba(255,255,255,0.55)] uppercase cursor-default font-mono"
                                 title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
                               >
                                 Offline
                               </span>
                               {isFallback && (
                                 <span
-                                  className="text-[9px] text-accent-hover font-mono lowercase italic"
+                                  className="text-[9px] text-primary-hover font-mono lowercase italic"
                                   title={`Requested ${requestedModel}`}
                                 >
                                   fallback used
@@ -625,14 +625,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                         return (
                           <span className="inline-flex items-center gap-1">
                             <span
-                              className="text-[9px] rounded-full border border-accent/30 bg-accent/10 px-2 py-0.2 text-accent font-mono cursor-default"
+                              className="text-[9px] rounded-full border border-primary/30 bg-primary/10 px-2 py-0.2 text-primary font-mono cursor-default"
                               title={latencyMs ? `Latency: ${latencyMs}ms` : undefined}
                             >
                               {label}
                             </span>
                             {isFallback && (
                               <span
-                                className="text-[9px] text-accent-hover font-mono lowercase italic"
+                                className="text-[9px] text-primary-hover font-mono lowercase italic"
                                 title={`Requested ${requestedModel}`}
                               >
                                 fallback used
@@ -647,7 +647,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                   )}
                   {formattedTime && <span className="text-[10px] text-white/35 tabular-nums shrink-0 ml-0.5">{formattedTime}</span>}
                   {isOptimistic && (
-                    <span className="text-[9px] text-accent/70 italic shrink-0">sending...</span>
+                    <span className="text-[9px] text-primary/70 italic shrink-0">sending...</span>
                   )}
                 </div>
 
@@ -655,9 +655,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 <div
                   className={`max-w-[88%] sm:max-w-[82%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${
                     isAi
-                      ? 'border border-accent-deep bg-accent-tint/20 text-[#C9C6D5] shadow-tile'
+                      ? 'border border-accent/25 bg-primary-tint/20 text-[rgba(255,255,255,0.70)] shadow-tile'
                       : isMe
-                      ? `border border-accent-press/30 bg-accent-tint/25 text-[#F5F3FF] shadow-tile ${isOptimistic ? 'opacity-70' : ''}`
+                      ? `border border-accent/50/30 bg-primary-tint/25 text-white shadow-tile ${isOptimistic ? 'opacity-70' : ''}`
                       : 'border border-white/[0.08] bg-white/[0.04] text-[#e5e5e5]'
                   }`}
                 >
@@ -675,14 +675,14 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
         {/* AI Typing Indicator */}
         {isAiTyping && (
           <div className="flex flex-col items-start animate-fade-in">
-            <span className="text-[11px] font-mono text-accent/80 mb-1 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-              Friday AI is thinking…
+            <span className="text-[11px] font-mono text-primary/80 mb-1 flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              Friday AI is thinkingâ€¦
             </span>
-            <div className="flex items-center gap-1.5 rounded-2xl border border-accent-deep bg-accent-tint/20 px-3.5 py-2 text-xs text-accent shadow-tile">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div className="flex items-center gap-1.5 rounded-2xl border border-accent/25 bg-primary-tint/20 px-3.5 py-2 text-xs text-primary shadow-tile">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
             </div>
           </div>
         )}
@@ -733,7 +733,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               <select
                 value={selectedModel}
                 onChange={handleModelChange}
-                className="h-10 rounded-xl tile-pill border border-white/[0.12] bg-raised/90 pl-2.5 pr-6 text-[10px] font-mono text-accent hover:text-white focus:border-accent/60 cursor-pointer appearance-none transition-all outline-none max-w-[80px] sm:max-w-none truncate"
+                className="h-10 rounded-xl tile-pill border border-white/[0.12] bg-raised/90 pl-2.5 pr-6 text-[10px] font-mono text-primary hover:text-white focus:border-primary/60 cursor-pointer appearance-none transition-all outline-none max-w-[80px] sm:max-w-none truncate"
                 title="Select Friday AI model"
                 aria-label="Friday AI model selection"
               >
@@ -744,7 +744,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                   </option>
                 ))}
               </select>
-              <i className="ri-arrow-down-s-line pointer-events-none absolute right-2 text-[10px] text-accent/70" />
+              <i className="ri-arrow-down-s-line pointer-events-none absolute right-2 text-[10px] text-primary/70" />
             </div>
           )}
 
@@ -755,7 +755,7 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
               value={inputMessage}
               onChange={handleInputChange}
               placeholder="Message or @friday..."
-              className="w-full h-10 min-w-0 rounded-xl tile-input px-3 text-xs text-[#F5F3FF] placeholder-white/40 transition-all"
+              className="w-full h-10 min-w-0 rounded-xl tile-input px-3 text-xs text-white placeholder-white/40 transition-all"
               maxLength={MAX_MESSAGE_LENGTH}
               disabled={isSending}
             />

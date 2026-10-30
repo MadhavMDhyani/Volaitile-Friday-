@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext, useId } from 'react';
+﻿import { useEffect, useRef, useState, useContext, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/user.context';
@@ -357,7 +357,7 @@ export const MenuSheet = ({
       aria-labelledby={titleId}
       className="fixed inset-0 z-[100] flex items-center justify-center"
     >
-      {/* Scrim — tints page (page itself is blurred by body.menu-open) */}
+      {/* Scrim â€” tints page (page itself is blurred by body.menu-open) */}
       <div
         className={`fixed inset-0 bg-[#0B0716]/60 backdrop-blur-sm ${backdropTransition}`}
         onClick={onClose}
@@ -374,7 +374,7 @@ export const MenuSheet = ({
             {/* Header Brand */}
             <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-5">
               <Logo size="sm" to="/" onClick={onClose} />
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-accent/30 bg-accent/10 text-accent font-semibold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-primary/30 bg-primary/10 text-primary font-semibold">
                 MENU
               </span>
             </div>
@@ -390,7 +390,7 @@ export const MenuSheet = ({
               {/* Sliding Active Tab Indicator (pure transform) */}
               <div
                 aria-hidden="true"
-                className={`absolute left-0 right-0 rounded-xl bg-accent/15 border border-accent/40 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.18)] pointer-events-none ${
+                className={`absolute left-0 right-0 rounded-xl bg-primary/15 border border-primary/40 shadow-[0_0_16px_rgb(var(--accent-rgb)/0.18)] pointer-events-none ${
                   prefersReducedMotion
                     ? ''
                     : 'transition-transform duration-200 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]'
@@ -419,16 +419,16 @@ export const MenuSheet = ({
                     onKeyDown={(e) => handleTabKeyDown(e, idx, true)}
                     className={`relative z-10 min-h-[44px] w-full px-3.5 py-2.5 rounded-xl text-xs font-medium flex items-center justify-between transition-colors focus-ring text-left cursor-pointer ${
                       isActive
-                        ? 'text-accent font-semibold'
-                        : 'text-[#9D98AA] hover:text-[#F5F3FF] hover:bg-white/[0.04]'
+                        ? 'text-primary font-semibold'
+                        : 'text-[rgba(255,255,255,0.55)] hover:text-white hover:bg-white/[0.04]'
                     }`}
                   >
                     <span className="flex items-center gap-2.5">
-                      <i className={`${tab.icon} text-base ${isActive ? 'text-accent' : 'text-[#9D98AA]'}`} />
+                      <i className={`${tab.icon} text-base ${isActive ? 'text-primary' : 'text-[rgba(255,255,255,0.55)]'}`} />
                       <span>{tab.label}</span>
                     </span>
                     {isActive && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)]" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)]" />
                     )}
                   </button>
                 );
@@ -451,7 +451,7 @@ export const MenuSheet = ({
                 <Link
                   to="/login"
                   onClick={onClose}
-                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium tile text-[#F5F3FF] transition-all focus-ring"
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium tile text-white transition-all focus-ring"
                 >
                   Log in
                 </Link>
@@ -464,8 +464,8 @@ export const MenuSheet = ({
                 </Link>
               </div>
             )}
-            <div className="text-[10px] font-mono text-[#6C667C] text-center pt-1">
-              Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-[#9D98AA]">Esc</kbd> to close
+            <div className="text-[10px] font-mono text-[rgba(255,255,255,0.35)] text-center pt-1">
+              Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-[rgba(255,255,255,0.55)]">Esc</kbd> to close
             </div>
           </div>
         </div>
@@ -476,9 +476,9 @@ export const MenuSheet = ({
           <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between shrink-0 bg-tile-raised">
             <h2
               id={titleId}
-              className="text-sm font-semibold text-[#F5F3FF] flex items-center gap-2"
+              className="text-sm font-semibold text-white flex items-center gap-2"
             >
-              <i className={`${activeTabMeta.icon} text-accent text-base`} />
+              <i className={`${activeTabMeta.icon} text-primary text-base`} />
               <span>{activeTabMeta.label}</span>
             </h2>
 
@@ -487,7 +487,7 @@ export const MenuSheet = ({
               type="button"
               onClick={onClose}
               aria-label="Close menu"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[#9D98AA] hover:text-[#F5F3FF] transition-all focus-ring cursor-pointer"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[rgba(255,255,255,0.55)] hover:text-white transition-all focus-ring cursor-pointer"
             >
               <i className="ri-close-line text-lg" />
             </button>
@@ -520,7 +520,7 @@ export const MenuSheet = ({
 
       {/* Mobile Full-Screen Sheet (< 768px) */}
       <div
-        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col tile text-[#F5F3FF] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
+        className={`md:hidden fixed inset-0 z-10 h-[100dvh] w-full flex flex-col tile text-white pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] overflow-hidden ${mobilePanelTransform}`}
       >
         {/* Mobile Header Bar */}
         <div className="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
@@ -531,7 +531,7 @@ export const MenuSheet = ({
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[#9D98AA] hover:text-[#F5F3FF] transition-all focus-ring cursor-pointer"
+            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl tile text-[rgba(255,255,255,0.55)] hover:text-white transition-all focus-ring cursor-pointer"
           >
             <i className="ri-close-line text-xl" />
           </button>
@@ -548,7 +548,7 @@ export const MenuSheet = ({
           {/* Mobile Sliding Active Indicator (transform only) */}
           <div
             aria-hidden="true"
-            className={`absolute top-2 bottom-2 rounded-xl bg-accent/15 border border-accent/40 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.2)] pointer-events-none ${
+            className={`absolute top-2 bottom-2 rounded-xl bg-primary/15 border border-primary/40 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.2)] pointer-events-none ${
               prefersReducedMotion
                 ? ''
                 : 'transition-transform duration-200 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]'
@@ -577,11 +577,11 @@ export const MenuSheet = ({
                 onKeyDown={(e) => handleTabKeyDown(e, idx, false)}
                 className={`relative z-10 min-h-[44px] px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap snap-start shrink-0 flex items-center gap-2 transition-colors focus-ring cursor-pointer ${
                   isActive
-                    ? 'text-accent font-semibold'
-                    : 'text-[#9D98AA] hover:text-[#F5F3FF] tile border border-white/10'
+                    ? 'text-primary font-semibold'
+                    : 'text-[rgba(255,255,255,0.55)] hover:text-white tile border border-white/10'
                 }`}
               >
-                <i className={`${tab.icon} text-sm ${isActive ? 'text-accent' : 'text-[#9D98AA]'}`} />
+                <i className={`${tab.icon} text-sm ${isActive ? 'text-primary' : 'text-[rgba(255,255,255,0.55)]'}`} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -625,7 +625,7 @@ export const MenuSheet = ({
               <Link
                 to="/login"
                 onClick={onClose}
-                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium tile text-[#F5F3FF] transition-all focus-ring"
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium tile text-white transition-all focus-ring"
               >
                 Log in
               </Link>

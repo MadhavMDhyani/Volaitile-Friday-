@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 
 export const FinalCTA = ({ compact = false }) => {
@@ -40,7 +40,7 @@ export const FinalCTA = ({ compact = false }) => {
 
               <Link
                 to="/login"
-                className="w-full sm:w-auto h-12 px-7 inline-flex items-center justify-center rounded-xl text-sm font-medium text-[#F5F3FF] tile hover:border-white/30 transition-all focus-ring"
+                className="w-full sm:w-auto h-12 px-7 inline-flex items-center justify-center rounded-xl text-sm font-medium text-white tile hover:border-white/30 transition-all focus-ring"
               >
                 Sign in to workspace
               </Link>

@@ -59,17 +59,17 @@ export const RecentActivity = () => {
       {/* Panel Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg tile text-accent">
+          <div className="flex h-6 w-6 items-center justify-center rounded-lg tile text-primary">
             <i className="ri-history-line text-xs" />
           </div>
-          <h3 className="font-semibold text-sm text-[#F5F3FF] tracking-tight">
+          <h3 className="font-semibold text-sm text-white tracking-tight">
             Recent Activity
           </h3>
         </div>
         <button
           type="button"
           onClick={fetchActivity}
-          className="text-[#6C667C] hover:text-[#F5F3FF] p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
+          className="text-[rgba(255,255,255,0.35)] hover:text-white p-1 rounded-md hover:bg-white/10 focus-ring transition-colors"
           title="Refresh activity"
           aria-label="Refresh recent activity"
         >
@@ -91,7 +91,7 @@ export const RecentActivity = () => {
           ))}
         </div>
       ) : error ? (
-        <div className="rounded-xl border border-accent-deep bg-accent-tint/40 p-3 text-accent">
+        <div className="rounded-xl border border-accent/25 bg-primary-tint/40 p-3 text-primary">
           <div className="flex items-center gap-2">
             <i className="ri-error-warning-line text-sm" />
           <p>{error}</p>
@@ -132,24 +132,24 @@ export const RecentActivity = () => {
                 aria-label={`Open project ${projectName}`}
               >
                 {/* Activity Meta */}
-                <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-[#6C667C]">
+                <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-[rgba(255,255,255,0.35)]">
                   <div className="flex items-center gap-1.5 truncate">
-                    <span className="rounded-full bg-white/[0.08] border border-white/10 px-2 py-0.2 text-[#F5F3FF] truncate max-w-[120px]">
+                    <span className="rounded-full bg-white/[0.08] border border-white/10 px-2 py-0.2 text-white truncate max-w-[120px]">
                       {projectName}
                     </span>
                     <span>·</span>
-                    <span className="truncate text-[#9D98AA]">
+                    <span className="truncate text-[rgba(255,255,255,0.55)]">
                       {isAi && (
-                        <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+                        <span className="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-primary" />
                       )}
                       {senderName}
                     </span>
                   </div>
-                  {timeStr && <span className="shrink-0 text-[#6C667C]">{timeStr}</span>}
+                  {timeStr && <span className="shrink-0 text-[rgba(255,255,255,0.35)]">{timeStr}</span>}
                 </div>
 
                 {/* Message snippet */}
-                <p className="line-clamp-2 text-xs text-[#9D98AA] group-hover:text-[#F5F3FF] transition-colors leading-relaxed break-words">
+                <p className="line-clamp-2 text-xs text-[rgba(255,255,255,0.55)] group-hover:text-white transition-colors leading-relaxed break-words">
                   {item.text}
                 </p>
               </div>
@@ -158,12 +158,12 @@ export const RecentActivity = () => {
         </div>
       ) : (
         /* Empty State */
-        <div className="flex flex-col items-center justify-center py-8 text-center text-[#6C667C]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl tile mb-2 text-[#9D98AA]">
-            <i className="ri-chat-voice-line text-lg text-accent" />
+        <div className="flex flex-col items-center justify-center py-8 text-center text-[rgba(255,255,255,0.35)]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl tile mb-2 text-[rgba(255,255,255,0.55)]">
+            <i className="ri-chat-voice-line text-lg text-primary" />
           </div>
-          <p className="text-xs text-[#9D98AA] font-medium">No recent activity yet</p>
-          <p className="text-[11px] text-[#6C667C] mt-1 max-w-[200px]">
+          <p className="text-xs text-[rgba(255,255,255,0.55)] font-medium">No recent activity yet</p>
+          <p className="text-[11px] text-[rgba(255,255,255,0.35)] mt-1 max-w-[200px]">
             Send a message in any project workspace to view live team updates here.
           </p>
         </div>

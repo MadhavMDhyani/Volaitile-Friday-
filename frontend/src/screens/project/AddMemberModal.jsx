@@ -111,11 +111,11 @@ export const AddMemberModal = ({
       <div className="space-y-4">
         {/* Search Input */}
         <div>
-          <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="member-search">
+          <label className="block text-xs font-medium text-[rgba(255,255,255,0.55)] mb-1.5" htmlFor="member-search">
             Search Users by Email
           </label>
           <div className="relative">
-            <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-accent/70" />
+            <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-primary/70" />
             <input
               id="member-search"
               type="text"
@@ -128,12 +128,12 @@ export const AddMemberModal = ({
                 }
               }}
               placeholder="Type at least 3 characters..."
-              className="w-full rounded-xl tile-input pl-9 pr-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all font-mono"
+              className="w-full rounded-xl tile-input pl-9 pr-3.5 py-2.5 text-xs text-white placeholder-[#6C667C] transition-all font-mono"
               autoFocus
             />
             {isSearching && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                <svg className="animate-spin h-3.5 w-3.5 text-accent" viewBox="0 0 24 24" fill="none">
+                <svg className="animate-spin h-3.5 w-3.5 text-primary" viewBox="0 0 24 24" fill="none">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
@@ -141,7 +141,7 @@ export const AddMemberModal = ({
             )}
           </div>
           {searchQuery.trim().length > 0 && searchQuery.trim().length < 3 && (
-            <p className="mt-1.5 text-[11px] text-[#6C667C]">
+            <p className="mt-1.5 text-[11px] text-[rgba(255,255,255,0.35)]">
               Type at least 3 characters to search.
             </p>
           )}
@@ -149,7 +149,7 @@ export const AddMemberModal = ({
 
         {/* Error message */}
         {searchError && (
-          <div className="rounded-xl border border-accent-deep bg-accent-tint/40 p-2.5 text-xs text-accent">
+          <div className="rounded-xl border border-accent/25 bg-primary-tint/40 p-2.5 text-xs text-primary">
             {searchError}
           </div>
         )}
@@ -157,7 +157,7 @@ export const AddMemberModal = ({
         {/* Search Results List */}
         <div className="max-h-52 overflow-y-auto rounded-xl border border-white/[0.08] bg-black/40 p-1.5 space-y-1">
           {searchQuery.trim().length >= 3 && !isSearching && searchResults.length === 0 ? (
-            <div className="p-4 text-center text-xs text-[#6C667C]">
+            <div className="p-4 text-center text-xs text-[rgba(255,255,255,0.35)]">
               No users found matching &quot;{searchQuery}&quot;
             </div>
           ) : searchResults.length > 0 ? (
@@ -173,12 +173,12 @@ export const AddMemberModal = ({
                     alreadyMember
                       ? 'opacity-40 cursor-not-allowed bg-transparent'
                       : isSelected
-                      ? 'tile border border-accent/40 text-[#F5F3FF] cursor-pointer shadow-[0_0_8px_rgb(var(--accent-rgb)/0.15)]'
-                      : 'hover:bg-white/[0.05] text-[#9D98AA] hover:text-[#F5F3FF] cursor-pointer'
+                      ? 'tile border border-primary/40 text-white cursor-pointer shadow-[0_0_8px_rgb(var(--accent-rgb)/0.15)]'
+                      : 'hover:bg-white/[0.05] text-[rgba(255,255,255,0.55)] hover:text-white cursor-pointer'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 truncate pr-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-white/[0.08] text-[10px] font-mono text-[#F5F3FF] border border-white/[0.1]">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-white/[0.08] text-[10px] font-mono text-white border border-white/[0.1]">
                       {u.email.charAt(0).toUpperCase()}
                     </div>
                     <span className="truncate font-medium">{u.email}</span>
@@ -186,13 +186,13 @@ export const AddMemberModal = ({
 
                   <div>
                     {alreadyMember ? (
-                      <span className="text-[10px] text-[#6C667C] uppercase font-mono">Member</span>
+                      <span className="text-[10px] text-[rgba(255,255,255,0.35)] uppercase font-mono">Member</span>
                     ) : (
                       <input
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => toggleSelectUser(u._id.toString())}
-                        className="rounded border-white/20 bg-white/[0.06] text-accent focus-ring cursor-pointer"
+                        className="rounded border-white/20 bg-white/[0.06] text-primary focus-ring cursor-pointer"
                         aria-label={`Select ${u.email}`}
                       />
                     )}
@@ -201,7 +201,7 @@ export const AddMemberModal = ({
               );
             })
           ) : (
-            <div className="p-4 text-center text-xs text-[#6C667C]">
+            <div className="p-4 text-center text-xs text-[rgba(255,255,255,0.35)]">
               Search for teammates by email to add them.
             </div>
           )}
@@ -209,7 +209,7 @@ export const AddMemberModal = ({
 
         {/* Modal Actions */}
         <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-3.5">
-          <span className="text-xs text-[#9D98AA]">
+          <span className="text-xs text-[rgba(255,255,255,0.55)]">
             {selectedUserIds.size} user{selectedUserIds.size !== 1 ? 's' : ''} selected
           </span>
 

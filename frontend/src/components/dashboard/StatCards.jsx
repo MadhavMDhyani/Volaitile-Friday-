@@ -31,9 +31,9 @@ export const StatCards = ({
 
   if (error) {
     return (
-      <div className="flex items-center justify-between rounded-xl border border-accent-deep bg-accent-tint/40 p-4 text-xs text-accent">
+      <div className="flex items-center justify-between rounded-xl border border-accent/25 bg-primary-tint/40 p-4 text-xs text-primary">
         <div className="flex items-center gap-2">
-          <i className="ri-error-warning-line text-base text-accent" />
+          <i className="ri-error-warning-line text-base text-primary" />
           <span>{error}</span>
         </div>
         {onRetry && (
@@ -72,40 +72,40 @@ export const StatCards = ({
       {/* 1. Total Projects */}
       <div className="tile rounded-2xl p-5">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9D98AA]">Total Projects</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-accent">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Total Projects</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-primary">
             <i className="ri-folder-3-line text-sm" />
           </div>
         </div>
-        <div className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">
+        <div className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">
           {totalProjects}
         </div>
-        <p className="mt-1 text-[11px] text-[#6C667C]">Active developer workspaces</p>
+        <p className="mt-1 text-[11px] text-[rgba(255,255,255,0.35)]">Active developer workspaces</p>
       </div>
 
       {/* 2. Ownership */}
       <div className="tile rounded-2xl p-5">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9D98AA]">Ownership</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-[#C9C6D5]">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Ownership</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-[rgba(255,255,255,0.70)]">
             <i className="ri-shield-user-line text-sm" />
           </div>
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">{ownedCount}</span>
-          <span className="text-xs font-mono text-[#6C667C] tabular-nums">/ {totalProjects} owned</span>
+          <span className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">{ownedCount}</span>
+          <span className="text-xs font-mono text-[rgba(255,255,255,0.35)] tabular-nums">/ {totalProjects} owned</span>
         </div>
         <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-          <div className="h-full bg-accent transition-all duration-300" style={{ width: `${ownedPercent}%` }} />
+          <div className="h-full bg-primary transition-all duration-300" style={{ width: `${ownedPercent}%` }} />
         </div>
-        <p className="mt-1.5 text-[11px] text-[#6C667C] tabular-nums">{ownedCount} owned · {memberCount} shared</p>
+        <p className="mt-1.5 text-[11px] text-[rgba(255,255,255,0.35)] tabular-nums">{ownedCount} owned · {memberCount} shared</p>
       </div>
 
       {/* 3. Codebase */}
       <div className="tile rounded-2xl p-5">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9D98AA]">Codebase</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-[#F5F3FF]">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Codebase</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-white">
             <i className="ri-code-box-line text-sm" />
           </div>
         </div>
@@ -116,11 +116,11 @@ export const StatCards = ({
           </div>
         ) : (
           <>
-            <div className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">
+            <div className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">
               {projectStats.totalFiles.toLocaleString()}{' '}
-              <span className="text-sm font-normal text-[#9D98AA]">files</span>
+              <span className="text-sm font-normal text-[rgba(255,255,255,0.55)]">files</span>
             </div>
-            <p className="mt-1 font-mono text-[11px] text-[#6C667C] tabular-nums">
+            <p className="mt-1 font-mono text-[11px] text-[rgba(255,255,255,0.35)] tabular-nums">
               {projectStats.totalLines.toLocaleString()} lines of code
             </p>
           </>
@@ -130,15 +130,15 @@ export const StatCards = ({
       {/* 4. Collaborators */}
       <div className="tile rounded-2xl p-5">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9D98AA]">Collaborators</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-accent">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Collaborators</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-primary">
             <i className="ri-team-line text-sm" />
           </div>
         </div>
-        <div className="font-mono text-2xl font-bold tracking-tight text-[#F5F3FF] tabular-nums">
+        <div className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">
           {uniqueCollaborators.size}
         </div>
-        <p className="mt-1 text-[11px] text-[#6C667C] tabular-nums">
+        <p className="mt-1 text-[11px] text-[rgba(255,255,255,0.35)] tabular-nums">
           {uniqueCollaborators.size === 1 ? 'Peer collaborator' : 'Peer collaborators across projects'}
         </p>
       </div>

@@ -16,9 +16,9 @@ export const ConfirmDialog = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} maxWidth="max-w-md">
       <div className="space-y-4">
-        <p className="text-sm text-[#9D98AA] leading-relaxed">{message}</p>
+        <p className="text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">{message}</p>
         {description && (
-          <div className="rounded-lg tile-input p-3 text-xs text-[#9D98AA] font-mono">
+          <div className="rounded-lg tile-input p-3 text-xs text-[rgba(255,255,255,0.55)] font-mono">
             {description}
           </div>
         )}

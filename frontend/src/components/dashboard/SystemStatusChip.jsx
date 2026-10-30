@@ -29,7 +29,7 @@ export const SystemStatusChip = () => {
 
   if (status === 'checking') {
     return (
-      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.05] px-2.5 py-0.5 text-[11px] font-mono text-[#9D98AA]">
+      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.05] px-2.5 py-0.5 text-[11px] font-mono text-[rgba(255,255,255,0.55)]">
         <span className="h-1.5 w-1.5 rounded-full bg-[#6C667C] animate-pulse" />
         Checking health...
       </div>
@@ -39,7 +39,7 @@ export const SystemStatusChip = () => {
   if (status === 'normal') {
     return (
       <div
-        className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[11px] font-mono text-[#C9C6D5] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"
+        className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[11px] font-mono text-[rgba(255,255,255,0.70)] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"
         title="All system components and datastores are healthy"
         aria-label="System status: All systems normal"
       >
@@ -52,11 +52,11 @@ export const SystemStatusChip = () => {
 
   return (
     <div
-      className="inline-flex items-center gap-1.5 rounded-full border border-accent-hover/30 bg-accent-tint/30 px-2.5 py-0.5 text-[11px] font-mono text-accent-hover"
+      className="inline-flex items-center gap-1.5 rounded-full border border-[#0FC8D8]/30 bg-primary-tint/30 px-2.5 py-0.5 text-[11px] font-mono text-primary-hover"
       title="System running with degraded dependencies"
       aria-label="System status: Degraded"
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-accent-hover" />
+      <span className="h-1.5 w-1.5 rounded-full bg-primary-hover" />
       Degraded
     </div>
   );

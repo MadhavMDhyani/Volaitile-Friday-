@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+﻿import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../Logo';
 import { UserContext } from '../../context/user.context';
@@ -74,7 +74,7 @@ export const LandingNav = ({
               {/* Log in button hidden on phones */}
               <Link
                 to="/login"
-                className="hidden sm:inline-flex min-h-[44px] px-3.5 items-center justify-center rounded-xl text-xs font-medium text-[#F5F3FF] hover:text-white tile hover:border-white/30 transition-all focus-ring"
+                className="hidden sm:inline-flex min-h-[44px] px-3.5 items-center justify-center rounded-xl text-xs font-medium text-white hover:text-white tile hover:border-white/30 transition-all focus-ring"
               >
                 Log in
               </Link>
@@ -95,7 +95,7 @@ export const LandingNav = ({
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
             aria-controls="menu-sheet"
-            className="min-h-[44px] min-w-[44px] h-11 w-11 inline-flex flex-col items-center justify-center gap-1.5 rounded-xl tile text-[#9D98AA] hover:text-[#F5F3FF] transition-all focus-ring cursor-pointer"
+            className="min-h-[44px] min-w-[44px] h-11 w-11 inline-flex flex-col items-center justify-center gap-1.5 rounded-xl tile text-[rgba(255,255,255,0.55)] hover:text-white transition-all focus-ring cursor-pointer"
           >
             {/* Animated three bars using CSS transforms only */}
             <span

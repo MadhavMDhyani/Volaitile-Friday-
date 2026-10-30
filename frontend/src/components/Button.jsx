@@ -1,4 +1,4 @@
-export const Button = ({
+﻿export const Button = ({
   children,
   variant = 'primary',
   size = 'md',
@@ -21,7 +21,7 @@ export const Button = ({
     // Secondary: glass style, border turns --accent on hover
     secondary:
       'bg-white/[0.05] text-white border border-white/[0.18] hover:bg-white/[0.09] hover:border-[#12DCEF]/60 shadow-[0_1px_0_rgba(0,0,0,0.4)] rounded-full',
-    // Danger: accent-tint tinted glass with accent text
+    // Danger: primary/10 tinted glass with accent text
     danger:
       'bg-[rgba(18,220,239,0.08)] text-[#12DCEF] border border-[rgba(18,220,239,0.25)] hover:bg-[rgba(18,220,239,0.14)] hover:border-[rgba(18,220,239,0.45)] shadow-[0_1px_0_rgba(0,0,0,0.4)] rounded-full',
     // Ghost: transparent, subtle hover

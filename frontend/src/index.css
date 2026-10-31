@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -36,29 +36,21 @@
   --border-subtle: rgba(255, 255, 255, 0.10);
   --border-strong: rgba(255, 255, 255, 0.22);
 
-  /* Page aliases for legacy code */
+  /* Page aliases */
   --bg-page:    #070707;
   --page-rgb:   7 7 7;
   --bg-surface: rgba(255, 255, 255, 0.06);
   --bg-raised:  rgba(255, 255, 255, 0.09);
 
-  /* Legacy text aliases */
+  /* Text aliases */
   --text-primary:   #FFFFFF;
   --text-secondary: rgba(255, 255, 255, 0.80);
-
-  /* Legacy accent aliases → now primary/accent */
-  --accent-rgb:      18 220 239;
-  --accent-hover:    #0FC8D8;
-  --accent-press:    #0AAAB8;
-  --accent-deep:     rgba(18, 220, 239, 0.20);
-  --accent-tint:     rgba(18, 220, 239, 0.10);
-  --accent-glow:     #5DFFD9;
 
   /* Shadows */
   --tile-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 
   /* Scrim */
-  --scrim-bg: rgba(7, 7, 7, 0.72);
+  --scrim-bg: rgba(7, 7, 7, 0.75);
 }
 
 /* ── Reset ──────────────────────────────────────────────── */
@@ -81,15 +73,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Fixed background: #070707 + soft green radial glow top-right ── */
+/* Typography constraints: weights 400 and 500 only */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+/* ── Fixed background: #070707 + soft green (#33BC65) radial glow top-right ── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: -20;
+  z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 60% at 92% 0%, rgba(51, 188, 101, 0.22) 0%, rgba(93, 255, 217, 0.06) 45%, transparent 70%),
+    radial-gradient(ellipse 75% 65% at 92% 0%, rgba(51, 188, 101, 0.28) 0%, rgba(51, 188, 101, 0.10) 35%, rgba(93, 255, 217, 0.03) 55%, transparent 75%),
     #070707;
 }
 
@@ -111,6 +110,18 @@ body.menu-open header {
 ::selection {
   background-color: var(--primary);
   color: #070707;
+}
+
+/* ── Links / Active / Hover ────────────────────────────── */
+a {
+  color: inherit;
+  transition: color 150ms ease;
+}
+a:hover {
+  color: var(--accent);
+}
+a.active, .nav-link-active {
+  color: var(--glow);
 }
 
 /* ── Scrollbar ─────────────────────────────────────────── */
@@ -140,7 +151,7 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #070707, 0 0 0 4px rgba(93, 255, 217, 0.70);
+  box-shadow: 0 0 0 2px #070707, 0 0 0 4px var(--glow);
 }
 
 @layer components {
@@ -154,7 +165,7 @@ select:focus-visible {
   .tile {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: 22px;
     box-shadow: var(--tile-shadow);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -170,7 +181,7 @@ select:focus-visible {
   .tile-raised {
     background: var(--tile-raised);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    border-radius: 22px;
     box-shadow: var(--tile-shadow);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -189,27 +200,54 @@ select:focus-visible {
     box-shadow: var(--tile-shadow);
   }
 
-  /* Accent tile — solid primary green */
+  /* Primary Button style — solid --primary with dark text and faint mint glow on hover */
+  .btn-primary,
   .tile-accent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: var(--primary);
     border: 1px solid rgba(51, 188, 101, 0.4);
-    border-radius: 24px;
-    box-shadow: var(--tile-shadow);
+    border-radius: 9999px;
+    box-shadow: 0 4px 16px rgba(51, 188, 101, 0.25);
     color: #070707;
+    font-weight: 500;
     transition: border-color 180ms ease, transform 180ms ease,
-                box-shadow 180ms ease;
+                box-shadow 180ms ease, background-color 180ms ease;
   }
+  .btn-primary:hover,
   .tile-accent:hover {
-    border-color: rgba(51, 188, 101, 0.7);
-    box-shadow: 0 0 20px rgba(51, 188, 101, 0.35);
-    transform: translateY(-2px);
+    border-color: rgba(93, 255, 217, 0.6);
+    box-shadow: 0 0 20px rgba(93, 255, 217, 0.45);
+    transform: translateY(-1px);
+  }
+
+  /* Secondary Button style — glass style, border turns --accent on hover */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 9999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    font-weight: 500;
+    transition: border-color 180ms ease, transform 180ms ease,
+                background-color 180ms ease, color 180ms ease;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: #FFFFFF;
+    transform: translateY(-1px);
   }
 
   /* Highlight tile — mint/glow */
   .tile-highlight {
     background: var(--glow);
     border: 1px solid rgba(93, 255, 217, 0.4);
-    border-radius: 16px;
+    border-radius: 20px;
     box-shadow: var(--tile-shadow);
     color: #070707;
     transition: border-color 180ms ease, transform 180ms ease;
@@ -219,7 +257,7 @@ select:focus-visible {
   .tile-ghost {
     background: transparent;
     border: 1px dashed rgba(255, 255, 255, 0.18);
-    border-radius: 24px;
+    border-radius: 22px;
     transition: border-color 180ms ease, background 180ms ease;
   }
   .tile-ghost:hover {
@@ -227,47 +265,54 @@ select:focus-visible {
     background: rgba(255, 255, 255, 0.02);
   }
 
-  /* Input tile */
-  .tile-input {
-    background: rgba(0, 0, 0, 0.30);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
+  /* Input tile / glass-input: translucent glass with 1px border */
+  .tile-input,
+  .glass-input {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
     color: var(--text);
-    transition: border-color 160ms ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
   }
-  .tile-input:hover {
-    border-color: var(--border-strong);
+  .tile-input:hover,
+  .glass-input:hover {
+    border-color: rgba(255, 255, 255, 0.30);
   }
   .tile-input:focus,
-  .tile-input:focus-visible {
+  .tile-input:focus-visible,
+  .glass-input:focus,
+  .glass-input:focus-visible {
     outline: none;
-    border-color: rgba(93, 255, 217, 0.60);
-    box-shadow: 0 0 0 2px #070707, 0 0 0 4px rgba(93, 255, 217, 0.65);
+    border-color: var(--glow);
+    box-shadow: 0 0 0 2px #070707, 0 0 0 4px var(--glow);
   }
 
-  /* Pill / chip */
-  .tile-pill {
+  /* Pill / chip / tags — fully rounded */
+  .tile-pill,
+  .glass-pill {
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 2px 10px;
     font-size: 11px;
     transition: border-color 160ms ease;
   }
-  .tile-pill:hover {
+  .tile-pill:hover,
+  .glass-pill:hover {
     border-color: rgba(255, 255, 255, 0.30);
   }
 
-  /* ════════════════════════════════════════════
-     GLASS COMPAT ALIASES (same look, glass style)
-     ════════════════════════════════════════════ */
-
+  /* Glass card alias */
   .glass {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    border-radius: 22px;
     box-shadow: var(--tile-shadow);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -288,39 +333,10 @@ select:focus-visible {
     transition: border-color 180ms ease;
   }
 
-  .glass-input {
-    background: rgba(0, 0, 0, 0.30);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
-    color: var(--text);
-    transition: border-color 160ms ease;
-  }
-  .glass-input:hover {
-    border-color: var(--border-strong);
-  }
-  .glass-input:focus,
-  .glass-input:focus-visible {
-    outline: none;
-    border-color: rgba(93, 255, 217, 0.60);
-    box-shadow: 0 0 0 2px #070707, 0 0 0 4px rgba(93, 255, 217, 0.65);
-  }
-
-  .glass-pill {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 9999px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    transition: border-color 160ms ease;
-  }
-  .glass-pill:hover {
-    border-color: rgba(255, 255, 255, 0.30);
-  }
-
   .glass-liquid {
     background: var(--tile-raised);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: 22px;
     box-shadow: var(--tile-shadow);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -331,17 +347,17 @@ select:focus-visible {
     transform: translateY(-2px);
   }
 
-  /* Scrim — blur allowed only here */
+  /* Scrim */
   .glass-scrim {
     background: var(--scrim-bg);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   /* Solid overlay panel */
   .surface-overlay {
     background: rgba(7, 7, 7, 0.90);
-    border: 1px solid var(--border-strong);
+    border: 1px solid var(--glass-border);
     border-radius: 24px;
     box-shadow: var(--tile-shadow);
   }
@@ -349,7 +365,7 @@ select:focus-visible {
   /* Menu dialog */
   .menu-glass {
     background: rgba(10, 10, 10, 0.92);
-    border: 1px solid var(--border-strong);
+    border: 1px solid var(--glass-border);
     border-radius: 24px;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(20px);

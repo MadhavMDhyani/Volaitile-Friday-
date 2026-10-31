@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
@@ -73,13 +73,13 @@ export const Register = () => {
 
               <div className="mt-8">
                 <h1
-                  className="text-2xl font-bold leading-snug tracking-tight text-white animate-fade-up"
+                  className="text-2xl font-medium leading-snug tracking-tight text-white animate-fade-up"
                   style={{ animationDelay: '60ms' }}
                 >
                   Create an account to start collaborating.
                 </h1>
                 <p
-                  className="mt-3 text-sm leading-relaxed text-[rgba(255,255,255,0.55)] animate-fade-up"
+                  className="mt-3 text-sm leading-relaxed text-text-muted animate-fade-up"
                   style={{ animationDelay: '120ms' }}
                 >
                   Set up your developer profile to create repositories, invite teammates, and run code reviews.
@@ -124,10 +124,10 @@ export const Register = () => {
             </div>
 
             <div className="mb-6">
-              <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+              <h2 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
                 Create your account
               </h2>
-              <p className="mt-1 text-xs text-[rgba(255,255,255,0.55)]">
+              <p className="mt-1 text-xs text-text-muted">
                 Enter your details to initialize your workspace.
               </p>
             </div>
@@ -137,17 +137,17 @@ export const Register = () => {
               <div
                 role="alert"
                 aria-live="polite"
-                className="mb-5 flex items-start gap-2.5 rounded-lg border border-accent/25 bg-primary-tint/40 p-3 text-xs text-primary animate-fade-in"
+                className="mb-5 flex items-start gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-300 animate-fade-in"
               >
-                <i className="ri-error-warning-line text-base leading-none mt-0.5 text-primary" />
+                <i className="ri-error-warning-line text-base leading-none mt-0.5 text-red-300" />
                 <div className="flex-1">
-                  <p className="font-semibold text-primary">Registration error</p>
-                  <p className="mt-0.5 text-[rgba(255,255,255,0.70)]">{errorMessage}</p>
+                  <p className="font-semibold text-red-300">Registration error</p>
+                  <p className="mt-0.5 text-text-muted">{errorMessage}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setErrorMessage('')}
-                  className="text-primary hover:text-white p-0.5 focus-ring rounded"
+                  className="text-red-300 hover:text-white p-0.5 focus-ring rounded"
                   aria-label="Dismiss error"
                 >
                   <i className="ri-close-line text-sm" />
@@ -157,7 +157,7 @@ export const Register = () => {
 
             <form onSubmit={submitHandler} className="space-y-4" noValidate>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[rgba(255,255,255,0.55)]" htmlFor="email">
+                <label className="mb-1.5 block text-xs font-medium text-text-muted" htmlFor="email">
                   Email address
                 </label>
                 <input
@@ -169,13 +169,13 @@ export const Register = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="developer@company.com"
-                  className="w-full tile-input px-3.5 py-2.5 text-sm text-white placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                  className="w-full tile-input px-3.5 py-2.5 text-sm text-white placeholder:text-text-muted transition-colors duration-150 focus-ring"
                 />
               </div>
 
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="block text-xs font-medium text-[rgba(255,255,255,0.55)]" htmlFor="password">
+                  <label className="block text-xs font-medium text-text-muted" htmlFor="password">
                     Password
                   </label>
                   <span className="text-[11px] text-[rgba(255,255,255,0.35)]">8–72 characters</span>
@@ -192,12 +192,12 @@ export const Register = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Choose a strong password"
-                    className="w-full tile-input pl-3.5 pr-10 py-2.5 text-sm text-white placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                    className="w-full tile-input pl-3.5 pr-10 py-2.5 text-sm text-white placeholder:text-text-muted transition-colors duration-150 focus-ring"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[rgba(255,255,255,0.55)] hover:text-white transition-colors focus:outline-none"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-text-muted hover:text-white transition-colors focus:outline-none"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     <i className={showPassword ? 'ri-eye-off-line text-base' : 'ri-eye-line text-base'} />
@@ -212,7 +212,7 @@ export const Register = () => {
                     </div>
                     <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                       <div
-                        className="h-full bg-white transition-[width] duration-200"
+                        className="h-full bg-primary transition-[width] duration-200"
                         style={{ width: `${strength.percent}%` }}
                       />
                     </div>
@@ -233,9 +233,9 @@ export const Register = () => {
               </div>
             </form>
 
-            <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[rgba(255,255,255,0.55)]">
+            <div className="mt-6 border-t border-glass-border pt-4 text-center text-xs text-text-muted">
               Already have an account?{' '}
-              <Link to="/login" className="font-medium text-white underline hover:text-primary focus-ring rounded transition-colors">
+              <Link to="/login" className="font-medium text-glow hover:text-accent focus-ring rounded transition-colors">
                 Sign in here
               </Link>
             </div>

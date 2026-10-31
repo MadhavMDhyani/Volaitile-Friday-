@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, useContext, useId } from 'react';
+import { useEffect, useRef, useState, useContext, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/user.context';
@@ -357,9 +357,9 @@ export const MenuSheet = ({
       aria-labelledby={titleId}
       className="fixed inset-0 z-[100] flex items-center justify-center"
     >
-      {/* Scrim â€” tints page (page itself is blurred by body.menu-open) */}
+      {/* Scrim — tints page (page itself is blurred by body.menu-open) */}
       <div
-        className={`fixed inset-0 bg-[#0B0716]/60 backdrop-blur-sm ${backdropTransition}`}
+        className={`fixed inset-0 bg-[#070707]/75 backdrop-blur-sm ${backdropTransition}`}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -442,7 +442,7 @@ export const MenuSheet = ({
               <Link
                 to="/dashboard"
                 onClick={onClose}
-                className="w-full min-h-[44px] inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
+                className="w-full min-h-[44px] inline-flex items-center justify-center rounded-full text-xs font-medium bg-primary text-[#070707] hover:shadow-[0_0_20px_rgba(93,255,217,0.45)] transition-all focus-ring"
               >
                 Open dashboard
               </Link>
@@ -451,14 +451,14 @@ export const MenuSheet = ({
                 <Link
                   to="/login"
                   onClick={onClose}
-                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-xs font-medium tile text-white transition-all focus-ring"
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-xs font-medium tile text-white hover:border-accent transition-all focus-ring"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/register"
                   onClick={onClose}
-                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
+                  className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-xs font-medium bg-primary text-[#070707] hover:shadow-[0_0_20px_rgba(93,255,217,0.45)] transition-all focus-ring"
                 >
                   Get started
                 </Link>
@@ -616,7 +616,7 @@ export const MenuSheet = ({
             <Link
               to="/dashboard"
               onClick={onClose}
-              className="w-full min-h-[44px] inline-flex items-center justify-center rounded-full text-sm font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
+              className="w-full min-h-[44px] inline-flex items-center justify-center rounded-full text-sm font-medium bg-primary text-[#070707] hover:shadow-[0_0_20px_rgba(93,255,217,0.45)] transition-all focus-ring"
             >
               Open dashboard
             </Link>
@@ -625,14 +625,14 @@ export const MenuSheet = ({
               <Link
                 to="/login"
                 onClick={onClose}
-                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-xl text-sm font-medium tile text-white transition-all focus-ring"
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-sm font-medium tile text-white hover:border-accent transition-all focus-ring"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
                 onClick={onClose}
-                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-sm font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] focus-ring"
+                className="flex-1 min-h-[44px] inline-flex items-center justify-center rounded-full text-sm font-medium bg-primary text-[#070707] hover:shadow-[0_0_20px_rgba(93,255,217,0.45)] transition-all focus-ring"
               >
                 Get started
               </Link>

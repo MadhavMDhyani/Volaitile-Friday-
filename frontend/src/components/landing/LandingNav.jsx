@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../Logo';
 import { UserContext } from '../../context/user.context';
@@ -49,7 +49,7 @@ export const LandingNav = ({
       id="landing-nav-header"
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
         scrolled
-          ? 'bg-[#070707]/90 backdrop-blur-md border-b border-white/[0.10]'
+          ? 'bg-[#070707]/80 backdrop-blur-md border-b border-glass-border'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
@@ -64,7 +64,7 @@ export const LandingNav = ({
           {user ? (
             <Link
               to="/dashboard"
-              className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] hover:shadow-[0_0_28px_rgba(51,188,101,0.5)] focus-ring"
+              className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-full text-xs font-medium bg-primary text-[#070707] hover:shadow-[0_0_20px_rgba(93,255,217,0.45)] transition-all focus-ring"
             >
               <span className="hidden sm:inline">Open dashboard</span>
               <span className="sm:hidden">Dashboard</span>
@@ -74,13 +74,13 @@ export const LandingNav = ({
               {/* Log in button hidden on phones */}
               <Link
                 to="/login"
-                className="hidden sm:inline-flex min-h-[44px] px-3.5 items-center justify-center rounded-xl text-xs font-medium text-white hover:text-white tile hover:border-white/30 transition-all focus-ring"
+                className="hidden sm:inline-flex min-h-[44px] px-4 items-center justify-center rounded-full text-xs font-medium text-white tile hover:border-accent transition-all focus-ring"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
-                className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-full text-xs font-semibold bg-primary text-[#070707] hover:bg-[#2da858] transition-all shadow-[0_0_20px_rgba(51,188,101,0.3)] hover:shadow-[0_0_28px_rgba(51,188,101,0.5)] focus-ring"
+                className="min-h-[44px] px-3.5 sm:px-4 inline-flex items-center justify-center rounded-full text-xs font-medium bg-primary text-[#070707] hover:shadow-[0_0_20px_rgba(93,255,217,0.45)] transition-all focus-ring"
               >
                 Get started
               </Link>
@@ -95,7 +95,7 @@ export const LandingNav = ({
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
             aria-controls="menu-sheet"
-            className="min-h-[44px] min-w-[44px] h-11 w-11 inline-flex flex-col items-center justify-center gap-1.5 rounded-xl tile text-[rgba(255,255,255,0.55)] hover:text-white transition-all focus-ring cursor-pointer"
+            className="min-h-[44px] min-w-[44px] h-11 w-11 inline-flex flex-col items-center justify-center gap-1.5 rounded-full tile text-[rgba(255,255,255,0.55)] hover:text-white hover:border-accent transition-all focus-ring cursor-pointer"
           >
             {/* Animated three bars using CSS transforms only */}
             <span

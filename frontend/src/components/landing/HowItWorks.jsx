@@ -1,4 +1,4 @@
-﻿import Reveal from './Reveal';
+import Reveal from './Reveal';
 
 export const HowItWorks = ({ asH1 = false, isPage = false, compact = false }) => {
   const TitleTag = asH1 ? 'h1' : 'h2';
@@ -28,13 +28,13 @@ export const HowItWorks = ({ asH1 = false, isPage = false, compact = false }) =>
       <div className={compact ? 'w-full' : 'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'}>
         <div className={compact ? 'mb-6 text-left' : 'text-center max-w-3xl mx-auto mb-16'}>
           <Reveal delay={0} immediate={compact}>
-            <span className="text-xs font-mono uppercase tracking-wider text-primary font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-primary font-medium">
               SIMPLE WORKFLOW
             </span>
-            <TitleTag className={`mt-2 font-bold tracking-tight text-white leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
+            <TitleTag className={`mt-2 font-medium tracking-tight text-white leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
               From zero to shipping in 3 steps
             </TitleTag>
-            <p className="mt-3 text-xs sm:text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-text-muted leading-relaxed">
               No complex pipeline setup or external plugins required. Everything is ready the moment you sign in.
             </p>
           </Reveal>
@@ -43,21 +43,21 @@ export const HowItWorks = ({ asH1 = false, isPage = false, compact = false }) =>
         <div className={`grid grid-cols-1 md:grid-cols-3 ${compact ? 'gap-3.5' : 'gap-6'}`}>
           {steps.map((step, idx) => (
             <Reveal key={step.num} delay={idx * 100} immediate={compact} transformOnly={true}>
-              <div className={`h-full rounded-2xl tile ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
+              <div className={`h-full rounded-3xl tile ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-between hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className={`flex items-center justify-between ${compact ? 'mb-4' : 'mb-6'}`}>
-                    <span className="font-mono text-2xl font-bold text-primary/90 tabular-nums">
+                    <span className="font-mono text-2xl font-medium text-primary tabular-nums">
                       {step.num}
                     </span>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-white/10 text-white">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full tile border-glass-border text-white">
                       <i className={`${step.icon} text-base`} />
                     </div>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-white">
+                  <h3 className="text-base sm:text-lg font-medium text-white">
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">
+                  <p className="mt-2 text-xs sm:text-sm text-text-muted leading-relaxed">
                     {step.desc}
                   </p>
                 </div>

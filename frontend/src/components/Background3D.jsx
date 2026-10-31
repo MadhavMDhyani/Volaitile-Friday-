@@ -1,30 +1,7 @@
 import { Component, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { PALETTE } from '../config/palette';
-
-/**
- * Feature-detect WebGL support safely without leaking contexts.
- * Explicitly triggers context loss on the test canvas.
- */
-export function isWebGLAvailable() {
-  if (typeof window === 'undefined') return false;
-  try {
-    const canvas = document.createElement('canvas');
-    const gl =
-      canvas.getContext('webgl2') ||
-      canvas.getContext('webgl') ||
-      canvas.getContext('experimental-webgl');
-
-    const supported = Boolean(window.WebGLRenderingContext && gl);
-    if (gl) {
-      const ext = gl.getExtension('WEBGL_lose_context');
-      if (ext) ext.loseContext();
-    }
-    return supported;
-  } catch {
-    return false;
-  }
-}
+import { isWebGLAvailable } from '../utils/webgl';
 
 /**
  * Lightweight CSS-only animated background fallback.
@@ -118,14 +95,11 @@ function createParticleTexture() {
  */
 const Background3DScene = () => {
   const containerRef = useRef(null);
-  const [webglUnavailable, setWebglUnavailable] = useState(false);
+  const [webglUnavailable, setWebglUnavailable] = useState(() => !isWebGLAvailable());
 
   useEffect(() => {
     // 1. Feature detection pre-check
-    if (!isWebGLAvailable()) {
-      setWebglUnavailable(true);
-      return;
-    }
+    if (webglUnavailable) return;
 
     const container = containerRef.current;
     if (!container) return;

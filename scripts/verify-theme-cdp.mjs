@@ -26,15 +26,16 @@ async function verify() {
     '--disable-gpu',
     '--remote-debugging-port=9333',
     `--user-data-dir=${userDataDir}`,
-    'about:blank'
+    `${BASE_URL}/`
   ]);
 
-  await new Promise(r => setTimeout(r, 2000));
+  await new Promise(r => setTimeout(r, 2500));
 
   try {
     const listResp = await fetch('http://127.0.0.1:9333/json/list');
     const tabs = await listResp.json();
-    const tab = tabs[0];
+    console.log('Available tabs:', tabs.map(t => ({ type: t.type, url: t.url })));
+    const tab = tabs.find(t => t.type === 'page') || tabs[0];
     const ws = new WebSocket(tab.webSocketDebuggerUrl);
 
     let msgId = 1;

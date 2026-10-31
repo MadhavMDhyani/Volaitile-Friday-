@@ -48,9 +48,21 @@ export const Background3D = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Check WebGL support
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    if (!gl) return;
+    // 1. Renderer — transparent background, capped dpr at 2
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: 'low-power',
+      });
+    } catch (e) {
+      console.warn('Three.js WebGLRenderer initialization skipped or unavailable:', e);
+      return;
+    }
+
+    if (!renderer) return;
 
     let animId = null;
     let isPaused = false;
@@ -60,13 +72,6 @@ export const Background3D = () => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let prefersReducedMotion = motionQuery.matches;
 
-    // 1. Renderer — transparent background, capped dpr at 2
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-      powerPreference: 'low-power',
-    });
     renderer.setClearColor(0x000000, 0); // Completely transparent
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);

@@ -92,6 +92,22 @@ body::before {
     #070707;
 }
 
+@keyframes bgPulse {
+  0% {
+    opacity: 0.25;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(1.02);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .css-fallback-pulse {
+    animation: none !important;
+  }
+}
+
 /* ── Menu blur ──────────────────────────────────────────── */
 main, footer, header {
   transition: filter 220ms ease, opacity 220ms ease;

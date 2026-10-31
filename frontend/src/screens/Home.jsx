@@ -208,7 +208,7 @@ export const Home = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search projects..."
-              className="w-full tile-input pl-9 pr-8 py-2 text-xs text-white placeholder-[#6C667C] focus-ring transition-colors"
+              className="w-full tile-input pl-9 pr-8 py-2 text-xs text-white placeholder:text-text-muted focus-ring transition-colors"
               aria-label="Search projects by name"
             />
             {searchQuery && (
@@ -396,7 +396,7 @@ export const Home = () => {
                 setCreateError('');
               }}
               placeholder="e.g. backend-api or auth-service"
-              className="w-full tile-input px-3.5 py-2.5 text-xs text-white placeholder-[#6C667C] focus-ring transition-colors font-mono"
+              className="w-full tile-input px-3.5 py-2.5 text-xs text-white placeholder:text-text-muted focus-ring transition-colors font-mono"
               autoFocus
               required
             />

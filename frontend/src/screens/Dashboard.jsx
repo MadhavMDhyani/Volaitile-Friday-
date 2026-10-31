@@ -1,4 +1,4 @@
-﻿import { useContext, useState, useEffect, useCallback, useRef } from 'react';
+import { useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
@@ -166,23 +166,23 @@ export const Dashboard = () => {
   const userGreeting = user?.name || (user?.email ? user.email.split('@')[0] : 'Developer');
 
   return (
-    <div className="min-h-screen bg-transparent text-white flex flex-col font-sans selection:bg-[#F5F3FF] selection:text-[#110B20]">
+    <div className="min-h-screen bg-transparent text-white flex flex-col font-sans selection:bg-primary selection:text-[#070707]">
       {/* Top Navigation Header */}
-      <header className="sticky top-0 z-30 border-b border-white/[0.08] bg-tile-deep">
+      <header className="sticky top-0 z-30 border-b border-glass-border bg-[#070707]/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6 min-w-0">
             <Logo size="md" to="/dashboard" />
             <nav className="hidden sm:flex items-center gap-4 text-xs font-medium" aria-label="Main Navigation">
               <Link
                 to="/dashboard"
-                className="text-white border-b-2 border-white pb-0.5 transition-colors"
+                className="text-glow border-b-2 border-glow pb-0.5 transition-colors"
                 aria-current="page"
               >
                 Dashboard
               </Link>
               <Link
                 to="/"
-                className="text-[rgba(255,255,255,0.55)] hover:text-white transition-colors"
+                className="text-text-muted hover:text-white transition-colors"
               >
                 Projects
               </Link>
@@ -199,14 +199,14 @@ export const Dashboard = () => {
       {/* Main Container */}
       <main className="mx-auto flex-1 w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 space-y-8">
         {/* Welcome Banner & Actions */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-glass-border pb-6">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+              <h1 className="text-xl sm:text-2xl font-medium tracking-tight text-white">
                 Welcome back, {userGreeting}
               </h1>
             </div>
-            <p className="mt-1 text-xs sm:text-sm text-[rgba(255,255,255,0.55)]">
+            <p className="mt-1 text-xs sm:text-sm text-text-muted">
               Workspace overview, code intelligence metrics, and live collaborator activity.
             </p>
           </div>
@@ -316,7 +316,7 @@ export const Dashboard = () => {
                 setCreateError('');
               }}
               placeholder="e.g. backend-microservice, my-awesome-app"
-              className="w-full tile-input px-3.5 py-2.5 text-xs text-white placeholder-[#6C667C] focus-ring transition-colors font-mono"
+              className="w-full tile-input px-3.5 py-2.5 text-xs text-white placeholder:text-text-muted focus-ring transition-colors font-mono"
               maxLength={50}
               autoFocus
               disabled={isCreating}

@@ -1,4 +1,4 @@
-﻿import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import axios from '../config/axios';
@@ -144,22 +144,22 @@ export const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-white flex flex-col font-sans selection:bg-[#F5F3FF] selection:text-[#110B20]">
+    <div className="min-h-screen bg-transparent text-white flex flex-col font-sans selection:bg-primary selection:text-[#070707]">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-tile-deep">
+      <header className="sticky top-0 z-30 border-b border-glass-border bg-[#070707]/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6 min-w-0">
             <Logo size="md" to="/dashboard" />
             <nav className="hidden sm:flex items-center gap-4 text-xs font-medium" aria-label="Main Navigation">
               <Link
                 to="/dashboard"
-                className="text-[rgba(255,255,255,0.55)] hover:text-white transition-colors"
+                className="text-text-muted hover:text-white transition-colors"
               >
                 Dashboard
               </Link>
               <Link
                 to="/"
-                className="text-white border-b-2 border-white pb-0.5 transition-colors"
+                className="text-glow border-b-2 border-glow pb-0.5 transition-colors"
                 aria-current="page"
               >
                 Projects
@@ -175,12 +175,12 @@ export const Home = () => {
       {/* Main Container */}
       <main className="mx-auto flex-1 w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Title & Actions Bar */}
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-5">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-glass-border pb-5">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+            <h1 className="text-xl sm:text-2xl font-medium tracking-tight text-white">
               Projects
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[rgba(255,255,255,0.55)]">
+            <p className="mt-1 text-xs sm:text-sm text-text-muted">
               Cloud developer workspaces with collaborative editing and Friday AI.
             </p>
           </div>

@@ -23,7 +23,7 @@ async function verify() {
   const browser = spawn(browserPath, [
     '--headless=new',
     '--no-sandbox',
-    '--disable-gpu',
+    '--use-gl=angle',
     '--remote-debugging-port=9333',
     `--user-data-dir=${userDataDir}`,
     `${BASE_URL}/`
@@ -89,7 +89,7 @@ async function verify() {
       console.log(`========================================`);
 
       await send('Page.navigate', { url: `${BASE_URL}${route}` });
-      await new Promise(r => setTimeout(r, 1500));
+      await new Promise(r => setTimeout(r, 2000));
 
       // Evaluate page CSS tokens, background canvas, and button styles
       const evalResp = await send('Runtime.evaluate', {

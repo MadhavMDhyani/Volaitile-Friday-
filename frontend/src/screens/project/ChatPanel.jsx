@@ -89,7 +89,7 @@ const SafeMarkdownBlock = ({ text }) => {
     if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
       parts.push(
         <div key={`li-${index}`} className="flex items-start gap-2 ml-1 my-0.5">
-          <span className="text-[rgba(255,255,255,0.35)] select-none">â€¢</span>
+          <span className="text-[rgba(255,255,255,0.35)] select-none">&bull;</span>
           <span className="flex-1">{renderInline(line.trim().slice(2))}</span>
         </div>
       );
@@ -677,9 +677,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
           <div className="flex flex-col items-start animate-fade-in">
             <span className="text-[11px] font-mono text-primary/80 mb-1 flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              Friday AI is thinkingâ€¦
+              Friday AI is thinking...
             </span>
-            <div className="flex items-center gap-1.5 rounded-2xl border border-accent/25 bg-primary-tint/20 px-3.5 py-2 text-xs text-primary shadow-tile">
+            <div className="flex items-center gap-1.5 rounded-2xl border border-primary/20 bg-primary/5 px-3.5 py-2 text-xs text-primary shadow-tile">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />

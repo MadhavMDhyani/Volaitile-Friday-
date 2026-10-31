@@ -39,8 +39,8 @@
   /* Page aliases */
   --bg-page:    #070707;
   --page-rgb:   7 7 7;
-  --bg-surface: rgba(255, 255, 255, 0.06);
-  --bg-raised:  rgba(255, 255, 255, 0.09);
+  --bg-surface: #0c0c0c;
+  --bg-raised:  #121212;
 
   /* Text aliases */
   --text-primary:   #FFFFFF;

@@ -2,7 +2,7 @@
  * Feature-detect WebGL support safely without leaking contexts.
  * Explicitly triggers context loss on the test canvas to avoid eating into browser limits.
  */
-let forceWebGLDisabledForTest = true;
+let forceWebGLDisabledForTest = false;
 
 export function __setForceWebGLDisabledForTest(val) {
   forceWebGLDisabledForTest = Boolean(val);

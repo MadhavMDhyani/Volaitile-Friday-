@@ -1,13 +1,18 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
-  <!-- Primary green rounded square tile -->
-  <rect x="4" y="4" width="56" height="56" rx="16" fill="#33BC65" />
-  <!-- Dark V chevron mark -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Minimal simple mark in #33BC65 -->
   <path
-    d="M20 22 L32 44 L44 22"
-    fill="none"
-    stroke="#070707"
-    stroke-width="6"
+    d="M5 8 L16 26 L27 8"
+    stroke="#33BC65"
+    stroke-width="3.2"
     stroke-linecap="round"
     stroke-linejoin="round"
+  />
+  <path
+    d="M10 8 L16 18 L22 8"
+    stroke="#33BC65"
+    stroke-width="2.4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.8"
   />
 </svg>

@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import axios from '../../config/axios';
 import Button from '../Button';
 import getErrorMessage from '../../utils/getErrorMessage';
@@ -55,10 +55,10 @@ export const AiQuickAsk = () => {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-primary to-[#2da858] text-[#070707] font-mono font-bold text-[10px] shadow-[0_0_12px_rgba(51,188,101,0.35)]">
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[#070707] font-mono font-medium text-[10px] shadow-[0_0_12px_rgba(51,188,101,0.35)]">
             AI
           </span>
-          <h3 className="font-semibold text-sm text-white tracking-tight">
+          <h3 className="font-medium text-sm text-white tracking-tight">
             Friday AI Quick Ask
           </h3>
         </div>
@@ -75,7 +75,7 @@ export const AiQuickAsk = () => {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="Ask a technical question, debug snippet, or explain a concept..."
-          className="w-full rounded-xl tile-input pl-3.5 pr-20 py-2.5 text-xs text-white placeholder-[#6C667C] transition-all"
+          className="w-full rounded-xl tile-input pl-3.5 pr-20 py-2.5 text-xs text-white placeholder:text-text-muted transition-all"
           maxLength={1000}
           disabled={isLoading}
           aria-label="Ask Friday AI"
@@ -98,7 +98,7 @@ export const AiQuickAsk = () => {
 
       {/* Reply Container */}
       {isLoading && (
-        <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-primary/25 bg-primary-tint/25 p-3 text-xs text-[rgba(255,255,255,0.70)]/90 animate-pulse">
+        <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-primary/25 bg-primary/10 p-3 text-xs text-text-muted animate-pulse">
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -113,9 +113,9 @@ export const AiQuickAsk = () => {
           className={`mt-3 rounded-xl border p-3.5 animate-fade-in text-xs shadow-tile ${
             result.isError
               ? result.isRateLimited
-                ? 'border-[#0FC8D8]/30 bg-primary-tint/30 text-[rgba(255,255,255,0.70)]'
-                : 'border-accent/25 bg-primary-tint/40 text-primary'
-              : 'border-white/[0.1] bg-white/[0.03] text-white'
+                ? 'border-accent/30 bg-accent/10 text-accent'
+                : 'border-red-400/30 bg-red-400/10 text-red-300'
+              : 'border-glass-border bg-glass-bg text-white'
           }`}
         >
           {/* Header of reply */}

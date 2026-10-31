@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import ChangePasswordModal from './ChangePasswordModal';
@@ -37,19 +37,19 @@ export const AccountMenu = () => {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex items-center gap-2 rounded-full border border-white/[0.18] bg-white/[0.06] px-2.5 py-1.5 text-xs text-white transition-all hover:border-white/25 hover:bg-white/[0.10] focus-ring backdrop-blur-sm"
+          className="flex items-center gap-2 rounded-full border border-glass-border bg-glass-bg px-2.5 py-1.5 text-xs text-white transition-all hover:border-accent hover:bg-white/[0.10] focus-ring backdrop-blur-sm"
           aria-expanded={isOpen}
           aria-haspopup="true"
           aria-label="Account options"
         >
-          <div className="flex h-5 w-5 items-center justify-center rounded-md bg-primary font-mono text-[10px] font-bold text-[#070707]">
+          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary font-mono text-[10px] font-medium text-[#070707]">
             {initial}
           </div>
           <span className="hidden sm:inline font-mono font-medium max-w-[150px] truncate text-left">
             {user?.email || 'Account'}
           </span>
           <i
-            className={`ri-arrow-down-s-line text-[rgba(255,255,255,0.55)] text-sm transition-transform duration-150 ${
+            className={`ri-arrow-down-s-line text-text-muted text-sm transition-transform duration-150 ${
               isOpen ? 'rotate-180 text-white' : ''
             }`}
           />
@@ -57,7 +57,7 @@ export const AccountMenu = () => {
 
         {isOpen && (
           <div
-            className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#070707]/90 backdrop-blur-xl border border-white/[0.15] py-1.5 text-xs text-white modal-shadow animate-scale-in z-40"
+            className="absolute right-0 mt-2 w-56 rounded-2xl tile bg-[#070707]/90 backdrop-blur-xl border border-glass-border py-1.5 text-xs text-white modal-shadow animate-scale-in z-40"
             role="menu"
             aria-orientation="vertical"
           >

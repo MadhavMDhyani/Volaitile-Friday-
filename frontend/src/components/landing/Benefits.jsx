@@ -1,4 +1,4 @@
-﻿import Reveal from './Reveal';
+import Reveal from './Reveal';
 
 export const Benefits = ({ asH1 = false, isPage = false, compact = false }) => {
   const TitleTag = asH1 ? 'h1' : 'h2';
@@ -40,13 +40,13 @@ export const Benefits = ({ asH1 = false, isPage = false, compact = false }) => {
       <div className={compact ? 'w-full' : 'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'}>
         <div className={compact ? 'mb-6 text-left' : 'text-center max-w-3xl mx-auto mb-16'}>
           <Reveal delay={0} immediate={compact}>
-            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-primary font-medium">
               THE WORKSPACE ADVANTAGE
             </span>
-            <TitleTag className={`mt-2 font-bold tracking-tight text-[#F5F3FF] leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
+            <TitleTag className={`mt-2 font-medium tracking-tight text-white leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
               Why Volaitile Friday
             </TitleTag>
-            <p className="mt-3 text-xs sm:text-sm text-[#9D98AA] leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">
               Designed to eliminate developer friction and keep your entire team aligned inside one high-speed workspace.
             </p>
           </Reveal>
@@ -61,21 +61,21 @@ export const Benefits = ({ asH1 = false, isPage = false, compact = false }) => {
               transformOnly={true}
               className={!compact && idx === 0 ? 'lg:col-span-2' : ''}
             >
-              <div className={`h-full rounded-2xl tile ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-start hover:border-white/30 transition-all duration-200`}>
+              <div className={`h-full rounded-3xl tile ${compact ? 'p-4 sm:p-5' : 'p-7'} flex flex-col justify-start hover:border-white/30 transition-all duration-200`}>
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-white/10 text-accent">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-2xl tile border-white/10 text-primary">
                       <i className={`${b.icon} text-base`} />
                     </div>
-                    <span className="text-[10px] font-mono text-[#9D98AA] border border-white/10 rounded-full px-2.5 py-0.5 bg-white/[0.04]">
+                    <span className="text-[10px] font-mono text-[rgba(255,255,255,0.55)] border border-white/10 rounded-full px-2.5 py-0.5 bg-white/[0.04]">
                       {b.badge}
                     </span>
                   </div>
 
-                  <h3 className={`font-bold text-[#F5F3FF] flex items-start ${compact ? 'text-base min-h-0' : 'text-lg min-h-[3.5rem]'}`}>
+                  <h3 className={`font-medium tracking-tight text-white flex items-start ${compact ? 'text-base min-h-0' : 'text-lg min-h-[3.5rem]'}`}>
                     {b.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-[#9D98AA] leading-relaxed">
+                  <p className="mt-2 text-xs sm:text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">
                     {b.desc}
                   </p>
                 </div>

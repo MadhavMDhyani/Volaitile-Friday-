@@ -114,7 +114,7 @@ export const Project = () => {
   // Loading State with Skeletons
   if (fetchStatus === 'loading') {
     return (
-      <div className="flex h-screen w-full flex-col bg-tile-deep text-[#F5F3FF] font-sans">
+      <div className="flex h-screen w-full flex-col bg-tile-deep text-white font-sans">
         {/* Header Skeleton */}
         <div className="flex h-12 items-center justify-between border-b border-white/[0.08] bg-tile-deep px-4">
           <div className="flex items-center gap-3">
@@ -132,7 +132,7 @@ export const Project = () => {
             <Skeleton width="100%" height="28px" rounded="rounded-lg" />
             <Skeleton width="100%" height="28px" rounded="rounded-lg" />
           </div>
-          <div className="flex-1 bg-[#110B20]/80 p-4">
+          <div className="flex-1 bg-[#070707]/80 p-4">
             <Skeleton width="100%" height="100%" rounded="rounded-2xl" />
           </div>
         </div>
@@ -143,15 +143,15 @@ export const Project = () => {
   // 403 Forbidden State: User does not have access
   if (fetchStatus === 'forbidden') {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-tile-deep px-4 text-center text-[#F5F3FF] font-sans">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-white font-sans">
         <div className="tile max-w-md w-full p-8 rounded-3xl shadow-tile flex flex-col items-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgb(var(--accent-rgb)/0.25)]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary mb-4 shadow-[0_0_24px_rgba(51,188,101,0.25)]">
             <i className="ri-lock-line text-2xl" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF]">
+          <h1 className="text-xl font-medium tracking-tight text-white">
             Access Denied
           </h1>
-          <p className="mt-2 text-xs text-[#9D98AA] leading-relaxed">
+          <p className="mt-2 text-xs text-text-muted leading-relaxed">
             You do not have access to this project. Ask the project owner to add you as a collaborator.
           </p>
           <Link to="/" className="mt-6">
@@ -167,15 +167,15 @@ export const Project = () => {
   // 404 Not Found State
   if (fetchStatus === 'notfound') {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-tile-deep px-4 text-center text-[#F5F3FF] font-sans">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-white font-sans">
         <div className="tile max-w-md w-full p-8 rounded-3xl shadow-tile flex flex-col items-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-[#9D98AA] mb-4 shadow-tile">
-            <i className="ri-folder-warning-line text-2xl text-accent" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-glass-border bg-glass-bg text-text-muted mb-4 shadow-tile">
+            <i className="ri-folder-warning-line text-2xl text-primary" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF]">
+          <h1 className="text-xl font-medium tracking-tight text-white">
             Project Not Found
           </h1>
-          <p className="mt-2 text-xs text-[#9D98AA] leading-relaxed">
+          <p className="mt-2 text-xs text-text-muted leading-relaxed">
             The requested project workspace does not exist or may have been deleted.
           </p>
           <Link to="/" className="mt-6">
@@ -191,15 +191,15 @@ export const Project = () => {
   // Error State with Retry
   if (fetchStatus === 'error') {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-tile-deep px-4 text-center text-[#F5F3FF] font-sans">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-white font-sans">
         <div className="tile max-w-md w-full p-8 rounded-3xl shadow-tile flex flex-col items-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent-deep bg-accent-tint/20 text-accent mb-4 shadow-[0_0_24px_rgb(var(--accent-rgb)/0.25)]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary mb-4 shadow-[0_0_24px_rgba(51,188,101,0.25)]">
             <i className="ri-error-warning-line text-2xl" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#F5F3FF]">
+          <h1 className="text-xl font-medium tracking-tight text-white">
             Unable to Load Workspace
           </h1>
-          <p className="mt-2 text-xs text-[#9D98AA] leading-relaxed">
+          <p className="mt-2 text-xs text-text-muted leading-relaxed">
             {fetchErrorMsg || 'A network error occurred while retrieving project details.'}
           </p>
           <div className="mt-6 flex gap-3">
@@ -218,7 +218,7 @@ export const Project = () => {
   }
 
   return (
-    <div className="flex h-screen w-full flex-col bg-[#110B20]/80 text-[#F5F3FF] font-sans overflow-hidden">
+    <div className="flex h-screen w-full flex-col bg-[#070707]/80 text-white font-sans overflow-hidden">
       {/* Top Navigation */}
       <ProjectHeader
         project={project}
@@ -267,8 +267,8 @@ export const Project = () => {
           onClick={() => handleTabChange('files')}
           className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
             mobileTab === 'files'
-              ? 'text-accent font-semibold'
-              : 'text-[#9D98AA] hover:text-[#F5F3FF]'
+              ? 'text-primary font-semibold'
+              : 'text-[rgba(255,255,255,0.55)] hover:text-white'
           }`}
         >
           <i className="ri-folder-line text-lg" />
@@ -280,8 +280,8 @@ export const Project = () => {
           onClick={() => handleTabChange('editor')}
           className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
             mobileTab === 'editor'
-              ? 'text-accent font-semibold'
-              : 'text-[#9D98AA] hover:text-[#F5F3FF]'
+              ? 'text-primary font-semibold'
+              : 'text-[rgba(255,255,255,0.55)] hover:text-white'
           }`}
         >
           <i className="ri-code-s-slash-line text-lg" />
@@ -293,8 +293,8 @@ export const Project = () => {
           onClick={() => handleTabChange('chat')}
           className={`flex-1 h-full flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
             mobileTab === 'chat'
-              ? 'text-accent font-semibold'
-              : 'text-[#9D98AA] hover:text-[#F5F3FF]'
+              ? 'text-primary font-semibold'
+              : 'text-[rgba(255,255,255,0.55)] hover:text-white'
           }`}
         >
           <i className="ri-chat-3-line text-lg" />

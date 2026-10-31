@@ -15,19 +15,27 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
 
   const icon = (
     <svg
-      viewBox="0 0 64 64"
+      viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`${sizeClasses[size] || sizeClasses.md} shrink-0 transition-transform duration-200 group-hover:scale-105`}
       aria-hidden="true"
     >
-      <rect x="4" y="4" width="56" height="56" rx="16" fill="#834DFB" />
+      {/* Minimal simple mark in #33BC65 */}
       <path
-        d="M20 22 L32 44 L44 22"
-        stroke="#F5F3FF"
-        strokeWidth="6"
+        d="M5 8 L16 26 L27 8"
+        stroke="#33BC65"
+        strokeWidth="3.2"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+      <path
+        d="M10 8 L16 18 L22 8"
+        stroke="#33BC65"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.8"
       />
     </svg>
   );
@@ -37,7 +45,7 @@ export const Logo = ({ size = 'md', to = '/', showWordmark = true, className = '
       {icon}
       {showWordmark && (
         <span
-          className={`font-title font-normal tracking-wide text-text-primary leading-none transition-colors duration-150 group-hover:text-text-primary ${
+          className={`font-sans font-medium tracking-tight text-white leading-none transition-colors duration-150 group-hover:text-white ${
             wordmarkSizes[size] || wordmarkSizes.md
           }`}
         >

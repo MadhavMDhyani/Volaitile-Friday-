@@ -258,13 +258,13 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
   };
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-[#110B20]/95">
+    <div className="flex h-full w-full overflow-hidden bg-[#070707]/95">
       {/* Sidebar: File Explorer */}
       <aside className={`${mobileView === 'editor' ? 'hidden lg:flex' : 'flex'} w-full lg:w-64 shrink-0 border-r border-white/[0.08] bg-tile-deep flex-col`}>
         {/* Files Header & Add Button */}
         <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.08] px-3.5">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9D98AA] font-semibold flex items-center gap-1.5">
-            <i className="ri-folder-open-line text-xs text-accent" />
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)] font-semibold flex items-center gap-1.5">
+            <i className="ri-folder-open-line text-xs text-primary" />
             Files ({files.length})
           </span>
           <button
@@ -275,7 +275,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
               setNewFilePath('');
               setIsNewFileModalOpen(true);
             }}
-            className="flex h-6 w-6 items-center justify-center rounded-lg tile border-border/40 text-[#9D98AA] hover:text-[#F5F3FF] hover:border-accent/40 transition-all focus-ring"
+            className="flex h-6 w-6 items-center justify-center rounded-lg tile border-border/40 text-[rgba(255,255,255,0.55)] hover:text-white hover:border-primary/40 transition-all focus-ring"
             title="Create new file"
             aria-label="Create new file"
           >
@@ -307,14 +307,14 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                     }}
                     className={`group relative flex items-center justify-between rounded-xl px-2.5 py-1.5 text-xs font-mono transition-all duration-150 cursor-pointer ${
                       isActive
-                        ? 'tile text-[#F5F3FF] font-medium border border-accent/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.12)]'
-                        : 'text-[#9D98AA] hover:bg-white/[0.04] hover:text-[#F5F3FF]'
+                        ? 'tile text-white font-medium border border-primary/30 shadow-[0_0_12px_rgb(var(--accent-rgb)/0.12)]'
+                        : 'text-[rgba(255,255,255,0.55)] hover:bg-white/[0.04] hover:text-white'
                     }`}
                   >
                     {/* Active Bar indicator */}
                     {isActive && (
                       <span
-                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-press shadow-[0_0_8px_rgb(var(--accent-rgb)/0.6)] transition-all duration-150"
+                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent/50 shadow-[0_0_8px_rgb(var(--accent-rgb)/0.6)] transition-all duration-150"
                         aria-hidden="true"
                       />
                     )}
@@ -323,10 +323,10 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                       <i
                         className={`text-sm ${
                           file.name.endsWith('.json')
-                            ? 'ri-braces-line text-[#C9C6D5]/80'
+                            ? 'ri-braces-line text-[rgba(255,255,255,0.70)]/80'
                             : file.name.endsWith('.md')
-                            ? 'ri-markdown-line text-accent/80'
-                            : 'ri-file-code-line text-accent/80'
+                            ? 'ri-markdown-line text-primary/80'
+                            : 'ri-file-code-line text-primary/80'
                         }`}
                       />
 
@@ -342,7 +342,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                             if (e.key === 'Escape') setRenamingFileId(null);
                           }}
                           onBlur={() => handleConfirmRename(file._id)}
-                          className="w-full tile-input border-accent/50 px-1.5 py-0.5 text-xs text-[#F5F3FF] rounded-md outline-none"
+                          className="w-full tile-input border-primary/50 px-1.5 py-0.5 text-xs text-white rounded-md outline-none"
                         />
                       ) : (
                         <span className="truncate">{file.path || file.name}</span>
@@ -356,7 +356,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                           <button
                             type="button"
                             onClick={(e) => handleStartRename(file, e)}
-                            className="p-1 text-[#6C667C] hover:text-[#F5F3FF] rounded focus-ring"
+                            className="p-1 text-[rgba(255,255,255,0.35)] hover:text-white rounded focus-ring"
                             title="Rename file"
                             aria-label={`Rename ${file.name}`}
                           >
@@ -368,7 +368,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                               e.stopPropagation();
                               setDeletingFile(file);
                             }}
-                            className="p-1 text-[#6C667C] hover:text-accent rounded focus-ring"
+                            className="p-1 text-[rgba(255,255,255,0.35)] hover:text-primary rounded focus-ring"
                             title="Delete file"
                             aria-label={`Delete ${file.name}`}
                           >
@@ -380,14 +380,14 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
 
                     {/* Unsaved indicator dot when not hovering */}
                     {status === 'unsaved' && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent/70 group-hover:hidden" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary/70 group-hover:hidden" />
                     )}
                   </li>
                 );
               })}
             </ul>
           ) : (
-            <div className="p-4 text-center text-xs text-[#6C667C]">
+            <div className="p-4 text-center text-xs text-[rgba(255,255,255,0.35)]">
               <p className="mb-2">No files yet</p>
               <Button
                 variant="secondary"
@@ -428,13 +428,13 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
       >
         <form onSubmit={handleCreateFile} className="space-y-4">
           {newFileError && (
-            <div className="rounded-xl border border-accent-deep bg-accent-tint/40 p-2.5 text-xs text-accent">
+            <div className="rounded-xl border border-accent/25 bg-primary-tint/40 p-2.5 text-xs text-primary">
               {newFileError}
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="new-file-name">
+            <label className="block text-xs font-medium text-[rgba(255,255,255,0.55)] mb-1.5" htmlFor="new-file-name">
               File Name
             </label>
             <input
@@ -446,14 +446,14 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                 setNewFileError('');
               }}
               placeholder="e.g. server.js or utils/helper.js"
-              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all font-mono"
+              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-white placeholder:text-text-muted transition-all font-mono"
               autoFocus
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#9D98AA] mb-1.5" htmlFor="new-file-path">
+            <label className="block text-xs font-medium text-text-muted mb-1.5" htmlFor="new-file-path">
               Path (Optional folder override)
             </label>
             <input
@@ -462,9 +462,9 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
               value={newFilePath}
               onChange={(e) => setNewFilePath(e.target.value)}
               placeholder="Defaults to file name (no leading slash)"
-              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-[#F5F3FF] placeholder-[#6C667C] transition-all font-mono"
+              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-white placeholder:text-text-muted transition-all font-mono"
             />
-            <p className="mt-1 text-[11px] text-[#6C667C]">
+            <p className="mt-1 text-[11px] text-[rgba(255,255,255,0.35)]">
               No &apos;..&apos;, no leading slashes, max 200 characters.
             </p>
           </div>

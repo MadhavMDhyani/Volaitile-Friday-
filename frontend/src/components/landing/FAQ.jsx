@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import Reveal from './Reveal';
 
 const FAQ_ITEMS = [
@@ -37,13 +37,13 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
       <div className={compact ? 'w-full' : 'mx-auto max-w-4xl px-4 sm:px-6 lg:px-8'}>
         <div className={compact ? 'mb-4 text-left' : 'text-center mb-16'}>
           <Reveal delay={0} immediate={compact}>
-            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-primary font-medium">
               GOT QUESTIONS?
             </span>
-            <TitleTag className={`mt-2 font-bold tracking-tight text-[#F5F3FF] leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
+            <TitleTag className={`mt-2 font-medium tracking-tight text-white leading-tight ${compact ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>
               Frequently Asked Questions
             </TitleTag>
-            <p className="mt-3 text-xs sm:text-sm text-[#9D98AA] leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">
               Clear, honest answers about our tech stack, security, and hosting.
             </p>
           </Reveal>
@@ -57,19 +57,19 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
 
             return (
               <Reveal key={item.q} delay={idx * 60} immediate={compact} transformOnly={true}>
-                <div className="rounded-2xl tile border border-white/10 overflow-hidden transition-all duration-200">
+                <div className="rounded-3xl tile border border-white/10 overflow-hidden transition-all duration-200">
                   <button
                     id={headerId}
                     type="button"
                     onClick={() => toggle(idx)}
                     aria-expanded={isOpen}
                     aria-controls={contentId}
-                    className={`w-full flex items-center justify-between ${compact ? 'p-3.5 sm:p-4 text-xs sm:text-sm' : 'p-5 sm:p-6 text-sm sm:text-base'} text-left font-semibold text-[#F5F3FF] hover:text-white transition-colors focus-ring cursor-pointer`}
+                    className={`w-full flex items-center justify-between ${compact ? 'p-3.5 sm:p-4 text-xs sm:text-sm' : 'p-5 sm:p-6 text-sm sm:text-base'} text-left font-medium text-white hover:text-white transition-colors focus-ring cursor-pointer`}
                   >
                     <span>{item.q}</span>
                     <span
-                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg tile text-xs text-[#9D98AA] transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 text-accent' : ''
+                      className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full tile text-xs text-[rgba(255,255,255,0.55)] transition-transform duration-200 ${
+                        isOpen ? 'rotate-180 text-primary' : ''
                       }`}
                       aria-hidden="true"
                     >
@@ -82,7 +82,7 @@ export const FAQ = ({ asH1 = false, isPage = false, compact = false }) => {
                       id={contentId}
                       role="region"
                       aria-labelledby={headerId}
-                      className={`${compact ? 'px-4 pb-4 pt-2 text-xs' : 'px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm'} text-[#9D98AA] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in`}
+                      className={`${compact ? 'px-4 pb-4 pt-2 text-xs' : 'px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm'} text-[rgba(255,255,255,0.55)] leading-relaxed border-t border-white/[0.06] pt-3.5 animate-fade-in`}
                     >
                       <p>{item.a}</p>
                     </div>

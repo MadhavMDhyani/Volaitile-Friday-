@@ -64,13 +64,13 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       {/* Pitch Header */}
       <div>
         <Reveal delay={0} immediate={compact}>
-          <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
+          <span className="text-xs font-mono uppercase tracking-wider text-primary font-semibold">
             ABOUT VOLAITILE FRIDAY
           </span>
-          <TitleTag className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-[#F5F3FF] leading-tight">
+          <TitleTag className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-white leading-tight">
             An engineering workspace built for flow
           </TitleTag>
-          <p className="mt-3 text-xs sm:text-sm text-[#9D98AA] leading-relaxed">
+          <p className="mt-3 text-xs sm:text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">
             Volaitile Friday eliminates the constant context-switching between separate code editors, external team chat windows, and AI browser tabs. We bring live code, real-time teammates, and project-aware AI together on a single canvas.
           </p>
         </Reveal>
@@ -80,10 +80,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       <div>
         <Reveal delay={40} immediate={compact}>
           <div className="mb-3">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-semibold">
               CORE ARCHITECTURE
             </span>
-            <h3 className="text-lg font-bold tracking-tight text-[#F5F3FF]">
+            <h3 className="text-lg font-bold tracking-tight text-white">
               The Three Pillars
             </h3>
           </div>
@@ -95,15 +95,15 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
               <div className="h-full rounded-2xl tile p-4 sm:p-5 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-accent/30 text-accent shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-primary/30 text-primary shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
                       <i className={`${pillar.icon} text-lg`} />
                     </div>
-                    <span className="text-[10px] font-mono rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[#9D98AA]">
+                    <span className="text-[10px] font-mono rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[rgba(255,255,255,0.55)]">
                       {pillar.badge}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-[#F5F3FF]">{pillar.title}</h4>
-                  <p className="mt-1.5 text-xs text-[#9D98AA] leading-relaxed">
+                  <h4 className="text-sm font-bold text-white">{pillar.title}</h4>
+                  <p className="mt-1.5 text-xs text-[rgba(255,255,255,0.55)] leading-relaxed">
                     {pillar.desc}
                   </p>
                 </div>
@@ -117,20 +117,20 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       <div>
         <Reveal delay={80} immediate={compact}>
           <div className="rounded-2xl tile border border-white/10 p-5 sm:p-6">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-semibold">
               AUDIENCE &amp; FIT
             </span>
-            <h3 className="mt-1 text-lg font-bold tracking-tight text-[#F5F3FF]">
+            <h3 className="mt-1 text-lg font-bold tracking-tight text-white">
               Who is Volaitile Friday for?
             </h3>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#9D98AA] leading-relaxed">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[rgba(255,255,255,0.55)] leading-relaxed">
               {AUDIENCE_ITEMS.map((item) => (
                 <div key={item.title} className="flex items-start gap-3">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg tile text-accent shrink-0 mt-0.5">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg tile text-primary shrink-0 mt-0.5">
                     <i className={`${item.icon} text-sm`} />
                   </div>
                   <div>
-                    <strong className="text-[#F5F3FF] block mb-0.5">{item.title}</strong>
+                    <strong className="text-white block mb-0.5">{item.title}</strong>
                     {item.desc}
                   </div>
                 </div>
@@ -144,10 +144,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       <div>
         <Reveal delay={100} immediate={compact}>
           <div className="mb-3">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-semibold">
               TECH STACK
             </span>
-            <h3 className="text-lg font-bold tracking-tight text-[#F5F3FF]">
+            <h3 className="text-lg font-bold tracking-tight text-white">
               Built with modern, open standards
             </h3>
           </div>
@@ -157,10 +157,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
                 key={tech.name}
                 className="rounded-xl tile border border-white/[0.08] p-3 text-left flex flex-col justify-center"
               >
-                <span className="font-mono text-xs font-semibold text-[#F5F3FF]">
+                <span className="font-mono text-xs font-semibold text-white">
                   {tech.name}
                 </span>
-                <span className="text-[10px] text-[#9D98AA] mt-0.5">{tech.role}</span>
+                <span className="text-[10px] text-[rgba(255,255,255,0.55)] mt-0.5">{tech.role}</span>
               </div>
             ))}
           </div>

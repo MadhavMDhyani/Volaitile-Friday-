@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from '../config/axios';
 import { UserContext } from '../context/user.context';
@@ -43,7 +43,7 @@ export const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-[#F5F3FF] flex items-center justify-center font-sans">
+    <div className="min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-12 text-white flex items-center justify-center font-sans">
       <div className="w-full max-w-4xl">
         <div className="grid w-full overflow-hidden rounded-3xl tile lg:grid-cols-[1.1fr_0.9fr]">
           {/* Brand Info Panel (Desktop) - 60ms stagger entrance */}
@@ -55,13 +55,13 @@ export const Login = () => {
 
               <div className="mt-8">
                 <h1
-                  className="text-2xl font-bold leading-snug tracking-tight text-[#F5F3FF] animate-fade-up"
+                  className="text-2xl font-medium leading-snug tracking-tight text-white animate-fade-up"
                   style={{ animationDelay: '60ms' }}
                 >
                   Developer workspace for shared projects.
                 </h1>
                 <p
-                  className="mt-3 text-sm leading-relaxed text-[#9D98AA] animate-fade-up"
+                  className="mt-3 text-sm leading-relaxed text-text-muted animate-fade-up"
                   style={{ animationDelay: '120ms' }}
                 >
                   Sign in to access your projects, edit files in the cloud IDE, and collaborate with your team.
@@ -69,26 +69,26 @@ export const Login = () => {
               </div>
 
               <ul
-                className="mt-8 space-y-2.5 text-xs text-[#9D98AA] animate-fade-up"
+                className="mt-8 space-y-2.5 text-xs text-[rgba(255,255,255,0.55)] animate-fade-up"
                 style={{ animationDelay: '180ms' }}
               >
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-accent text-sm" />
+                  <i className="ri-check-line text-primary text-sm" />
                   <span>Cloud file explorer with synchronized editor</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-accent text-sm" />
+                  <i className="ri-check-line text-primary text-sm" />
                   <span>Friday AI assistant with Gemini intelligence</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <i className="ri-check-line text-accent text-sm" />
+                  <i className="ri-check-line text-primary text-sm" />
                   <span>Team room messaging and role permissions</span>
                 </li>
               </ul>
             </div>
 
             <div
-              className="mt-8 rounded-xl tile-deep p-3 text-xs text-[#9D98AA] font-mono animate-fade-up"
+              className="mt-8 rounded-xl tile-deep p-3 text-xs text-[rgba(255,255,255,0.55)] font-mono animate-fade-up"
               style={{ animationDelay: '240ms' }}
             >
               Secured with JWT authentication and strict access policies.
@@ -100,16 +100,16 @@ export const Login = () => {
             {/* Mobile Collapsed Header */}
             <div className="mb-5 pb-3.5 border-b border-white/10 flex items-center justify-between lg:hidden">
               <Logo size="sm" to={null} />
-              <span className="text-[11px] font-mono text-[#9D98AA]">
+              <span className="text-[11px] font-mono text-[rgba(255,255,255,0.55)]">
                 Engineering Workspace
               </span>
             </div>
 
             <div className="mb-6">
-              <h2 className="text-xl font-bold tracking-tight text-[#F5F3FF] sm:text-2xl">
+              <h2 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
                 Sign in to workspace
               </h2>
-              <p className="mt-1 text-xs text-[#9D98AA]">
+              <p className="mt-1 text-xs text-text-muted">
                 Enter your credentials to continue.
               </p>
             </div>
@@ -119,17 +119,17 @@ export const Login = () => {
               <div
                 role="alert"
                 aria-live="polite"
-                className="mb-5 flex items-start gap-2.5 rounded-lg border border-accent-deep bg-accent-tint/40 p-3 text-xs text-accent animate-fade-in"
+                className="mb-5 flex items-start gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-300 animate-fade-in"
               >
                 <i className="ri-error-warning-line text-base leading-none mt-0.5" />
                 <div className="flex-1">
                   <p className="font-semibold">Sign in error</p>
-                  <p className="mt-0.5 text-[#9D98AA]">{errorMessage}</p>
+                  <p className="mt-0.5 text-text-muted">{errorMessage}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setErrorMessage('')}
-                  className="text-accent hover:text-white p-0.5 focus-ring rounded"
+                  className="text-red-300 hover:text-white p-0.5 focus-ring rounded"
                   aria-label="Dismiss error"
                 >
                   <i className="ri-close-line text-sm" />
@@ -139,7 +139,7 @@ export const Login = () => {
 
             <form onSubmit={submitHandler} className="space-y-4" noValidate>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#9D98AA]" htmlFor="email">
+                <label className="mb-1.5 block text-xs font-medium text-text-muted" htmlFor="email">
                   Email address
                 </label>
                 <input
@@ -151,13 +151,13 @@ export const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className="w-full tile-input px-3.5 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                  className="w-full tile-input px-3.5 py-2.5 text-sm text-white placeholder:text-text-muted transition-colors duration-150 focus-ring"
                 />
               </div>
 
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="block text-xs font-medium text-[#9D98AA]" htmlFor="password">
+                  <label className="block text-xs font-medium text-text-muted" htmlFor="password">
                     Password
                   </label>
                 </div>
@@ -171,12 +171,12 @@ export const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password"
-                    className="w-full tile-input pl-3.5 pr-10 py-2.5 text-sm text-[#F5F3FF] placeholder-[#6C667C] transition-colors duration-150 focus-ring"
+                    className="w-full tile-input pl-3.5 pr-10 py-2.5 text-sm text-white placeholder:text-text-muted transition-colors duration-150 focus-ring"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#9D98AA] hover:text-[#F5F3FF] transition-colors focus:outline-none"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-text-muted hover:text-white transition-colors focus:outline-none"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     <i className={showPassword ? 'ri-eye-off-line text-base' : 'ri-eye-line text-base'} />
@@ -197,9 +197,9 @@ export const Login = () => {
               </div>
             </form>
 
-            <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-[#9D98AA]">
+            <div className="mt-6 border-t border-glass-border pt-4 text-center text-xs text-text-muted">
               Don&apos;t have an account?{' '}
-              <Link to="/register" className="font-medium text-accent underline hover:text-accent-hover focus-ring rounded transition-colors">
+              <Link to="/register" className="font-medium text-glow hover:text-accent focus-ring rounded transition-colors">
                 Create one now
               </Link>
             </div>

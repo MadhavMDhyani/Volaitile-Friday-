@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import { ProjectCardSkeleton } from '../Skeleton';
@@ -47,20 +47,20 @@ export const ProjectGrid = ({
       {/* Search and Sort Toolbar */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative flex-1 max-w-sm">
-          <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#6C667C]" />
+          <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[rgba(255,255,255,0.35)]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects..."
-            className="w-full tile-input rounded-xl pl-8 pr-8 py-2 text-xs text-[#F5F3FF] placeholder-[#6C667C] focus-ring"
+            className="w-full tile-input rounded-xl pl-8 pr-8 py-2 text-xs text-white placeholder:text-text-muted focus-ring"
             aria-label="Search projects by name"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#6C667C] hover:text-[#F5F3FF] p-0.5"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.35)] hover:text-white p-0.5"
               aria-label="Clear search input"
             >
               <i className="ri-close-line text-xs" />
@@ -69,11 +69,11 @@ export const ProjectGrid = ({
         </div>
 
         <div className="flex items-center gap-2 self-end sm:self-auto">
-          <span className="text-xs text-[#6C667C]">Sort:</span>
+          <span className="text-xs text-[rgba(255,255,255,0.35)]">Sort:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="tile-input rounded-xl px-3 py-2 text-xs text-[#F5F3FF] focus-ring cursor-pointer"
+            className="tile-input rounded-xl px-3 py-2 text-xs text-white focus-ring cursor-pointer"
             aria-label="Sort projects"
           >
             <option value="updated" className="bg-tile-deep">Recently updated</option>
@@ -84,7 +84,7 @@ export const ProjectGrid = ({
 
       {/* Error state */}
       {error && (
-        <div className="flex items-center justify-between rounded-xl border border-accent-deep bg-accent-tint/40 p-4 text-xs text-accent">
+        <div className="flex items-center justify-between rounded-xl border border-accent/25 bg-primary-tint/40 p-4 text-xs text-primary">
           <span>{error}</span>
           {onRetry && (
             <Button variant="secondary" size="xs" onClick={onRetry}>Retry</Button>
@@ -132,10 +132,10 @@ export const ProjectGrid = ({
                   {/* Card Header */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0 max-w-[70%]">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-tile-raised text-[#9D98AA] group-hover:text-accent transition-colors">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-tile-raised text-[rgba(255,255,255,0.55)] group-hover:text-primary transition-colors">
                         <i className="ri-folder-line text-sm" />
                       </div>
-                      <h3 className="font-mono font-semibold text-xs sm:text-sm text-[#F5F3FF] truncate tracking-tight">
+                      <h3 className="font-mono font-semibold text-xs sm:text-sm text-white truncate tracking-tight">
                         {proj.name}
                       </h3>
                     </div>
@@ -143,27 +143,27 @@ export const ProjectGrid = ({
                     <div className="flex items-center gap-1.5 shrink-0">
                       {onlineCount > 0 && (
                         <span
-                          className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-[9px] font-mono text-[#C9C6D5]"
+                          className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-[9px] font-mono text-[rgba(255,255,255,0.70)]"
                           title={`${onlineCount} collaborator online now`}
                         >
                           <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
                           {onlineCount} online
                         </span>
                       )}
-                      <span className="inline-flex items-center rounded-full border border-white/15 bg-tile-raised px-2 py-0.5 text-[10px] font-mono text-[#9D98AA]">
+                      <span className="inline-flex items-center rounded-full border border-white/15 bg-tile-raised px-2 py-0.5 text-[10px] font-mono text-[rgba(255,255,255,0.55)]">
                         {isProjOwner ? 'Owner' : 'Member'}
                       </span>
                     </div>
                   </div>
 
                   {/* Metadata */}
-                  <div className="mt-3 flex items-center gap-3 text-xs text-[#6C667C] font-mono">
+                  <div className="mt-3 flex items-center gap-3 text-xs text-[rgba(255,255,255,0.35)] font-mono">
                     <span className="flex items-center gap-1">
                       <i className="ri-file-code-line text-xs" />
                       <span>{stats ? `${stats.filesCount} files` : '— files'}</span>
                     </span>
                     {stats?.totalLines > 0 && (
-                      <span className="text-[11px] text-[#9D98AA]">
+                      <span className="text-[11px] text-[rgba(255,255,255,0.55)]">
                         {stats.totalLines.toLocaleString()} LOC
                       </span>
                     )}
@@ -178,7 +178,7 @@ export const ProjectGrid = ({
                         return (
                           <div
                             key={member?._id || mIdx}
-                            className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-tile-raised font-mono text-[9px] font-bold text-[#F5F3FF]"
+                            className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 bg-tile-raised font-mono text-[9px] font-bold text-white"
                             title={email}
                           >
                             {initial}
@@ -187,7 +187,7 @@ export const ProjectGrid = ({
                       })}
                     </div>
                     {extraCount > 0 && (
-                      <span className="rounded-full bg-tile-raised border border-white/10 px-1.5 text-[10px] font-mono text-[#6C667C]">
+                      <span className="rounded-full bg-tile-raised border border-white/10 px-1.5 text-[10px] font-mono text-[rgba(255,255,255,0.35)]">
                         +{extraCount}
                       </span>
                     )}
@@ -196,7 +196,7 @@ export const ProjectGrid = ({
 
                 {/* Card Footer */}
                 <div className="mt-4 flex items-center justify-between border-t border-white/[0.08] pt-2.5 text-xs">
-                  <span className="text-[11px] font-mono text-[#6C667C]">
+                  <span className="text-[11px] font-mono text-[rgba(255,255,255,0.35)]">
                     {proj.createdAt
                       ? new Date(proj.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })
                       : 'Active'}
@@ -206,7 +206,7 @@ export const ProjectGrid = ({
                     size="xs"
                     onClick={(e) => { e.stopPropagation(); navigate(`/project/${proj._id}`); }}
                     iconRight={<i className="ri-arrow-right-line text-xs" />}
-                    className="text-[#9D98AA] hover:text-[#F5F3FF] font-mono"
+                    className="text-[rgba(255,255,255,0.55)] hover:text-white font-mono"
                   >
                     Open
                   </Button>
@@ -222,22 +222,22 @@ export const ProjectGrid = ({
             className="tile-ghost rounded-2xl p-5 flex flex-col items-center justify-center gap-2 min-h-[120px] cursor-pointer focus-ring"
             aria-label="Create new project"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-dashed border-white/20 text-[#6C667C]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-dashed border-white/20 text-[rgba(255,255,255,0.35)]">
               <i className="ri-add-line text-lg" />
             </div>
-            <span className="text-xs font-mono text-[#6C667C]">New project</span>
+            <span className="text-xs font-mono text-[rgba(255,255,255,0.35)]">New project</span>
           </button>
         </div>
       ) : (
         /* Empty State */
         <div className="tile-ghost rounded-2xl flex flex-col items-center justify-center py-12 px-4 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-tile-raised text-accent mb-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-tile-raised text-primary mb-3">
             <i className="ri-folder-add-line text-xl" />
           </div>
-          <h4 className="text-sm font-semibold text-[#F5F3FF]">
+          <h4 className="text-sm font-semibold text-white">
             {searchQuery ? 'No matching projects found' : 'No projects yet'}
           </h4>
-          <p className="mt-1 text-xs text-[#9D98AA] max-w-sm">
+          <p className="mt-1 text-xs text-[rgba(255,255,255,0.55)] max-w-sm">
             {searchQuery
               ? `No project matches "${searchQuery}". Clear your search to view all workspaces.`
               : 'Create your first collaborative developer project to start coding and chatting.'}

@@ -130,12 +130,15 @@ async function run() {
 
           // Check touch targets (interactive buttons and links should be >= 44x44 or appropriately sized)
           const interactives = Array.from(document.querySelectorAll('button, a, input[type="submit"]'));
-          const smallTargets = interactives.filter(el => {
+          const smallTargetEls = interactives.filter(el => {
             const r = el.getBoundingClientRect();
-            // only check visible elements
             if (r.width === 0 || r.height === 0 || window.getComputedStyle(el).display === 'none') return false;
-            return r.height < 32; // strict minimum
-          }).length;
+            return r.height < 32;
+          });
+          const smallTargetDetails = smallTargetEls.slice(0, 5).map(el => {
+            const r = el.getBoundingClientRect();
+            return { tag: el.tagName, h: Math.round(r.height), cls: (el.className || '').toString().slice(0, 60), text: (el.textContent || '').trim().slice(0, 30) };
+          });
 
           return {
             title: document.title,
@@ -144,7 +147,9 @@ async function run() {
             hasHorizontalOverflow,
             offending: offending.slice(0, 3),
             sub16InputsCount: sub16Inputs.length,
-            smallTargetsCount: smallTargets
+            sub16InputDetails: sub16Inputs.slice(0, 3),
+            smallTargetsCount: smallTargetEls.length,
+            smallTargetDetails
           };
         })()`;
 

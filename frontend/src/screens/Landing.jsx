@@ -1,4 +1,4 @@
-﻿import { useRef } from 'react';
+import { useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LandingNav from '../components/landing/LandingNav';
 import Hero from '../components/landing/Hero';
@@ -67,7 +67,7 @@ export const Landing = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-transparent text-[#F5F3FF] selection:bg-[#F5F3FF] selection:text-[#110B20] overflow-x-hidden flex flex-col justify-between">
+    <div className="relative min-h-screen w-full bg-transparent text-white selection:bg-primary selection:text-[#070707] overflow-x-hidden flex flex-col justify-between">
       {/* Sticky Translucent tile Header with Three-Bars Button */}
       <LandingNav
         isOpen={isSheetOpen}

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Reveal from './Reveal';
 
 const DEMO_CONVERSATIONS = [
@@ -73,10 +73,10 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
       <div className={compact ? 'w-full' : 'mx-auto max-w-4xl px-4 sm:px-6 lg:px-8'}>
         <Reveal delay={0} immediate={compact}>
           <div className={compact ? 'mb-4 text-left' : 'text-center mb-10'}>
-            <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
+            <span className="text-xs font-mono uppercase tracking-wider text-primary font-medium">
               LIVE PREVIEW
             </span>
-            <h3 className={`mt-1 font-bold tracking-tight text-[#F5F3FF] ${compact ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`}>
+            <h3 className={`mt-1 font-medium tracking-tight text-white ${compact ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`}>
               Ask Friday anything about your codebase
             </h3>
           </div>
@@ -85,15 +85,15 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
         <Reveal delay={100} immediate={compact} transformOnly={true}>
           <div
             ref={containerRef}
-            className="rounded-2xl tile border border-white/[0.22] p-5 sm:p-7 shadow-[0_24px_48px_rgba(0,0,0,0.8)]"
+            className="rounded-3xl tile border border-white/[0.22] p-5 sm:p-7 shadow-[0_24px_48px_rgba(0,0,0,0.8)]"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4 text-xs font-mono">
               <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
-                <span className="font-semibold text-white">Friday AI Room Assistant</span>
+                <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_var(--glow)] animate-pulse" />
+                <span className="font-medium text-white">Friday AI Room Assistant</span>
               </div>
-                <span className="text-[10px] text-[#9D98AA] rounded border border-accent/30 bg-accent/10 px-2 py-0.5">
+              <span className="text-[10px] text-[rgba(255,255,255,0.55)] rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5">
                 Gemini
               </span>
             </div>
@@ -102,26 +102,26 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
             <div className="space-y-4">
               {/* User question */}
               <div className="flex flex-col items-end">
-                <span className="text-[10px] font-mono text-[#9D98AA] mb-1">lead-dev@company.com</span>
-                <div className="rounded-2xl border border-accent-press/30 bg-accent-tint/25 px-4 py-2.5 text-xs text-[#F5F3FF] max-w-[90%] sm:max-w-[80%] shadow-tile">
+                <span className="text-[10px] font-mono text-[rgba(255,255,255,0.55)] mb-1">lead-dev@company.com</span>
+                <div className="rounded-2xl border border-glass-border bg-glass-bg px-4 py-2.5 text-xs text-white max-w-[90%] sm:max-w-[80%] shadow-tile">
                   {current.user}
                 </div>
               </div>
 
               {/* Friday AI response with layout-contained typewriter text */}
               <div className="flex flex-col items-start">
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent mb-1 font-semibold">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-primary mb-1 font-medium">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                   Friday AI
                 </span>
                 <div
-                  className="rounded-2xl border border-accent-deep bg-accent-tint/20 px-4 py-3 text-xs text-[#C9C6D5] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-tile min-h-[72px]"
+                  className="rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 text-xs text-[rgba(255,255,255,0.70)] leading-relaxed max-w-[92%] sm:max-w-[85%] shadow-tile min-h-[72px]"
                   style={{ contain: 'layout paint' }}
                 >
                   <p className="whitespace-pre-wrap">
                     {current.ai.slice(0, typedChars)}
                     {typedChars < current.ai.length && (
-                      <span className="inline-block w-1.5 h-3.5 ml-1 bg-accent animate-pulse align-middle" />
+                      <span className="inline-block w-1.5 h-3.5 ml-1 bg-primary animate-pulse align-middle" />
                     )}
                   </p>
                 </div>
@@ -129,9 +129,9 @@ export const ChatDemo = ({ isPage = false, compact = false }) => {
             </div>
 
             {/* Sub-label */}
-            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-[#6C667C]">
+            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[10px] font-mono text-[rgba(255,255,255,0.35)]">
               <span>Type @friday or /help in any project chat</span>
-              <span className="text-accent">Replies are shared with the whole room</span>
+              <span className="text-primary">Replies are shared with the whole room</span>
             </div>
           </div>
         </Reveal>

@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import ChangePasswordModal from './ChangePasswordModal';
@@ -37,40 +37,40 @@ export const AccountMenu = () => {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex items-center gap-2 rounded-lg border border-white/10 bg-tile-raised px-2.5 py-1.5 text-xs text-[#F5F3FF] transition-all hover:border-white/18 hover:bg-[#3A3355] focus-ring shadow-[inset_0_1px_0_rgba(245, 243, 255, 0.12)]"
+          className="flex items-center gap-2 rounded-full border border-glass-border bg-glass-bg px-2.5 py-1.5 text-xs text-white transition-all hover:border-accent hover:bg-white/[0.10] focus-ring backdrop-blur-sm"
           aria-expanded={isOpen}
           aria-haspopup="true"
           aria-label="Account options"
         >
-          <div className="flex h-5 w-5 items-center justify-center rounded bg-accent font-mono text-[10px] font-bold text-[#18102B]">
+          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary font-mono text-[10px] font-medium text-[#070707]">
             {initial}
           </div>
           <span className="hidden sm:inline font-mono font-medium max-w-[150px] truncate text-left">
             {user?.email || 'Account'}
           </span>
           <i
-            className={`ri-arrow-down-s-line text-[#9D98AA] text-sm transition-transform duration-150 ${
-              isOpen ? 'rotate-180 text-[#F5F3FF]' : ''
+            className={`ri-arrow-down-s-line text-text-muted text-sm transition-transform duration-150 ${
+              isOpen ? 'rotate-180 text-white' : ''
             }`}
           />
         </button>
 
         {isOpen && (
           <div
-            className="absolute right-0 mt-2 w-56 rounded-xl bg-[#211737] border border-white/15 py-1.5 text-xs text-[#F5F3FF] modal-shadow animate-scale-in z-40"
+            className="absolute right-0 mt-2 w-56 rounded-2xl tile bg-[#070707]/90 backdrop-blur-xl border border-glass-border py-1.5 text-xs text-white modal-shadow animate-scale-in z-40"
             role="menu"
             aria-orientation="vertical"
           >
             <div className="border-b border-white/8 px-3 py-2">
-              <span className="block text-[10px] uppercase tracking-wider text-[#6C667C]">Signed in as</span>
-              <span className="block font-mono text-xs font-medium truncate text-[#F5F3FF] mt-0.5">{user?.email}</span>
+              <span className="block text-[10px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">Signed in as</span>
+              <span className="block font-mono text-xs font-medium truncate text-white mt-0.5">{user?.email}</span>
             </div>
 
             <div className="py-1">
               <Link
                 to="/dashboard"
                 onClick={() => setIsOpen(false)}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#9D98AA] transition-colors hover:bg-white/[0.06] hover:text-[#F5F3FF] focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[rgba(255,255,255,0.55)] transition-colors hover:bg-white/[0.06] hover:text-white focus-ring"
                 role="menuitem"
               >
                 <i className="ri-dashboard-line text-sm" />
@@ -80,7 +80,7 @@ export const AccountMenu = () => {
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#9D98AA] transition-colors hover:bg-white/[0.06] hover:text-[#F5F3FF] focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[rgba(255,255,255,0.55)] transition-colors hover:bg-white/[0.06] hover:text-white focus-ring"
                 role="menuitem"
               >
                 <i className="ri-folder-3-line text-sm" />
@@ -95,7 +95,7 @@ export const AccountMenu = () => {
                   setIsOpen(false);
                   setIsPasswordModalOpen(true);
                 }}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[#9D98AA] transition-colors hover:bg-white/[0.06] hover:text-[#F5F3FF] focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[rgba(255,255,255,0.55)] transition-colors hover:bg-white/[0.06] hover:text-white focus-ring"
                 role="menuitem"
               >
                 <i className="ri-lock-password-line text-sm" />
@@ -108,7 +108,7 @@ export const AccountMenu = () => {
                   setIsOpen(false);
                   logout();
                 }}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-accent transition-colors hover:bg-accent-tint/40 focus-ring"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[rgba(255,255,255,0.55)] transition-colors hover:bg-[rgba(18,220,239,0.08)] hover:text-[#12DCEF] focus-ring"
                 role="menuitem"
               >
                 <i className="ri-logout-box-r-line text-sm" />

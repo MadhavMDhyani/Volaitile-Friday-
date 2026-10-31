@@ -2,56 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single source of truth for the palette.
+   All components reference these variables; no raw hex values
+   should appear in component code.
+   ═══════════════════════════════════════════════════════════ */
 :root {
-  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
-  --font-title: 'Anton', Impact, sans-serif;
+  /* Typography */
+  --font-sans: "Neue Montreal", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
 
-  /* Brand palette */
-  --bg-page: #18102B;
-  --page-rgb: 24 16 43;
+  /* Core palette */
+  --bg:          #070707;
+  --primary:     #33BC65;
+  --accent:      #12DCEF;
+  --glow:        #5DFFD9;
 
-  /* Bento tile fills (solid, no transparency) */
-  --tile: #211737;
-  --tile-raised: #2C2048;
-  --tile-deep: #110B20;
-  --tile-accent: #834DFB;
-  --tile-highlight: #F0E100;
+  /* Text */
+  --text:        #FFFFFF;
+  --text-muted:  rgba(255, 255, 255, 0.55);
+  --text-faint:  rgba(255, 255, 255, 0.35);
 
-  /* Legacy surface aliases (keep for any token references in components) */
-  --bg-surface: #211737;
-  --bg-raised: #2C2048;
+  /* Glass surfaces */
+  --glass-bg:     rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.18);
 
-  /* Border tokens */
-  --border-subtle: rgba(245, 243, 255, 0.08);
-  --border-strong: rgba(245, 243, 255, 0.16);
+  /* Derived tile aliases (all map to glass) */
+  --tile:       rgba(255, 255, 255, 0.06);
+  --tile-raised: rgba(255, 255, 255, 0.09);
+  --tile-deep:  rgba(0, 0, 0, 0.35);
 
-  /* Text tokens */
-  --text-primary: #F5F3FF;
-  --text-muted: #9D98AA;
-  --text-faint: #6C667C;
-  --text-secondary: #C9C6D5;
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.22);
 
-  /* Accent tokens */
-  --accent: #834DFB;
-  --accent-rgb: 131 77 251;
-  --accent-hover: #6F3BE6;
-  --accent-press: #5B2FC4;
-  --accent-deep: #3E2380;
-  --accent-tint: #2A1B52;
-  --accent-glow: #A98BFF;
+  /* Page aliases */
+  --bg-page:    #070707;
+  --page-rgb:   7 7 7;
+  --bg-surface: rgba(255, 255, 255, 0.06);
+  --bg-raised:  rgba(255, 255, 255, 0.09);
 
-  /* Highlight */
-  --highlight: #F0E100;
-  --turbo: #F0E100;
+  /* Text aliases */
+  --text-primary:   #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.80);
 
-  /* Tile shadow — subtle only */
-  --tile-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  /* Shadows */
+  --tile-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 
-  /* Scrim backdrop (only place blur is allowed) */
-  --scrim-bg: rgba(11, 7, 22, 0.70);
+  /* Scrim */
+  --scrim-bg: rgba(7, 7, 7, 0.75);
 }
 
+/* ── Reset ──────────────────────────────────────────────── */
 * {
   margin: 0;
   padding: 0;
@@ -63,15 +65,34 @@ body {
   height: 100%;
   width: 100%;
   font-family: var(--font-sans);
-  background-color: #18102B;
-  color: #F5F3FF;
+  font-weight: 400;
+  background-color: var(--bg);
+  color: var(--text);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Page-blur when menu is open — blurs page content behind the overlay.
-   Applied via body.menu-open class toggled by MenuSheet.jsx. */
+/* Typography constraints: weights 400 and 500 only */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+/* ── Fixed background: #070707 + soft green (#33BC65) radial glow top-right ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 75% 65% at 92% 0%, rgba(51, 188, 101, 0.28) 0%, rgba(51, 188, 101, 0.10) 35%, rgba(93, 255, 217, 0.03) 55%, transparent 75%),
+    #070707;
+}
+
+/* ── Menu blur ──────────────────────────────────────────── */
 main, footer, header {
   transition: filter 220ms ease, opacity 220ms ease;
 }
@@ -85,33 +106,42 @@ body.menu-open header {
   main, footer, header { transition: none; }
 }
 
-/* Global Selection */
+/* ── Selection ─────────────────────────────────────────── */
 ::selection {
-  background-color: #834DFB;
-  color: #18102B;
+  background-color: var(--primary);
+  color: #070707;
 }
 
-/* Custom Scrollbar - Neutral 6px */
+/* ── Links / Active / Hover ────────────────────────────── */
+a {
+  color: inherit;
+  transition: color 150ms ease;
+}
+a:hover {
+  color: var(--accent);
+}
+a.active, .nav-link-active {
+  color: var(--glow);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(245, 243, 255, 0.14);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
   transition: background 0.15s ease-out;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(131, 77, 251, 0.45);
+  background: rgba(51, 188, 101, 0.45);
 }
 
-/* Accessible focus ring: 2px offset ring with accent colour */
+/* ── Focus ring — uses --glow ───────────────────────────── */
 .focus-ring {
   outline: none;
 }
@@ -121,358 +151,280 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #18102B, 0 0 0 4px rgba(131, 77, 251, 0.75);
+  box-shadow: 0 0 0 2px #070707, 0 0 0 4px var(--glow);
 }
 
 @layer components {
-  /* =========================================================
-     BENTO TILE PRIMITIVES
-     Solid fills, no backdrop-filter, no ::before sheen.
-     ========================================================= */
+  /* ════════════════════════════════════════════
+     GLASS / TILE PRIMITIVES
+     All surfaces: translucent glass, 1px border,
+     backdrop blur, fully-rounded pills.
+     ════════════════════════════════════════════ */
 
-  /* Base tile — default solid surface */
+  /* Base tile → glass card (20-24px radius) */
   .tile {
-    background: var(--tile);
-    border: 1px solid var(--border-subtle);
-    border-radius: 24px; /* rounded-3xl */
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
     box-shadow: var(--tile-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition: border-color 180ms ease, transform 180ms ease;
     position: relative;
   }
   .tile:hover {
-    border-color: var(--border-strong);
+    border-color: rgba(255, 255, 255, 0.28);
     transform: translateY(-2px);
   }
 
-  /* Raised tile — for hover states, nested elements */
+  /* Raised tile */
   .tile-raised {
     background: var(--tile-raised);
-    border: 1px solid var(--border-subtle);
-    border-radius: 16px; /* rounded-2xl */
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
     box-shadow: var(--tile-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition: border-color 180ms ease, transform 180ms ease;
   }
   .tile-raised:hover {
-    border-color: var(--border-strong);
+    border-color: rgba(255, 255, 255, 0.28);
     transform: translateY(-2px);
   }
 
-  /* Deep tile — code editors, input areas, terminal-dark surfaces */
+  /* Deep tile — inputs, code areas */
   .tile-deep {
     background: var(--tile-deep);
     border: 1px solid var(--border-subtle);
-    border-radius: 16px; /* rounded-2xl */
-    box-shadow: var(--tile-shadow);
-  }
-
-  /* Accent tile — solid violet, max 1-2 per view, Blue Chalk text */
-  .tile-accent {
-    background: var(--tile-accent);
-    border: 1px solid rgba(131, 77, 251, 0.4);
-    border-radius: 24px;
-    box-shadow: var(--tile-shadow);
-    color: #F5F3FF;
-    transition: border-color 180ms ease, transform 180ms ease;
-  }
-  .tile-accent:hover {
-    border-color: rgba(131, 77, 251, 0.7);
-    transform: translateY(-2px);
-  }
-
-  /* Highlight tile — solid Turbo/yellow, Haiti text, max 1 per view, small */
-  .tile-highlight {
-    background: var(--tile-highlight);
-    border: 1px solid rgba(240, 225, 0, 0.4);
     border-radius: 16px;
     box-shadow: var(--tile-shadow);
-    color: #18102B;
+  }
+
+  /* Primary Button style — solid --primary with dark text and faint mint glow on hover */
+  .btn-primary,
+  .tile-accent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    border: 1px solid rgba(51, 188, 101, 0.4);
+    border-radius: 9999px;
+    box-shadow: 0 4px 16px rgba(51, 188, 101, 0.25);
+    color: #070707;
+    font-weight: 500;
+    transition: border-color 180ms ease, transform 180ms ease,
+                box-shadow 180ms ease, background-color 180ms ease;
+  }
+  .btn-primary:hover,
+  .tile-accent:hover {
+    border-color: rgba(93, 255, 217, 0.6);
+    box-shadow: 0 0 20px rgba(93, 255, 217, 0.45);
+    transform: translateY(-1px);
+  }
+
+  /* Secondary Button style — glass style, border turns --accent on hover */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 9999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    font-weight: 500;
+    transition: border-color 180ms ease, transform 180ms ease,
+                background-color 180ms ease, color 180ms ease;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  /* Highlight tile — mint/glow */
+  .tile-highlight {
+    background: var(--glow);
+    border: 1px solid rgba(93, 255, 217, 0.4);
+    border-radius: 20px;
+    box-shadow: var(--tile-shadow);
+    color: #070707;
     transition: border-color 180ms ease, transform 180ms ease;
   }
 
-  /* Ghost tile — empty states, "add new" cards */
+  /* Ghost tile */
   .tile-ghost {
     background: transparent;
-    border: 1px dashed rgba(245, 243, 255, 0.20);
-    border-radius: 24px;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 22px;
     transition: border-color 180ms ease, background 180ms ease;
   }
   .tile-ghost:hover {
-    border-color: rgba(245, 243, 255, 0.40);
-    background: rgba(245, 243, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.02);
   }
 
-  /* Input tile — tile-deep background with focus ring */
-  .tile-input {
-    background: var(--tile-deep);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px; /* rounded-xl */
-    color: #F5F3FF;
-    transition: border-color 160ms ease;
+  /* Input tile / glass-input: translucent glass with 1px border */
+  .tile-input,
+  .glass-input {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    color: var(--text);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
   }
-  .tile-input:hover {
-    border-color: var(--border-strong);
+  .tile-input:hover,
+  .glass-input:hover {
+    border-color: rgba(255, 255, 255, 0.30);
   }
   .tile-input:focus,
-  .tile-input:focus-visible {
-    outline: none;
-    border-color: rgba(131, 77, 251, 0.60);
-    box-shadow: 0 0 0 2px #18102B, 0 0 0 4px rgba(131, 77, 251, 0.75);
-  }
-
-  /* Pill / chip */
-  .tile-pill {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 9999px;
-    background: var(--tile-raised);
-    border: 1px solid var(--border-subtle);
-    padding: 2px 10px;
-    font-size: 11px;
-    transition: border-color 160ms ease;
-  }
-  .tile-pill:hover {
-    border-color: var(--border-strong);
-  }
-
-  /* =========================================================
-     GLASS → TILE COMPATIBILITY ALIASES
-     These map all existing .glass* usages to the bento style,
-     eliminating backdrop-filter, sheen ::before, specular vars.
-     ========================================================= */
-
-  /* .glass -> .tile look (16px radius for smaller cards) */
-  .glass {
-    background: var(--tile);
-    border: 1px solid var(--border-subtle);
-    border-radius: 16px;
-    box-shadow: var(--tile-shadow);
-    transition: border-color 180ms ease, transform 180ms ease;
-  }
-  .glass:hover {
-    border-color: var(--border-strong);
-    transform: translateY(-2px);
-  }
-
-  /* .glass-strong -> dialog/panel tile (24px radius, slightly stronger border) */
-  .glass-strong {
-    background: var(--tile);
-    border: 1px solid var(--border-strong);
-    border-radius: 24px;
-    box-shadow: var(--tile-shadow);
-    transition: border-color 180ms ease;
-  }
-
-  /* .glass-input -> tile-input */
-  .glass-input {
-    background: var(--tile-deep);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
-    color: #F5F3FF;
-    transition: border-color 160ms ease;
-  }
-  .glass-input:hover {
-    border-color: var(--border-strong);
-  }
+  .tile-input:focus-visible,
   .glass-input:focus,
   .glass-input:focus-visible {
     outline: none;
-    border-color: rgba(131, 77, 251, 0.60);
-    box-shadow: 0 0 0 2px #18102B, 0 0 0 4px rgba(131, 77, 251, 0.75);
+    border-color: var(--glow);
+    box-shadow: 0 0 0 2px #070707, 0 0 0 4px var(--glow);
   }
 
-  /* .glass-pill -> tile-pill */
+  /* Pill / chip / tags — fully rounded */
+  .tile-pill,
   .glass-pill {
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
-    background: var(--tile-raised);
-    border: 1px solid var(--border-subtle);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2px 10px;
+    font-size: 11px;
     transition: border-color 160ms ease;
   }
+  .tile-pill:hover,
   .glass-pill:hover {
-    border-color: var(--border-strong);
+    border-color: rgba(255, 255, 255, 0.30);
   }
 
-  /* .glass-liquid -> tile-raised (slightly deeper for hero areas) */
-  .glass-liquid {
-    background: var(--tile-raised);
-    border: 1px solid var(--border-subtle);
-    border-radius: 24px;
+  /* Glass card alias */
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
     box-shadow: var(--tile-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition: border-color 180ms ease, transform 180ms ease;
   }
-  .glass-liquid:hover {
-    border-color: var(--border-strong);
+  .glass:hover {
+    border-color: rgba(255, 255, 255, 0.28);
     transform: translateY(-2px);
   }
 
-  /* .glass-scrim -> plain dark scrim (blur ALLOWED only on scrims) */
-  .glass-scrim {
-    background: var(--scrim-bg);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+  .glass-strong {
+    background: var(--glass-bg);
+    border: 1px solid var(--border-strong);
+    border-radius: 24px;
+    box-shadow: var(--tile-shadow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: border-color 180ms ease;
   }
 
-  /* .surface-overlay -> solid dark panel */
+  .glass-liquid {
+    background: var(--tile-raised);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    box-shadow: var(--tile-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 180ms ease, transform 180ms ease;
+  }
+  .glass-liquid:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    transform: translateY(-2px);
+  }
+
+  /* Scrim */
+  .glass-scrim {
+    background: var(--scrim-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Solid overlay panel */
   .surface-overlay {
-    background: #18102B;
-    border: 1px solid var(--border-strong);
+    background: rgba(7, 7, 7, 0.90);
+    border: 1px solid var(--glass-border);
     border-radius: 24px;
     box-shadow: var(--tile-shadow);
   }
 
-  /* .menu-glass -> solid panel for the menu dialog
-     Page is blurred via body.menu-open, not backdrop-filter here */
+  /* Menu dialog */
   .menu-glass {
-    background: #18102B;
-    border: 1px solid var(--border-strong);
+    background: rgba(10, 10, 10, 0.92);
+    border: 1px solid var(--glass-border);
     border-radius: 24px;
-    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }
 
-/* Skeleton shimmer — bento-tinted */
+/* ── Skeleton shimmer ───────────────────────────────────── */
 .skeleton-shimmer {
   background: linear-gradient(
     90deg,
-    rgba(245, 243, 255, 0.02) 0%,
-    rgba(245, 243, 255, 0.06) 50%,
-    rgba(245, 243, 255, 0.02) 100%
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.02) 100%
   );
   background-size: 200% 100%;
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-/* Modal shadow — no specular, just depth */
+/* ── Modal shadow ───────────────────────────────────────── */
 .modal-shadow {
-  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(245, 243, 255, 0.08);
+  box-shadow:
+    0 24px 50px -12px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.10);
 }
 
-/* Aurora Orbs Keyframe Animations (Transform-only) */
-@keyframes aurora-orb-1 {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(60px, 40px, 0) scale(1.08); }
-  100% { transform: translate3d(-35px, 65px, 0) scale(0.95); }
-}
-
-@keyframes aurora-orb-2 {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-65px, -35px, 0) scale(1.06); }
-  100% { transform: translate3d(35px, -55px, 0) scale(0.94); }
-}
-
-@keyframes aurora-orb-3 {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(45px, -25px, 0) scale(1.1); }
-  100% { transform: translate3d(-40px, 35px, 0) scale(0.92); }
-}
-
-.aurora-orb-1 {
-  animation: aurora-orb-1 26s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.aurora-orb-2 {
-  animation: aurora-orb-2 32s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.aurora-orb-3 {
-  animation: aurora-orb-3 22s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-/* Reduced motion preference */
+/* ── Reduced-motion override ────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
+  *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .aurora-orb-1,
-  .aurora-orb-2,
-  .aurora-orb-3 {
-    animation: none !important;
-  }
-  .tile:hover,
-  .tile-raised:hover,
-  .tile-accent:hover,
-  .glass:hover,
-  .glass-liquid:hover {
+  .tile:hover, .tile-raised:hover, .tile-accent:hover, .glass:hover, .glass-liquid:hover, .btn-primary:hover, .btn-secondary:hover {
     transform: none !important;
   }
 }
 
-/* ThreeUI Shader Frame Scope */
-.shader-frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.shader-frame .landscape-scene {
-  background: transparent !important;
-}
-
-.shader-frame .landscape-scene__frame {
-  background: transparent !important;
-  opacity: 0;
-  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1) !important;
-}
-
-.shader-frame .landscape-scene__frame.is-ready {
-  opacity: 1 !important;
-}
-
-/* Mobile Optimizations, Safe Areas & Touch Guards */
+/* ── Mobile Optimisations ───────────────────────────────── */
 @supports (height: 100dvh) {
-  .min-h-screen {
-    min-height: 100dvh;
-  }
-  .h-screen {
-    height: 100dvh;
-  }
+  .min-h-screen { min-height: 100dvh; }
+  .h-screen     { height: 100dvh; }
 }
 
-/* Contain overscroll on inner scroll panels */
-.overflow-y-auto,
-.overflow-x-auto,
-.overflow-auto {
+.overflow-y-auto, .overflow-x-auto, .overflow-auto {
   overscroll-behavior: contain;
 }
 
-/* Prevent iOS auto-zoom on input focus by keeping font-size >= 16px on mobile */
 @media (max-width: 767px) {
-  input,
-  textarea,
-  select {
-    font-size: 16px !important;
-  }
+  input, textarea, select { font-size: 16px !important; }
 }
 
-/* Skip hover lift on touch screens */
 @media (hover: none) {
-  .tile:hover,
-  .tile-raised:hover,
-  .tile-accent:hover,
-  .glass:hover,
-  .glass-liquid:hover {
-    transform: none !important;
-  }
+  .tile:hover, .tile-raised:hover, .tile-accent:hover,
+  .glass:hover, .glass-liquid:hover { transform: none !important; }
 }
 
-/* Safe area utility classes */
-.safe-pb {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.safe-pt {
-  padding-top: env(safe-area-inset-top, 0px);
-}
-.safe-mb {
-  margin-bottom: env(safe-area-inset-bottom, 0px);
-}
+/* ── Safe areas ─────────────────────────────────────────── */
+.safe-pb { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-pt { padding-top: env(safe-area-inset-top, 0px); }
+.safe-mb { margin-bottom: env(safe-area-inset-bottom, 0px); }

@@ -95,12 +95,9 @@ function createParticleTexture() {
  */
 const Background3DScene = () => {
   const containerRef = useRef(null);
-  const [webglUnavailable, setWebglUnavailable] = useState(() => !isWebGLAvailable());
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    // 1. Feature detection pre-check
-    if (webglUnavailable) return;
-
     const container = containerRef.current;
     if (!container) return;
 
@@ -135,7 +132,9 @@ const Background3DScene = () => {
     } catch (err) {
       console.warn('THREE.WebGLRenderer creation failed gracefully:', err);
       if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
-      setWebglUnavailable(true);
+      queueMicrotask(() => {
+        setHasError(true);
+      });
       return;
     }
 
@@ -387,7 +386,7 @@ const Background3DScene = () => {
     };
   }, []);
 
-  if (webglUnavailable) {
+  if (hasError) {
     return <CSSBackgroundFallback />;
   }
 
@@ -406,10 +405,17 @@ const Background3DScene = () => {
   );
 };
 
-export const Background3D = () => (
-  <BackgroundErrorBoundary>
-    <Background3DScene />
-  </BackgroundErrorBoundary>
-);
+export const Background3D = () => {
+  const isAvailable = isWebGLAvailable();
+  if (!isAvailable) {
+    return <CSSBackgroundFallback />;
+  }
+
+  return (
+    <BackgroundErrorBoundary>
+      <Background3DScene />
+    </BackgroundErrorBoundary>
+  );
+};
 
 export default Background3D;

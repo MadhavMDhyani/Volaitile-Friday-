@@ -1,4 +1,3 @@
-import { lazy, Suspense } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import OfflineBanner from './components/OfflineBanner';
 import Background3D from './components/Background3D';

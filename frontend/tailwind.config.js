@@ -1,4 +1,4 @@
-﻿/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     './index.html',
@@ -12,12 +12,21 @@ export default {
         mono:  ['"IBM Plex Mono"', 'monospace'],
         title: ['"Neue Montreal"', '"Inter"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
       },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '500',
+        bold: '500',
+        extrabold: '500',
+        black: '500',
+      },
       colors: {
         bg:      '#070707',
         page:    '#070707',
         primary: '#33BC65',
         accent:  '#12DCEF',
         glow:    '#5DFFD9',
+        text:    '#FFFFFF',
         'text-primary':   '#FFFFFF',
         'text-secondary': 'rgba(255,255,255,0.80)',
         'text-muted':     'rgba(255,255,255,0.55)',
@@ -37,7 +46,7 @@ export default {
           highlight: '#5DFFD9',
         },
         'neutral-strong': 'rgba(255,255,255,0.12)',
-        scrim: 'rgba(7,7,7,0.72)',
+        scrim: 'rgba(7,7,7,0.75)',
       },
       keyframes: {
         'fade-in': {

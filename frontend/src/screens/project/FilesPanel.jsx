@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
@@ -446,14 +446,14 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
                 setNewFileError('');
               }}
               placeholder="e.g. server.js or utils/helper.js"
-              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-white placeholder-[#6C667C] transition-all font-mono"
+              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-white placeholder:text-text-muted transition-all font-mono"
               autoFocus
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[rgba(255,255,255,0.55)] mb-1.5" htmlFor="new-file-path">
+            <label className="block text-xs font-medium text-text-muted mb-1.5" htmlFor="new-file-path">
               Path (Optional folder override)
             </label>
             <input
@@ -462,7 +462,7 @@ export const FilesPanel = ({ projectId, mobileView = 'both', onSelectFile }) => 
               value={newFilePath}
               onChange={(e) => setNewFilePath(e.target.value)}
               placeholder="Defaults to file name (no leading slash)"
-              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-white placeholder-[#6C667C] transition-all font-mono"
+              className="w-full rounded-xl tile-input px-3.5 py-2.5 text-xs text-white placeholder:text-text-muted transition-all font-mono"
             />
             <p className="mt-1 text-[11px] text-[rgba(255,255,255,0.35)]">
               No &apos;..&apos;, no leading slashes, max 200 characters.

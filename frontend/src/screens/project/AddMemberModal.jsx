@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
 import axios from '../../config/axios';
@@ -128,7 +128,7 @@ export const AddMemberModal = ({
                 }
               }}
               placeholder="Type at least 3 characters..."
-              className="w-full rounded-xl tile-input pl-9 pr-3.5 py-2.5 text-xs text-white placeholder-[#6C667C] transition-all font-mono"
+              className="w-full rounded-xl tile-input pl-9 pr-3.5 py-2.5 text-xs text-white placeholder:text-text-muted transition-all font-mono"
               autoFocus
             />
             {isSearching && (

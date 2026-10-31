@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import { ProjectCardSkeleton } from '../Skeleton';
@@ -53,7 +53,7 @@ export const ProjectGrid = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects..."
-            className="w-full tile-input rounded-xl pl-8 pr-8 py-2 text-xs text-white placeholder-[#6C667C] focus-ring"
+            className="w-full tile-input rounded-xl pl-8 pr-8 py-2 text-xs text-white placeholder:text-text-muted focus-ring"
             aria-label="Search projects by name"
           />
           {searchQuery && (

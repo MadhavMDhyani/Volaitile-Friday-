@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export const ToastItem = ({ toast, onDismiss }) => {
   const [isPaused, setIsPaused] = useState(false);
@@ -38,19 +38,19 @@ export const ToastItem = ({ toast, onDismiss }) => {
 
   const typeConfig = {
     success: {
-      icon: 'ri-check-line text-[rgba(255,255,255,0.70)]',
-      border: 'border-white/10',
-      bar: 'bg-[#C9C6D5]/60',
+      icon: 'ri-check-line text-primary',
+      border: 'border-glass-border',
+      bar: 'bg-primary',
     },
     error: {
-      icon: 'ri-error-warning-line text-primary',
-      border: 'border-white/10',
-      bar: 'bg-primary/80',
+      icon: 'ri-error-warning-line text-red-400',
+      border: 'border-glass-border',
+      bar: 'bg-red-400',
     },
     info: {
-      icon: 'ri-information-line text-[rgba(255,255,255,0.55)]',
-      border: 'border-white/10',
-      bar: 'bg-[#9D98AA]/80',
+      icon: 'ri-information-line text-accent',
+      border: 'border-glass-border',
+      bar: 'bg-accent',
     },
   };
 
@@ -60,7 +60,7 @@ export const ToastItem = ({ toast, onDismiss }) => {
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`group relative flex w-full max-w-sm overflow-hidden rounded-xl tile p-3.5 text-sm text-white modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
+      className={`group relative flex w-full max-w-sm overflow-hidden rounded-[20px] tile p-3.5 text-sm text-white modal-shadow animate-slide-in-up transition-transform duration-150 active:scale-[0.99] select-none`}
       role="status"
       aria-live="polite"
     >

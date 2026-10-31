@@ -1,4 +1,4 @@
-﻿export const Button = ({
+export const Button = ({
   children,
   variant = 'primary',
   size = 'md',
@@ -12,21 +12,21 @@
   ...props
 }) => {
   const baseClasses =
-    'relative inline-flex items-center justify-center font-medium select-none rounded-lg transition-all duration-150 ease-out focus-ring active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer';
+    'relative inline-flex items-center justify-center font-medium select-none rounded-full transition-all duration-150 ease-out focus-ring active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 cursor-pointer';
 
   const variantClasses = {
-    // Primary: solid green fill with dark text (WCAG AA) + mint glow on hover
+    // Primary: solid --primary with dark text (#070707) and faint mint glow on hover
     primary:
-      'bg-primary text-[#070707] border border-primary/40 hover:bg-[#2da858] shadow-[0_4px_16px_rgba(51,188,101,0.25),inset_0_1px_0_rgba(255,255,255,0.18)] hover:shadow-[0_6px_24px_rgba(51,188,101,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] rounded-full',
+      'bg-primary text-[#070707] border border-primary/50 shadow-[0_2px_12px_rgba(51,188,101,0.25)] hover:shadow-[0_0_22px_rgba(93,255,217,0.45)] hover:border-glow/60',
     // Secondary: glass style, border turns --accent on hover
     secondary:
-      'bg-white/[0.05] text-white border border-white/[0.18] hover:bg-white/[0.09] hover:border-[#12DCEF]/60 shadow-[0_1px_0_rgba(0,0,0,0.4)] rounded-full',
-    // Danger: primary/10 tinted glass with accent text
+      'bg-glass-bg text-white border border-glass-border backdrop-blur-md hover:border-accent hover:text-white shadow-[0_1px_0_rgba(0,0,0,0.4)]',
+    // Danger: glass style with accent/alert
     danger:
-      'bg-[rgba(18,220,239,0.08)] text-[#12DCEF] border border-[rgba(18,220,239,0.25)] hover:bg-[rgba(18,220,239,0.14)] hover:border-[rgba(18,220,239,0.45)] shadow-[0_1px_0_rgba(0,0,0,0.4)] rounded-full',
-    // Ghost: transparent, subtle hover
+      'bg-glass-bg text-red-400 border border-red-500/30 backdrop-blur-md hover:border-red-400 hover:text-red-300 shadow-[0_1px_0_rgba(0,0,0,0.4)]',
+    // Ghost: transparent, subtle glass hover
     ghost:
-      'bg-transparent text-[rgba(255,255,255,0.55)] border border-transparent hover:bg-white/[0.06] hover:text-white hover:border-white/[0.12] rounded-full',
+      'bg-transparent text-text-muted border border-transparent hover:bg-glass-bg hover:text-white hover:border-glass-border',
   };
 
   const sizeClasses = {

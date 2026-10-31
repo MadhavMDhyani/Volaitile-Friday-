@@ -1,339 +1,322 @@
-import { useState, useEffect, useRef, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { PALETTE } from '../config/palette';
 
-// Check WebGL availability
-function checkWebGLSupport() {
-  if (typeof window === 'undefined') return false;
-  try {
-    const canvas = document.createElement('canvas');
-    return Boolean(
-      window.WebGLRenderingContext &&
-      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
-    );
-  } catch {
-    return false;
-  }
+/**
+ * Creates a circular soft radial gradient sprite for particle rendering.
+ * Avoids square pixel artifacts with zero external asset dependencies.
+ */
+function createParticleTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+  gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+  gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.25)');
+  gradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.05)');
+  gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 64, 64);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
 }
 
-// Deterministic PRNG to generate starfield positions purely without Math.random during render
-function generateParticlePositions(count, seed = 12345) {
-  const pos = new Float32Array(count * 3);
-  let s = seed;
-  const nextFloat = () => {
-    s = (1103515245 * s + 12345) & 0x7fffffff;
-    return s / 0x7fffffff;
-  };
-  for (let i = 0; i < count; i++) {
-    const i3 = i * 3;
-    pos[i3] = (nextFloat() - 0.5) * 35;
-    pos[i3 + 1] = (nextFloat() - 0.5) * 35;
-    pos[i3 + 2] = (nextFloat() - 0.5) * 25;
-  }
-  return pos;
-}
-
-const DESKTOP_PARTICLES = generateParticlePositions(1000, 42);
-const MOBILE_PARTICLES = generateParticlePositions(350, 99);
-
-// Particle field (Starfield layer)
-function ParticleField({ count = 1000, opacity = 0.35, speed = 0.05, isMobile = false }) {
-  const pointsRef = useRef();
-  const positions = isMobile ? MOBILE_PARTICLES : DESKTOP_PARTICLES;
-
-  useFrame((state, delta) => {
-    if (!pointsRef.current) return;
-    pointsRef.current.rotation.y += delta * speed * 0.2;
-    pointsRef.current.rotation.x += delta * speed * 0.1;
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.06}
-        color="#5DFFD9"
-        transparent
-        opacity={opacity}
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-}
-
-// Floating 3D Geometries
-function FloatingShapes({ isLanding, isMobile }) {
-  const groupRef = useRef();
-  const shape1Ref = useRef();
-  const shape2Ref = useRef();
-  const shape3Ref = useRef();
-  const turboRef = useRef();
-
-  const scrollYRef = useRef(0);
-  const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
+/**
+ * Background3D:
+ * Fixed full-viewport Three.js scene blending into the palette.
+ * - Transparent renderer (alpha: true, no scene background colour)
+ * - Fog colour #070707 (PALETTE.bg)
+ * - Particle field with additive blending in a mix of #33BC65, #12DCEF, #5DFFD9
+ * - Slowly rotating wireframe icosahedron in #5DFFD9 with faint #12DCEF glow top-right
+ * - Mouse parallax & optional scroll drift
+ * - Reduced motion support (single static frame)
+ * - Mobile optimization (<768px: -60% particle count, minimal rotation)
+ * - Tab hidden pause via visibilitychange
+ * - Memory leak free disposal
+ */
+export const Background3D = () => {
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      scrollYRef.current = window.scrollY;
-    };
-    const handleMouseMove = (e) => {
-      mouseRef.current.targetX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseRef.current.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Check WebGL support
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) return;
+
+    let animId = null;
+    let isPaused = false;
+    let lastTime = performance.now();
+
+    const isMobile = window.innerWidth < 768;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let prefersReducedMotion = motionQuery.matches;
+
+    // 1. Renderer — transparent background, capped dpr at 2
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'low-power',
+    });
+    renderer.setClearColor(0x000000, 0); // Completely transparent
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // 2. Scene with Fog #070707
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(PALETTE.bg, 10, 32);
+
+    // 3. Camera & Camera Group (for parallax)
+    const cameraGroup = new THREE.Group();
+    scene.add(cameraGroup);
+
+    const camera = new THREE.PerspectiveCamera(
+      52,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      50
+    );
+    camera.position.set(0, 0, 11);
+    cameraGroup.add(camera);
+
+    // 4. Particle Texture
+    const particleTexture = createParticleTexture();
+
+    // 5. Particle Field
+    // Cut particle count by ~60% on small screens (<768px)
+    const particleCount = isMobile ? 850 : 2200;
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    const colorPrimary = new THREE.Color(PALETTE.primary);
+    const colorAccent = new THREE.Color(PALETTE.accent);
+    const colorGlow = new THREE.Color(PALETTE.glow);
+
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3;
+
+      // Distribute particles across a wide 3D volume
+      positions[i3] = (Math.random() - 0.5) * 36;
+      positions[i3 + 1] = (Math.random() - 0.5) * 30;
+      positions[i3 + 2] = (Math.random() - 0.5) * 24 - 2;
+
+      // Mix of colors: ~72% primary green, ~18% accent cyan, ~10% glow mint
+      const rand = Math.random();
+      let chosenColor;
+      if (rand < 0.72) {
+        chosenColor = colorPrimary;
+      } else if (rand < 0.90) {
+        chosenColor = colorAccent;
+      } else {
+        chosenColor = colorGlow;
+      }
+
+      colors[i3] = chosenColor.r;
+      colors[i3 + 1] = chosenColor.g;
+      colors[i3 + 2] = chosenColor.b;
+    }
+
+    const particleGeometry = new THREE.BufferGeometry();
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const particleMaterial = new THREE.PointsMaterial({
+      size: isMobile ? 0.16 : 0.20,
+      map: particleTexture,
+      transparent: true,
+      opacity: 0.42,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+
+    const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particlePoints);
+
+    // 6. Focal Element: Wireframe icosahedron in #5DFFD9 + faint #12DCEF glow shell
+    // Positioned toward top-right where the CSS radial glow is brightest
+    const focalGroup = new THREE.Group();
+    const aspect = window.innerWidth / Math.max(window.innerHeight, 1);
+    const focalX = Math.min(Math.max(aspect * 2.6, 2.0), 4.2);
+    const focalY = 2.4;
+    const focalZ = -3.0;
+    focalGroup.position.set(focalX, focalY, focalZ);
+
+    // Core icosahedron
+    const icoGeometry = new THREE.IcosahedronGeometry(1.9, 1);
+    const icoMaterial = new THREE.MeshBasicMaterial({
+      color: colorGlow,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.20,
+      depthWrite: false,
+    });
+    const icoMesh = new THREE.Mesh(icoGeometry, icoMaterial);
+    focalGroup.add(icoMesh);
+
+    // Outer faint glow shell in #12DCEF
+    const glowGeometry = new THREE.IcosahedronGeometry(2.05, 1);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+      color: colorAccent,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.08,
+      depthWrite: false,
+    });
+    const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+    focalGroup.add(glowMesh);
+
+    scene.add(focalGroup);
+
+    // 7. Mouse Parallax & Scroll Drift
+    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    let scrollY = window.scrollY;
+
+    const handlePointerMove = (e) => {
+      mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
+    const handleScroll = () => {
+      scrollY = window.scrollY;
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+    // 8. Resize Handler
+    const handleResize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      camera.aspect = width / Math.max(height, 1);
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+      // Re-align focal group to top right based on aspect ratio
+      const newAspect = width / Math.max(height, 1);
+      focalGroup.position.x = Math.min(Math.max(newAspect * 2.6, 1.8), 4.2);
+
+      if (prefersReducedMotion) {
+        renderer.render(scene, camera);
+      }
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    // 9. Tab Visibility (pause when tab hidden)
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isPaused = true;
+        if (animId) cancelAnimationFrame(animId);
+      } else {
+        isPaused = false;
+        lastTime = performance.now();
+        if (!prefersReducedMotion) {
+          animId = requestAnimationFrame(animate);
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    // 10. Prefers Reduced Motion listener
+    const handleMotionChange = (e) => {
+      prefersReducedMotion = e.matches;
+      if (prefersReducedMotion) {
+        if (animId) cancelAnimationFrame(animId);
+        renderer.render(scene, camera);
+      } else if (!document.hidden) {
+        lastTime = performance.now();
+        animId = requestAnimationFrame(animate);
+      }
+    };
+    motionQuery.addEventListener('change', handleMotionChange);
+
+    // 11. Animation Loop
+    const animate = (currentTime) => {
+      if (isPaused) return;
+
+      const delta = Math.min((currentTime - lastTime) / 1000, 0.1);
+      lastTime = currentTime;
+
+      // Subtle mouse parallax easing
+      mouse.x += (mouse.targetX * 0.45 - mouse.x) * 0.04;
+      mouse.y += (mouse.targetY * 0.35 - mouse.y) * 0.04;
+
+      const scrollOffset = -scrollY * 0.0008;
+      cameraGroup.position.x = mouse.x;
+      cameraGroup.position.y = mouse.y + scrollOffset;
+
+      // Particle slow drift
+      particlePoints.rotation.y += delta * 0.025;
+      particlePoints.rotation.x += delta * 0.012;
+
+      // Focal wireframe rotation: smooth on desktop, minimal/light on mobile
+      if (!isMobile) {
+        focalGroup.rotation.x += delta * 0.08;
+        focalGroup.rotation.y += delta * 0.12;
+      } else {
+        focalGroup.rotation.y += delta * 0.03;
+      }
+
+      renderer.render(scene, camera);
+      animId = requestAnimationFrame(animate);
+    };
+
+    // If reduced motion, render single static frame and exit; otherwise start loop
+    if (prefersReducedMotion) {
+      renderer.render(scene, camera);
+    } else {
+      animId = requestAnimationFrame(animate);
+    }
+
+    // 12. Cleanup on unmount — dispose geometries, materials, renderer & listeners
     return () => {
+      if (animId) cancelAnimationFrame(animId);
+
+      window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      motionQuery.removeEventListener('change', handleMotionChange);
+
+      particleGeometry.dispose();
+      particleMaterial.dispose();
+      if (particleTexture) particleTexture.dispose();
+
+      icoGeometry.dispose();
+      icoMaterial.dispose();
+      glowGeometry.dispose();
+      glowMaterial.dispose();
+
+      renderer.dispose();
+      if (renderer.forceContextLoss) {
+        renderer.forceContextLoss();
+      }
     };
   }, []);
 
-  const motionSpeed = isLanding ? 1.0 : 0.35;
-  const violetOpacity = isLanding ? 0.45 : 0.18;
-  const turboOpacity = isLanding ? 0.70 : 0.30;
-
-  useFrame((state, delta) => {
-    // Smooth mouse parallax
-    mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.04;
-    mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.04;
-
-    // Camera drift with mouse and scroll
-    const targetCamX = mouseRef.current.x * 0.8;
-    const targetCamY = mouseRef.current.y * 0.6 - (scrollYRef.current * 0.0012);
-    state.camera.position.x += (targetCamX - state.camera.position.x) * 0.05;
-    state.camera.position.y += (targetCamY - state.camera.position.y) * 0.05;
-    state.camera.lookAt(0, 0, 0);
-
-    // Shape 1: Icosahedron
-    if (shape1Ref.current) {
-      shape1Ref.current.rotation.x += delta * 0.15 * motionSpeed;
-      shape1Ref.current.rotation.y += delta * 0.22 * motionSpeed;
-      shape1Ref.current.position.y = 2.2 + Math.sin(state.clock.elapsedTime * 0.4 * motionSpeed) * 0.35;
-    }
-
-    // Shape 2: Torus Knot
-    if (shape2Ref.current) {
-      shape2Ref.current.rotation.x += delta * 0.12 * motionSpeed;
-      shape2Ref.current.rotation.z += delta * 0.18 * motionSpeed;
-      shape2Ref.current.position.y = -2.0 + Math.cos(state.clock.elapsedTime * 0.35 * motionSpeed) * 0.3;
-    }
-
-    // Shape 3: Octahedron
-    if (shape3Ref.current) {
-      shape3Ref.current.rotation.y += delta * 0.2 * motionSpeed;
-      shape3Ref.current.rotation.z += delta * 0.15 * motionSpeed;
-      shape3Ref.current.position.y = 0.5 + Math.sin(state.clock.elapsedTime * 0.5 * motionSpeed + 1) * 0.25;
-    }
-
-    // Small Turbo accent shape
-    if (turboRef.current) {
-      turboRef.current.rotation.x += delta * 0.3 * motionSpeed;
-      turboRef.current.rotation.y += delta * 0.35 * motionSpeed;
-      turboRef.current.position.x = 2.8 + Math.cos(state.clock.elapsedTime * 0.4 * motionSpeed) * 0.2;
-      turboRef.current.position.y = -0.6 + Math.sin(state.clock.elapsedTime * 0.45 * motionSpeed) * 0.25;
-    }
-  });
-
   return (
-    <group ref={groupRef}>
-      {/* 1. Large Icosahedron (Primary Green Wireframe) */}
-      <mesh ref={shape1Ref} position={[-3.2, 2.2, -4]}>
-        <icosahedronGeometry args={[1.8, 1]} />
-        <meshStandardMaterial
-          color="#33BC65"
-          wireframe
-          transparent
-          opacity={violetOpacity}
-          roughness={0.2}
-          metalness={0.8}
-        />
-      </mesh>
-
-      {/* 2. Torus Knot (Accent Mint Wireframe) */}
-      <mesh ref={shape2Ref} position={[3.6, -2.0, -3.5]}>
-        <torusKnotGeometry args={[1.2, 0.35, 64, 16]} />
-        <meshStandardMaterial
-          color="#12DCEF"
-          wireframe
-          transparent
-          opacity={violetOpacity * 0.9}
-          roughness={0.3}
-          metalness={0.7}
-        />
-      </mesh>
-
-      {/* 3. Octahedron (Glow Wireframe) - desktop only if small screen */}
-      {!isMobile && (
-        <mesh ref={shape3Ref} position={[-2.5, -1.8, -2]}>
-          <octahedronGeometry args={[1.1, 0]} />
-          <meshStandardMaterial
-            color="#5DFFD9"
-            wireframe
-            transparent
-            opacity={violetOpacity * 0.8}
-            roughness={0.2}
-            metalness={0.9}
-          />
-        </mesh>
-      )}
-
-      {/* 4. Small Glow Accent Shape */}
-      <mesh ref={turboRef} position={[2.8, -0.6, -1.5]}>
-        <octahedronGeometry args={[0.42, 0]} />
-        <meshStandardMaterial
-          color="#5DFFD9"
-          wireframe
-          transparent
-          opacity={turboOpacity}
-          emissive="#5DFFD9"
-          emissiveIntensity={isLanding ? 0.4 : 0.2}
-          roughness={0.1}
-          metalness={0.9}
-        />
-      </mesh>
-    </group>
-  );
-}
-
-// Internal WebGL Scene wrapper
-function SceneContainer({ isLanding, isMobile, isTabHidden }) {
-  const particleCount = isMobile ? 350 : isLanding ? 1000 : 400;
-  const particleOpacity = isLanding ? 0.35 : 0.12;
-
-  return (
-    <Canvas
-      frameloop={isTabHidden ? 'never' : 'always'}
-      dpr={Math.min(window.devicePixelRatio || 1, 1.5)}
-      camera={{ position: [0, 0, 8], fov: 50, near: 0.1, far: 50 }}
-      gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
+        inset: 0,
+        zIndex: -1,
         pointerEvents: 'none',
-        zIndex: 0,
+        width: '100vw',
+        height: '100vh',
       }}
-    >
-      {/* Background fog in near-black */}
-      <fog attach="fog" args={['#070707', 6, 26]} />
-
-      {/* Lighting */}
-      <ambientLight color="#0a1a10" intensity={isLanding ? 0.7 : 0.3} />
-      <pointLight
-        position={[4, 5, 4]}
-        color="#33BC65"
-        intensity={isLanding ? 1.8 : 0.6}
-        distance={25}
-      />
-      <pointLight
-        position={[-5, -4, -2]}
-        color="#12DCEF"
-        intensity={isLanding ? 0.40 : 0.12}
-        distance={20}
-      />
-      <directionalLight
-        position={[0, 8, 5]}
-        color="#FFFFFF"
-        intensity={isLanding ? 0.25 : 0.08}
-      />
-
-      {/* Shapes and Starfield */}
-      <FloatingShapes isLanding={isLanding} isMobile={isMobile} />
-      <ParticleField
-        count={particleCount}
-        opacity={particleOpacity}
-        speed={isLanding ? 0.05 : 0.02}
-        isMobile={isMobile}
-      />
-    </Canvas>
-  );
-}
-
-// Static Fallback for reduced-motion or non-WebGL environments
-export const StaticGradientBackground = () => (
-  <div
-    aria-hidden="true"
-    className="fixed inset-0 pointer-events-none"
-    style={{
-      zIndex: 0,
-      background: 'radial-gradient(ellipse 65% 55% at 90% 0%, rgba(51,188,101,0.18) 0%, rgba(18,220,239,0.06) 50%, #070707 80%)',
-    }}
-  />
-);
-
-export const Background3D = () => {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false
-  );
-  const [webglSupported] = useState(() => checkWebGLSupport());
-  const [isTabHidden, setIsTabHidden] = useState(() =>
-    typeof document !== 'undefined' ? document.hidden : false
-  );
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 768 : false
-  );
-  const [pathname, setPathname] = useState(() =>
-    typeof window !== 'undefined' ? window.location.pathname : '/'
-  );
-
-  useEffect(() => {
-    // 1. Accessibility: reduced motion query listener
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onMotionChange = (e) => setPrefersReducedMotion(e.matches);
-    motionQuery.addEventListener('change', onMotionChange);
-
-    // 2. Viewport width listener
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', checkMobile);
-
-    // 3. Tab visibility listener
-    const onVisibility = () => setIsTabHidden(document.hidden);
-    document.addEventListener('visibilitychange', onVisibility);
-
-    // 4. Track route pathname for Landing vs App page intensity
-    const updatePath = () => setPathname(window.location.pathname);
-    window.addEventListener('popstate', updatePath);
-    const interval = setInterval(updatePath, 300);
-
-    return () => {
-      motionQuery.removeEventListener('change', onMotionChange);
-      window.removeEventListener('resize', checkMobile);
-      document.removeEventListener('visibilitychange', onVisibility);
-      window.removeEventListener('popstate', updatePath);
-      clearInterval(interval);
-    };
-  }, []);
-
-  if (prefersReducedMotion || !webglSupported) {
-    return <StaticGradientBackground />;
-  }
-
-  const isLanding =
-    pathname === '/' ||
-    pathname === '/welcome' ||
-    pathname === '/about' ||
-    pathname === '/features' ||
-    pathname === '/how-it-works' ||
-    pathname === '/why-friday' ||
-    pathname === '/faq';
-
-  return (
-    <Suspense fallback={<StaticGradientBackground />}>
-      <SceneContainer isLanding={isLanding} isMobile={isMobile} isTabHidden={isTabHidden} />
-    </Suspense>
+    />
   );
 };
 

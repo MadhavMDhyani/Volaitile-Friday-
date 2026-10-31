@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export const ProductMockup = () => {
   const [isPaused, setIsPaused] = useState(false);
@@ -92,8 +92,8 @@ export const ProductMockup = () => {
           <div className="flex items-center gap-2 min-w-0">
             <div className="flex items-center gap-1.5 shrink-0">
               <span className="h-3 w-3 rounded-full bg-primary/90" />
-              <span className="h-3 w-3 rounded-full bg-[#9D98AA]/90" />
-              <span className="h-3 w-3 rounded-full bg-[#C9C6D5]/90" />
+              <span className="h-3 w-3 rounded-full bg-accent/80" />
+              <span className="h-3 w-3 rounded-full bg-glow/70" />
             </div>
             <span className="ml-3 font-mono text-xs text-[rgba(255,255,255,0.55)] flex items-center gap-1.5 truncate">
               <i className="ri-folder-3-line text-primary text-xs shrink-0" />

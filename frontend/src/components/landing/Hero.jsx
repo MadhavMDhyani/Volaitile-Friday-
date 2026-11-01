@@ -50,9 +50,9 @@ export const Hero = () => {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center pointer-events-none">
         {/* Subtle Pill Tag */}
         <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full tile-pill px-3 py-1 text-[11px] sm:text-xs text-[rgba(255,255,255,0.55)] border border-white/15 mb-2 sm:mb-3 max-w-full animate-fade-in pointer-events-auto">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)] shrink-0" />
+          <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_var(--glow)] shrink-0" />
           <span className="font-mono text-[rgba(255,255,255,0.70)] font-medium whitespace-nowrap">Volaitile Friday</span>
-          <span className="text-white/30 hidden sm:inline">Â·</span>
+          <span className="text-white/30 hidden sm:inline">&middot;</span>
           <span className="truncate hidden sm:inline">Real-time developer workspaces</span>
         </div>
 

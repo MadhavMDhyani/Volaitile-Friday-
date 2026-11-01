@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense, useContext } from 'react';
+import { lazy, Suspense, useContext } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/user.context';
 import PageTransition from '../components/PageTransition';
@@ -34,11 +34,11 @@ const ScreenFallback = () => (
 
 const NotFoundPage = () => (
   <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-white font-sans">
-    <div className="tile p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl tile mb-4 text-white">
+    <div className="tile rounded-3xl p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full tile mb-4 text-white">
         <i className="ri-compass-3-line text-2xl text-primary" />
       </div>
-      <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+      <h1 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
         Page Not Found
       </h1>
       <p className="mt-2 max-w-xs text-xs text-[rgba(255,255,255,0.55)] leading-relaxed">
@@ -62,11 +62,11 @@ const ProtectedRoute = ({ children }) => {
   if (serverError) {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-white font-sans">
-        <div className="tile p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/25 bg-primary-tint/20 text-primary mb-4">
+        <div className="tile rounded-3xl p-8 sm:p-10 max-w-md w-full flex flex-col items-center modal-shadow">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-red-500/30 bg-red-500/10 text-red-400 mb-4">
             <i className="ri-wifi-off-line text-2xl" />
           </div>
-          <h2 className="text-lg font-bold text-white">Server Unreachable</h2>
+          <h2 className="text-lg font-medium tracking-tight text-white">Server Unreachable</h2>
           <p className="mt-2 max-w-xs text-xs text-[rgba(255,255,255,0.55)] leading-relaxed">{serverError}</p>
           <div className="mt-6">
             <Button variant="primary" size="sm" onClick={retryProfileFetch}>

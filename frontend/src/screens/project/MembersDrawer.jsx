@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -174,7 +174,7 @@ export const MembersDrawer = ({
                 >
                   <div className="flex items-center gap-2.5 truncate pr-2">
                     <div className="relative shrink-0">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-bold text-white border border-white/[0.1] shadow-tile">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-white/[0.12] to-white/[0.04] font-mono text-[10px] font-medium text-white border border-white/[0.1] shadow-tile">
                         {email.charAt(0).toUpperCase()}
                       </div>
                       {onlineUserIds.includes(mId) && (
@@ -199,7 +199,7 @@ export const MembersDrawer = ({
 
                   <div className="flex items-center gap-2">
                     {isMemberOwner ? (
-                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-mono text-primary uppercase shadow-[0_0_8px_rgb(var(--accent-rgb)/0.2)]">
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-mono text-primary uppercase shadow-[0_0_8px_rgba(51,188,101,0.2)]">
                         Owner
                       </span>
                     ) : isOwner ? (

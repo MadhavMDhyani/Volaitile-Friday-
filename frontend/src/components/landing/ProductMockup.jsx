@@ -67,9 +67,9 @@ export const ProductMockup = () => {
           ...floatingAnimStyle,
         }}
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgb(var(--accent-rgb)/0.8)]" />
+        <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_var(--glow)]" />
         <span className="text-[rgba(255,255,255,0.55)]">Room Presence:</span>
-        <span className="text-white font-semibold tabular-nums">2 online</span>
+        <span className="text-white font-medium tabular-nums">2 online</span>
       </div>
 
       {/* Floating Pill: Cloud Sync Status (Bottom-right, stays within mobile viewport) */}
@@ -103,7 +103,7 @@ export const ProductMockup = () => {
 
           <div className="flex items-center gap-2 shrink-0">
             <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-0.5 text-[10px] font-mono text-[rgba(255,255,255,0.70)]">
-              Friday AI Â· Auto
+              Friday AI &middot; Auto
             </span>
           </div>
         </div>
@@ -217,18 +217,18 @@ export const ProductMockup = () => {
                 {/* User message */}
                 <div className="flex flex-col items-end">
                   <span className="text-[10px] font-mono text-[rgba(255,255,255,0.55)] mb-1">dev@company.com</span>
-                  <div className="rounded-2xl border border-accent/50/30 bg-primary-tint/25 px-3 py-2 text-[11px] text-white">
+                  <div className="rounded-2xl border border-glass-border bg-glass-bg px-3 py-2 text-[11px] text-white">
                     @friday check our JWT blacklist lookup in auth.middleware.js
                   </div>
                 </div>
 
                 {/* Friday AI response */}
                 <div className="flex flex-col items-start">
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-primary mb-1 font-semibold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)]" />
-                    Friday AI Â· Auto
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-primary mb-1 font-medium">
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_6px_var(--glow)]" />
+                    Friday AI &middot; Auto
                   </span>
-                  <div className="rounded-2xl border border-accent/25 bg-primary-tint/20 px-3 py-2 text-[11px] text-[rgba(255,255,255,0.70)] leading-relaxed">
+                  <div className="rounded-2xl border border-primary/20 bg-primary/5 px-3 py-2 text-[11px] text-[rgba(255,255,255,0.70)] leading-relaxed">
                     The Redis check is secure! Token invalidation operates in O(1) time. Remember to set a matching TTL on the blacklist key to prevent stale keys.
                   </div>
                 </div>

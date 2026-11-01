@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from '../../config/axios';
 import Button from '../../components/Button';
 import { useToast } from '../../context/useToast';
@@ -89,7 +89,7 @@ const SafeMarkdownBlock = ({ text }) => {
     if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
       parts.push(
         <div key={`li-${index}`} className="flex items-start gap-2 ml-1 my-0.5">
-          <span className="text-[rgba(255,255,255,0.35)] select-none">â€¢</span>
+          <span className="text-[rgba(255,255,255,0.35)] select-none">&bull;</span>
           <span className="flex-1">{renderInline(line.trim().slice(2))}</span>
         </div>
       );
@@ -569,9 +569,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 {/* Header label */}
                 <div className="flex items-center gap-1.5 mb-1 text-[11px] font-mono text-[rgba(255,255,255,0.55)] max-w-full">
                   {isAi ? (
-                    <span className="inline-flex items-center gap-1.5 font-semibold text-white min-w-0 flex-wrap">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary shadow-[0_0_6px_rgb(var(--accent-rgb)/0.8)] animate-pulse" />
-                      <span className="text-primary font-bold shrink-0">Friday AI</span>
+                    <span className="inline-flex items-center gap-1.5 font-medium text-white min-w-0 flex-wrap">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary shadow-[0_0_6px_var(--glow)] animate-pulse" />
+                      <span className="text-primary font-medium shrink-0">Friday AI</span>
                       {(() => {
                         const isOffline =
                           msg.source === 'offline' ||
@@ -655,10 +655,10 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
                 <div
                   className={`max-w-[88%] sm:max-w-[82%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${
                     isAi
-                      ? 'border border-accent/25 bg-primary-tint/20 text-[rgba(255,255,255,0.70)] shadow-tile'
+                      ? 'border border-primary/20 bg-primary/5 text-[rgba(255,255,255,0.70)] shadow-tile'
                       : isMe
-                      ? `border border-accent/50/30 bg-primary-tint/25 text-white shadow-tile ${isOptimistic ? 'opacity-70' : ''}`
-                      : 'border border-white/[0.08] bg-white/[0.04] text-[#e5e5e5]'
+                      ? `border border-glass-border bg-glass-bg text-white shadow-tile ${isOptimistic ? 'opacity-70' : ''}`
+                      : 'border border-white/[0.08] bg-white/[0.04] text-white'
                   }`}
                 >
                   {isAi ? (
@@ -677,9 +677,9 @@ export const ChatPanel = ({ projectId, currentUserId, socketControls }) => {
           <div className="flex flex-col items-start animate-fade-in">
             <span className="text-[11px] font-mono text-primary/80 mb-1 flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              Friday AI is thinkingâ€¦
+              Friday AI is thinking...
             </span>
-            <div className="flex items-center gap-1.5 rounded-2xl border border-accent/25 bg-primary-tint/20 px-3.5 py-2 text-xs text-primary shadow-tile">
+            <div className="flex items-center gap-1.5 rounded-2xl border border-primary/20 bg-primary/5 px-3.5 py-2 text-xs text-primary shadow-tile">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />

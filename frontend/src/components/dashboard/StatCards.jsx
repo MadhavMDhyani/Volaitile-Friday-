@@ -1,4 +1,4 @@
-﻿import Skeleton from '../Skeleton';
+import Skeleton from '../Skeleton';
 import Button from '../Button';
 
 export const StatCards = ({
@@ -70,29 +70,29 @@ export const StatCards = ({
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
       {/* 1. Total Projects */}
-      <div className="tile rounded-2xl p-5">
+      <div className="tile rounded-3xl p-5">
         <div className="flex items-center justify-between mb-3">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Total Projects</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-primary">
+          <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-tile-raised text-primary">
             <i className="ri-folder-3-line text-sm" />
           </div>
         </div>
-        <div className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">
+        <div className="font-mono text-2xl font-medium tracking-tight text-white tabular-nums">
           {totalProjects}
         </div>
         <p className="mt-1 text-[11px] text-[rgba(255,255,255,0.35)]">Active developer workspaces</p>
       </div>
 
       {/* 2. Ownership */}
-      <div className="tile rounded-2xl p-5">
+      <div className="tile rounded-3xl p-5">
         <div className="flex items-center justify-between mb-3">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Ownership</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-[rgba(255,255,255,0.70)]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-tile-raised text-[rgba(255,255,255,0.70)]">
             <i className="ri-shield-user-line text-sm" />
           </div>
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">{ownedCount}</span>
+          <span className="font-mono text-2xl font-medium tracking-tight text-white tabular-nums">{ownedCount}</span>
           <span className="text-xs font-mono text-[rgba(255,255,255,0.35)] tabular-nums">/ {totalProjects} owned</span>
         </div>
         <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
@@ -102,10 +102,10 @@ export const StatCards = ({
       </div>
 
       {/* 3. Codebase */}
-      <div className="tile rounded-2xl p-5">
+      <div className="tile rounded-3xl p-5">
         <div className="flex items-center justify-between mb-3">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Codebase</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-white">
+          <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-tile-raised text-white">
             <i className="ri-code-box-line text-sm" />
           </div>
         </div>
@@ -116,7 +116,7 @@ export const StatCards = ({
           </div>
         ) : (
           <>
-            <div className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">
+            <div className="font-mono text-2xl font-medium tracking-tight text-white tabular-nums">
               {projectStats.totalFiles.toLocaleString()}{' '}
               <span className="text-sm font-normal text-[rgba(255,255,255,0.55)]">files</span>
             </div>
@@ -128,14 +128,14 @@ export const StatCards = ({
       </div>
 
       {/* 4. Collaborators */}
-      <div className="tile rounded-2xl p-5">
+      <div className="tile rounded-3xl p-5">
         <div className="flex items-center justify-between mb-3">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[rgba(255,255,255,0.55)]">Collaborators</span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-tile-raised text-primary">
+          <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-tile-raised text-primary">
             <i className="ri-team-line text-sm" />
           </div>
         </div>
-        <div className="font-mono text-2xl font-bold tracking-tight text-white tabular-nums">
+        <div className="font-mono text-2xl font-medium tracking-tight text-white tabular-nums">
           {uniqueCollaborators.size}
         </div>
         <p className="mt-1 text-[11px] text-[rgba(255,255,255,0.35)] tabular-nums">

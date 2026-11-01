@@ -36,8 +36,8 @@ export default {
         border:          'rgba(255,255,255,0.18)',
         'border-subtle': 'rgba(255,255,255,0.10)',
         'border-strong': 'rgba(255,255,255,0.22)',
-        surface: 'rgba(255,255,255,0.06)',
-        raised:  'rgba(255,255,255,0.09)',
+        surface: '#0c0c0c',
+        raised:  '#121212',
         tile: {
           DEFAULT:   'rgba(255,255,255,0.06)',
           raised:    'rgba(255,255,255,0.09)',

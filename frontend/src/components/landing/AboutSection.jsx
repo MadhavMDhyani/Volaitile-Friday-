@@ -1,4 +1,4 @@
-﻿import Reveal from './Reveal';
+import Reveal from './Reveal';
 
 const PILLARS = [
   {
@@ -64,10 +64,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       {/* Pitch Header */}
       <div>
         <Reveal delay={0} immediate={compact}>
-          <span className="text-xs font-mono uppercase tracking-wider text-primary font-semibold">
+          <span className="text-xs font-mono uppercase tracking-wider text-primary font-medium">
             ABOUT VOLAITILE FRIDAY
           </span>
-          <TitleTag className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-white leading-tight">
+          <TitleTag className="mt-2 text-2xl sm:text-3xl font-medium tracking-tight text-white leading-tight">
             An engineering workspace built for flow
           </TitleTag>
           <p className="mt-3 text-xs sm:text-sm text-[rgba(255,255,255,0.55)] leading-relaxed">
@@ -80,10 +80,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       <div>
         <Reveal delay={40} immediate={compact}>
           <div className="mb-3">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-semibold">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-medium">
               CORE ARCHITECTURE
             </span>
-            <h3 className="text-lg font-bold tracking-tight text-white">
+            <h3 className="text-lg font-medium tracking-tight text-white">
               The Three Pillars
             </h3>
           </div>
@@ -92,17 +92,17 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
           {PILLARS.map((pillar, idx) => (
             <Reveal key={pillar.title} delay={idx * 60} immediate={compact} transformOnly={true}>
-              <div className="h-full rounded-2xl tile p-4 sm:p-5 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
+              <div className="h-full rounded-3xl tile p-4 sm:p-5 flex flex-col justify-between hover:border-white/30 transition-all duration-200">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-primary/30 text-primary shadow-[0_0_16px_rgb(var(--accent-rgb)/0.2)]">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl tile border-primary/30 text-primary shadow-[0_0_16px_rgba(51,188,101,0.2)]">
                       <i className={`${pillar.icon} text-lg`} />
                     </div>
                     <span className="text-[10px] font-mono rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[rgba(255,255,255,0.55)]">
                       {pillar.badge}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-white">{pillar.title}</h4>
+                  <h4 className="text-sm font-medium text-white">{pillar.title}</h4>
                   <p className="mt-1.5 text-xs text-[rgba(255,255,255,0.55)] leading-relaxed">
                     {pillar.desc}
                   </p>
@@ -116,11 +116,11 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       {/* Audience & Fit */}
       <div>
         <Reveal delay={80} immediate={compact}>
-          <div className="rounded-2xl tile border border-white/10 p-5 sm:p-6">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-semibold">
+          <div className="rounded-3xl tile border border-white/10 p-5 sm:p-6">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-medium">
               AUDIENCE &amp; FIT
             </span>
-            <h3 className="mt-1 text-lg font-bold tracking-tight text-white">
+            <h3 className="mt-1 text-lg font-medium tracking-tight text-white">
               Who is Volaitile Friday for?
             </h3>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[rgba(255,255,255,0.55)] leading-relaxed">
@@ -130,7 +130,7 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
                     <i className={`${item.icon} text-sm`} />
                   </div>
                   <div>
-                    <strong className="text-white block mb-0.5">{item.title}</strong>
+                    <strong className="text-white block mb-0.5 font-medium">{item.title}</strong>
                     {item.desc}
                   </div>
                 </div>
@@ -144,10 +144,10 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
       <div>
         <Reveal delay={100} immediate={compact}>
           <div className="mb-3">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-semibold">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-medium">
               TECH STACK
             </span>
-            <h3 className="text-lg font-bold tracking-tight text-white">
+            <h3 className="text-lg font-medium tracking-tight text-white">
               Built with modern, open standards
             </h3>
           </div>
@@ -157,7 +157,7 @@ export const AboutSection = ({ compact = false, asH1 = false }) => {
                 key={tech.name}
                 className="rounded-xl tile border border-white/[0.08] p-3 text-left flex flex-col justify-center"
               >
-                <span className="font-mono text-xs font-semibold text-white">
+                <span className="font-mono text-xs font-medium text-white">
                   {tech.name}
                 </span>
                 <span className="text-[10px] text-[rgba(255,255,255,0.55)] mt-0.5">{tech.role}</span>

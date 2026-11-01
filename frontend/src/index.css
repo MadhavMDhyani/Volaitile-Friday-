@@ -39,8 +39,8 @@
   /* Page aliases */
   --bg-page:    #070707;
   --page-rgb:   7 7 7;
-  --bg-surface: rgba(255, 255, 255, 0.06);
-  --bg-raised:  rgba(255, 255, 255, 0.09);
+  --bg-surface: #0c0c0c;
+  --bg-raised:  #121212;
 
   /* Text aliases */
   --text-primary:   #FFFFFF;
@@ -90,6 +90,22 @@ body::before {
   background:
     radial-gradient(ellipse 75% 65% at 92% 0%, rgba(51, 188, 101, 0.28) 0%, rgba(51, 188, 101, 0.10) 35%, rgba(93, 255, 217, 0.03) 55%, transparent 75%),
     #070707;
+}
+
+@keyframes bgPulse {
+  0% {
+    opacity: 0.25;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(1.02);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .css-fallback-pulse {
+    animation: none !important;
+  }
 }
 
 /* ── Menu blur ──────────────────────────────────────────── */

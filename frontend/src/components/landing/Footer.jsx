@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 
 export const Footer = () => {
@@ -24,31 +24,31 @@ export const Footer = () => {
           >
             <Link
               to="/features"
-              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-white transition-colors"
+              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-accent transition-colors"
             >
               Features
             </Link>
             <Link
               to="/faq"
-              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-white transition-colors"
+              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-accent transition-colors"
             >
               FAQ
             </Link>
             <Link
               to="/about"
-              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-white transition-colors"
+              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-accent transition-colors"
             >
               About
             </Link>
             <Link
               to="/login"
-              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-white transition-colors"
+              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center hover:text-accent transition-colors"
             >
               Log in
             </Link>
             <Link
               to="/register"
-              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center text-primary hover:underline font-medium"
+              className="min-h-[44px] sm:min-h-0 py-2 sm:py-0 flex items-center text-glow hover:text-accent transition-colors font-medium"
             >
               Register
             </Link>

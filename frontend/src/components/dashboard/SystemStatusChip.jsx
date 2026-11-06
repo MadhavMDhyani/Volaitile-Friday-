@@ -2,36 +2,58 @@ import { useState, useEffect } from 'react';
 import axios from '../../config/axios';
 
 export const SystemStatusChip = () => {
-  const [status, setStatus] = useState('checking'); // 'checking' | 'normal' | 'degraded'
+  const [status, setStatus] = useState('checking'); // 'checking' | 'waking' | 'normal' | 'degraded'
 
   useEffect(() => {
     let active = true;
+    let timer = null;
 
-    axios
-      .get('/health/ready')
-      .then((res) => {
+    const checkHealth = async () => {
+      try {
+        const res = await axios.get('/health/ready');
         if (!active) return;
         if (res.status === 200) {
           setStatus('normal');
         } else {
+          handleFailure();
+        }
+      } catch {
+        if (!active) return;
+        handleFailure();
+      }
+    };
+
+    const handleFailure = () => {
+      setStatus('waking');
+      timer = setTimeout(async () => {
+        try {
+          const res = await axios.get('/health/ready');
+          if (!active) return;
+          if (res.status === 200) {
+            setStatus('normal');
+          } else {
+            setStatus('degraded');
+          }
+        } catch {
+          if (!active) return;
           setStatus('degraded');
         }
-      })
-      .catch(() => {
-        if (!active) return;
-        setStatus('degraded');
-      });
+      }, 3000);
+    };
+
+    checkHealth();
 
     return () => {
       active = false;
+      if (timer) clearTimeout(timer);
     };
   }, []);
 
-  if (status === 'checking') {
+  if (status === 'checking' || status === 'waking') {
     return (
       <div className="inline-flex items-center gap-1.5 rounded-full border border-glass-border bg-glass-bg px-2.5 py-0.5 text-[11px] font-mono text-text-muted">
         <span className="h-1.5 w-1.5 rounded-full bg-text-muted animate-pulse" />
-        Checking health...
+        {status === 'waking' ? 'Waking up...' : 'Checking health...'}
       </div>
     );
   }

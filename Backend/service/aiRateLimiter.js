@@ -26,6 +26,16 @@ export const checkAndConsumeAiLimit = (userId) => {
     // Keep only timestamps within 24 hours
     timestamps = timestamps.filter((t) => now - t < ONE_DAY_MS);
 
+    // Check 24-hour window first: if daily quota is exhausted, block for the day
+    if (timestamps.length >= MAX_PER_DAY) {
+        aiUserRateLimits.set(key, timestamps);
+        return {
+            allowed: false,
+            reason: 'day',
+            error: 'AI daily rate limit exceeded. You can make at most 100 requests per day.',
+        };
+    }
+
     // Check minute window
     const minuteCount = timestamps.filter((t) => now - t < ONE_MINUTE_MS).length;
     if (minuteCount >= MAX_PER_MINUTE) {
@@ -34,16 +44,6 @@ export const checkAndConsumeAiLimit = (userId) => {
             allowed: false,
             reason: 'minute',
             error: 'AI rate limit exceeded. You can make at most 10 requests per minute.',
-        };
-    }
-
-    // Check 24-hour window
-    if (timestamps.length >= MAX_PER_DAY) {
-        aiUserRateLimits.set(key, timestamps);
-        return {
-            allowed: false,
-            reason: 'day',
-            error: 'AI daily rate limit exceeded. You can make at most 100 requests per day.',
         };
     }
 

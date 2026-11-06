@@ -36,6 +36,7 @@ router.get(
 router.put(
     '/add-user',
     authMiddleware.authUser,
+    requireProjectOwner,
     [
         body('projectId').isString().withMessage('projectId must be a string'),
         body('users').isArray().withMessage('Users must be an array of string IDs').bail()

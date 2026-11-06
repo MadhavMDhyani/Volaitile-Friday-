@@ -57,10 +57,20 @@ export const requireProjectMember = async (req, res, next) => {
 
         const result = await verifyProjectMember(projectId, currentUserId);
         if (!result.ok) {
-            return res.status(result.status).json({ error: result.message });
+            // Return 400 for bad input, 401 for missing identity;
+            // normalize all 403/404 cases to 404 so callers cannot probe
+            // whether a project exists by comparing error codes.
+            if (result.status === 400) return res.status(400).json({ error: result.message });
+            if (result.status === 401) return res.status(401).json({ error: result.message });
+            return res.status(404).json({ error: 'Not found' });
         }
 
-        req.project = result.project;
+        // Populate owner and users so route handlers can use req.project directly
+        // without an extra round-trip to the database.
+        req.project = await result.project.populate([
+            { path: 'owner', select: 'email _id' },
+            { path: 'users', select: 'email _id' },
+        ]);
         req.currentUserId = currentUserId;
         return next();
     } catch (err) {
@@ -82,7 +92,7 @@ export const requireProjectOwner = async (req, res, next) => {
 
         const project = await Project.findById(projectId);
         if (!project) {
-            return res.status(404).json({ error: 'Project not found' });
+            return res.status(404).json({ error: 'Not found' });
         }
 
         const currentUserId = req.user?._id ? req.user._id.toString() : null;
@@ -96,12 +106,12 @@ export const requireProjectOwner = async (req, res, next) => {
         });
 
         if (!isMember) {
-            return res.status(403).json({ error: 'You do not have access to this project' });
+            return res.status(404).json({ error: 'Not found' });
         }
 
         const ownerId = project.owner?._id ? project.owner._id.toString() : project.owner?.toString();
         if (ownerId !== currentUserId) {
-            return res.status(403).json({ error: 'Only the project owner can perform this action' });
+            return res.status(404).json({ error: 'Not found' });
         }
 
         req.project = project;

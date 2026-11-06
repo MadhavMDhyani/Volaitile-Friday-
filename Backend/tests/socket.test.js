@@ -151,11 +151,20 @@ describe('Socket.IO Real-Time Chat & Security Unit Tests (DB-independent)', () =
     });
 
     it('A member receives "chat:message" after a message is posted via REST or socket', async () => {
-        // Mock Project findById: memberUserId is a member
+        // Mock Project findById used by requireProjectMember (via verifyProjectMember).
+        // Must include a populate() stub because requireProjectMember calls
+        // result.project.populate([...]) after a successful membership check.
         vi.spyOn(Project, 'findById').mockResolvedValue({
             _id: validProjectId,
             name: 'Test Project',
+            owner: null,
             users: [memberUserId],
+            populate: vi.fn().mockResolvedValue({
+                _id: validProjectId,
+                name: 'Test Project',
+                owner: null,
+                users: [{ _id: memberUserId, email: 'member@test.com' }],
+            }),
         });
 
         const mockMessage = {

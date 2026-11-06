@@ -26,4 +26,4 @@ services:
       - key: GEMINI_MODEL
         sync: false
       - key: NODE_VERSION
-        sync: falseS
+        sync: false

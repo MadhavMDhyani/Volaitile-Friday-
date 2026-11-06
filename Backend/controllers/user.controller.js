@@ -21,15 +21,6 @@ export const createUserController = async (req, res) => {
         const userObj = user.toObject ? user.toObject() : { ...user._doc };
         delete userObj.password;
 
-        if (res.cookie) {
-            res.cookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-                maxAge: 24 * 60 * 60 * 1000,
-            });
-        }
-
         return res.status(201).json({ user: userObj, token });
     } catch (error) {
         if (error.code === 11000 || (error.message && error.message.includes('E11000'))) {
@@ -90,15 +81,6 @@ export const loginController = async (req, res) => {
         const userObj = user.toObject ? user.toObject() : { ...user._doc };
         delete userObj.password;
 
-        if (res.cookie) {
-            res.cookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-                maxAge: 24 * 60 * 60 * 1000,
-            });
-        }
-
         return res.status(200).json({ user: userObj, token });
     } catch (err) {
         console.error('Login error:', err);
@@ -154,10 +136,6 @@ export const logoutController = async (req, res) => {
                     return res.status(503).json({ error: 'Auth service unavailable' });
                 }
             }
-        }
-
-        if (res.cookie) {
-            res.cookie('token', '', { maxAge: 0 });
         }
 
         return res.status(200).json({ message: 'Logged out' });

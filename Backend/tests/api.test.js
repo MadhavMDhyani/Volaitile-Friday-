@@ -63,7 +63,7 @@ describe('API Unit & Security Tests (Database-independent)', () => {
         expect(res.body.error).toMatch(/not allowed by CORS/i);
     });
 
-    it('extractToken helper prefers Bearer header over cookie and handles fallbacks', () => {
+    it('extractToken helper accepts only Bearer header and ignores cookies', () => {
         expect(
             extractToken({
                 headers: { authorization: 'Bearer token-from-header' },
@@ -75,7 +75,7 @@ describe('API Unit & Security Tests (Database-independent)', () => {
             extractToken({
                 cookies: { token: 'token-from-cookie' },
             })
-        ).toBe('token-from-cookie');
+        ).toBe(null);
 
         expect(extractToken({ headers: { authorization: 'Basic xyz' } })).toBe(null);
         expect(extractToken({})).toBe(null);

@@ -7,16 +7,19 @@ export const SystemStatusChip = () => {
   useEffect(() => {
     let active = true;
     let timer = null;
+    let attempts = 0;
+    const MAX_RETRIES = 12;
+    const RETRY_INTERVAL_MS = 5000;
 
-    const checkHealth = async () => {
+    const executeCheck = async () => {
       try {
         const res = await axios.get('/health/ready');
         if (!active) return;
         if (res.status === 200) {
           setStatus('normal');
-        } else {
-          handleFailure();
+          return;
         }
+        handleFailure();
       } catch {
         if (!active) return;
         handleFailure();
@@ -24,24 +27,16 @@ export const SystemStatusChip = () => {
     };
 
     const handleFailure = () => {
-      setStatus('waking');
-      timer = setTimeout(async () => {
-        try {
-          const res = await axios.get('/health/ready');
-          if (!active) return;
-          if (res.status === 200) {
-            setStatus('normal');
-          } else {
-            setStatus('degraded');
-          }
-        } catch {
-          if (!active) return;
-          setStatus('degraded');
-        }
-      }, 3000);
+      if (attempts < MAX_RETRIES) {
+        attempts += 1;
+        setStatus('waking');
+        timer = setTimeout(executeCheck, RETRY_INTERVAL_MS);
+      } else {
+        setStatus('degraded');
+      }
     };
 
-    checkHealth();
+    executeCheck();
 
     return () => {
       active = false;

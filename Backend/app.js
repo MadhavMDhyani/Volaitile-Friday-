@@ -7,6 +7,7 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import mongoSanitize from 'express-mongo-sanitize';
 
 import connect from './db/db.js';
 import userRoutes from './routes/user.routes.js';
@@ -22,7 +23,13 @@ if (process.env.NODE_ENV !== 'test') {
 
 const app = express();
 
-app.set('trust proxy', Number(process.env.TRUST_PROXY ?? 1));
+// Parse TRUST_PROXY: "true" → true, "false" → false, numeric string → number, else raw value
+const _rawProxy = process.env.TRUST_PROXY;
+const _trustProxy = _rawProxy === 'true' ? true
+    : _rawProxy === 'false' ? false
+    : _rawProxy !== undefined && !isNaN(Number(_rawProxy)) ? Number(_rawProxy)
+    : 1; // default: single reverse proxy
+app.set('trust proxy', _trustProxy);
 
 app.use(
     helmet({
@@ -33,6 +40,12 @@ app.use(
 app.use(compression());
 
 const allowedOrigins = getAllowedOrigins();
+
+// In non-production, always allow the local dev server
+if (process.env.NODE_ENV !== 'production' && !allowedOrigins.includes('http://localhost:5173')) {
+    allowedOrigins.push('http://localhost:5173');
+}
+
 app.use(
     cors({
         origin: (origin, callback) => {

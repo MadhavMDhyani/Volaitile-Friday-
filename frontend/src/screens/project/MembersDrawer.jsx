@@ -146,18 +146,20 @@ export const MembersDrawer = ({
             </button>
           </div>
 
-          {/* Add Member Action */}
-          <div className="my-4">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setIsAddModalOpen(true)}
-              icon={<i className="ri-user-add-line text-xs" />}
-              className="w-full justify-center"
-            >
-              Add Collaborators
-            </Button>
-          </div>
+          {/* Add Member Action — owner only */}
+          {isOwner && (
+            <div className="my-4">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setIsAddModalOpen(true)}
+                icon={<i className="ri-user-add-line text-xs" />}
+                className="w-full justify-center"
+              >
+                Add Collaborators
+              </Button>
+            </div>
+          )}
 
           {/* Members List */}
           <div className="flex-1 overflow-y-auto space-y-1.5 pr-1">
@@ -236,18 +238,20 @@ export const MembersDrawer = ({
         </aside>
       </div>
 
-      {/* Add Member Modal */}
-      <AddMemberModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        projectId={project._id}
-        existingMembers={members}
-        onMembersAdded={(newUsers) => {
-          if (typeof onUpdateMembers === 'function') {
-            onUpdateMembers(newUsers);
-          }
-        }}
-      />
+      {/* Add Member Modal — owner only */}
+      {isOwner && (
+        <AddMemberModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          projectId={project._id}
+          existingMembers={members}
+          onMembersAdded={(newUsers) => {
+            if (typeof onUpdateMembers === 'function') {
+              onUpdateMembers(newUsers);
+            }
+          }}
+        />
+      )}
 
       {/* Remove Member Confirmation */}
       <ConfirmDialog

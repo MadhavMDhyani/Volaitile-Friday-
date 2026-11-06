@@ -16,7 +16,7 @@ export const Project = () => {
   const { user } = useContext(UserContext);
 
   const [project, setProject] = useState(null);
-  const [fetchStatus, setFetchStatus] = useState('loading'); // 'loading' | 'success' | 'forbidden' | 'notfound' | 'error'
+  const [fetchStatus, setFetchStatus] = useState('loading'); // 'loading' | 'success' | 'notfound' | 'error'
   const [fetchErrorMsg, setFetchErrorMsg] = useState('');
   const [isMembersDrawerOpen, setIsMembersDrawerOpen] = useState(false);
   const [mobileTab, setMobileTab] = useState(() => {
@@ -54,9 +54,7 @@ export const Project = () => {
     } catch (err) {
       console.error('Fetch project error:', err);
       const status = err.response?.status;
-      if (status === 403) {
-        setFetchStatus('forbidden');
-      } else if (status === 404 || status === 400) {
+      if (status === 404 || status === 400) {
         setFetchStatus('notfound');
       } else {
         setFetchStatus('error');
@@ -85,9 +83,7 @@ export const Project = () => {
         if (ignore) return;
         console.error('Fetch project error:', err);
         const status = err.response?.status;
-        if (status === 403) {
-          setFetchStatus('forbidden');
-        } else if (status === 404 || status === 400) {
+        if (status === 404 || status === 400) {
           setFetchStatus('notfound');
         } else {
           setFetchStatus('error');
@@ -140,30 +136,6 @@ export const Project = () => {
     );
   }
 
-  // 403 Forbidden State: User does not have access
-  if (fetchStatus === 'forbidden') {
-    return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-transparent px-4 text-center text-white font-sans">
-        <div className="tile max-w-md w-full p-8 rounded-3xl shadow-tile flex flex-col items-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary mb-4 shadow-[0_0_24px_rgba(51,188,101,0.25)]">
-            <i className="ri-lock-line text-2xl" />
-          </div>
-          <h1 className="text-xl font-medium tracking-tight text-white">
-            Access Denied
-          </h1>
-          <p className="mt-2 text-xs text-text-muted leading-relaxed">
-            You do not have access to this project. Ask the project owner to add you as a collaborator.
-          </p>
-          <Link to="/" className="mt-6">
-            <Button variant="primary" size="sm">
-              Return to Dashboard
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   // 404 Not Found State
   if (fetchStatus === 'notfound') {
     return (
@@ -176,7 +148,7 @@ export const Project = () => {
             Project Not Found
           </h1>
           <p className="mt-2 text-xs text-text-muted leading-relaxed">
-            The requested project workspace does not exist or may have been deleted.
+            Project not found, or you don't have access.
           </p>
           <Link to="/" className="mt-6">
             <Button variant="primary" size="sm">

@@ -99,8 +99,12 @@ export const AddMemberModal = ({
       handleClose();
     } catch (err) {
       console.error('Add user error:', err);
-      const msg = getErrorMessage(err, 'Failed to add members to project');
-      toast.error(msg);
+      if (err.response?.status === 404) {
+        toast.error('Only the project owner can add members');
+      } else {
+        const msg = getErrorMessage(err, 'Failed to add members to project');
+        toast.error(msg);
+      }
     } finally {
       setIsSubmitting(false);
     }

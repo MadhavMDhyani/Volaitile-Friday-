@@ -7,7 +7,7 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import mongoSanitize from 'express-mongo-sanitize';
+import mongoSanitize from '@exortek/express-mongo-sanitize';
 
 import connect from './db/db.js';
 import userRoutes from './routes/user.routes.js';

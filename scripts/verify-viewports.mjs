@@ -120,7 +120,7 @@ async function run() {
               }
             });
           }
-
+1
           // Check inputs font size (should be >= 16px on mobile to avoid iOS auto-zoom)
           const inputs = Array.from(document.querySelectorAll('input, select, textarea'));
           const sub16Inputs = inputs.filter(inp => {

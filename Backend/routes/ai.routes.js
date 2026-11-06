@@ -1,26 +1,16 @@
 import { Router } from 'express';
-import rateLimit from 'express-rate-limit';
 import { body } from 'express-validator';
 import * as aiController from '../controllers/ai.controller.js';
 import * as authMiddleware from '../middleware/auth.middleware.js';
 import { requireProjectMember } from '../middleware/projectAccess.js';
 import { isAllowedModel, getDefaultModelId } from '../config/aiModels.js';
 import { MAX_MESSAGE_LENGTH } from '../service/message.service.js';
+import { aiRateLimitMiddleware } from '../service/aiRateLimiter.js';
 
 const router = Router();
 
-// AI rate limiter: 20 requests per minute per user, keyed by req.user._id
-const aiLimiter = rateLimit({
-    windowMs: 60 * 1000, // 1 minute
-    max: 20,
-    keyGenerator: (req) => req.user?._id?.toString() || req.ip,
-    message: { error: 'AI rate limit exceeded. Please wait a minute before making more requests.' },
-    standardHeaders: true,
-    legacyHeaders: false,
-});
-
-// Apply authUser and aiLimiter to all AI routes
-router.use(authMiddleware.authUser, aiLimiter);
+// Apply authUser to all AI routes
+router.use(authMiddleware.authUser);
 
 /**
  * Validates and sanitizes the optional model field against the allowlist.
@@ -57,6 +47,7 @@ router.get('/models', aiController.handleGetAiModels);
 router.post(
     '/chat',
     requireProjectMember,
+    aiRateLimitMiddleware,
     [
         body('message')
             .isString().withMessage('Message must be a string')
@@ -69,6 +60,7 @@ router.post(
 
 router.post(
     '/generate-code',
+    aiRateLimitMiddleware,
     [
         body('prompt')
             .isString().withMessage('Prompt must be a string')
@@ -83,6 +75,7 @@ router.post(
 
 router.post(
     '/review',
+    aiRateLimitMiddleware,
     [
         body('code')
             .isString().withMessage('Code must be a string')

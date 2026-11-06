@@ -146,7 +146,7 @@ describe('Socket.IO Real-Time Chat & Security Unit Tests (DB-independent)', () =
         });
 
         expect(projectError).toBeDefined();
-        expect(projectError.message).toMatch(/do not have access/i);
+        expect(projectError.message).toBe('Project not found');
         socket.disconnect();
     });
 

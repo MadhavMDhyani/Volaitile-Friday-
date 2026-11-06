@@ -133,34 +133,10 @@ export const addUserToProject = async (req, res) => {
 };
 
 export const getProjectById = async (req, res) => {
-    const { projectId } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(projectId)) {
-        return res.status(400).json({ error: 'Invalid project ID' });
-    }
-
     try {
-        const project = await projectModel.findById(projectId)
-            .populate('owner', 'email _id')
-            .populate('users', 'email _id');
-
-        if (!project) {
-            return res.status(404).json({ error: 'Project not found' });
-        }
-
-        const currentUserId = req.user?._id ? req.user._id.toString() : null;
-        const isMember = project.users.some((u) => {
-            const memberId = u?._id ? u._id.toString() : u.toString();
-            return memberId === currentUserId;
-        });
-
-        if (!isMember) {
-            return res.status(403).json({ error: 'You do not have access to this project' });
-        }
-
-        return res.status(200).json({
-            project,
-        });
+        // requireProjectMember has already verified membership and populated req.project;
+        // no second DB round-trip or duplicate membership check needed here.
+        return res.status(200).json({ project: req.project });
     } catch (err) {
         console.error('getProjectById error:', err);
         return res.status(500).json({ error: 'Something went wrong' });

@@ -26,6 +26,16 @@ const registerLimiter = rateLimit({
     legacyHeaders: false,
 });
 
+// F-06: dedicated limiter for user search (30 requests per 15 minutes per IP)
+const searchLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: () => process.env.NODE_ENV === 'test',
+    message: { error: 'Too many search requests, please try again later.' },
+});
+
 router.post(
     '/register',
     registerLimiter,
@@ -46,8 +56,8 @@ router.post(
     userController.loginController
 );
 
-router.get('/search', authMiddleware.authUser, userController.searchUsersController);
-router.put('/change-password', authMiddleware.authUser, userController.changePasswordController);
+router.get('/search', authMiddleware.authUser, searchLimiter, userController.searchUsersController);
+router.put('/change-password', authMiddleware.authUser, loginLimiter, userController.changePasswordController);
 router.get('/profile', authMiddleware.authUser, userController.profileController);
 router.post('/logout', authMiddleware.authUser, userController.logoutController);
 

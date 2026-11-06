@@ -7,6 +7,7 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import mongoSanitize from '@exortek/express-mongo-sanitize';
 
 import connect from './db/db.js';
 import userRoutes from './routes/user.routes.js';
@@ -22,7 +23,13 @@ if (process.env.NODE_ENV !== 'test') {
 
 const app = express();
 
-app.set('trust proxy', Number(process.env.TRUST_PROXY ?? 1));
+// Parse TRUST_PROXY: "true" → true, "false" → false, numeric string → number, else raw value
+const _rawProxy = process.env.TRUST_PROXY;
+const _trustProxy = _rawProxy === 'true' ? true
+    : _rawProxy === 'false' ? false
+    : _rawProxy !== undefined && !isNaN(Number(_rawProxy)) ? Number(_rawProxy)
+    : 1; // default: single reverse proxy
+app.set('trust proxy', _trustProxy);
 
 app.use(
     helmet({
@@ -33,6 +40,12 @@ app.use(
 app.use(compression());
 
 const allowedOrigins = getAllowedOrigins();
+
+// In non-production, always allow the local dev server
+if (process.env.NODE_ENV !== 'production' && !allowedOrigins.includes('http://localhost:5173')) {
+    allowedOrigins.push('http://localhost:5173');
+}
+
 app.use(
     cors({
         origin: (origin, callback) => {
@@ -52,16 +65,22 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 const globalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 300,
+    max: 100,
     standardHeaders: true,
     legacyHeaders: false,
+    skip: (req) => {
+        // Do not rate-limit Socket.IO handshake/polling requests
+        return req.path.startsWith('/socket.io');
+    },
     message: { error: 'Too many requests, please try again later.' },
 });
-app.use(globalLimiter);
+app.use('/api', globalLimiter);
 
 app.use(cookieParser());
-app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+// Strip MongoDB operators ($, .) from req.body, req.query, req.params to prevent injection
+app.use(mongoSanitize());
 
 // Service API Routes
 app.use('/health', healthRoutes);

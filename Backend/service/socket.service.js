@@ -6,6 +6,7 @@ import { verifyProjectMember } from '../middleware/projectAccess.js';
 import { saveAndBroadcastMessage, MAX_MESSAGE_LENGTH, isAiTrigger } from './message.service.js';
 import { generateAiChat } from './ai.service.js';
 import { isAllowedModel, getDefaultModelId } from '../config/aiModels.js';
+import { checkAndConsumeAiLimit } from './aiRateLimiter.js';
 
 let io = null;
 
@@ -17,6 +18,23 @@ const typingTimeouts = new Map();
 
 // Per-user sliding window message rate limiter: Map<userId, Array<timestamp>>
 const userRateLimits = new Map();
+
+// Periodic pruning of userRateLimits entries older than 60s
+const userRateLimitsPruneTimer = setInterval(() => {
+    const now = Date.now();
+    for (const [userId, timestamps] of userRateLimits.entries()) {
+        const active = timestamps.filter((t) => now - t < 60 * 1000);
+        if (active.length === 0) {
+            userRateLimits.delete(userId);
+        } else {
+            userRateLimits.set(userId, active);
+        }
+    }
+}, 60 * 1000);
+
+if (typeof userRateLimitsPruneTimer.unref === 'function') {
+    userRateLimitsPruneTimer.unref();
+}
 
 const isRateLimited = (userId, limit = 30, windowMs = 60 * 1000) => {
     const now = Date.now();
@@ -87,6 +105,7 @@ export const initSocket = (server) => {
     const allowedOrigins = getAllowedOrigins();
 
     io = new Server(server, {
+        maxHttpBufferSize: 100_000,
         cors: {
             origin: (origin, callback) => {
                 if (!origin) return callback(null, true);
@@ -183,7 +202,8 @@ export const initSocket = (server) => {
 
                 const check = await verifyProjectMember(projectId, socket.user.id);
                 if (!check.ok) {
-                    return socket.emit('project:error', { message: check.message || 'You do not have access to this project' });
+                    const message = check.status === 400 ? check.message : 'Project not found';
+                    return socket.emit('project:error', { message });
                 }
 
                 const roomName = `project:${projectId}`;
@@ -305,7 +325,8 @@ export const initSocket = (server) => {
                 // Check project membership
                 const check = await verifyProjectMember(projectId, socket.user.id);
                 if (!check.ok) {
-                    return callback({ ok: false, error: check.message || 'You do not have access to this project' });
+                    const error = check.status === 400 ? check.message : 'Project not found';
+                    return callback({ ok: false, error });
                 }
 
                 // Use shared service to save and broadcast
@@ -327,32 +348,38 @@ export const initSocket = (server) => {
                 // Trigger the AI only on "@friday" or a known command (/help /docker /auth /db /test /git)
                 const isAiPrompt = isAiTrigger(trimmed);
                 if (isAiPrompt) {
-                    let sanitizedModel = model;
-                    if (!sanitizedModel || typeof sanitizedModel !== 'string') {
-                        sanitizedModel = getDefaultModelId();
+                    const { allowed } = checkAndConsumeAiLimit(socket.user.id);
+                    if (!allowed) {
+                        // User message is still saved and broadcasted, but AI reply is skipped when rate-limited
+                        console.warn(`[Socket AI] Rate limit exceeded for user ${socket.user.id}, skipping AI response`);
                     } else {
-                        const m = sanitizedModel.trim();
-                        sanitizedModel = (m === 'auto' || isAllowedModel(m)) ? m : getDefaultModelId();
-                    }
+                        let sanitizedModel = model;
+                        if (!sanitizedModel || typeof sanitizedModel !== 'string') {
+                            sanitizedModel = getDefaultModelId();
+                        } else {
+                            const m = sanitizedModel.trim();
+                            sanitizedModel = (m === 'auto' || isAllowedModel(m)) ? m : getDefaultModelId();
+                        }
 
-                    try {
-                        const aiResult = await generateAiChat({
-                            message: trimmed,
-                            projectName: check.project?.name || 'Volaitile Friday',
-                            model: sanitizedModel,
-                        });
+                        try {
+                            const aiResult = await generateAiChat({
+                                message: trimmed,
+                                projectName: check.project?.name || 'Volaitile Friday',
+                                model: sanitizedModel,
+                            });
 
-                        await saveAndBroadcastMessage({
-                            projectId,
-                            text: aiResult.reply,
-                            isAi: true,
-                            model: aiResult.model,
-                            source: aiResult.source,
-                            requestedModel: aiResult.requestedModel,
-                            latencyMs: aiResult.latencyMs,
-                        });
-                    } catch (aiErr) {
-                        console.error('[Socket AI] Error handling @friday response:', aiErr.message);
+                            await saveAndBroadcastMessage({
+                                projectId,
+                                text: aiResult.reply,
+                                isAi: true,
+                                model: aiResult.model,
+                                source: aiResult.source,
+                                requestedModel: aiResult.requestedModel,
+                                latencyMs: aiResult.latencyMs,
+                            });
+                        } catch (aiErr) {
+                            console.error('[Socket AI] Error handling @friday response:', aiErr.message);
+                        }
                     }
                 }
             } catch (err) {
@@ -373,9 +400,20 @@ export const initSocket = (server) => {
                     return callback({ ok: false, error: 'Project ID and valid message are required' });
                 }
 
+                const trimmed = message.trim();
+                if (trimmed.length > MAX_MESSAGE_LENGTH) {
+                    return callback({ ok: false, error: `Message text must be between 1 and ${MAX_MESSAGE_LENGTH} characters` });
+                }
+
                 const check = await verifyProjectMember(projectId, socket.user.id);
                 if (!check.ok) {
-                    return callback({ ok: false, error: check.message || 'Unauthorized' });
+                    const error = check.status === 400 ? check.message : 'Project not found';
+                    return callback({ ok: false, error });
+                }
+
+                const { allowed } = checkAndConsumeAiLimit(socket.user.id);
+                if (!allowed) {
+                    return callback({ ok: false, error: 'AI rate limit exceeded' });
                 }
 
                 let sanitizedModel = model;
@@ -387,7 +425,7 @@ export const initSocket = (server) => {
                 }
 
                 const aiResult = await generateAiChat({
-                    message: message.trim(),
+                    message: trimmed,
                     projectName: check.project?.name || 'Volaitile Friday',
                     model: sanitizedModel,
                 });

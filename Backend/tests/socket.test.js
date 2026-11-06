@@ -5,6 +5,8 @@ import { io as Client } from 'socket.io-client';
 import app from '../app.js';
 import { initSocket, evictUserFromProject, closeProjectRoom } from '../service/socket.service.js';
 import { saveAndBroadcastMessage, isAiTrigger, MAX_MESSAGE_LENGTH } from '../service/message.service.js';
+import { resetAiRateLimits } from '../service/aiRateLimiter.js';
+import * as aiService from '../service/ai.service.js';
 import redisService from '../service/redis.service.js';
 import Project from '../models/project.model.js';
 import Message from '../models/message.model.js';
@@ -59,6 +61,7 @@ describe('Socket.IO Real-Time Chat & Security Unit Tests (DB-independent)', () =
 
     beforeEach(() => {
         vi.restoreAllMocks();
+        resetAiRateLimits();
         // Default: Redis blacklist check returns null (not blacklisted)
         vi.spyOn(redisService, 'get').mockResolvedValue(null);
     });
@@ -146,7 +149,7 @@ describe('Socket.IO Real-Time Chat & Security Unit Tests (DB-independent)', () =
         });
 
         expect(projectError).toBeDefined();
-        expect(projectError.message).toMatch(/do not have access/i);
+        expect(projectError.message).toBe('Project not found');
         socket.disconnect();
     });
 
@@ -466,6 +469,246 @@ describe('Socket.IO Real-Time Chat & Security Unit Tests (DB-independent)', () =
         expect(ack).toBeDefined();
         expect(ack.ok).toBe(false);
         expect(ack.error).toMatch(/between 1 and 4000 characters/i);
+
+        socket.disconnect();
+    });
+
+    it('project:join returns "Project not found" for a non-existent project', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue(null);
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        const projectError = await new Promise((resolve) => {
+            socket.on('project:error', resolve);
+            socket.emit('project:join', { projectId: validProjectId });
+        });
+
+        expect(projectError.message).toBe('Project not found');
+        socket.disconnect();
+    });
+
+    it('chat:send returns generic "Project not found" for non-members and missing projects', async () => {
+        // 1. Non-existent project
+        vi.spyOn(Project, 'findById').mockResolvedValue(null);
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        const ack1 = await new Promise((resolve) => {
+            socket.emit('chat:send', { projectId: validProjectId, content: 'test message' }, resolve);
+        });
+        expect(ack1.ok).toBe(false);
+        expect(ack1.error).toBe('Project not found');
+
+        // 2. Project exists but user is not a member
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            users: [memberUserId], // nonMemberUserId not in users list
+        });
+
+        const nonMemberSocket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: nonMemberToken },
+        });
+
+        await new Promise((resolve) => nonMemberSocket.on('connect', resolve));
+
+        const ack2 = await new Promise((resolve) => {
+            nonMemberSocket.emit('chat:send', { projectId: validProjectId, content: 'test message' }, resolve);
+        });
+        expect(ack2.ok).toBe(false);
+        expect(ack2.error).toBe('Project not found');
+
+        socket.disconnect();
+        nonMemberSocket.disconnect();
+    });
+
+    it('ai:chat returns generic "Project not found" for non-members and missing projects', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue(null);
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        const ack1 = await new Promise((resolve) => {
+            socket.emit('ai:chat', { projectId: validProjectId, message: 'hello ai' }, resolve);
+        });
+        expect(ack1.ok).toBe(false);
+        expect(ack1.error).toBe('Project not found');
+
+        // Project exists, but caller is not member
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            users: [memberUserId],
+        });
+
+        const nonMemberSocket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: nonMemberToken },
+        });
+
+        await new Promise((resolve) => nonMemberSocket.on('connect', resolve));
+
+        const ack2 = await new Promise((resolve) => {
+            nonMemberSocket.emit('ai:chat', { projectId: validProjectId, message: 'hello ai' }, resolve);
+        });
+        expect(ack2.ok).toBe(false);
+        expect(ack2.error).toBe('Project not found');
+
+        socket.disconnect();
+        nonMemberSocket.disconnect();
+    });
+
+    it('ai:chat rejects messages exceeding 4000 characters', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            users: [memberUserId],
+        });
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        const tooLong = 'A'.repeat(4001);
+        const ack = await new Promise((resolve) => {
+            socket.emit('ai:chat', { projectId: validProjectId, message: tooLong }, resolve);
+        });
+
+        expect(ack.ok).toBe(false);
+        expect(ack.error).toMatch(/between 1 and 4000 characters/i);
+
+        socket.disconnect();
+    });
+
+    it('ai:chat rate limiter enforces 10 requests per minute', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            name: 'Test Project',
+            users: [memberUserId],
+        });
+        vi.spyOn(aiService, 'generateAiChat').mockResolvedValue({
+            reply: 'AI reply',
+            model: 'gemini-3.5-flash-lite',
+            source: 'online',
+            requestedModel: 'gemini-3.5-flash-lite',
+            latencyMs: 10,
+        });
+        vi.spyOn(Message, 'create').mockImplementation(async (payload) => ({
+            _id: '65f1a2b3c4d5e6f7a8b9c0aa',
+            ...payload,
+        }));
+        vi.spyOn(Message, 'findById').mockReturnValue({
+            populate: vi.fn().mockResolvedValue({ _id: '65f1a2b3c4d5e6f7a8b9c0aa', text: 'AI reply' }),
+        });
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        // Consume 10 requests
+        for (let i = 0; i < 10; i++) {
+            const res = await new Promise((resolve) => {
+                socket.emit('ai:chat', { projectId: validProjectId, message: `hi ${i}` }, resolve);
+            });
+            expect(res.ok).toBe(true);
+        }
+
+        // 11th request should be rate limited
+        const rateLimitedRes = await new Promise((resolve) => {
+            socket.emit('ai:chat', { projectId: validProjectId, message: '11th request' }, resolve);
+        });
+
+        expect(rateLimitedRes.ok).toBe(false);
+        expect(rateLimitedRes.error).toBe('AI rate limit exceeded');
+
+        socket.disconnect();
+    });
+
+    it('chat:send saves and broadcasts message but skips AI reply when rate limit is exceeded', async () => {
+        vi.spyOn(Project, 'findById').mockResolvedValue({
+            _id: validProjectId,
+            name: 'Test Project',
+            users: [memberUserId],
+        });
+
+        const generateAiChatSpy = vi.spyOn(aiService, 'generateAiChat').mockResolvedValue({
+            reply: 'AI reply',
+            model: 'gemini-3.5-flash-lite',
+            source: 'online',
+            requestedModel: 'gemini-3.5-flash-lite',
+            latencyMs: 10,
+        });
+
+        const mockUserMessage = {
+            _id: '65f1a2b3c4d5e6f7a8b9c0d9',
+            projectId: validProjectId,
+            sender: { _id: memberUserId, email: 'member@test.com' },
+            text: '@friday explain this',
+            createdAt: new Date(),
+        };
+
+        vi.spyOn(Message, 'create').mockImplementation(async (payload) => ({
+            _id: '65f1a2b3c4d5e6f7a8b9c0d9',
+            ...payload,
+        }));
+        vi.spyOn(Message, 'findById').mockReturnValue({
+            populate: vi.fn().mockResolvedValue(mockUserMessage),
+        });
+
+        const socket = Client(serverAddress, {
+            autoConnect: true,
+            transports: ['websocket'],
+            auth: { token: memberToken },
+        });
+
+        await new Promise((resolve) => socket.on('connect', resolve));
+
+        // Simulate user having consumed all 10 AI quota slots
+        for (let i = 0; i < 10; i++) {
+            const { checkAndConsumeAiLimit } = await import('../service/aiRateLimiter.js');
+            checkAndConsumeAiLimit(memberUserId);
+        }
+
+        // Now send @friday message via chat:send
+        const ack = await new Promise((resolve) => {
+            socket.emit(
+                'chat:send',
+                { projectId: validProjectId, content: '@friday explain this', tempId: 'temp-ai' },
+                resolve
+            );
+        });
+
+        // The user message must still succeed!
+        expect(ack.ok).toBe(true);
+        expect(ack.message.text).toBe('@friday explain this');
+
+        // But generateAiChat must NOT have been called because AI quota was exceeded
+        expect(generateAiChatSpy).not.toHaveBeenCalled();
 
         socket.disconnect();
     });

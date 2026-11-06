@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoSanitize from '@exortek/express-mongo-sanitize';
 
@@ -65,20 +64,23 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 const globalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 300,
     standardHeaders: true,
     legacyHeaders: false,
     skip: (req) => {
-        // Do not rate-limit Socket.IO handshake/polling requests
-        return req.path.startsWith('/socket.io');
+        if (process.env.NODE_ENV === 'test') return true;
+        // Do not rate-limit health check endpoints or Socket.IO handshake/polling requests
+        return req.path.startsWith('/health') || req.path.startsWith('/socket.io');
     },
     message: { error: 'Too many requests, please try again later.' },
 });
-app.use('/api', globalLimiter);
+app.use(globalLimiter);
 
-app.use(cookieParser());
+// Route-specific body parsers registered before the global 10kb parser
+app.use('/projects/:projectId/files', express.json({ limit: '256kb' }));
+app.use(['/ai/generate-code', '/ai/review'], express.json({ limit: '32kb' }));
 app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
 // Strip MongoDB operators ($, .) from req.body, req.query, req.params to prevent injection
 app.use(mongoSanitize());
 

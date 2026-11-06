@@ -8,9 +8,6 @@ export const extractToken = (req) => {
         const token = authHeader.slice(7).trim();
         if (token) return token;
     }
-    if (req.cookies?.token) {
-        return req.cookies.token;
-    }
     return null;
 };
 
@@ -34,9 +31,6 @@ export const authUser = async (req, res, next) => {
         }
 
         if (isBlacklisted) {
-            if (res.cookie) {
-                res.cookie('token', '', { maxAge: 0 });
-            }
             return res.status(401).json({ error: 'Unauthorized' });
         }
 

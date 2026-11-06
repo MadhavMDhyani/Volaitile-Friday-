@@ -65,16 +65,22 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 const globalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 300,
+    max: 100,
     standardHeaders: true,
     legacyHeaders: false,
+    skip: (req) => {
+        // Do not rate-limit Socket.IO handshake/polling requests
+        return req.path.startsWith('/socket.io');
+    },
     message: { error: 'Too many requests, please try again later.' },
 });
-app.use(globalLimiter);
+app.use('/api', globalLimiter);
 
 app.use(cookieParser());
-app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+// Strip MongoDB operators ($, .) from req.body, req.query, req.params to prevent injection
+app.use(mongoSanitize());
 
 // Service API Routes
 app.use('/health', healthRoutes);
